@@ -3,14 +3,14 @@ import Layout from '../layouts/Layout.astro';
 import { PRODUCTS } from '../data/products';
 ---
 
-<Layout title="Inicio - Alta Repostería por Encargo">
+<Layout title="Inicio - Dulcería por Encargo">
   <!-- Hero Section -->
   <section class="hero">
     <div class="hero-overlay"></div>
     <div class="hero-content">
       <span class="hero-badge">Artesanal & Premium</span>
-      <h1>El Arte de la Repostería Fina</h1>
-      <p>Cakes exclusivos y bocados de alta calidad elaborados totalmente por encargo para hacer de tu celebración un momento inolvidable.</p>
+      <h1>El Arte de la Dulcería Fina</h1>
+      <p>Cakes exclusivos y dulces de alta calidad elaborados totalmente por encargo para hacer de tu celebración un momento inolvidable.</p>
       <div class="hero-actions">
         <a href="#catalogo" class="btn btn-primary">Ver la Carta</a>
         <a href="#como-pedir" class="btn btn-outline">¿Cómo pedir?</a>
@@ -83,6 +83,7 @@ import { PRODUCTS } from '../data/products';
                 data-id={product.id}
                 data-name={product.name}
                 data-price={product.price}
+                data-category={product.category}
                 data-customizable={product.customizable ? "true" : "false"}
               >
                 + Agregar
@@ -121,6 +122,9 @@ import { PRODUCTS } from '../data/products';
         <div class="cart-date-picker">
           <label for="order-date">📅 Fecha requerida para el encargo:</label>
           <input type="date" id="order-date" name="order-date" required />
+          
+          <label for="order-time" style="margin-top: 0.5rem; display: block;">🕒 Hora sugerida (Opcional):</label>
+          <input type="time" id="order-time" name="order-time" />
         </div>
         <div class="cart-summary-row">
           <span>Subtotal</span>
@@ -817,7 +821,8 @@ import { PRODUCTS } from '../data/products';
     color: var(--text-primary);
   }
 
-  .cart-date-picker input[type="date"] {
+  .cart-date-picker input[type="date"],
+  .cart-date-picker input[type="time"] {
     padding: 0.6rem;
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius-sm);
@@ -828,9 +833,42 @@ import { PRODUCTS } from '../data/products';
     background-color: var(--bg-primary);
   }
 
-  .cart-date-picker input[type="date"]:focus {
+  .cart-date-picker input[type="date"]:focus,
+  .cart-date-picker input[type="time"]:focus {
     border-color: var(--accent-color);
     box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+  }
+
+  .dough-selector-container {
+    margin-top: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .dough-select {
+    padding: 0.4rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    font-size: 0.85rem;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    outline: none;
+  }
+
+  .dough-select:focus {
+    border-color: var(--accent-color);
+  }
+
+  .dough-warning-banner {
+    background-color: #FFFbeb;
+    border: 1px solid #fef3c7;
+    color: #b45309;
+    padding: 0.5rem;
+    font-size: 0.75rem;
+    border-radius: var(--border-radius-sm);
+    margin-top: 0.25rem;
+    line-height: 1.3;
   }
 
   .cart-summary-row {
@@ -898,24 +936,27 @@ import { PRODUCTS } from '../data/products';
   const checkoutWhatsappBtn = document.getElementById('checkout-whatsapp-btn');
   const cartCountEl = document.querySelector('.cart-count');
   const orderDateEl = document.getElementById('order-date') as HTMLInputElement | null;
+  const orderTimeEl = document.getElementById('order-time') as HTMLInputElement | null;
 
-  // Set minimum date (today + 3 days)
+  // Restore and persist saved date
   if (orderDateEl) {
-    const today = new Date();
-    today.setDate(today.getDate() + 3);
-    const yyyy = today.getFullYear();
-    const mm = String(today.getMonth() + 1).padStart(2, '0');
-    const dd = String(today.getDate()).padStart(2, '0');
-    orderDateEl.min = `${yyyy}-${mm}-${dd}`;
-    
-    // Restore saved date
     const savedDate = localStorage.getItem('el_lider_order_date');
     if (savedDate) {
       orderDateEl.value = savedDate;
     }
-
     orderDateEl.addEventListener('change', () => {
       localStorage.setItem('el_lider_order_date', orderDateEl.value);
+    });
+  }
+
+  // Restore and persist saved time
+  if (orderTimeEl) {
+    const savedTime = localStorage.getItem('el_lider_order_time');
+    if (savedTime) {
+      orderTimeEl.value = savedTime;
+    }
+    orderTimeEl.addEventListener('change', () => {
+      localStorage.setItem('el_lider_order_time', orderTimeEl.value);
     });
   }
 
@@ -965,6 +1006,7 @@ import { PRODUCTS } from '../data/products';
       const name = button.getAttribute('data-name');
       const price = parseFloat(button.getAttribute('data-price') || '0');
       const customizable = button.getAttribute('data-customizable') === 'true';
+      const category = button.getAttribute('data-category') || '';
 
       const existingItem = cart.find(item => item.id === id);
 
@@ -977,6 +1019,8 @@ import { PRODUCTS } from '../data/products';
           price,
           quantity: 1,
           customizable,
+          category,
+          dough: (category === 'cakes' || category === 'minicakes') ? 'trigo' : undefined,
           note: '',
           ediblePrint: false,
           fileName: ''
@@ -1050,6 +1094,20 @@ import { PRODUCTS } from '../data/products';
                 data-index="${index}" 
                 placeholder="Especifica aquí colores, nombre/edad, diseño, decoración o temática que te gustaría..."
               >${item.note || ''}</textarea>
+
+              ${(item.category === 'cakes' || item.category === 'minicakes') && item.id !== 'cake-2-pisos' ? `
+                <div class="dough-selector-container">
+                  <label class="customization-title">Tipo de Masa:</label>
+                  <select class="dough-select" data-index="${index}">
+                    <option value="trigo" ${item.dough === 'trigo' || !item.dough ? 'selected' : ''}>Harina de trigo (Por defecto)</option>
+                    <option value="maicena" ${item.dough === 'maicena' ? 'selected' : ''}>Maicena</option>
+                    <option value="capuchino" ${item.dough === 'capuchino' ? 'selected' : ''}>Capuchino</option>
+                  </select>
+                  <div class="dough-warning-banner" id="dough-warning-${index}" style="display: ${item.dough && item.dough !== 'trigo' ? 'block' : 'none'};">
+                    ⚠️ Cambiar el tipo de masa a Maicena o Capuchino incrementa el precio final del cake. El ajuste se acordará por WhatsApp.
+                  </div>
+                </div>
+              ` : ''}
               
               <label class="edible-print-option">
                 <input 
@@ -1145,6 +1203,16 @@ import { PRODUCTS } from '../data/products';
         }
       });
     });
+
+    // Dough select change
+    document.querySelectorAll('.dough-select').forEach(select => {
+      select.addEventListener('change', (e) => {
+        const index = parseInt((e.target as HTMLElement).getAttribute('data-index') || '0');
+        const selectedDough = (e.target as HTMLSelectElement).value;
+        cart[index].dough = selectedDough;
+        updateCart();
+      });
+    });
   }
 
   function calculateTotal() {
@@ -1179,14 +1247,15 @@ import { PRODUCTS } from '../data/products';
       return;
     }
 
-    const phoneNumber = '5350000000'; // Target phone number (editable or replaceable)
+    const orderTime = orderTimeEl?.value || 'Sin hora específica';
+    const phoneNumber = '5350000000'; // Target phone number (Dulcería El Líder)
     
     // Format date nicely
     const dateParts = orderDate.split('-');
     const formattedDate = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
 
     let message = '🍰 *NUEVO ENCARGO - DULCERÍA EL LÍDER* 🍰\n\n';
-    message += `📅 *FECHA REQUERIDA:* ${formattedDate}\n\n`;
+    message += `📅 *FECHA REQUERIDA:* ${formattedDate} - *Hora:* ${orderTime}\n\n`;
     message += 'Hola, me gustaría encargar los siguientes dulces:\n\n';
 
     let total = 0;
@@ -1204,9 +1273,17 @@ import { PRODUCTS } from '../data/products';
 
       message += `*${index + 1}. ${item.name}* (x${item.quantity})\n`;
       message += `   - Precio base: $${item.price} CUP c/u\n`;
-      if (item.customizable && item.note) {
-        message += `   - Nota: _"${item.note}"_\n`;
+      
+      if (item.dough) {
+        const doughLabel = item.dough === 'trigo' ? 'Harina de trigo' : item.dough === 'maicena' ? 'Maicena' : 'Capuchino';
+        message += `   - Masa: ${doughLabel}\n`;
       }
+
+      if (item.customizable) {
+        const noteText = item.note.trim() ? `"${item.note.trim()}"` : 'Que la dulcería escoja la decoración';
+        message += `   - Decoración: _${noteText}_\n`;
+      }
+      
       if (item.ediblePrint) {
         message += `   - Adicional: Impresión Comestible [Enviaré las imágenes por este chat]${addonText}\n`;
       }
