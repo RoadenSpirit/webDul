@@ -1,6 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { PRODUCTS } from '../data/products';
+
+const cakes = PRODUCTS.filter(p => p.category === 'cakes' || p.category === 'minicakes');
+const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.category === 'salados');
 ---
 
 <Layout title="Inicio - Dulcería por Encargo">
@@ -45,53 +48,175 @@ import { PRODUCTS } from '../data/products';
     </div>
   </section>
 
-  <!-- Catalog / Products Section -->
-  <section id="catalogo" class="catalog-section">
+  <!-- Interactive Customizer Section -->
+  <section id="personalizador" class="customizer-section">
     <div class="section-header">
-      <span class="subtitle">Exquisiteces</span>
-      <h2>Nuestra Carta de Especialidades</h2>
+      <span class="subtitle">Creación a Medida</span>
+      <h2>🎂 Diseña tu Cake Personalizado</h2>
       <div class="divider"></div>
-      
-      <!-- Category Filter -->
-      <div class="category-filters">
-        <button class="filter-btn active" data-category="all">Ver Todo</button>
-        <button class="filter-btn" data-category="cakes">Cakes</button>
-        <button class="filter-btn" data-category="minicakes">MiniCakes</button>
-        <button class="filter-btn" data-category="reposteria">Repostería</button>
-        <button class="filter-btn" data-category="salados">Salados</button>
-      </div>
+      <p class="section-desc">Visualiza y configura el pastel ideal para tu celebración en tiempo real. Cambios de masa e impresiones se detallan abajo.</p>
     </div>
 
-    <!-- Products Grid -->
-    <div class="products-grid">
-      {PRODUCTS.map(product => (
-        <div class="product-card" data-category={product.category}>
-          <div class="product-image-container">
-            <img src={product.image} alt={product.name} class="product-image" loading="lazy" />
-            <span class="product-badge">{product.category}</span>
-          </div>
-          <div class="product-info">
-            <h3>{product.name}</h3>
-            <p class="product-description">{product.description}</p>
-            <div class="product-meta">
-              <span class="product-price">
-                ${product.price} <span class="currency">CUP</span>
-                {product.priceNote && <span class="price-note">({product.priceNote})</span>}
-              </span>
-              <button 
-                class="add-to-cart-btn" 
-                data-id={product.id}
-                data-name={product.name}
-                data-price={product.price}
-                data-category={product.category}
-                data-customizable={product.customizable ? "true" : "false"}
-              >
-                + Agregar
-              </button>
-            </div>
+    <div class="customizer-grid">
+      <!-- Visualizer Canvas -->
+      <div class="customizer-visualizer">
+        <canvas id="cake-canvas" width="360" height="360"></canvas>
+      </div>
+
+      <!-- Controls Panel -->
+      <div class="customizer-controls">
+        <div class="control-group">
+          <label for="custom-size">📏 Selecciona el Tamaño / Modelo:</label>
+          <select id="custom-size" class="customizer-select">
+            <option value="minicake-15" data-price="2500" data-type="1piso" selected>MiniCake (15 cm) — $2500 CUP</option>
+            <option value="cake-22-harina" data-price="3500" data-type="1piso">Cake Estándar (22 cm) — $3500 CUP</option>
+            <option value="cake-redondo-25" data-price="5000" data-type="1piso">Cake Mediano (25 cm) — $5000 CUP</option>
+            <option value="cake-redondo-30" data-price="10700" data-type="1piso">Cake Grande (30 cm) — $10700 CUP</option>
+            <option value="cake-redondo-36" data-price="15000" data-type="1piso">Cake Gigante (36 cm) — $15000 CUP</option>
+            <option value="cake-2-pisos" data-price="16500" data-type="2pisos">Cake de 2 Pisos — $16500 CUP</option>
+            <option value="cake-bandeja-harina" data-price="10700" data-type="bandeja">Cake de Bandeja — $10700 CUP</option>
+            <option value="medio-cake-bandeja-harina" data-price="5300" data-type="bandeja">Medio Cake de Bandeja — $5300 CUP</option>
+            <option value="cake-20x8-maicena" data-price="3600" data-type="1piso">Cake 20x8 cm (Maicena) — $3600 CUP</option>
+            <option value="cake-20x15-maicena" data-price="5500" data-type="1piso">Cake 20x15 cm (Maicena) — $5500 CUP</option>
+            <option value="cake-capuchino-22" data-price="5700" data-type="1piso">Cake de Capuchino (22 cm) — $5700 CUP</option>
+          </select>
+        </div>
+
+        <div class="control-group" id="custom-dough-wrapper">
+          <label for="custom-dough">🌾 Tipo de Masa:</label>
+          <select id="custom-dough" class="customizer-select">
+            <option value="trigo" selected>Harina de Trigo (Por defecto)</option>
+            <option value="maicena">Maicena (Almidón de maíz)</option>
+            <option value="capuchino">Capuchino</option>
+          </select>
+          <div class="dough-warning-banner" id="customizer-dough-warning" style="display: none;">
+            ⚠️ Cambiar el tipo de masa a Maicena o Capuchino incrementa el precio final del cake. El ajuste se acordará por WhatsApp.
           </div>
         </div>
-      ))}
+
+        <div class="control-group">
+          <label>🎨 Color de Cobertura:</label>
+          <div class="color-swatches">
+            <button class="color-swatch active" data-color="#FDFBF7" data-name="Blanco Crema" style="background-color: #FDFBF7;"></button>
+            <button class="color-swatch" data-color="#FBCFE8" data-name="Rosa Pastel" style="background-color: #FBCFE8;"></button>
+            <button class="color-swatch" data-color="#BAE6FD" data-name="Azul Celeste" style="background-color: #BAE6FD;"></button>
+            <button class="color-swatch" data-color="#FEF08A" data-name="Amarillo Sol" style="background-color: #FEF08A;"></button>
+            <button class="color-swatch" data-color="#A7F3D0" data-name="Verde Menta" style="background-color: #A7F3D0;"></button>
+            <button class="color-swatch" data-color="#E9D5FF" data-name="Lila" style="background-color: #E9D5FF;"></button>
+            <button class="color-swatch" data-color="#D97706" data-name="Dorado Oro" style="background-color: #D97706;"></button>
+            <button class="color-swatch" data-color="#78350F" data-name="Chocolate" style="background-color: #78350F;"></button>
+          </div>
+          <span class="selected-color-label">Color: <strong id="color-name-display">Blanco Crema</strong></span>
+        </div>
+
+        <div class="control-group">
+          <label for="custom-theme">✍️ Temática / Decoración (Opcional):</label>
+          <input type="text" id="custom-theme" class="customizer-input" placeholder="Ej: Cumpleaños infantil, dinosaurios, feliz 30..." />
+        </div>
+
+        <div class="control-group">
+          <label class="edible-print-option">
+            <input type="checkbox" id="custom-print" />
+            Añadir Impresión Comestible (+650 CUP)
+          </label>
+        </div>
+
+        <div class="price-display-box">
+          <span>Precio Estimado:</span>
+          <span id="customizer-price-display" class="price-value">$2500 CUP</span>
+        </div>
+
+        <button id="add-custom-cake-btn" class="btn btn-primary btn-block">
+          🛒 Añadir Cake Diseñado al Carrito
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Catalog / Products Section -->
+  <section id="catalogo" class="catalog-section">
+    <div class="catalog-main-layout">
+      <!-- Left side: Cakes Carousel -->
+      <div class="cakes-catalog">
+        <div class="section-header align-left">
+          <span class="subtitle">Exquisiteces</span>
+          <h2>¿Qué tipo de cake deseas para tu celebración?</h2>
+          <div class="divider"></div>
+        </div>
+
+        <!-- Carousel Outer Wrapper -->
+        <div class="carousel-outer-wrapper">
+          <button class="carousel-control prev" id="carousel-prev-btn" aria-label="Anterior">&lt;</button>
+          <div class="carousel-viewport" id="carousel-viewport">
+            <div class="carousel-track" id="carousel-track">
+              {cakes.map(product => (
+                <div class="product-card carousel-slide" data-category={product.category}>
+                  <div class="product-image-container">
+                    <img src={product.image} alt={product.name} class="product-image" loading="lazy" />
+                    <span class="product-badge">{product.category === 'minicakes' ? 'MiniCake' : 'Cake'}</span>
+                  </div>
+                  <div class="product-info">
+                    <h3>{product.name}</h3>
+                    <p class="product-description">{product.description}</p>
+                    <div class="product-meta">
+                      <span class="product-price">
+                        ${product.price} <span class="currency">CUP</span>
+                        {product.priceNote && <span class="price-note">({product.priceNote})</span>}
+                      </span>
+                      <button 
+                        class="add-to-cart-btn" 
+                        data-id={product.id}
+                        data-name={product.name}
+                        data-price={product.price}
+                        data-category={product.category}
+                        data-customizable={product.customizable ? "true" : "false"}
+                      >
+                        + Agregar
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <button class="carousel-control next" id="carousel-next-btn" aria-label="Siguiente">&gt;</button>
+        </div>
+      </div>
+
+      <!-- Right side: Buffet & Extras -->
+      <div class="buffet-sidebar">
+        <div class="sidebar-header">
+          <span class="subtitle">Oferta Adicional</span>
+          <h3>Acompaña tu Fiesta</h3>
+          <div class="divider"></div>
+          <p class="sidebar-desc">Buffet, marquesitas, cupcakes y saladitos complementarios para tus invitados.</p>
+        </div>
+        
+        <div class="buffet-list">
+          {buffetItems.map(product => (
+            <div class="buffet-item-card">
+              <img src={product.image} alt={product.name} class="buffet-item-image" loading="lazy" />
+              <div class="buffet-item-info">
+                <h4>{product.name}</h4>
+                <p class="buffet-item-desc">{product.description}</p>
+                <div class="buffet-item-meta">
+                  <span class="buffet-item-price">${product.price} CUP c/u</span>
+                  <button 
+                    class="add-to-cart-btn btn-sm-add" 
+                    data-id={product.id}
+                    data-name={product.name}
+                    data-price={product.price}
+                    data-category={product.category}
+                    data-customizable={product.customizable ? "true" : "false"}
+                  >
+                    + Añadir
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   </section>
 
@@ -899,6 +1024,321 @@ import { PRODUCTS } from '../data/products';
     line-height: 1.4;
   }
 
+  /* Interactive Customizer */
+  .customizer-section {
+    padding: 5rem 2rem;
+    background-color: var(--bg-primary);
+  }
+
+  .customizer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: var(--bg-card);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: 2.5rem;
+    border: 1px solid var(--border-color);
+  }
+
+  .customizer-visualizer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle, #2d181b, #12080a);
+    border-radius: var(--border-radius-md);
+    border: 2px solid var(--accent-color);
+    box-shadow: var(--shadow-inner);
+    padding: 1.5rem;
+    min-height: 400px;
+  }
+
+  #cake-canvas {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .customizer-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .control-group label {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+  }
+
+  .customizer-select {
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    outline: none;
+    cursor: pointer;
+  }
+
+  .customizer-select:focus,
+  .customizer-input:focus {
+    border-color: var(--accent-color);
+  }
+
+  .customizer-input {
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    outline: none;
+  }
+
+  .color-swatches {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .color-swatch {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid var(--border-color);
+    cursor: pointer;
+    transition: transform var(--transition-fast), border-color var(--transition-fast);
+  }
+
+  .color-swatch:hover {
+    transform: scale(1.1);
+  }
+
+  .color-swatch.active {
+    border-color: var(--accent-color);
+    transform: scale(1.15);
+    box-shadow: 0 0 0 2px var(--bg-card), 0 0 0 4px var(--accent-color);
+  }
+
+  .selected-color-label {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-top: 0.25rem;
+  }
+
+  .price-display-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--bg-primary);
+    padding: 1rem;
+    border-radius: var(--border-radius-sm);
+    border-left: 4px solid var(--accent-color);
+    margin: 1rem 0;
+  }
+
+  .price-display-box span {
+    font-weight: 700;
+    color: var(--text-secondary);
+  }
+
+  .price-display-box .price-value {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--primary-color);
+  }
+
+  /* Catalog Redesign - 2 Columns */
+  .catalog-main-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 3rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* Carousel */
+  .carousel-outer-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-top: 2rem;
+  }
+
+  .carousel-viewport {
+    overflow: hidden;
+    width: 100%;
+    border-radius: var(--border-radius-md);
+  }
+
+  .carousel-track {
+    display: flex;
+    gap: 1.5rem;
+    transition: transform 0.5s ease-in-out;
+  }
+
+  .carousel-slide {
+    flex: 0 0 calc(50% - 0.75rem); /* Show 2 cakes at a time */
+    max-width: calc(50% - 0.75rem);
+  }
+
+  .carousel-control {
+    background-color: var(--primary-dark);
+    color: var(--accent-color);
+    border: 2px solid var(--accent-color);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    font-size: 1.25rem;
+    font-weight: bold;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-fast);
+  }
+
+  .carousel-control:hover {
+    background-color: var(--accent-color);
+    color: var(--primary-dark);
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  .carousel-control.prev {
+    left: -22px;
+  }
+
+  .carousel-control.next {
+    right: -22px;
+  }
+
+  /* Buffet Sidebar */
+  .buffet-sidebar {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-lg);
+    padding: 2rem;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .sidebar-header {
+    margin-bottom: 1.5rem;
+  }
+
+  .sidebar-desc {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-top: 0.5rem;
+  }
+
+  .buffet-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .buffet-item-card {
+    display: flex;
+    gap: 1rem;
+    border-bottom: 1px dashed var(--border-color);
+    padding-bottom: 1.25rem;
+    align-items: center;
+  }
+
+  .buffet-item-card:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .buffet-item-image {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: var(--border-radius-sm);
+    border: 1px solid var(--border-color);
+  }
+
+  .buffet-item-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .buffet-item-info h4 {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+  }
+
+  .buffet-item-desc {
+    margin: 0;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    line-height: 1.3;
+  }
+
+  .buffet-item-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.25rem;
+  }
+
+  .buffet-item-price {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--primary-color);
+  }
+
+  .btn-sm-add {
+    padding: 0.3rem 0.8rem;
+    font-size: 0.8rem;
+    border-radius: var(--border-radius-sm);
+    background: linear-gradient(135deg, var(--accent-color), var(--accent-dark));
+    color: var(--text-primary);
+    cursor: pointer;
+    border: none;
+  }
+
+  .btn-sm-add:hover {
+    background: linear-gradient(135deg, #f7d25b, var(--accent-color));
+  }
+
+  /* Responsive tweaks for Customizer & Catalog */
+  @media (max-width: 992px) {
+    .customizer-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    .catalog-main-layout {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+    .carousel-slide {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+  }
+
   /* Responsive styling */
   @media (max-width: 480px) {
     .hero h1 {
@@ -922,8 +1362,6 @@ import { PRODUCTS } from '../data/products';
 
 <script>
   // DOM Elements
-  const filterButtons = document.querySelectorAll('.filter-btn');
-  const productCards = document.querySelectorAll('.product-card');
   const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
   const floatingCartBtn = document.getElementById('floating-cart-btn');
   const closeCartBtn = document.getElementById('close-cart-btn');
@@ -937,6 +1375,24 @@ import { PRODUCTS } from '../data/products';
   const cartCountEl = document.querySelector('.cart-count');
   const orderDateEl = document.getElementById('order-date') as HTMLInputElement | null;
   const orderTimeEl = document.getElementById('order-time') as HTMLInputElement | null;
+
+  // Carousel DOM Elements
+  const carouselTrack = document.getElementById('carousel-track');
+  const carouselPrevBtn = document.getElementById('carousel-prev-btn');
+  const carouselNextBtn = document.getElementById('carousel-next-btn');
+  const carouselViewport = document.getElementById('carousel-viewport');
+
+  // Customizer DOM Elements
+  const cakeCanvas = document.getElementById('cake-canvas') as HTMLCanvasElement | null;
+  const customSizeSelect = document.getElementById('custom-size') as HTMLSelectElement | null;
+  const customDoughSelect = document.getElementById('custom-dough') as HTMLSelectElement | null;
+  const customDoughWarning = document.getElementById('customizer-dough-warning');
+  const colorSwatches = document.querySelectorAll('.color-swatch');
+  const colorNameDisplay = document.getElementById('color-name-display');
+  const customThemeInput = document.getElementById('custom-theme') as HTMLInputElement | null;
+  const customPrintCheckbox = document.getElementById('custom-print') as HTMLInputElement | null;
+  const customPriceDisplay = document.getElementById('customizer-price-display');
+  const addCustomCakeBtn = document.getElementById('add-custom-cake-btn');
 
   // Restore and persist saved date
   if (orderDateEl) {
@@ -963,25 +1419,342 @@ import { PRODUCTS } from '../data/products';
   // State
   let cart = [];
 
-  // 1. Catalog Filtering
-  filterButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      // Toggle active class on buttons
-      filterButtons.forEach(btn => btn.classList.remove('active'));
-      button.classList.add('active');
+  // 1. Cakes Carousel Autoplay and Controls
+  let carouselIndex = 0;
+  let autoplayInterval;
 
-      const selectedCategory = button.getAttribute('data-category');
+  function updateCarousel() {
+    if (!carouselTrack) return;
+    const slides = carouselTrack.querySelectorAll('.carousel-slide');
+    if (slides.length === 0) return;
 
-      // Filter product cards
-      productCards.forEach(card => {
-        const cardCategory = card.getAttribute('data-category');
-        if (selectedCategory === 'all' || cardCategory === selectedCategory) {
-          (card as HTMLElement).style.display = 'flex';
-        } else {
-          (card as HTMLElement).style.display = 'none';
-        }
+    // Determine how many items are visible (1 on mobile, 2 on desktop)
+    const itemsVisible = window.innerWidth <= 992 ? 1 : 2;
+    const maxIndex = slides.length - itemsVisible;
+
+    if (carouselIndex > maxIndex) carouselIndex = 0;
+    if (carouselIndex < 0) carouselIndex = maxIndex;
+
+    const slideWidth = (slides[0] as HTMLElement).getBoundingClientRect().width;
+    const gap = 24; // matching css gap (1.5rem = 24px)
+    const offset = -carouselIndex * (slideWidth + gap);
+    
+    carouselTrack.style.transform = `translateX(${offset}px)`;
+  }
+
+  function startAutoplay() {
+    autoplayInterval = setInterval(() => {
+      carouselIndex++;
+      updateCarousel();
+    }, 4000);
+  }
+
+  function stopAutoplay() {
+    clearInterval(autoplayInterval);
+  }
+
+  if (carouselPrevBtn && carouselNextBtn) {
+    carouselPrevBtn.addEventListener('click', () => {
+      stopAutoplay();
+      carouselIndex--;
+      updateCarousel();
+      startAutoplay();
+    });
+
+    carouselNextBtn.addEventListener('click', () => {
+      stopAutoplay();
+      carouselIndex++;
+      updateCarousel();
+      startAutoplay();
+    });
+
+    // Pause on hover
+    carouselViewport?.addEventListener('mouseenter', stopAutoplay);
+    carouselViewport?.addEventListener('mouseleave', startAutoplay);
+
+    // Initial setup
+    window.addEventListener('resize', updateCarousel);
+    updateCarousel();
+    startAutoplay();
+  }
+
+  // 2. Interactive Cake Customizer (Canvas JS drawing)
+  let activeColor = '#FDFBF7';
+  let activeColorName = 'Blanco Crema';
+
+  function drawCake() {
+    if (!cakeCanvas) return;
+    const ctx = cakeCanvas.getContext('2d');
+    if (!ctx) return;
+
+    ctx.clearRect(0, 0, cakeCanvas.width, cakeCanvas.height);
+
+    const sizeVal = customSizeSelect?.value || 'minicake-15';
+    const selectedOption = customSizeSelect?.options[customSizeSelect.selectedIndex];
+    const cakeType = selectedOption?.getAttribute('data-type') || '1piso';
+
+    const cx = cakeCanvas.width / 2;
+    const cy = cakeCanvas.height / 2 + 30;
+
+    // Draw Golden Base Board
+    ctx.beginPath();
+    ctx.ellipse(cx, cy + 30, 110, 35, 0, 0, 2 * Math.PI);
+    ctx.fillStyle = '#D4AF37'; // Gold
+    ctx.fill();
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = '#AA7C11';
+    ctx.stroke();
+
+    if (cakeType === '2pisos') {
+      // Bottom Tier
+      drawCylinder(ctx, cx, cy + 15, 85, 55, activeColor);
+      // Top Tier
+      drawCylinder(ctx, cx, cy - 35, 55, 45, activeColor);
+      
+      // Cream piping
+      drawCreamBorder(ctx, cx, cy + 15, 85);
+      drawCreamBorder(ctx, cx, cy - 35, 55);
+      drawCreamBorder(ctx, cx, cy - 75, 40, true);
+    } else if (cakeType === 'bandeja') {
+      // Isometric Rectangular Cake
+      drawRectangularCake(ctx, cx, cy + 15, 170, 95, 50, activeColor);
+    } else {
+      // Standard Single Cylinder
+      let radius = 80;
+      let height = 65;
+      if (sizeVal === 'minicake-15') {
+        radius = 60;
+        height = 50;
+      } else if (sizeVal === 'cake-redondo-36') {
+        radius = 95;
+        height = 75;
+      }
+      
+      drawCylinder(ctx, cx, cy + 15, radius, height, activeColor);
+      drawCreamBorder(ctx, cx, cy + 15, radius);
+      drawCreamBorder(ctx, cx, cy + 15 - height, radius, true);
+    }
+  }
+
+  function drawCylinder(ctx, x, y, r, h, color) {
+    // Bottom Ellipse
+    ctx.beginPath();
+    ctx.ellipse(x, y, r, r * 0.35, 0, 0, Math.PI);
+    ctx.fillStyle = color;
+    ctx.fill();
+
+    // Side Walls
+    ctx.beginPath();
+    ctx.moveTo(x - r, y);
+    ctx.lineTo(x - r, y - h);
+    ctx.ellipse(x, y - h, r, r * 0.35, 0, Math.PI, 2 * Math.PI);
+    ctx.lineTo(x + r, y);
+    ctx.ellipse(x, y, r, r * 0.35, 0, 0, Math.PI, true);
+    ctx.closePath();
+    ctx.fillStyle = color;
+    ctx.fill();
+
+    // Sombreado 3D
+    const grad = ctx.createLinearGradient(x - r, y, x + r, y);
+    grad.addColorStop(0, 'rgba(0,0,0,0.22)');
+    grad.addColorStop(0.25, 'rgba(0,0,0,0.04)');
+    grad.addColorStop(0.7, 'rgba(255,255,255,0.15)');
+    grad.addColorStop(1, 'rgba(0,0,0,0.28)');
+    ctx.fillStyle = grad;
+    ctx.fill();
+
+    // Top Ellipse
+    ctx.beginPath();
+    ctx.ellipse(x, y - h, r, r * 0.35, 0, 0, 2 * Math.PI);
+    ctx.fillStyle = color;
+    ctx.fill();
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = 'rgba(0,0,0,0.1)';
+    ctx.stroke();
+  }
+
+  function drawCreamBorder(ctx, x, y, r, isTop = false) {
+    ctx.fillStyle = '#FFFFFF';
+    const numDots = Math.floor(r / 3);
+    for (let i = 0; i < numDots; i++) {
+      const angle = (i / numDots) * Math.PI * 2;
+      const dx = x + Math.cos(angle) * r;
+      const dy = y + Math.sin(angle) * r * 0.35;
+      
+      ctx.beginPath();
+      ctx.arc(dx, dy, 4.5, 0, 2 * Math.PI);
+      ctx.fill();
+    }
+
+    if (isTop) {
+      drawCandle(ctx, x - 15, y - 10);
+      drawCandle(ctx, x, y - 12);
+      drawCandle(ctx, x + 15, y - 10);
+    }
+  }
+
+  function drawCandle(ctx, x, y) {
+    // Stick
+    ctx.fillStyle = '#3B82F6';
+    ctx.fillRect(x - 2, y - 20, 4, 20);
+    // Wick
+    ctx.strokeStyle = '#000';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(x, y - 20);
+    ctx.lineTo(x, y - 22);
+    ctx.stroke();
+    // Flame
+    ctx.fillStyle = '#F59E0B';
+    ctx.beginPath();
+    ctx.arc(x, y - 24, 3, 0, 2 * Math.PI);
+    ctx.fill();
+  }
+
+  function drawRectangularCake(ctx, x, y, w, d, h, color) {
+    const hh = h;
+    const pt1 = { x: x - 90, y: y };
+    const pt2 = { x: x, y: y + 25 };
+    const pt3 = { x: x + 90, y: y };
+    const pt4 = { x: x, y: y - 25 };
+
+    // Left Side Wall
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.moveTo(pt1.x, pt1.y);
+    ctx.lineTo(pt2.x, pt2.y);
+    ctx.lineTo(pt2.x, pt2.y - hh);
+    ctx.lineTo(pt1.x, pt1.y - hh);
+    ctx.closePath();
+    ctx.fill();
+    ctx.fillStyle = 'rgba(0,0,0,0.12)';
+    ctx.fill();
+
+    // Right Side Wall
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.moveTo(pt2.x, pt2.y);
+    ctx.lineTo(pt3.x, pt3.y);
+    ctx.lineTo(pt3.x, pt3.y - hh);
+    ctx.lineTo(pt2.x, pt2.y - hh);
+    ctx.closePath();
+    ctx.fill();
+    ctx.fillStyle = 'rgba(0,0,0,0.22)';
+    ctx.fill();
+
+    // Top Face
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.moveTo(pt1.x, pt1.y - hh);
+    ctx.lineTo(pt2.x, pt2.y - hh);
+    ctx.lineTo(pt3.x, pt3.y - hh);
+    ctx.lineTo(pt4.x, pt4.y - hh);
+    ctx.closePath();
+    ctx.fill();
+    ctx.fillStyle = 'rgba(255,255,255,0.08)';
+    ctx.fill();
+
+    // Cream borders
+    ctx.fillStyle = '#FFFFFF';
+    const borderPoints = [pt1, pt2, pt3, pt4, pt1];
+    borderPoints.forEach((pt, idx) => {
+      if (idx === borderPoints.length - 1) return;
+      const nextPt = borderPoints[idx + 1];
+      const steps = 10;
+      for (let i = 0; i <= steps; i++) {
+        const t = i / steps;
+        const px = pt.x + (nextPt.x - pt.x) * t;
+        const py = pt.y - hh + (nextPt.y - pt.y) * t;
+        ctx.beginPath();
+        ctx.arc(px, py, 4.5, 0, 2 * Math.PI);
+        ctx.fill();
+      }
+    });
+
+    drawCandle(ctx, x - 10, y - hh - 5);
+    drawCandle(ctx, x + 10, y - hh - 5);
+  }
+
+  // Customizer Controls & Event Listeners
+  if (cakeCanvas) {
+    // Colors
+    colorSwatches.forEach(swatch => {
+      swatch.addEventListener('click', () => {
+        colorSwatches.forEach(s => s.classList.remove('active'));
+        swatch.classList.add('active');
+        activeColor = swatch.getAttribute('data-color') || '#FDFBF7';
+        activeColorName = swatch.getAttribute('data-name') || 'Blanco Crema';
+        if (colorNameDisplay) colorNameDisplay.textContent = activeColorName;
+        drawCake();
       });
     });
+
+    // Size Selection
+    customSizeSelect?.addEventListener('change', () => {
+      const selectedOption = customSizeSelect.options[customSizeSelect.selectedIndex];
+      const price = selectedOption.getAttribute('data-price');
+      const val = customSizeSelect.value;
+
+      if (customPriceDisplay) {
+        customPriceDisplay.textContent = `$${price} CUP`;
+      }
+
+      // 2 floors option restriction: hides dough selector since it's wheat only
+      const doughWrapper = document.getElementById('custom-dough-wrapper');
+      if (val === 'cake-2-pisos') {
+        if (doughWrapper) doughWrapper.style.display = 'none';
+        if (customDoughSelect) customDoughSelect.value = 'trigo';
+        if (customDoughWarning) customDoughWarning.style.display = 'none';
+      } else {
+        if (doughWrapper) doughWrapper.style.display = 'flex';
+      }
+
+      drawCake();
+    });
+
+    // Dough Selection warning banner trigger
+    customDoughSelect?.addEventListener('change', () => {
+      const isCustomDough = customDoughSelect.value !== 'trigo';
+      if (customDoughWarning) {
+        customDoughWarning.style.display = isCustomDough ? 'block' : 'none';
+      }
+    });
+
+    // Initial render
+    drawCake();
+  }
+
+  // Custom Cake Add to Cart action
+  addCustomCakeBtn?.addEventListener('click', () => {
+    if (!customSizeSelect) return;
+    const selectedOption = customSizeSelect.options[customSizeSelect.selectedIndex];
+    const id = selectedOption.value;
+    const sizeLabel = selectedOption.textContent?.split('—')[0].trim() || 'Cake';
+    const price = parseFloat(selectedOption.getAttribute('data-price') || '0');
+    const dough = customDoughSelect?.value || 'trigo';
+    const theme = customThemeInput?.value || '';
+    const ediblePrint = customPrintCheckbox?.checked || false;
+
+    // Push custom cake item to cart
+    cart.push({
+      id: `custom-${id}-${Date.now()}`,
+      name: `Cake Personalizado (${sizeLabel})`,
+      price: price,
+      quantity: 1,
+      customizable: true,
+      category: 'cakes',
+      dough: dough,
+      note: `Color: ${activeColorName}.${theme ? ' Temática: ' + theme : ''}`,
+      ediblePrint: ediblePrint,
+      fileName: ''
+    });
+
+    // Reset input fields
+    if (customThemeInput) customThemeInput.value = '';
+    if (customPrintCheckbox) customPrintCheckbox.checked = false;
+
+    updateCart();
+    openCart();
   });
 
   // 2. Open/Close Cart Drawer
