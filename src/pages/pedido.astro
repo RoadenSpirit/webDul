@@ -3,51 +3,51 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Completar Encargo">
-  <div class="checkout-page-container">
-    <div class="checkout-header">
-      <a href="/" class="back-link">← Volver a la Dulcería</a>
-      <h1>🎂 Completar detalles del encargo</h1>
-      <p>Introduce los datos requeridos para generar tu orden y enviarla directamente por WhatsApp.</p>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+    <div class="mb-8 sm:mb-12">
+      <a href="/" class="inline-flex items-center text-sm font-semibold text-[#D4AF37] hover:text-[#aa7c11] transition-colors mb-4">← Volver a la Dulcería</a>
+      <h1 class="text-3xl sm:text-4xl font-serif font-extrabold text-[#8C0D1B] mb-2">🎂 Completar detalles del encargo</h1>
+      <p class="text-[#57534E] text-base sm:text-lg">Introduce los datos requeridos para generar tu orden y enviarla directamente por WhatsApp.</p>
     </div>
 
-    <div class="checkout-grid">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
       <!-- Columna Izquierda: Formulario -->
-      <div class="checkout-form-column">
-        <form id="checkout-form" class="premium-form">
+      <div class="lg:col-span-2">
+        <form id="checkout-form" class="space-y-8">
           
-          <div class="form-section">
-            <h3>👤 Datos de Contacto</h3>
-            <div class="form-group-row">
-              <div class="form-group">
-                <label for="client-name">Nombre Completo <span class="required">*</span></label>
-                <input type="text" id="client-name" required placeholder="Ej: Juan Pérez" />
+          <div class="bg-[#FFFDF9] border border-[#E7E2D8] rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
+            <h3 class="text-lg sm:text-xl font-bold text-[#8C0D1B] border-b border-[#E7E2D8] pb-4 flex items-center gap-2">👤 Datos de Contacto</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div class="flex flex-col gap-2">
+                <label for="client-name" class="block text-sm font-bold text-[#1C1917]">Nombre Completo <span class="text-[#ef4444] font-bold">*</span></label>
+                <input type="text" id="client-name" required placeholder="Ej: Juan Pérez" class="w-full px-4 py-3 bg-[#FFFDF9] border border-[#E7E2D8] rounded-xl text-base text-[#1C1917] placeholder:text-[#A8A29E] focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/10 transition-all outline-none" />
               </div>
-              <div class="form-group">
-                <label for="client-phone">Número de Teléfono <span class="required">*</span></label>
-                <input type="tel" id="client-phone" required placeholder="Ej: +53 5200 0000" />
+              <div class="flex flex-col gap-2">
+                <label for="client-phone" class="block text-sm font-bold text-[#1C1917]">Número de Teléfono <span class="text-[#ef4444] font-bold">*</span></label>
+                <input type="tel" id="client-phone" required placeholder="Ej: +53 5200 0000" class="w-full px-4 py-3 bg-[#FFFDF9] border border-[#E7E2D8] rounded-xl text-base text-[#1C1917] placeholder:text-[#A8A29E] focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/10 transition-all outline-none" />
               </div>
             </div>
           </div>
 
-          <div class="form-section">
-            <h3>📅 Detalles de Entrega o Recogida</h3>
-            <div class="form-group-row">
-              <div class="form-group">
-                <label for="delivery-date">Fecha Requerida <span class="required">*</span></label>
-                <input type="date" id="delivery-date" required />
+          <div class="bg-[#FFFDF9] border border-[#E7E2D8] rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
+            <h3 class="text-lg sm:text-xl font-bold text-[#8C0D1B] border-b border-[#E7E2D8] pb-4 flex items-center gap-2">📅 Detalles de Entrega o Recogida</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div class="flex flex-col gap-2">
+                <label for="delivery-date" class="block text-sm font-bold text-[#1C1917]">Fecha Requerida <span class="text-[#ef4444] font-bold">*</span></label>
+                <input type="date" id="delivery-date" required class="w-full px-4 py-3 bg-[#FFFDF9] border border-[#E7E2D8] rounded-xl text-base text-[#1C1917] focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/10 transition-all outline-none cursor-pointer" />
               </div>
-              <div class="form-group">
-                <label for="delivery-time">Hora Sugerida <span class="required">*</span></label>
-                <input type="time" id="delivery-time" required />
+              <div class="flex flex-col gap-2">
+                <label for="delivery-time" class="block text-sm font-bold text-[#1C1917]">Hora Sugerida <span class="text-[#ef4444] font-bold">*</span></label>
+                <input type="time" id="delivery-time" required class="w-full px-4 py-3 bg-[#FFFDF9] border border-[#E7E2D8] rounded-xl text-base text-[#1C1917] focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/10 transition-all outline-none cursor-pointer" />
               </div>
             </div>
-            <p class="section-hint">Recuerda hacer tu pedido con suficiente antelación para agendarlo correctamente.</p>
+            <p class="text-[#78716C] text-xs sm:text-sm">Recuerda hacer tu pedido con suficiente antelación para agendarlo correctamente.</p>
           </div>
 
           <!-- Bloque dinámico para personalizar cada cake del pedido -->
-          <div class="form-section" id="cakes-customization-section">
-            <h3>🎨 Personalización de tus Cakes</h3>
-            <div id="cakes-customizers-container">
+          <div class="bg-[#FFFDF9] border border-[#E7E2D8] rounded-2xl p-6 sm:p-8 shadow-sm space-y-6" id="cakes-customization-section">
+            <h3 class="text-lg sm:text-xl font-bold text-[#8C0D1B] border-b border-[#E7E2D8] pb-4 flex items-center gap-2">🎨 Personalización de tus Cakes</h3>
+            <div id="cakes-customizers-container" class="space-y-6">
               <!-- Se inyecta dinámicamente con JS para cada cake del carrito -->
             </div>
           </div>
@@ -56,38 +56,38 @@ import Layout from '../layouts/Layout.astro';
       </div>
 
       <!-- Columna Derecha: Resumen de Pedido -->
-      <div class="checkout-summary-column">
-        <div class="summary-card">
-          <h3>🛒 Resumen del Encargo</h3>
+      <div class="lg:col-span-1">
+        <div class="bg-[#FFFDF9] border border-[#E7E2D8] rounded-2xl p-6 sm:p-8 shadow-sm space-y-6 sticky top-8">
+          <h3 class="text-lg sm:text-xl font-bold text-[#8C0D1B] border-b border-[#E7E2D8] pb-4 flex items-center gap-2">🛒 Resumen del Encargo</h3>
           
-          <div id="summary-items-list" class="summary-items-list">
+          <div id="summary-items-list" class="space-y-4 max-h-[350px] overflow-y-auto pr-1">
             <!-- Inyectado dinámicamente por JS -->
           </div>
 
-          <div class="price-breakdown">
-            <div class="summary-row">
+          <div class="border-t border-[#E7E2D8] pt-4 space-y-2 text-sm text-[#57534E]">
+            <div class="flex justify-between">
               <span>Subtotal dulces</span>
-              <span id="summary-subtotal">$0 CUP</span>
+              <span id="summary-subtotal" class="font-semibold">$0 CUP</span>
             </div>
-            <div class="summary-row">
+            <div class="flex justify-between">
               <span>Masa maicena/capuchino</span>
-              <span id="summary-dough-extra">$0 CUP</span>
+              <span id="summary-dough-extra" class="font-semibold">$0 CUP</span>
             </div>
-            <div class="summary-row">
+            <div class="flex justify-between">
               <span>Impresión comestible</span>
-              <span id="summary-addons-extra">$0 CUP</span>
+              <span id="summary-addons-extra" class="font-semibold">$0 CUP</span>
             </div>
-            <div class="summary-row total-row">
+            <div class="flex justify-between text-base font-bold text-[#8C0D1B] border-t border-[#E7E2D8] pt-3 mt-2">
               <span>Total Estimado</span>
-              <span id="summary-total">$0 CUP</span>
+              <span id="summary-total" class="text-[#8C0D1B]">$0 CUP</span>
             </div>
           </div>
 
-          <div class="checkout-actions">
-            <div class="cart-note-warning">
+          <div class="space-y-4">
+            <div class="bg-[#FFFBEB] border border-[#FEF3C7] text-[#B45309] text-xs p-3 rounded-xl leading-relaxed">
               ⚠️ La decoración final y precio de cakes personalizados se acordará por WhatsApp. Decoraciones complejas pueden variar el precio.
             </div>
-            <button type="button" id="confirm-whatsapp-checkout-btn" class="btn-checkout-whatsapp">
+            <button type="button" id="confirm-whatsapp-checkout-btn" class="w-full py-4 bg-[#25D366] hover:bg-[#20ba59] active:scale-[0.98] text-white font-bold text-base rounded-xl transition-all shadow-md flex items-center justify-center gap-2">
               Confirmar Pedido vía WhatsApp 💬
             </button>
           </div>
@@ -516,6 +516,56 @@ import Layout from '../layouts/Layout.astro';
     line-height: 1.3;
   }
 
+  /* Custom styled date/time pickers */
+  input[type="date"], input[type="time"] {
+    position: relative;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238C0D1B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3crect x='3' y='4' width='18' height='18' rx='2' ry='2'%3e%3c/rect%3e%3cline x1='16' y1='2' x2='16' y2='6'%3e%3c/line%3e%3cline x1='8' y1='2' x2='8' y2='6'%3e%3c/line%3e%3cline x1='3' y1='10' x2='21' y2='10'%3e%3c/line%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1.25rem;
+    padding-right: 2.75rem;
+    cursor: pointer;
+  }
+  
+  input[type="time"] {
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238C0D1B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3ccircle cx='12' cy='12' r='10'%3e%3c/circle%3e%3cpolyline points='12 6 12 12 16 14'%3e%3c/polyline%3e%3c/svg%3e");
+  }
+  
+  input[type="date"]::-webkit-calendar-picker-indicator,
+  input[type="time"]::-webkit-calendar-picker-indicator {
+    background: transparent;
+    bottom: 0;
+    color: transparent;
+    cursor: pointer;
+    height: auto;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: auto;
+  }
+
+  /* Custom dropdown arrow for selects */
+  select.dough-select-field {
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238C0D1B' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1.2rem;
+    padding-right: 2.75rem;
+  }
+
+  /* Custom styling for file upload area overlap */
+  .decorations-ref-upload-input,
+  .customizer-upload-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+  }
+
   @media (max-width: 991px) {
     .summary-card {
       position: relative;
@@ -583,17 +633,17 @@ import Layout from '../layouts/Layout.astro';
     cart.forEach((item, index) => {
       const metaInfo = getProductIcon(item);
       html += `
-        <div class="summary-item-card">
-          <div class="summary-thumbnail-container">
-            <img src="${item.imageSrc || 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=800&auto=format&fit=crop'}" alt="${item.name}" class="summary-thumbnail" />
+        <div class="flex gap-4 items-center bg-[#FFFDF9] border border-[#E7E2D8] p-3 rounded-xl shadow-sm">
+          <div class="w-14 h-14 flex-shrink-0 rounded-lg overflow-hidden border border-[#E7E2D8]">
+            <img src="${item.imageSrc || 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=800&auto=format&fit=crop'}" alt="${item.name}" class="w-full h-full object-cover" />
           </div>
-          <div class="summary-info">
-            <div class="summary-title-row">
-              <h4>${item.name}</h4>
-              <span class="summary-price">$${item.price * item.quantity} CUP</span>
+          <div class="flex-grow min-w-0">
+            <div class="flex justify-between items-start gap-2">
+              <h4 class="text-sm font-bold text-[#1C1917] truncate">${item.name}</h4>
+              <span class="text-sm font-bold text-[#8C0D1B] whitespace-nowrap">$${item.price * item.quantity} CUP</span>
             </div>
-            <div class="summary-meta">
-              <span class="category-icon-badge" style="background-color: ${metaInfo.color};" title="${metaInfo.label}">${metaInfo.icon}</span>
+            <div class="flex items-center gap-2 mt-1 text-xs text-[#78716C]">
+              <span class="inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold" style="background-color: ${metaInfo.color};" title="${metaInfo.label}">${metaInfo.icon}</span>
               <span>Cantidad: ${item.quantity}</span>
             </div>
           </div>
@@ -622,22 +672,22 @@ import Layout from '../layouts/Layout.astro';
       const globalIdx = cart.findIndex(c => c.id === item.id);
       
       html += `
-        <div class="cake-customizer-card" data-cart-index="${globalIdx}">
-          <h4>🎂 Personalización: ${item.name}</h4>
+        <div class="bg-[#FBF7EE] border border-[#E7E2D8] rounded-xl p-5 mb-6 border-l-4 border-l-[#D4AF37] space-y-4" data-cart-index="${globalIdx}">
+          <h4 class="text-base font-extrabold text-[#8C0D1B] flex items-center gap-1.5">🎂 Personalización: ${item.name}</h4>
           
-          <div class="form-group">
-            <label for="cake-dough-${globalIdx}">🌾 Selección de Masa:</label>
-            <select class="dough-select-field" data-index="${globalIdx}" id="cake-dough-${globalIdx}">
+          <div class="flex flex-col gap-2">
+            <label for="cake-dough-${globalIdx}" class="block text-sm font-bold text-[#1C1917]">🌾 Selección de Masa:</label>
+            <select class="dough-select-field w-full px-4 py-3 bg-[#FFFDF9] border-2 border-[#E7E2D8] rounded-xl text-sm text-[#1C1917] focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/10 transition-all outline-none cursor-pointer appearance-none" data-index="${globalIdx}" id="cake-dough-${globalIdx}">
               <option value="trigo" ${item.dough === 'trigo' || !item.dough ? 'selected' : ''}>Harina de trigo (Por defecto)</option>
               <option value="maicena" ${item.dough === 'maicena' ? 'selected' : ''}>Maicena</option>
               <option value="capuchino" ${item.dough === 'capuchino' ? 'selected' : ''}>Capuchino</option>
             </select>
           </div>
 
-          <div class="form-group">
-            <label for="cake-theme-${globalIdx}">✍️ Temática / Decoración y Colores:</label>
+          <div class="flex flex-col gap-2">
+            <label for="cake-theme-${globalIdx}" class="block text-sm font-bold text-[#1C1917]">✍️ Temática / Decoración y Colores:</label>
             <textarea 
-              class="cake-note-field" 
+              class="cake-note-field w-full px-4 py-3 bg-[#FFFDF9] border-2 border-[#E7E2D8] rounded-xl text-sm text-[#1C1917] focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/10 transition-all outline-none placeholder:text-[#A8A29E]" 
               id="cake-theme-${globalIdx}"
               data-index="${globalIdx}" 
               rows="3" 
@@ -645,40 +695,40 @@ import Layout from '../layouts/Layout.astro';
             >${item.note || ''}</textarea>
           </div>
 
-          <div class="form-group">
-            <label>🖼️ Foto de Referencia para Decoración (Opcional):</label>
-            <div class="customizer-upload-area" style="border-color: #6b7280; background-color: var(--bg-card); padding: 0.75rem;">
-              <span class="customizer-upload-label" id="ref-photo-label-${globalIdx}">
+          <div class="flex flex-col gap-2">
+            <label class="block text-sm font-bold text-[#1C1917]">🖼️ Foto de Referencia para Decoración (Opcional):</label>
+            <div class="relative w-full border-2 border-dashed border-[#D4AF37] rounded-xl p-4 text-center cursor-pointer bg-[#FFFDF9] hover:bg-[#D4AF37]/5 transition-colors">
+              <span class="text-xs font-semibold text-[#1C1917]" id="ref-photo-label-${globalIdx}">
                 ${item.refPhotoName ? `✓ ${item.refPhotoName}` : 'Haga clic para subir imagen de referencia'}
               </span>
               <input type="file" class="decorations-ref-upload-input" data-index="${globalIdx}" accept="image/*" />
             </div>
-            <div class="customizer-file-preview" id="ref-preview-${globalIdx}">
-              ${uploadedImages['ref-' + item.id] ? `<img src="${uploadedImages['ref-' + item.id]}" alt="preview" style="width: 50px; height: 50px; object-fit: cover; border-radius: var(--border-radius-sm); border: 1px solid var(--border-color); margin-top: 0.5rem;"/>` : ''}
+            <div class="flex items-center justify-center" id="ref-preview-${globalIdx}">
+              ${uploadedImages['ref-' + item.id] ? `<img src="${uploadedImages['ref-' + item.id]}" alt="preview" class="w-12 h-12 object-cover rounded-lg border border-[#E7E2D8] mt-2"/>` : ''}
             </div>
           </div>
 
-          <div class="form-group">
-            <label class="edible-print-option">
+          <div class="flex flex-col gap-3">
+            <label class="inline-flex items-center gap-3 w-full bg-[#FFFDF9] border-2 border-[#E7E2D8] hover:border-[#D4AF37] p-3 rounded-xl cursor-pointer transition-colors">
               <input 
                 type="checkbox" 
-                class="edible-print-checkbox-field" 
+                class="edible-print-checkbox-field w-4 h-4 text-[#8C0D1B] border-[#E7E2D8] rounded focus:ring-[#D4AF37] cursor-pointer" 
                 data-index="${globalIdx}" 
                 id="cake-print-${globalIdx}"
                 ${item.ediblePrint ? 'checked' : ''}
               />
-              ¿Deseas añadir Impresión Comestible?
+              <span class="text-sm font-bold text-[#1C1917]">¿Deseas añadir Impresión Comestible?</span>
             </label>
             
             <div class="print-upload-wrapper" id="print-upload-wrapper-${globalIdx}" style="display: ${item.ediblePrint ? 'block' : 'none'};">
-              <div class="customizer-upload-area">
-                <span class="customizer-upload-label" id="upload-label-${globalIdx}">
+              <div class="relative w-full border-2 border-dashed border-[#D4AF37] rounded-xl p-4 text-center cursor-pointer bg-[#FFFDF9] hover:bg-[#D4AF37]/5 transition-colors">
+                <span class="text-xs font-semibold text-[#1C1917]" id="upload-label-${globalIdx}">
                   ${item.fileName ? `✓ ${item.fileName}` : 'Haga clic para subir la imagen para impresión'}
                 </span>
                 <input type="file" class="customizer-upload-input" data-index="${globalIdx}" accept="image/*" />
               </div>
-              <div class="customizer-file-preview" id="preview-${globalIdx}">
-                ${uploadedImages[item.id] ? `<img src="${uploadedImages[item.id]}" alt="preview"/>` : ''}
+              <div class="flex items-center justify-center mt-2" id="preview-${globalIdx}">
+                ${uploadedImages[item.id] ? `<img src="${uploadedImages[item.id]}" alt="preview" class="w-12 h-12 object-cover rounded-lg border border-[#E7E2D8]"/>` : ''}
               </div>
             </div>
           </div>
