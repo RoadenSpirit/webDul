@@ -575,14 +575,6 @@ import Layout from '../layouts/Layout.astro';
 </style>
 
 <script>
-  // Dynamic error logging to assist in visual screenshot debugging
-  window.addEventListener('error', (e) => {
-    const errBox = document.createElement('div');
-    errBox.className = 'bg-red-600 text-white p-6 font-bold fixed top-0 left-0 w-full z-[99999] text-base';
-    errBox.innerHTML = `⚠️ Client-Side Error: ${e.message} at ${e.filename}:${e.lineno}`;
-    document.body.insertBefore(errBox, document.body.firstChild);
-  });
-
   let cart = [];
   const uploadedImages = {};
 
