@@ -612,6 +612,22 @@ import Layout from '../layouts/Layout.astro';
           </div>
 
           <div class="form-group">
+            <label>🖼️ Foto de Referencia para Decoración (Opcional):</label>
+            <p class="section-hint" style="color: #b45309; font-weight: bold; margin-bottom: 0.5rem; margin-top: 0px;">
+              ⚠️ El estilo decorativo seleccionado podría incrementar el costo final del dulce.
+            </p>
+            <div class="customizer-upload-area" style="border-color: #6b7280; background-color: var(--bg-card); padding: 0.75rem;">
+              <span class="customizer-upload-label" id="ref-photo-label-${globalIdx}">
+                ${item.refPhotoName ? `✓ ${item.refPhotoName}` : 'Haga clic para subir imagen de referencia'}
+              </span>
+              <input type="file" class="decorations-ref-upload-input" data-index="${globalIdx}" accept="image/*" />
+            </div>
+            <div class="customizer-file-preview" id="ref-preview-${globalIdx}">
+              ${uploadedImages['ref-' + item.id] ? `<img src="${uploadedImages['ref-' + item.id]}" alt="preview" style="width: 50px; height: 50px; object-fit: cover; border-radius: var(--border-radius-sm); border: 1px solid var(--border-color); margin-top: 0.5rem;"/>` : ''}
+            </div>
+          </div>
+
+          <div class="form-group">
             <label class="edible-print-option">
               <input 
                 type="checkbox" 
@@ -711,6 +727,34 @@ import Layout from '../layouts/Layout.astro';
         }
       });
     });
+
+    // Reference Photo upload preview
+    document.querySelectorAll('.decorations-ref-upload-input').forEach(input => {
+      input.addEventListener('change', (e) => {
+        const target = e.target as HTMLInputElement;
+        const idx = parseInt(target.getAttribute('data-index') || '0');
+        const file = target.files?.[0];
+        
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            const dataUrl = event.target?.result as string;
+            const item = cart[idx];
+            item.refPhotoName = file.name;
+            uploadedImages['ref-' + item.id] = dataUrl;
+            
+            const label = document.getElementById(`ref-photo-label-${idx}`);
+            const preview = document.getElementById(`ref-preview-${idx}`);
+            
+            if (label) label.textContent = `✓ ${file.name}`;
+            if (preview) preview.innerHTML = `<img src="${dataUrl}" alt="Preview" style="width: 50px; height: 50px; object-fit: cover; border-radius: var(--border-radius-sm); border: 1px solid var(--border-color); margin-top: 0.5rem;"/>`;
+            
+            saveCartToStorage();
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+    });
   };
 
   const saveCartToStorage = () => {
@@ -792,6 +836,10 @@ import Layout from '../layouts/Layout.astro';
       if (item.customizable) {
         const decorators = item.note ? `"${item.note.trim()}"` : 'Decoración sugerida por la casa';
         customizations.push(`Decoración: ${decorators}`);
+      }
+
+      if (item.refPhotoName) {
+        customizations.push(`Foto de Referencia: [Se adjunta en este chat] (${item.refPhotoName})`);
       }
 
       if (item.ediblePrint) {

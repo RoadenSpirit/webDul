@@ -45,9 +45,13 @@ const {
           <span class="logo-subtitle">DULCERÍA ARTESANAL</span>
         </a>
         <nav class="main-nav">
-          <a href="#catalogo" class="nav-link">Nuestra Carta</a>
-          <a href="#como-pedir" class="nav-link">¿Cómo pedir?</a>
-          <a href="#contacto" class="nav-link font-accent">Hacer Encargo</a>
+          <a href="/#catalogo" class="nav-link">Nuestra Carta</a>
+          <a href="/#decoraciones" class="nav-link">Decoraciones</a>
+          <a href="/#como-pedir" class="nav-link">¿Cómo pedir?</a>
+          <a href="/pedido" class="nav-link" id="nav-order-link" style="display: none; align-items: center; gap: 0.25rem;">
+            Mi Orden <span class="order-badge" id="nav-order-badge" style="background-color: var(--accent-color); color: var(--primary-dark); font-size: 0.75rem; padding: 1px 6px; border-radius: 10px; font-weight: bold;">0</span>
+          </a>
+          <a href="/#contacto" class="nav-link font-accent">Hacer Encargo</a>
         </nav>
       </div>
     </header>
@@ -80,6 +84,29 @@ const {
         <p>&copy; {new Date().getFullYear()} Dulcería El Líder. Todos los derechos reservados.</p>
       </div>
     </footer>
+    <script is:inline>
+      function updateGlobalOrderNav() {
+        const orderLink = document.getElementById('nav-order-link');
+        const orderBadge = document.getElementById('nav-order-badge');
+        if (!orderLink || !orderBadge) return;
+        
+        try {
+          const cartData = JSON.parse(localStorage.getItem('el_lider_cart') || '[]');
+          const count = cartData.reduce((sum, item) => sum + item.quantity, 0);
+          if (count > 0) {
+            orderLink.style.display = 'inline-flex';
+            orderBadge.textContent = count;
+          } else {
+            orderLink.style.display = 'none';
+          }
+        } catch (e) {
+          orderLink.style.display = 'none';
+        }
+      }
+      
+      updateGlobalOrderNav();
+      setInterval(updateGlobalOrderNav, 1000);
+    </script>
   </body>
 </html>
 
