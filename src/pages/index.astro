@@ -260,30 +260,12 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
       </div>
 
       <div class="cart-footer">
-        <div class="cart-date-picker">
-          <label for="order-date">📅 Fecha requerida para el encargo:</label>
-          <input type="date" id="order-date" name="order-date" required />
-          
-          <label for="order-time" style="margin-top: 0.5rem; display: block;">🕒 Hora sugerida (Opcional):</label>
-          <input type="time" id="order-time" name="order-time" />
-        </div>
-        <div class="cart-summary-row">
-          <span>Subtotal</span>
-          <span id="cart-subtotal">$0 CUP</span>
-        </div>
-        <div class="cart-summary-row">
-          <span>Adicionales (Impresiones)</span>
-          <span id="cart-addons">$0 CUP</span>
-        </div>
         <div class="cart-summary-row total-row">
           <span>Total Estimado</span>
           <span id="cart-total">$0 CUP</span>
         </div>
-        <div class="cart-note-warning">
-          ⚠️ Nota: La decoración final y precio de cakes personalizados se acordará por WhatsApp. Decoraciones complejas pueden variar el precio.
-        </div>
-        <button id="checkout-whatsapp-btn" class="btn btn-primary btn-block">
-          Confirmar Pedido vía WhatsApp 💬
+        <button id="go-to-checkout-btn" class="btn btn-primary btn-block" style="margin-top: 1rem;">
+          Continuar con el Encargo ➔
         </button>
       </div>
     </div>
@@ -1568,13 +1550,9 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
   const cartDrawer = document.getElementById('cart-drawer');
   const cartOverlay = document.querySelector('.cart-drawer-overlay');
   const cartItemsContainer = document.getElementById('cart-items-container');
-  const cartSubtotalEl = document.getElementById('cart-subtotal');
-  const cartAddonsEl = document.getElementById('cart-addons');
   const cartTotalEl = document.getElementById('cart-total');
-  const checkoutWhatsappBtn = document.getElementById('checkout-whatsapp-btn');
+  const goToCheckoutBtn = document.getElementById('go-to-checkout-btn');
   const cartCountEl = document.querySelector('.cart-count');
-  const orderDateEl = document.getElementById('order-date') as HTMLInputElement | null;
-  const orderTimeEl = document.getElementById('order-time') as HTMLInputElement | null;
 
   // Carousel DOM Elements
   const carouselTrack = document.getElementById('carousel-track');
@@ -1594,30 +1572,6 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
   const customPrintCheckbox = document.getElementById('custom-print') as HTMLInputElement | null;
   const customPriceDisplay = document.getElementById('customizer-price-display');
   const addCustomCakeBtn = document.getElementById('add-custom-cake-btn');
-
-  // Restore and persist saved date
-  if (orderDateEl) {
-    const savedDate = localStorage.getItem('el_lider_order_date');
-    if (savedDate) {
-      orderDateEl.value = savedDate;
-    }
-    orderDateEl.addEventListener('change', () => {
-      localStorage.setItem('el_lider_order_date', orderDateEl.value);
-    });
-  }
-
-  // Restore and persist saved time
-  if (orderTimeEl) {
-    const savedTime = localStorage.getItem('el_lider_order_time');
-    if (savedTime) {
-      orderTimeEl.value = savedTime;
-    }
-    orderTimeEl.addEventListener('change', () => {
-      localStorage.setItem('el_lider_order_time', orderTimeEl.value);
-    });
-  }
-
-  // State
   let cart = [];
 
   // 1. Cakes Carousel Autoplay, Filtering and Controls
@@ -2456,84 +2410,23 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
     cart.forEach(item => {
       subtotal += item.price * item.quantity;
       if (item.ediblePrint) {
-        addonsTotal += 650 * item.quantity; // 650 CUP per item that has print option enabled
+        addonsTotal += 650 * item.quantity;
       }
     });
 
     const total = subtotal + addonsTotal;
 
-    if (cartSubtotalEl) cartSubtotalEl.textContent = `$${subtotal} CUP`;
-    if (cartAddonsEl) cartAddonsEl.textContent = `$${addonsTotal} CUP`;
     if (cartTotalEl) cartTotalEl.textContent = `$${total} CUP`;
   }
 
-  // 5. Checkout via WhatsApp
-  checkoutWhatsappBtn?.addEventListener('click', () => {
+  // 5. Redirection to Checkout Page
+  goToCheckoutBtn?.addEventListener('click', () => {
     if (cart.length === 0) {
       alert('Tu carrito está vacío. Agrega algunos dulces antes de realizar tu encargo.');
       return;
     }
-
-    const orderDate = orderDateEl?.value;
-    if (!orderDate) {
-      alert('Por favor, selecciona la fecha requerida para la entrega o recogida de tu encargo.');
-      orderDateEl?.focus();
-      return;
-    }
-
-    const orderTime = orderTimeEl?.value || 'Sin hora específica';
-    const phoneNumber = '5350000000'; // Target phone number (Dulcería El Líder)
-    
-    // Format date nicely
-    const dateParts = orderDate.split('-');
-    const formattedDate = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
-
-    let message = '🍰 *NUEVO ENCARGO - DULCERÍA EL LÍDER* 🍰\n\n';
-    message += `📅 *FECHA REQUERIDA:* ${formattedDate} - *Hora:* ${orderTime}\n\n`;
-    message += 'Hola, me gustaría encargar los siguientes dulces:\n\n';
-
-    let total = 0;
-    cart.forEach((item, index) => {
-      const itemSubtotal = item.price * item.quantity;
-      let addonText = '';
-      let itemTotal = itemSubtotal;
-      
-      if (item.ediblePrint) {
-        addonText = ' (Con Impresión Comestible: +$650 CUP)';
-        itemTotal += 650 * item.quantity;
-      }
-      
-      total += itemTotal;
-
-      message += `*${index + 1}. ${item.name}* (x${item.quantity})\n`;
-      message += `   - Precio base: $${item.price} CUP c/u\n`;
-      
-      if (item.dough) {
-        const doughLabel = item.dough === 'trigo' ? 'Harina de trigo' : item.dough === 'maicena' ? 'Maicena' : 'Capuchino';
-        message += `   - Masa: ${doughLabel}\n`;
-      }
-
-      if (item.customizable) {
-        const noteText = item.note.trim() ? `"${item.note.trim()}"` : 'Que la dulcería escoja la decoración';
-        message += `   - Decoración: _${noteText}_\n`;
-      }
-      
-      if (item.ediblePrint) {
-        message += `   - Adicional: Impresión Comestible [Enviaré las imágenes por este chat]${addonText}\n`;
-      }
-      message += `   - Subtotal artículo: *$${itemTotal} CUP*\n\n`;
-    });
-
-    message += `----------------------------------\n`;
-    message += `💵 *TOTAL ESTIMADO: $${total} CUP*\n\n`;
-    message += `⚠️ _Entiendo que el precio final y la decoración final se concretarán y confirmarán en este chat._\n\n`;
-    message += `📍 Por favor, confírmenme disponibilidad para agendar la fecha. ¡Muchas gracias!`;
-
-    const encodedMessage = encodeURIComponent(message);
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
-
-    // Open WhatsApp
-    window.open(whatsappUrl, '_blank');
+    // Redirect to the dedicated checkout page
+    window.location.href = '/pedido';
   });
 
   // Initialize cart from localStorage if exists
