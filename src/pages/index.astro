@@ -787,11 +787,17 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
     margin-bottom: 0.75rem;
   }
 
+  .cart-item-title {
+    flex: 1;
+    margin-right: 1.25rem;
+  }
+
   .cart-item-title h4 {
     font-family: var(--font-sans);
     font-weight: 700;
     color: var(--primary-dark);
     font-size: 1.05rem;
+    word-break: break-word;
   }
 
   .cart-item-price {
@@ -1334,15 +1340,16 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
 
   @media (max-width: 600px) {
     .carousel-control {
-      width: 36px;
-      height: 36px;
+      width: 38px;
+      height: 38px;
       font-size: 1rem;
+      background-color: rgba(10, 5, 6, 0.85);
     }
     .carousel-control.prev {
-      left: -10px;
+      left: 8px;
     }
     .carousel-control.next {
-      right: -10px;
+      right: 8px;
     }
   }
 
@@ -1593,7 +1600,10 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
     if (carouselIndex < 0) carouselIndex = maxIndex;
 
     const slideWidth = (visibleSlides[0] as HTMLElement).getBoundingClientRect().width;
-    const gap = 24; // matching css gap
+    
+    // Calculate gap dynamically from CSS
+    const trackStyle = window.getComputedStyle(carouselTrack);
+    const gap = parseFloat(trackStyle.gap) || 24;
     const offset = -carouselIndex * (slideWidth + gap);
     
     carouselTrack.style.transform = `translateX(${offset}px)`;
@@ -1660,19 +1670,31 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
   let activeColor = '#FDFBF7';
   let activeColorName = 'Blanco Crema';
 
+  // Seed-based random number generator to eliminate drawing parpadeo (jitter)
+  function seedRandom(seed) {
+    const x = Math.sin(seed) * 10000;
+    return x - Math.floor(x);
+  }
+
   function drawCake() {
     if (!cakeCanvas) return;
     const ctx = cakeCanvas.getContext('2d');
     if (!ctx) return;
 
-    ctx.clearRect(0, 0, cakeCanvas.width, cakeCanvas.height);
+    // High-DPI screen adjustments (sharp vector rendering on retina displays)
+    const dpr = window.devicePixelRatio || 1;
+    cakeCanvas.width = 300 * dpr;
+    cakeCanvas.height = 300 * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    ctx.clearRect(0, 0, 300, 300);
 
     const sizeVal = customSizeSelect?.value || 'minicake-15';
     const selectedOption = customSizeSelect?.options[customSizeSelect.selectedIndex];
     const cakeType = selectedOption?.getAttribute('data-type') || 'minicake';
 
-    const cx = cakeCanvas.width / 2;
-    const cy = cakeCanvas.height / 2 + 25;
+    const cx = 150;
+    const cy = 175;
 
     // Draw Board (Plate/Base)
     ctx.beginPath();
@@ -1838,8 +1860,10 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
   function drawSprinkles(ctx, x, y, r) {
     const colors = ['#EF4444', '#3B82F6', '#10B981', '#F59E0B', '#EC4899', '#8B5CF6'];
     for (let i = 0; i < 20; i++) {
-      const angle = Math.random() * Math.PI * 2;
-      const dist = Math.random() * r * 0.8;
+      const seedAngle = seedRandom(i + r + 1);
+      const seedDist = seedRandom(i + r + 2);
+      const angle = seedAngle * Math.PI * 2;
+      const dist = seedDist * r * 0.8;
       const sx = x + Math.cos(angle) * dist;
       const sy = y + Math.sin(angle) * dist * 0.3;
       
@@ -2061,9 +2085,35 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
       fileName: ''
     });
 
-    // Reset input fields
+    // Reset input fields and customizer state
     if (customThemeInput) customThemeInput.value = '';
     if (customPrintCheckbox) customPrintCheckbox.checked = false;
+
+    // Reset selectors
+    if (customSizeSelect) {
+      customSizeSelect.selectedIndex = 0;
+      const price = customSizeSelect.options[0].getAttribute('data-price');
+      if (customPriceDisplay) customPriceDisplay.textContent = `$${price} CUP`;
+    }
+    if (customDoughSelect) customDoughSelect.value = 'trigo';
+    
+    const doughWrapper = document.getElementById('custom-dough-wrapper');
+    if (doughWrapper) doughWrapper.style.display = 'flex';
+    if (customDoughWarning) customDoughWarning.style.display = 'none';
+
+    // Reset Color Picker
+    activeColor = '#FDFBF7';
+    activeColorName = 'Blanco Crema';
+    if (colorNameDisplay) colorNameDisplay.textContent = 'Blanco Crema';
+    if (customColorPicker) customColorPicker.value = '#FDFBF7';
+
+    // Reset swatches active state
+    colorSwatches.forEach(s => s.classList.remove('active'));
+    const defaultSwatch = document.querySelector('.color-swatch-btn[data-color="#FDFBF7"]');
+    if (defaultSwatch) defaultSwatch.classList.add('active');
+
+    // Redraw Canvas
+    drawCake();
 
     updateCart();
     openCart();
