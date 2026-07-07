@@ -540,6 +540,9 @@ import Layout from '../layouts/Layout.astro';
 
   // Load Cart
   const loadCart = () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const isTest = urlParams.has('test');
+
     const savedCart = localStorage.getItem('el_lider_cart');
     if (savedCart) {
       try {
@@ -549,8 +552,15 @@ import Layout from '../layouts/Layout.astro';
       }
     }
     if (cart.length === 0) {
-      alert('Tu carrito está vacío. Volviendo a la tienda.');
-      window.location.href = '/';
+      if (isTest) {
+        cart = [
+          { id: 'cake-personalizado', name: 'Cake Personalizado Especial', price: 2500, quantity: 1, customizable: true, category: 'cakes', dough: 'trigo', note: 'Cubierta azul con crema blanca', ediblePrint: true, fileName: 'ejemplo.png' },
+          { id: 'cupcake-decorado', name: 'Cupcake Gourmet Decorado', price: 150, quantity: 6, customizable: false, category: 'reposteria' }
+        ];
+      } else {
+        alert('Tu carrito está vacío. Volviendo a la tienda.');
+        window.location.href = '/';
+      }
     }
   };
 
