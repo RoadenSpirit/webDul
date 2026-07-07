@@ -213,7 +213,7 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
         </div>
 
         <div class="control-group">
-          <label for="custom-theme">✍引导 Temática / Decoración (Opcional):</label>
+          <label for="custom-theme">✍️ Temática / Decoración (Opcional):</label>
           <input type="text" id="custom-theme" class="customizer-input" placeholder="Ej: Cumpleaños infantil, dinosaurios, feliz 30..." />
         </div>
 
@@ -1132,13 +1132,19 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    width: 50px;
-    height: 50px;
-    border: 2px solid var(--border-color);
-    border-radius: var(--border-radius-sm);
+    width: 56px;
+    height: 56px;
+    border: 3px solid var(--accent-color);
+    border-radius: 50%;
     background: none;
     cursor: pointer;
     padding: 0;
+    box-shadow: var(--shadow-md);
+    transition: transform var(--transition-fast);
+  }
+
+  .native-color-picker:hover {
+    transform: scale(1.08);
   }
 
   .native-color-picker::-webkit-color-swatch-wrapper {
@@ -1147,7 +1153,7 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
 
   .native-color-picker::-webkit-color-swatch {
     border: none;
-    border-radius: var(--border-radius-sm);
+    border-radius: 50%;
   }
 
   .color-swatches {
@@ -1399,6 +1405,23 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
     .cart-drawer-content {
       max-width: 100%;
     }
+    .cart-items-container {
+      padding: 1rem;
+    }
+    .cart-footer {
+      padding: 1rem;
+    }
+    .cart-item {
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+    .total-row {
+      font-size: 1.15rem;
+    }
+    #checkout-whatsapp-btn {
+      padding: 0.85rem;
+      font-size: 0.95rem;
+    }
   }
 </style>
 
@@ -1628,8 +1651,8 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
       drawCartoonCylinder(ctx, cx, cy - 25, 55, 42, activeColor);
       
       // Cream layers
-      drawCartoonCreamBorder(ctx, cx, cy + 25, 80);
-      drawCartoonCreamBorder(ctx, cx, cy - 25, 55);
+      drawWavyFrostingLine(ctx, cx, cy + 25, 80);
+      drawWavyFrostingLine(ctx, cx, cy - 25, 55);
       
       // Sprinkles on top
       drawSprinkles(ctx, cx, cy - 67, 50);
@@ -1660,7 +1683,7 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
       }
 
       drawCartoonCylinder(ctx, cx, cy + 20, radius, height, activeColor);
-      drawCartoonCreamBorder(ctx, cx, cy + 20, radius);
+      drawWavyFrostingLine(ctx, cx, cy + 20, radius);
       
       // Sprinkles on top
       drawSprinkles(ctx, cx, cy + 20 - height, radius);
@@ -1740,22 +1763,27 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
     ctx.fill();
   }
 
-  function drawCartoonCreamBorder(ctx, x, y, r) {
+  function drawWavyFrostingLine(ctx, x, y, r) {
     ctx.fillStyle = '#FFFFFF';
     ctx.strokeStyle = '#2d181b';
-    ctx.lineWidth = 2.5;
-
-    const numDots = Math.floor(r / 4);
-    for (let i = 0; i < numDots; i++) {
-      const angle = (i / numDots) * Math.PI * 2;
-      const dx = x + Math.cos(angle) * r;
-      const dy = y + Math.sin(angle) * r * 0.3;
-      
-      ctx.beginPath();
-      ctx.arc(dx, dy, 5, 0, 2 * Math.PI);
-      ctx.fill();
-      ctx.stroke();
+    ctx.lineWidth = 3.5;
+    ctx.beginPath();
+    
+    const steps = 36;
+    for (let i = 0; i <= steps; i++) {
+      const angle = (i / steps) * Math.PI * 2;
+      const wave = Math.sin(angle * 14) * 3.5;
+      const dx = x + Math.cos(angle) * (r + wave);
+      const dy = y + Math.sin(angle) * (r * 0.3 + wave * 0.3);
+      if (i === 0) {
+        ctx.moveTo(dx, dy);
+      } else {
+        ctx.lineTo(dx, dy);
+      }
     }
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
   }
 
   function drawSprinkles(ctx, x, y, r) {
