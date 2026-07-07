@@ -200,22 +200,23 @@ import Layout from '../layouts/Layout.astro';
   .form-group input,
   .form-group select,
   .form-group textarea {
-    padding: 0.75rem;
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius-sm);
+    padding: 0.85rem;
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--border-radius-md);
     font-family: var(--font-sans);
     font-size: 0.95rem;
     background-color: var(--bg-primary);
     color: var(--text-primary);
     outline: none;
-    transition: border-color var(--transition-fast);
+    transition: all var(--transition-fast);
   }
 
   .form-group input:focus,
   .form-group select:focus,
   .form-group textarea:focus {
     border-color: var(--accent-color);
-    box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+    background-color: var(--bg-card);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15);
   }
 
   .required {
@@ -226,17 +227,18 @@ import Layout from '../layouts/Layout.astro';
   .section-hint {
     font-size: 0.82rem;
     color: var(--text-secondary);
-    margin-top: 0.75rem;
+    margin-top: 0.5rem;
   }
 
   /* Customizer Sub-Blocks */
   .cake-customizer-card {
-    background-color: var(--bg-primary);
+    background-color: var(--bg-secondary);
     border: 1px solid var(--border-color);
-    border-radius: var(--border-radius-sm);
-    padding: 1.25rem;
+    border-radius: var(--border-radius-md);
+    padding: 1.5rem;
     margin-bottom: 1.5rem;
     border-left: 4px solid var(--accent-color);
+    box-shadow: var(--shadow-sm);
   }
 
   .cake-customizer-card h4 {
@@ -423,24 +425,55 @@ import Layout from '../layouts/Layout.astro';
   .customizer-upload-area {
     margin-top: 0.75rem;
     border: 2px dashed var(--accent-color);
-    padding: 1rem;
-    border-radius: var(--border-radius-sm);
+    padding: 1.25rem;
+    border-radius: var(--border-radius-md);
     text-align: center;
     background-color: var(--bg-card);
     position: relative;
     cursor: pointer;
-    transition: background-color var(--transition-fast);
+    transition: all var(--transition-fast);
   }
 
   .customizer-upload-area:hover {
     background-color: rgba(212, 175, 55, 0.05);
+    border-color: var(--accent-dark);
   }
 
   .customizer-upload-label {
-    font-size: 0.85rem;
-    color: var(--text-secondary);
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    font-weight: 600;
     display: block;
     cursor: pointer;
+  }
+
+  .edible-print-option {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    cursor: pointer;
+    background-color: var(--bg-primary);
+    padding: 0.85rem 1rem;
+    border-radius: var(--border-radius-md);
+    border: 1.5px solid var(--border-color);
+    width: 100%;
+    transition: all var(--transition-fast);
+  }
+
+  .edible-print-option:hover {
+    background-color: rgba(212, 175, 55, 0.05);
+    border-color: var(--accent-color);
+  }
+
+  .edible-print-option input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--primary-color);
+    cursor: pointer;
+    margin: 0;
   }
 
   .customizer-upload-input {
@@ -595,9 +628,6 @@ import Layout from '../layouts/Layout.astro';
               <option value="maicena" ${item.dough === 'maicena' ? 'selected' : ''}>Maicena</option>
               <option value="capuchino" ${item.dough === 'capuchino' ? 'selected' : ''}>Capuchino</option>
             </select>
-            <div class="dough-warning-banner" id="dough-warning-checkout-${globalIdx}" style="display: ${item.dough && item.dough !== 'trigo' ? 'block' : 'none'};">
-              ⚠️ Nota: Cambiar el tipo de masa a Maicena o Capuchino incrementa el precio final del cake. El ajuste se acordará por WhatsApp.
-            </div>
           </div>
 
           <div class="form-group">
@@ -613,9 +643,6 @@ import Layout from '../layouts/Layout.astro';
 
           <div class="form-group">
             <label>🖼️ Foto de Referencia para Decoración (Opcional):</label>
-            <p class="section-hint" style="color: #b45309; font-weight: bold; margin-bottom: 0.5rem; margin-top: 0px;">
-              ⚠️ El estilo decorativo seleccionado podría incrementar el costo final del dulce.
-            </p>
             <div class="customizer-upload-area" style="border-color: #6b7280; background-color: var(--bg-card); padding: 0.75rem;">
               <span class="customizer-upload-label" id="ref-photo-label-${globalIdx}">
                 ${item.refPhotoName ? `✓ ${item.refPhotoName}` : 'Haga clic para subir imagen de referencia'}
@@ -636,7 +663,7 @@ import Layout from '../layouts/Layout.astro';
                 id="cake-print-${globalIdx}"
                 ${item.ediblePrint ? 'checked' : ''}
               />
-              ¿Deseas añadir Impresión Comestible? (+650 CUP)
+              ¿Deseas añadir Impresión Comestible?
             </label>
             
             <div class="print-upload-wrapper" id="print-upload-wrapper-${globalIdx}" style="display: ${item.ediblePrint ? 'block' : 'none'};">
@@ -665,12 +692,8 @@ import Layout from '../layouts/Layout.astro';
       select.addEventListener('change', (e) => {
         const target = e.target as HTMLSelectElement;
         const idx = parseInt(target.getAttribute('data-index') || '0');
-        const warning = document.getElementById(`dough-warning-checkout-${idx}`);
         
         cart[idx].dough = target.value;
-        if (warning) {
-          warning.style.display = target.value !== 'trigo' ? 'block' : 'none';
-        }
         updateTotals();
       });
     });

@@ -240,9 +240,6 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
             <option value="maicena">Maicena (Almidón de maíz)</option>
             <option value="capuchino">Capuchino</option>
           </select>
-          <div class="dough-warning-banner" id="customizer-dough-warning" style="display: none;">
-            ⚠️ Cambiar el tipo de masa a Maicena o Capuchino incrementa el precio final del cake. El ajuste se acordará por WhatsApp.
-          </div>
         </div>
 
         <div class="control-group">
@@ -757,9 +754,9 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
     width: 100%;
     max-width: 480px;
     height: 100%;
-    background: linear-gradient(135deg, #180d0f 0%, #0a0506 100%);
+    background-color: var(--bg-primary);
     border-left: 2px solid var(--accent-color);
-    box-shadow: -10px 0 40px rgba(0, 0, 0, 0.5);
+    box-shadow: -10px 0 40px rgba(0, 0, 0, 0.15);
     transition: right var(--transition-normal);
     display: flex;
     flex-direction: column;
@@ -775,13 +772,13 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: rgba(22, 11, 13, 0.4);
+    background-color: var(--bg-secondary);
   }
 
   .cart-header h2 {
     font-size: 1.4rem;
     font-weight: 800;
-    color: var(--accent-color);
+    color: var(--primary-color);
     letter-spacing: 0.5px;
   }
 
@@ -796,7 +793,7 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
   }
 
   .close-btn:hover {
-    color: var(--accent-color);
+    color: var(--primary-color);
     transform: rotate(90deg);
   }
 
@@ -878,7 +875,7 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
   .cart-item-title h4 {
     font-family: var(--font-sans);
     font-weight: 700;
-    color: var(--primary-dark);
+    color: var(--text-primary);
     font-size: 1.05rem;
     word-break: break-word;
   }
@@ -899,24 +896,34 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
   .quantity-controller {
     display: flex;
     align-items: center;
-    border: 1px solid var(--border-color);
+    border: 1.5px solid var(--border-color);
     border-radius: var(--border-radius-sm);
     overflow: hidden;
+    background-color: var(--bg-card);
   }
 
   .qty-btn {
     background-color: var(--bg-secondary);
     border: none;
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     font-size: 1.1rem;
     font-weight: bold;
     cursor: pointer;
     color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color var(--transition-fast);
   }
 
   .qty-btn:hover {
-    background-color: var(--border-color);
+    background-color: var(--accent-light);
+  }
+
+  .qty-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
   }
 
   .qty-value {
@@ -1749,7 +1756,6 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
   const cakeCanvas = document.getElementById('cake-canvas') as HTMLCanvasElement | null;
   const customSizeSelect = document.getElementById('custom-size') as HTMLSelectElement | null;
   const customDoughSelect = document.getElementById('custom-dough') as HTMLSelectElement | null;
-  const customDoughWarning = document.getElementById('customizer-dough-warning');
   const colorSwatches = document.querySelectorAll('.color-swatch-btn');
   const customColorPicker = document.getElementById('custom-color-picker') as HTMLInputElement | null;
   const colorNameDisplay = document.getElementById('color-name-display');
@@ -2288,13 +2294,7 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
     drawCake();
   });
 
-  // Dough Selection warning banner trigger
-  customDoughSelect?.addEventListener('change', () => {
-    const isCustomDough = customDoughSelect.value !== 'trigo';
-    if (customDoughWarning) {
-      customDoughWarning.style.display = isCustomDough ? 'block' : 'none';
-    }
-  });
+  // Dough Selection trigger (no warning display needed)
 
   // Initial draw
   if (cakeCanvas) {
@@ -2487,7 +2487,7 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
               
               <div class="cart-item-actions" style="margin-top: 0.4rem; display: flex; justify-content: space-between; align-items: center;">
                 <div class="quantity-controller">
-                  <button class="qty-btn minus" data-index="${index}">-</button>
+                  <button class="qty-btn minus" data-index="${index}" ${item.quantity <= 1 ? 'disabled' : ''}>-</button>
                   <span class="qty-value" style="width: 24px; font-size: 0.85rem; font-weight: bold; text-align: center;">${item.quantity}</span>
                   <button class="qty-btn plus" data-index="${index}">+</button>
                 </div>
@@ -2523,10 +2523,8 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
         const index = parseInt((e.target as HTMLElement).getAttribute('data-index') || '0');
         if (cart[index].quantity > 1) {
           cart[index].quantity -= 1;
-        } else {
-          cart.splice(index, 1);
+          updateCart();
         }
-        updateCart();
       });
     });
 
