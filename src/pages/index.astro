@@ -2273,49 +2273,6 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
               </div>
             </div>
           </div>
-          
-          ${item.customizable ? `
-            <div class="cart-item-customization">
-              <span class="customization-title">Personalización del Cake:</span>
-              <textarea 
-                class="custom-note-textarea" 
-                data-index="${index}" 
-                placeholder="Especifica aquí colores, nombre/edad, diseño, decoración o temática que te gustaría..."
-              >${item.note || ''}</textarea>
-
-              ${(item.category === 'cakes' || item.category === 'minicakes') && item.id !== 'cake-2-pisos' ? `
-                <div class="dough-selector-container">
-                  <label class="customization-title">Tipo de Masa:</label>
-                  <select class="dough-select" data-index="${index}">
-                    <option value="trigo" ${item.dough === 'trigo' || !item.dough ? 'selected' : ''}>Harina de trigo (Por defecto)</option>
-                    <option value="maicena" ${item.dough === 'maicena' ? 'selected' : ''}>Maicena</option>
-                    <option value="capuchino" ${item.dough === 'capuchino' ? 'selected' : ''}>Capuchino</option>
-                  </select>
-                  <div class="dough-warning-banner" id="dough-warning-${index}" style="display: ${item.dough && item.dough !== 'trigo' ? 'block' : 'none'};">
-                    ⚠️ Cambiar el tipo de masa a Maicena o Capuchino incrementa el precio final del cake. El ajuste se acordará por WhatsApp.
-                  </div>
-                </div>
-              ` : ''}
-              
-              <label class="edible-print-option">
-                <input 
-                  type="checkbox" 
-                  class="edible-print-checkbox" 
-                  data-index="${index}" 
-                  ${item.ediblePrint ? 'checked' : ''}
-                />
-                Añadir Impresión Comestible (+650 CUP)
-              </label>
-
-              ${item.ediblePrint ? `
-                <div class="upload-area">
-                  <span class="upload-label">${item.fileName ? '✓ Imagen Cargada' : 'Subir imagen para impresión'}</span>
-                  <input type="file" class="upload-input" data-index="${index}" accept="image/*" />
-                  ${item.fileName ? `<div class="file-preview"><span>📁 ${item.fileName}</span></div>` : ''}
-                </div>
-              ` : ''}
-            </div>
-          ` : ''}
         </div>
       `;
     });
@@ -2354,50 +2311,6 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
       btn.addEventListener('click', (e) => {
         const index = parseInt((e.target as HTMLElement).getAttribute('data-index') || '0');
         cart.splice(index, 1);
-        updateCart();
-      });
-    });
-
-    // Custom note typing
-    document.querySelectorAll('.custom-note-textarea').forEach(textarea => {
-      textarea.addEventListener('input', (e) => {
-        const index = parseInt((e.target as HTMLElement).getAttribute('data-index') || '0');
-        cart[index].note = (e.target as HTMLTextAreaElement).value;
-        // Save to localStorage quietly without re-rendering to keep keyboard focus
-        localStorage.setItem('el_lider_cart', JSON.stringify(cart));
-      });
-    });
-
-    // Edible print checkbox toggle
-    document.querySelectorAll('.edible-print-checkbox').forEach(checkbox => {
-      checkbox.addEventListener('change', (e) => {
-        const index = parseInt((e.target as HTMLElement).getAttribute('data-index') || '0');
-        cart[index].ediblePrint = (e.target as HTMLInputElement).checked;
-        if (!cart[index].ediblePrint) {
-          cart[index].fileName = '';
-        }
-        updateCart();
-      });
-    });
-
-    // Image File Upload Action
-    document.querySelectorAll('.upload-input').forEach(input => {
-      input.addEventListener('change', (e) => {
-        const index = parseInt((e.target as HTMLElement).getAttribute('data-index') || '0');
-        const file = (e.target as HTMLInputElement).files?.[0];
-        if (file) {
-          cart[index].fileName = file.name;
-          updateCart();
-        }
-      });
-    });
-
-    // Dough select change
-    document.querySelectorAll('.dough-select').forEach(select => {
-      select.addEventListener('change', (e) => {
-        const index = parseInt((e.target as HTMLElement).getAttribute('data-index') || '0');
-        const selectedDough = (e.target as HTMLSelectElement).value;
-        cart[index].dough = selectedDough;
         updateCart();
       });
     });

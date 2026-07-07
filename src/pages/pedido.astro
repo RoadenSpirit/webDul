@@ -482,10 +482,18 @@ import Layout from '../layouts/Layout.astro';
     margin-top: 0.5rem;
     line-height: 1.3;
   }
+
+  @media (max-width: 991px) {
+    .summary-card {
+      position: relative;
+      top: auto;
+    }
+  }
 </style>
 
 <script>
   let cart = [];
+  const uploadedImages = {};
 
   // DOM Elements
   const summaryItemsList = document.getElementById('summary-items-list');
@@ -518,8 +526,8 @@ import Layout from '../layouts/Layout.astro';
     const nameLower = item.name.toLowerCase();
     const idLower = item.id.toLowerCase();
     
-    if (idLower.includes('minicake') || nameLower.includes('minicake')) {
-      return { icon: '🧁', color: '#FBCFE8', label: 'Mini Cake' };
+    if (idLower.includes('minicake') || nameLower.includes('minicake') || idLower.includes('cupcake') || nameLower.includes('cupcake')) {
+      return { icon: '🧁', color: '#FBCFE8', label: 'Mini Cake / Cupcake' };
     }
     if (idLower.includes('bandeja') || nameLower.includes('bandeja')) {
       return { icon: '🍰', color: '#EEDBCE', label: 'Bandeja' }; // light brown
@@ -623,7 +631,7 @@ import Layout from '../layouts/Layout.astro';
                 <input type="file" class="customizer-upload-input" data-index="${globalIdx}" accept="image/*" />
               </div>
               <div class="customizer-file-preview" id="preview-${globalIdx}">
-                ${item.fileData ? `<img src="${item.fileData}" alt="preview"/>` : ''}
+                ${uploadedImages[item.id] ? `<img src="${uploadedImages[item.id]}" alt="preview"/>` : ''}
               </div>
             </div>
           </div>
@@ -687,8 +695,9 @@ import Layout from '../layouts/Layout.astro';
           const reader = new FileReader();
           reader.onload = (event) => {
             const dataUrl = event.target?.result as string;
-            cart[idx].fileName = file.name;
-            cart[idx].fileData = dataUrl;
+            const item = cart[idx];
+            item.fileName = file.name;
+            uploadedImages[item.id] = dataUrl;
             
             const label = document.getElementById(`upload-label-${idx}`);
             const preview = document.getElementById(`preview-${idx}`);
@@ -705,7 +714,9 @@ import Layout from '../layouts/Layout.astro';
   };
 
   const saveCartToStorage = () => {
-    localStorage.setItem('el_lider_cart', JSON.stringify(cart));
+    // Strip large binary/base64 fileData if present before saving to localStorage to prevent QuotaExceededError
+    const cleanCart = cart.map(({ fileData, ...rest }) => rest);
+    localStorage.setItem('el_lider_cart', JSON.stringify(cleanCart));
   };
 
   const updateTotals = () => {
