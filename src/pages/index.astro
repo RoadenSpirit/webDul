@@ -21,6 +21,106 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
     </div>
   </section>
 
+  <!-- Cakes Catalog Section -->
+  <section id="catalogo" class="catalog-section">
+    <div class="section-header">
+      <span class="subtitle">Exquisiteces</span>
+      <h2>¿Qué tipo de cake deseas para tu celebración?</h2>
+      <div class="divider"></div>
+      
+      <!-- Subcategory filters (Pills) -->
+      <div class="carousel-subcategories">
+        <button class="subcategory-pill active" data-filter="all">Todos los Cakes</button>
+        <button class="subcategory-pill" data-filter="minicakes">MiniCakes (15cm)</button>
+        <button class="subcategory-pill" data-filter="medianos">Cakes Medianos (20-25cm)</button>
+        <button class="subcategory-pill" data-filter="grandes-bandejas">Grandes y Bandejas (30cm+)</button>
+      </div>
+    </div>
+
+    <!-- Carousel Container (Large Cards) -->
+    <div class="carousel-outer-wrapper">
+      <button class="carousel-control prev" id="carousel-prev-btn" aria-label="Anterior">&lt;</button>
+      <div class="carousel-viewport" id="carousel-viewport">
+        <div class="carousel-track" id="carousel-track">
+          {cakes.map(product => {
+            // Determine subcategory filter type
+            let filterType = 'all';
+            if (product.id.includes('minicake')) filterType = 'minicakes';
+            else if (product.id.includes('25') || product.id.includes('22') || product.id.includes('20')) filterType = 'medianos';
+            else if (product.id.includes('30') || product.id.includes('36') || product.id.includes('bandeja') || product.id.includes('pisos')) filterType = 'grandes-bandejas';
+
+            return (
+              <div class="product-card carousel-slide" data-filter-type={filterType} data-id={product.id}>
+                <div class="product-image-container">
+                  <img src={product.image} alt={product.name} class="product-image" loading="lazy" />
+                  <span class="product-badge">{product.category === 'minicakes' ? 'MiniCake' : 'Cake'}</span>
+                </div>
+                <div class="product-info">
+                  <h3>{product.name}</h3>
+                  <p class="product-description">{product.description}</p>
+                  <div class="product-meta">
+                    <span class="product-price">
+                      ${product.price} <span class="currency">CUP</span>
+                      {product.priceNote && <span class="price-note">({product.priceNote})</span>}
+                    </span>
+                    <button 
+                      class="add-to-cart-btn" 
+                      data-id={product.id}
+                      data-name={product.name}
+                      data-price={product.price}
+                      data-category={product.category}
+                      data-customizable={product.customizable ? "true" : "false"}
+                    >
+                      + Agregar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+      <button class="carousel-control next" id="carousel-next-btn" aria-label="Siguiente">&gt;</button>
+    </div>
+  </section>
+
+  <!-- Buffet & Dessert Offers Section -->
+  <section id="buffet" class="buffet-section">
+    <div class="section-header">
+      <span class="subtitle">Ofertas Adicionales</span>
+      <h2>Acompaña tu Fiesta (Buffet y Postres)</h2>
+      <div class="divider"></div>
+      <p class="section-desc">Exquisitos salados y dulces tradicionales para complementar tu celebración de manera perfecta.</p>
+    </div>
+    
+    <div class="buffet-grid">
+      {buffetItems.map(product => (
+        <div class="buffet-card">
+          <div class="buffet-image-container">
+            <img src={product.image} alt={product.name} class="buffet-image" loading="lazy" />
+          </div>
+          <div class="buffet-info">
+            <h3>{product.name}</h3>
+            <p class="buffet-description">{product.description}</p>
+            <div class="buffet-meta">
+              <span class="buffet-price">${product.price} CUP c/u</span>
+              <button 
+                class="add-to-cart-btn" 
+                data-id={product.id}
+                data-name={product.name}
+                data-price={product.price}
+                data-category={product.category}
+                data-customizable={product.customizable ? "true" : "false"}
+              >
+                + Añadir
+              </button>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
   <!-- Info Section / Como Pedir -->
   <section id="como-pedir" class="info-section">
     <div class="section-header">
@@ -54,13 +154,13 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
       <span class="subtitle">Creación a Medida</span>
       <h2>🎂 Diseña tu Cake Personalizado</h2>
       <div class="divider"></div>
-      <p class="section-desc">Visualiza y configura el pastel ideal para tu celebración en tiempo real. Cambios de masa e impresiones se detallan abajo.</p>
+      <p class="section-desc">Crea el pastel perfecto para tu fiesta y míralo dibujado al instante con nuestro ilustrador interactivo.</p>
     </div>
 
     <div class="customizer-grid">
       <!-- Visualizer Canvas -->
       <div class="customizer-visualizer">
-        <canvas id="cake-canvas" width="360" height="360"></canvas>
+        <canvas id="cake-canvas" width="300" height="300"></canvas>
       </div>
 
       <!-- Controls Panel -->
@@ -68,17 +168,17 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
         <div class="control-group">
           <label for="custom-size">📏 Selecciona el Tamaño / Modelo:</label>
           <select id="custom-size" class="customizer-select">
-            <option value="minicake-15" data-price="2500" data-type="1piso" selected>MiniCake (15 cm) — $2500 CUP</option>
-            <option value="cake-22-harina" data-price="3500" data-type="1piso">Cake Estándar (22 cm) — $3500 CUP</option>
-            <option value="cake-redondo-25" data-price="5000" data-type="1piso">Cake Mediano (25 cm) — $5000 CUP</option>
-            <option value="cake-redondo-30" data-price="10700" data-type="1piso">Cake Grande (30 cm) — $10700 CUP</option>
-            <option value="cake-redondo-36" data-price="15000" data-type="1piso">Cake Gigante (36 cm) — $15000 CUP</option>
+            <option value="minicake-15" data-price="2500" data-type="minicake" selected>MiniCake (15 cm) — $2500 CUP</option>
+            <option value="cake-22-harina" data-price="3500" data-type="estandar">Cake Estándar (22 cm) — $3500 CUP</option>
+            <option value="cake-redondo-25" data-price="5000" data-type="mediano">Cake Mediano (25 cm) — $5000 CUP</option>
+            <option value="cake-redondo-30" data-price="10700" data-type="grande">Cake Grande (30 cm) — $10700 CUP</option>
+            <option value="cake-redondo-36" data-price="15000" data-type="gigante">Cake Gigante (36 cm) — $15000 CUP</option>
             <option value="cake-2-pisos" data-price="16500" data-type="2pisos">Cake de 2 Pisos — $16500 CUP</option>
             <option value="cake-bandeja-harina" data-price="10700" data-type="bandeja">Cake de Bandeja — $10700 CUP</option>
-            <option value="medio-cake-bandeja-harina" data-price="5300" data-type="bandeja">Medio Cake de Bandeja — $5300 CUP</option>
-            <option value="cake-20x8-maicena" data-price="3600" data-type="1piso">Cake 20x8 cm (Maicena) — $3600 CUP</option>
-            <option value="cake-20x15-maicena" data-price="5500" data-type="1piso">Cake 20x15 cm (Maicena) — $5500 CUP</option>
-            <option value="cake-capuchino-22" data-price="5700" data-type="1piso">Cake de Capuchino (22 cm) — $5700 CUP</option>
+            <option value="medio-cake-bandeja-harina" data-price="5300" data-type="mediobandeja">Medio Cake de Bandeja — $5300 CUP</option>
+            <option value="cake-20x8-maicena" data-price="3600" data-type="estandar">Cake 20x8 cm (Maicena) — $3600 CUP</option>
+            <option value="cake-20x15-maicena" data-price="5500" data-type="grande">Cake 20x15 cm (Maicena) — $5500 CUP</option>
+            <option value="cake-capuchino-22" data-price="5700" data-type="estandar">Cake de Capuchino (22 cm) — $5700 CUP</option>
           </select>
         </div>
 
@@ -96,21 +196,24 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
 
         <div class="control-group">
           <label>🎨 Color de Cobertura:</label>
-          <div class="color-swatches">
-            <button class="color-swatch active" data-color="#FDFBF7" data-name="Blanco Crema" style="background-color: #FDFBF7;"></button>
-            <button class="color-swatch" data-color="#FBCFE8" data-name="Rosa Pastel" style="background-color: #FBCFE8;"></button>
-            <button class="color-swatch" data-color="#BAE6FD" data-name="Azul Celeste" style="background-color: #BAE6FD;"></button>
-            <button class="color-swatch" data-color="#FEF08A" data-name="Amarillo Sol" style="background-color: #FEF08A;"></button>
-            <button class="color-swatch" data-color="#A7F3D0" data-name="Verde Menta" style="background-color: #A7F3D0;"></button>
-            <button class="color-swatch" data-color="#E9D5FF" data-name="Lila" style="background-color: #E9D5FF;"></button>
-            <button class="color-swatch" data-color="#D97706" data-name="Dorado Oro" style="background-color: #D97706;"></button>
-            <button class="color-swatch" data-color="#78350F" data-name="Chocolate" style="background-color: #78350F;"></button>
+          <div class="color-picker-row">
+            <input type="color" id="custom-color-picker" value="#FDFBF7" class="native-color-picker" title="Elige cualquier color personalizado" />
+            <div class="color-swatches">
+              <button class="color-swatch-btn active" data-color="#FDFBF7" data-name="Blanco Crema" style="background-color: #FDFBF7;"></button>
+              <button class="color-swatch-btn" data-color="#FBCFE8" data-name="Rosa Pastel" style="background-color: #FBCFE8;"></button>
+              <button class="color-swatch-btn" data-color="#BAE6FD" data-name="Azul Celeste" style="background-color: #BAE6FD;"></button>
+              <button class="color-swatch-btn" data-color="#FEF08A" data-name="Amarillo Sol" style="background-color: #FEF08A;"></button>
+              <button class="color-swatch-btn" data-color="#A7F3D0" data-name="Verde Menta" style="background-color: #A7F3D0;"></button>
+              <button class="color-swatch-btn" data-color="#E9D5FF" data-name="Lila" style="background-color: #E9D5FF;"></button>
+              <button class="color-swatch-btn" data-color="#D97706" data-name="Dorado Oro" style="background-color: #D97706;"></button>
+              <button class="color-swatch-btn" data-color="#78350F" data-name="Chocolate" style="background-color: #78350F;"></button>
+            </div>
           </div>
-          <span class="selected-color-label">Color: <strong id="color-name-display">Blanco Crema</strong></span>
+          <span class="selected-color-label">Color seleccionado: <strong id="color-name-display">Blanco Crema</strong></span>
         </div>
 
         <div class="control-group">
-          <label for="custom-theme">✍️ Temática / Decoración (Opcional):</label>
+          <label for="custom-theme">✍引导 Temática / Decoración (Opcional):</label>
           <input type="text" id="custom-theme" class="customizer-input" placeholder="Ej: Cumpleaños infantil, dinosaurios, feliz 30..." />
         </div>
 
@@ -129,93 +232,6 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
         <button id="add-custom-cake-btn" class="btn btn-primary btn-block">
           🛒 Añadir Cake Diseñado al Carrito
         </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- Catalog / Products Section -->
-  <section id="catalogo" class="catalog-section">
-    <div class="catalog-main-layout">
-      <!-- Left side: Cakes Carousel -->
-      <div class="cakes-catalog">
-        <div class="section-header align-left">
-          <span class="subtitle">Exquisiteces</span>
-          <h2>¿Qué tipo de cake deseas para tu celebración?</h2>
-          <div class="divider"></div>
-        </div>
-
-        <!-- Carousel Outer Wrapper -->
-        <div class="carousel-outer-wrapper">
-          <button class="carousel-control prev" id="carousel-prev-btn" aria-label="Anterior">&lt;</button>
-          <div class="carousel-viewport" id="carousel-viewport">
-            <div class="carousel-track" id="carousel-track">
-              {cakes.map(product => (
-                <div class="product-card carousel-slide" data-category={product.category}>
-                  <div class="product-image-container">
-                    <img src={product.image} alt={product.name} class="product-image" loading="lazy" />
-                    <span class="product-badge">{product.category === 'minicakes' ? 'MiniCake' : 'Cake'}</span>
-                  </div>
-                  <div class="product-info">
-                    <h3>{product.name}</h3>
-                    <p class="product-description">{product.description}</p>
-                    <div class="product-meta">
-                      <span class="product-price">
-                        ${product.price} <span class="currency">CUP</span>
-                        {product.priceNote && <span class="price-note">({product.priceNote})</span>}
-                      </span>
-                      <button 
-                        class="add-to-cart-btn" 
-                        data-id={product.id}
-                        data-name={product.name}
-                        data-price={product.price}
-                        data-category={product.category}
-                        data-customizable={product.customizable ? "true" : "false"}
-                      >
-                        + Agregar
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-          <button class="carousel-control next" id="carousel-next-btn" aria-label="Siguiente">&gt;</button>
-        </div>
-      </div>
-
-      <!-- Right side: Buffet & Extras -->
-      <div class="buffet-sidebar">
-        <div class="sidebar-header">
-          <span class="subtitle">Oferta Adicional</span>
-          <h3>Acompaña tu Fiesta</h3>
-          <div class="divider"></div>
-          <p class="sidebar-desc">Buffet, marquesitas, cupcakes y saladitos complementarios para tus invitados.</p>
-        </div>
-        
-        <div class="buffet-list">
-          {buffetItems.map(product => (
-            <div class="buffet-item-card">
-              <img src={product.image} alt={product.name} class="buffet-item-image" loading="lazy" />
-              <div class="buffet-item-info">
-                <h4>{product.name}</h4>
-                <p class="buffet-item-desc">{product.description}</p>
-                <div class="buffet-item-meta">
-                  <span class="buffet-item-price">${product.price} CUP c/u</span>
-                  <button 
-                    class="add-to-cart-btn btn-sm-add" 
-                    data-id={product.id}
-                    data-name={product.name}
-                    data-price={product.price}
-                    data-category={product.category}
-                    data-customizable={product.customizable ? "true" : "false"}
-                  >
-                    + Añadir
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
       </div>
     </div>
   </section>
@@ -1026,21 +1042,29 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
 
   /* Interactive Customizer */
   .customizer-section {
-    padding: 5rem 2rem;
+    padding: 4rem 1.5rem;
     background-color: var(--bg-primary);
   }
 
   .customizer-grid {
     display: grid;
-    grid-template-columns: 1fr 1.2fr;
-    gap: 3rem;
-    max-width: 1200px;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    max-width: 1100px;
     margin: 0 auto;
     background-color: var(--bg-card);
     border-radius: var(--border-radius-lg);
     box-shadow: var(--shadow-lg);
-    padding: 2.5rem;
+    padding: 1.5rem;
     border: 1px solid var(--border-color);
+  }
+
+  @media (min-width: 768px) {
+    .customizer-grid {
+      grid-template-columns: 1fr 1.2fr;
+      padding: 2.5rem;
+      gap: 3rem;
+    }
   }
 
   .customizer-visualizer {
@@ -1048,23 +1072,24 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: radial-gradient(circle, #2d181b, #12080a);
+    background: radial-gradient(circle, #2a1518, #0e0507);
     border-radius: var(--border-radius-md);
     border: 2px solid var(--accent-color);
     box-shadow: var(--shadow-inner);
-    padding: 1.5rem;
-    min-height: 400px;
+    padding: 1rem;
+    min-height: 320px;
   }
 
   #cake-canvas {
     max-width: 100%;
     height: auto;
+    display: block;
   }
 
   .customizer-controls {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1.25rem;
   }
 
   .control-group {
@@ -1079,16 +1104,17 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
     color: var(--primary-dark);
   }
 
-  .customizer-select {
-    padding: 0.75rem;
+  .customizer-select,
+  .customizer-input {
+    padding: 0.7rem;
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius-sm);
     font-family: var(--font-sans);
-    font-size: 1rem;
+    font-size: 0.95rem;
     background-color: var(--bg-primary);
     color: var(--text-primary);
     outline: none;
-    cursor: pointer;
+    width: 100%;
   }
 
   .customizer-select:focus,
@@ -1096,37 +1122,55 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
     border-color: var(--accent-color);
   }
 
-  .customizer-input {
-    padding: 0.75rem;
-    border: 1px solid var(--border-color);
+  .color-picker-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .native-color-picker {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 50px;
+    height: 50px;
+    border: 2px solid var(--border-color);
     border-radius: var(--border-radius-sm);
-    font-family: var(--font-sans);
-    font-size: 1rem;
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
-    outline: none;
+    background: none;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .native-color-picker::-webkit-color-swatch-wrapper {
+    padding: 0;
+  }
+
+  .native-color-picker::-webkit-color-swatch {
+    border: none;
+    border-radius: var(--border-radius-sm);
   }
 
   .color-swatches {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.75rem;
+    gap: 0.5rem;
+    flex: 1;
   }
 
-  .color-swatch {
-    width: 36px;
-    height: 36px;
+  .color-swatch-btn {
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     border: 2px solid var(--border-color);
     cursor: pointer;
     transition: transform var(--transition-fast), border-color var(--transition-fast);
   }
 
-  .color-swatch:hover {
+  .color-swatch-btn:hover {
     transform: scale(1.1);
   }
 
-  .color-swatch.active {
+  .color-swatch-btn.active {
     border-color: var(--accent-color);
     transform: scale(1.15);
     box-shadow: 0 0 0 2px var(--bg-card), 0 0 0 4px var(--accent-color);
@@ -1135,7 +1179,6 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
   .selected-color-label {
     font-size: 0.85rem;
     color: var(--text-secondary);
-    margin-top: 0.25rem;
   }
 
   .price-display-box {
@@ -1143,10 +1186,9 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
     justify-content: space-between;
     align-items: center;
     background-color: var(--bg-primary);
-    padding: 1rem;
+    padding: 0.9rem;
     border-radius: var(--border-radius-sm);
     border-left: 4px solid var(--accent-color);
-    margin: 1rem 0;
   }
 
   .price-display-box span {
@@ -1155,188 +1197,188 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
   }
 
   .price-display-box .price-value {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     font-weight: 800;
     color: var(--primary-color);
   }
 
-  /* Catalog Redesign - 2 Columns */
-  .catalog-main-layout {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 3rem;
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 2rem;
+  /* Catalog & Carousel */
+  .catalog-section {
+    padding: 4rem 1.5rem;
+    background-color: var(--bg-primary);
   }
 
-  /* Carousel */
+  .carousel-subcategories {
+    display: flex;
+    gap: 0.75rem;
+    overflow-x: auto;
+    padding-bottom: 0.75rem;
+    margin-top: 1.5rem;
+    justify-content: flex-start;
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .carousel-subcategories::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+  }
+
+  @media (min-width: 768px) {
+    .carousel-subcategories {
+      justify-content: center;
+    }
+  }
+
+  .subcategory-pill {
+    padding: 0.5rem 1.25rem;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all var(--transition-fast);
+  }
+
+  .subcategory-pill:hover,
+  .subcategory-pill.active {
+    background: linear-gradient(135deg, var(--accent-color), var(--accent-dark));
+    color: var(--text-primary);
+    border-color: var(--accent-color);
+    box-shadow: var(--shadow-sm);
+  }
+
   .carousel-outer-wrapper {
     position: relative;
     display: flex;
     align-items: center;
-    margin-top: 2rem;
+    max-width: 1200px;
+    margin: 2rem auto 0 auto;
+    padding: 0 0.5rem;
   }
 
   .carousel-viewport {
     overflow: hidden;
     width: 100%;
-    border-radius: var(--border-radius-md);
   }
 
   .carousel-track {
     display: flex;
     gap: 1.5rem;
-    transition: transform 0.5s ease-in-out;
+    transition: transform 0.4s ease-in-out;
   }
 
   .carousel-slide {
-    flex: 0 0 calc(50% - 0.75rem); /* Show 2 cakes at a time */
-    max-width: calc(50% - 0.75rem);
+    flex: 0 0 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    transition: opacity 0.3s ease;
   }
 
-  .carousel-control {
-    background-color: var(--primary-dark);
-    color: var(--accent-color);
-    border: 2px solid var(--accent-color);
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    font-size: 1.25rem;
-    font-weight: bold;
-    cursor: pointer;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 10;
+  /* Large Card Sizes */
+  @media (min-width: 600px) {
+    .carousel-slide {
+      flex: 0 0 calc(50% - 0.75rem);
+      max-width: calc(50% - 0.75rem);
+    }
+  }
+
+  @media (min-width: 992px) {
+    .carousel-slide {
+      flex: 0 0 calc(33.333% - 1rem);
+      max-width: calc(33.333% - 1rem);
+    }
+  }
+
+  .product-card {
+    min-height: 460px;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: var(--shadow-md);
-    transition: all var(--transition-fast);
+    flex-direction: column;
   }
 
-  .carousel-control:hover {
-    background-color: var(--accent-color);
-    color: var(--primary-dark);
-    transform: translateY(-50%) scale(1.1);
+  .product-image-container {
+    height: 250px;
   }
 
-  .carousel-control.prev {
-    left: -22px;
+  .product-image {
+    height: 100%;
   }
 
-  .carousel-control.next {
-    right: -22px;
-  }
-
-  /* Buffet Sidebar */
-  .buffet-sidebar {
+  /* Buffet Section Grid */
+  .buffet-section {
+    padding: 4rem 1.5rem;
     background-color: var(--bg-card);
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .buffet-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 2.5rem auto 0 auto;
+  }
+
+  .buffet-card {
+    background-color: var(--bg-primary);
     border: 1px solid var(--border-color);
-    border-radius: var(--border-radius-lg);
-    padding: 2rem;
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
     box-shadow: var(--shadow-sm);
-  }
-
-  .sidebar-header {
-    margin-bottom: 1.5rem;
-  }
-
-  .sidebar-desc {
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-    margin-top: 0.5rem;
-  }
-
-  .buffet-list {
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
   }
 
-  .buffet-item-card {
-    display: flex;
-    gap: 1rem;
-    border-bottom: 1px dashed var(--border-color);
-    padding-bottom: 1.25rem;
-    align-items: center;
+  .buffet-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
   }
 
-  .buffet-item-card:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
+  .buffet-image-container {
+    height: 200px;
+    overflow: hidden;
   }
 
-  .buffet-item-image {
-    width: 70px;
-    height: 70px;
+  .buffet-image {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    border-radius: var(--border-radius-sm);
-    border: 1px solid var(--border-color);
   }
 
-  .buffet-item-info {
-    flex: 1;
+  .buffet-info {
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    flex: 1;
   }
 
-  .buffet-item-info h4 {
-    margin: 0;
-    font-size: 0.95rem;
-    color: var(--text-primary);
+  .buffet-info h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.15rem;
+    color: var(--primary-dark);
   }
 
-  .buffet-item-desc {
-    margin: 0;
-    font-size: 0.8rem;
+  .buffet-description {
+    margin: 0 0 1.5rem 0;
+    font-size: 0.88rem;
     color: var(--text-secondary);
-    line-height: 1.3;
+    line-height: 1.5;
+    flex: 1;
   }
 
-  .buffet-item-meta {
+  .buffet-meta {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 0.25rem;
   }
 
-  .buffet-item-price {
-    font-size: 0.85rem;
+  .buffet-price {
+    font-size: 1.1rem;
     font-weight: 700;
     color: var(--primary-color);
-  }
-
-  .btn-sm-add {
-    padding: 0.3rem 0.8rem;
-    font-size: 0.8rem;
-    border-radius: var(--border-radius-sm);
-    background: linear-gradient(135deg, var(--accent-color), var(--accent-dark));
-    color: var(--text-primary);
-    cursor: pointer;
-    border: none;
-  }
-
-  .btn-sm-add:hover {
-    background: linear-gradient(135deg, #f7d25b, var(--accent-color));
-  }
-
-  /* Responsive tweaks for Customizer & Catalog */
-  @media (max-width: 992px) {
-    .customizer-grid {
-      grid-template-columns: 1fr;
-      gap: 2rem;
-    }
-    .catalog-main-layout {
-      grid-template-columns: 1fr;
-      gap: 3rem;
-    }
-    .carousel-slide {
-      flex: 0 0 100%;
-      max-width: 100%;
-    }
   }
 
   /* Responsive styling */
@@ -1387,7 +1429,8 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
   const customSizeSelect = document.getElementById('custom-size') as HTMLSelectElement | null;
   const customDoughSelect = document.getElementById('custom-dough') as HTMLSelectElement | null;
   const customDoughWarning = document.getElementById('customizer-dough-warning');
-  const colorSwatches = document.querySelectorAll('.color-swatch');
+  const colorSwatches = document.querySelectorAll('.color-swatch-btn');
+  const customColorPicker = document.getElementById('custom-color-picker') as HTMLInputElement | null;
   const colorNameDisplay = document.getElementById('color-name-display');
   const customThemeInput = document.getElementById('custom-theme') as HTMLInputElement | null;
   const customPrintCheckbox = document.getElementById('custom-print') as HTMLInputElement | null;
@@ -1419,66 +1462,129 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
   // State
   let cart = [];
 
-  // 1. Cakes Carousel Autoplay and Controls
+  // 1. Cakes Carousel Autoplay, Filtering and Controls
   let carouselIndex = 0;
   let autoplayInterval;
+  let currentFilter = 'all';
+
+  // Subcategory filter click logic
+  const subcategoryPills = document.querySelectorAll('.subcategory-pill');
+  subcategoryPills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      stopAutoplay();
+      subcategoryPills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      
+      currentFilter = pill.getAttribute('data-filter') || 'all';
+      carouselIndex = 0; // Reset index
+      
+      filterCarouselSlides();
+      updateCarousel();
+    });
+  });
+
+  function filterCarouselSlides() {
+    if (!carouselTrack) return;
+    const slides = carouselTrack.querySelectorAll('.carousel-slide');
+    slides.forEach(slide => {
+      const type = slide.getAttribute('data-filter-type');
+      if (currentFilter === 'all' || type === currentFilter) {
+        (slide as HTMLElement).style.display = 'flex';
+      } else {
+        (slide as HTMLElement).style.display = 'none';
+      }
+    });
+  }
+
+  function getVisibleSlides() {
+    if (!carouselTrack) return [];
+    return Array.from(carouselTrack.querySelectorAll('.carousel-slide')).filter(
+      slide => (slide as HTMLElement).style.display !== 'none'
+    );
+  }
 
   function updateCarousel() {
     if (!carouselTrack) return;
-    const slides = carouselTrack.querySelectorAll('.carousel-slide');
-    if (slides.length === 0) return;
+    const visibleSlides = getVisibleSlides();
+    if (visibleSlides.length === 0) return;
 
-    // Determine how many items are visible (1 on mobile, 2 on desktop)
-    const itemsVisible = window.innerWidth <= 992 ? 1 : 2;
-    const maxIndex = slides.length - itemsVisible;
+    // Determine how many items are visible (1 on mobile, 2 on tablet, 3 on desktop)
+    let itemsVisible = 1;
+    if (window.innerWidth >= 992) {
+      itemsVisible = 3;
+    } else if (window.innerWidth >= 600) {
+      itemsVisible = 2;
+    }
 
+    const maxIndex = Math.max(0, visibleSlides.length - itemsVisible);
     if (carouselIndex > maxIndex) carouselIndex = 0;
     if (carouselIndex < 0) carouselIndex = maxIndex;
 
-    const slideWidth = (slides[0] as HTMLElement).getBoundingClientRect().width;
-    const gap = 24; // matching css gap (1.5rem = 24px)
+    const slideWidth = (visibleSlides[0] as HTMLElement).getBoundingClientRect().width;
+    const gap = 24; // matching css gap
     const offset = -carouselIndex * (slideWidth + gap);
     
     carouselTrack.style.transform = `translateX(${offset}px)`;
   }
 
   function startAutoplay() {
+    if (autoplayInterval) clearInterval(autoplayInterval);
     autoplayInterval = setInterval(() => {
-      carouselIndex++;
+      const visibleSlides = getVisibleSlides();
+      let itemsVisible = 1;
+      if (window.innerWidth >= 992) itemsVisible = 3;
+      else if (window.innerWidth >= 600) itemsVisible = 2;
+
+      const maxIndex = Math.max(0, visibleSlides.length - itemsVisible);
+      
+      if (carouselIndex >= maxIndex) {
+        carouselIndex = 0;
+      } else {
+        carouselIndex++;
+      }
       updateCarousel();
     }, 4000);
   }
 
   function stopAutoplay() {
-    clearInterval(autoplayInterval);
+    if (autoplayInterval) {
+      clearInterval(autoplayInterval);
+      autoplayInterval = null;
+    }
   }
 
+  // Stop autoplay on click anywhere in the carousel area
+  const carouselWrapper = document.querySelector('.carousel-outer-wrapper');
+  carouselWrapper?.addEventListener('click', stopAutoplay);
+  carouselWrapper?.addEventListener('touchstart', stopAutoplay);
+
   if (carouselPrevBtn && carouselNextBtn) {
-    carouselPrevBtn.addEventListener('click', () => {
+    carouselPrevBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
       stopAutoplay();
       carouselIndex--;
       updateCarousel();
-      startAutoplay();
     });
 
-    carouselNextBtn.addEventListener('click', () => {
+    carouselNextBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
       stopAutoplay();
       carouselIndex++;
       updateCarousel();
-      startAutoplay();
     });
 
-    // Pause on hover
-    carouselViewport?.addEventListener('mouseenter', stopAutoplay);
-    carouselViewport?.addEventListener('mouseleave', startAutoplay);
-
     // Initial setup
-    window.addEventListener('resize', updateCarousel);
+    window.addEventListener('resize', () => {
+      filterCarouselSlides();
+      updateCarousel();
+    });
+    
+    filterCarouselSlides();
     updateCarousel();
     startAutoplay();
   }
 
-  // 2. Interactive Cake Customizer (Canvas JS drawing)
+  // 2. Interactive Cake Customizer (Canvas Game Style Drawing)
   let activeColor = '#FDFBF7';
   let activeColorName = 'Blanco Crema';
 
@@ -1491,134 +1597,242 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
 
     const sizeVal = customSizeSelect?.value || 'minicake-15';
     const selectedOption = customSizeSelect?.options[customSizeSelect.selectedIndex];
-    const cakeType = selectedOption?.getAttribute('data-type') || '1piso';
+    const cakeType = selectedOption?.getAttribute('data-type') || 'minicake';
 
     const cx = cakeCanvas.width / 2;
-    const cy = cakeCanvas.height / 2 + 30;
+    const cy = cakeCanvas.height / 2 + 25;
 
-    // Draw Golden Base Board
+    // Draw Board (Plate/Base)
     ctx.beginPath();
-    ctx.ellipse(cx, cy + 30, 110, 35, 0, 0, 2 * Math.PI);
-    ctx.fillStyle = '#D4AF37'; // Gold
+    ctx.ellipse(cx, cy + 35, 120, 20, 0, 0, 2 * Math.PI);
+    ctx.fillStyle = '#E5E7EB';
     ctx.fill();
-    ctx.lineWidth = 3;
-    ctx.strokeStyle = '#AA7C11';
+    ctx.strokeStyle = '#2d181b';
+    ctx.lineWidth = 4;
     ctx.stroke();
+
+    // Golden Rim
+    ctx.beginPath();
+    ctx.ellipse(cx, cy + 35, 110, 15, 0, 0, 2 * Math.PI);
+    ctx.fillStyle = '#F59E0B';
+    ctx.fill();
+
+    // Scale mapping for visualizer sizes
+    let radius = 70;
+    let height = 70;
 
     if (cakeType === '2pisos') {
       // Bottom Tier
-      drawCylinder(ctx, cx, cy + 15, 85, 55, activeColor);
+      drawCartoonCylinder(ctx, cx, cy + 25, 80, 50, activeColor);
       // Top Tier
-      drawCylinder(ctx, cx, cy - 35, 55, 45, activeColor);
+      drawCartoonCylinder(ctx, cx, cy - 25, 55, 42, activeColor);
       
-      // Cream piping
-      drawCreamBorder(ctx, cx, cy + 15, 85);
-      drawCreamBorder(ctx, cx, cy - 35, 55);
-      drawCreamBorder(ctx, cx, cy - 75, 40, true);
-    } else if (cakeType === 'bandeja') {
-      // Isometric Rectangular Cake
-      drawRectangularCake(ctx, cx, cy + 15, 170, 95, 50, activeColor);
+      // Cream layers
+      drawCartoonCreamBorder(ctx, cx, cy + 25, 80);
+      drawCartoonCreamBorder(ctx, cx, cy - 25, 55);
+      
+      // Sprinkles on top
+      drawSprinkles(ctx, cx, cy - 67, 50);
+      // Top decoration (Cherry)
+      drawCherry(ctx, cx, cy - 73);
+    } else if (cakeType === 'bandeja' || cakeType === 'mediobandeja') {
+      // Rectangular box
+      let width = cakeType === 'bandeja' ? 180 : 130;
+      let depth = cakeType === 'bandeja' ? 110 : 80;
+      drawCartoonRectangular(ctx, cx, cy + 15, width, depth, 55, activeColor);
     } else {
-      // Standard Single Cylinder
-      let radius = 80;
-      let height = 65;
-      if (sizeVal === 'minicake-15') {
-        radius = 60;
-        height = 50;
-      } else if (sizeVal === 'cake-redondo-36') {
-        radius = 95;
-        height = 75;
+      // Cylinder sizes based on real types
+      if (cakeType === 'minicake') {
+        radius = 50;
+        height = 55;
+      } else if (cakeType === 'estandar') {
+        radius = 68;
+        height = 68;
+      } else if (cakeType === 'mediano') {
+        radius = 76;
+        height = 74;
+      } else if (cakeType === 'grande') {
+        radius = 86;
+        height = 80;
+      } else if (cakeType === 'gigante') {
+        radius = 96;
+        height = 86;
       }
+
+      drawCartoonCylinder(ctx, cx, cy + 20, radius, height, activeColor);
+      drawCartoonCreamBorder(ctx, cx, cy + 20, radius);
       
-      drawCylinder(ctx, cx, cy + 15, radius, height, activeColor);
-      drawCreamBorder(ctx, cx, cy + 15, radius);
-      drawCreamBorder(ctx, cx, cy + 15 - height, radius, true);
+      // Sprinkles on top
+      drawSprinkles(ctx, cx, cy + 20 - height, radius);
+      
+      // Candles or Cherry on top
+      if (cakeType === 'minicake') {
+        drawCherry(ctx, cx, cy + 20 - height - 5);
+      } else {
+        drawCandles(ctx, cx, cy + 20 - height, radius);
+      }
     }
   }
 
-  function drawCylinder(ctx, x, y, r, h, color) {
-    // Bottom Ellipse
-    ctx.beginPath();
-    ctx.ellipse(x, y, r, r * 0.35, 0, 0, Math.PI);
-    ctx.fillStyle = color;
-    ctx.fill();
+  // Illustrates a cylinder with clean outlines and cartoon highlights
+  function drawCartoonCylinder(ctx, x, y, r, h, color) {
+    const strokeStyle = '#2d181b';
+    const lineWidth = 4;
 
-    // Side Walls
+    // Cylinder body outline & fill
     ctx.beginPath();
     ctx.moveTo(x - r, y);
     ctx.lineTo(x - r, y - h);
-    ctx.ellipse(x, y - h, r, r * 0.35, 0, Math.PI, 2 * Math.PI);
+    ctx.ellipse(x, y - h, r, r * 0.3, 0, Math.PI, 2 * Math.PI);
     ctx.lineTo(x + r, y);
-    ctx.ellipse(x, y, r, r * 0.35, 0, 0, Math.PI, true);
+    ctx.ellipse(x, y, r, r * 0.3, 0, 0, Math.PI);
     ctx.closePath();
     ctx.fillStyle = color;
     ctx.fill();
+    ctx.strokeStyle = strokeStyle;
+    ctx.lineWidth = lineWidth;
+    ctx.stroke();
 
-    // Sombreado 3D
+    // 3D Shadow styling (shading on right)
+    ctx.save();
+    ctx.clip();
     const grad = ctx.createLinearGradient(x - r, y, x + r, y);
-    grad.addColorStop(0, 'rgba(0,0,0,0.22)');
-    grad.addColorStop(0.25, 'rgba(0,0,0,0.04)');
+    grad.addColorStop(0, 'rgba(0,0,0,0.15)');
+    grad.addColorStop(0.3, 'rgba(0,0,0,0.0)');
     grad.addColorStop(0.7, 'rgba(255,255,255,0.15)');
-    grad.addColorStop(1, 'rgba(0,0,0,0.28)');
+    grad.addColorStop(1, 'rgba(0,0,0,0.25)');
     ctx.fillStyle = grad;
-    ctx.fill();
-
-    // Top Ellipse
     ctx.beginPath();
-    ctx.ellipse(x, y - h, r, r * 0.35, 0, 0, 2 * Math.PI);
+    ctx.rect(x - r, y - h - 10, r * 2, h + 20);
+    ctx.fill();
+    ctx.restore();
+
+    // Top ellipse outline & fill
+    ctx.beginPath();
+    ctx.ellipse(x, y - h, r, r * 0.3, 0, 0, 2 * Math.PI);
     ctx.fillStyle = color;
     ctx.fill();
-    ctx.lineWidth = 1;
-    ctx.strokeStyle = 'rgba(0,0,0,0.1)';
+    ctx.strokeStyle = strokeStyle;
+    ctx.lineWidth = lineWidth;
     ctx.stroke();
+
+    // Frosting drips on sides (cartoon aesthetic)
+    ctx.fillStyle = '#FFFFFF';
+    ctx.beginPath();
+    ctx.ellipse(x, y - h, r, r * 0.3, 0, 0, 2 * Math.PI);
+    ctx.fill();
+    
+    // Wave drips on sides
+    ctx.beginPath();
+    ctx.moveTo(x - r, y - h);
+    // Drips using bezier/arcs
+    const numDrips = 6;
+    for (let i = 0; i <= numDrips; i++) {
+      const angle = Math.PI + (i / numDrips) * Math.PI;
+      const dx = x + Math.cos(angle) * r;
+      const dy = y - h + Math.sin(angle) * r * 0.3;
+      
+      const dripHeight = 10 + Math.sin(i * 1.5) * 6;
+      ctx.lineTo(dx, dy + dripHeight);
+    }
+    ctx.ellipse(x, y - h, r, r * 0.3, 0, 0, Math.PI, true);
+    ctx.closePath();
+    ctx.fill();
   }
 
-  function drawCreamBorder(ctx, x, y, r, isTop = false) {
+  function drawCartoonCreamBorder(ctx, x, y, r) {
     ctx.fillStyle = '#FFFFFF';
-    const numDots = Math.floor(r / 3);
+    ctx.strokeStyle = '#2d181b';
+    ctx.lineWidth = 2.5;
+
+    const numDots = Math.floor(r / 4);
     for (let i = 0; i < numDots; i++) {
       const angle = (i / numDots) * Math.PI * 2;
       const dx = x + Math.cos(angle) * r;
-      const dy = y + Math.sin(angle) * r * 0.35;
+      const dy = y + Math.sin(angle) * r * 0.3;
       
       ctx.beginPath();
-      ctx.arc(dx, dy, 4.5, 0, 2 * Math.PI);
+      ctx.arc(dx, dy, 5, 0, 2 * Math.PI);
       ctx.fill();
-    }
-
-    if (isTop) {
-      drawCandle(ctx, x - 15, y - 10);
-      drawCandle(ctx, x, y - 12);
-      drawCandle(ctx, x + 15, y - 10);
+      ctx.stroke();
     }
   }
 
-  function drawCandle(ctx, x, y) {
-    // Stick
-    ctx.fillStyle = '#3B82F6';
-    ctx.fillRect(x - 2, y - 20, 4, 20);
-    // Wick
-    ctx.strokeStyle = '#000';
-    ctx.lineWidth = 1;
+  function drawSprinkles(ctx, x, y, r) {
+    const colors = ['#EF4444', '#3B82F6', '#10B981', '#F59E0B', '#EC4899', '#8B5CF6'];
+    for (let i = 0; i < 20; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const dist = Math.random() * r * 0.8;
+      const sx = x + Math.cos(angle) * dist;
+      const sy = y + Math.sin(angle) * dist * 0.3;
+      
+      ctx.fillStyle = colors[i % colors.length];
+      ctx.fillRect(sx, sy, 4, 2);
+    }
+  }
+
+  function drawCherry(ctx, x, y) {
+    // Stem
     ctx.beginPath();
-    ctx.moveTo(x, y - 20);
-    ctx.lineTo(x, y - 22);
+    ctx.moveTo(x, y - 8);
+    ctx.quadraticCurveTo(x + 10, y - 20, x + 5, y - 25);
+    ctx.strokeStyle = '#10B981';
+    ctx.lineWidth = 3;
     ctx.stroke();
-    // Flame
-    ctx.fillStyle = '#F59E0B';
+
+    // Cherry ball
     ctx.beginPath();
-    ctx.arc(x, y - 24, 3, 0, 2 * Math.PI);
+    ctx.arc(x, y - 4, 8, 0, 2 * Math.PI);
+    ctx.fillStyle = '#DC2626';
+    ctx.fill();
+    ctx.strokeStyle = '#2d181b';
+    ctx.lineWidth = 3;
+    ctx.stroke();
+
+    // Shine Highlight
+    ctx.beginPath();
+    ctx.arc(x - 3, y - 7, 2, 0, 2 * Math.PI);
+    ctx.fillStyle = '#FFFFFF';
     ctx.fill();
   }
 
-  function drawRectangularCake(ctx, x, y, w, d, h, color) {
-    const hh = h;
-    const pt1 = { x: x - 90, y: y };
-    const pt2 = { x: x, y: y + 25 };
-    const pt3 = { x: x + 90, y: y };
-    const pt4 = { x: x, y: y - 25 };
+  function drawCandles(ctx, x, y, r) {
+    const numCandles = r > 70 ? 3 : 2;
+    const offsets = numCandles === 3 ? [-20, 0, 20] : [-15, 15];
 
-    // Left Side Wall
+    offsets.forEach(offset => {
+      const cx = x + offset;
+      const cy = y + Math.sin(offset * 0.05) * 10;
+      
+      // Candle stick
+      ctx.fillStyle = '#3B82F6';
+      ctx.fillRect(cx - 3, cy - 22, 6, 22);
+      ctx.strokeStyle = '#2d181b';
+      ctx.lineWidth = 3;
+      ctx.strokeRect(cx - 3, cy - 22, 6, 22);
+
+      // Flame
+      ctx.beginPath();
+      ctx.moveTo(cx, cy - 23);
+      ctx.quadraticCurveTo(cx - 5, cy - 29, cx, cy - 35);
+      ctx.quadraticCurveTo(cx + 5, cy - 29, cx, cy - 23);
+      ctx.fillStyle = '#F59E0B';
+      ctx.fill();
+    });
+  }
+
+  function drawCartoonRectangular(ctx, x, y, w, d, h, color) {
+    const strokeStyle = '#2d181b';
+    const lineWidth = 4;
+    const hh = h;
+
+    const pt1 = { x: x - w/2, y: y };
+    const pt2 = { x: x, y: y + d/4 };
+    const pt3 = { x: x + w/2, y: y };
+    const pt4 = { x: x, y: y - d/4 };
+
+    // Fill & Draw body
+    // Left Face
     ctx.fillStyle = color;
     ctx.beginPath();
     ctx.moveTo(pt1.x, pt1.y);
@@ -1627,10 +1841,15 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
     ctx.lineTo(pt1.x, pt1.y - hh);
     ctx.closePath();
     ctx.fill();
+    ctx.strokeStyle = strokeStyle;
+    ctx.lineWidth = lineWidth;
+    ctx.stroke();
+
+    // Highlight/Shade Left Face
     ctx.fillStyle = 'rgba(0,0,0,0.12)';
     ctx.fill();
 
-    // Right Side Wall
+    // Right Face
     ctx.fillStyle = color;
     ctx.beginPath();
     ctx.moveTo(pt2.x, pt2.y);
@@ -1639,6 +1858,9 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
     ctx.lineTo(pt2.x, pt2.y - hh);
     ctx.closePath();
     ctx.fill();
+    ctx.stroke();
+
+    // Highlight/Shade Right Face
     ctx.fillStyle = 'rgba(0,0,0,0.22)';
     ctx.fill();
 
@@ -1651,76 +1873,89 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
     ctx.lineTo(pt4.x, pt4.y - hh);
     ctx.closePath();
     ctx.fill();
-    ctx.fillStyle = 'rgba(255,255,255,0.08)';
+    ctx.stroke();
+
+    // Top frosting drips
+    ctx.fillStyle = '#FFFFFF';
+    ctx.beginPath();
+    ctx.moveTo(pt1.x, pt1.y - hh);
+    ctx.lineTo(pt2.x, pt2.y - hh);
+    ctx.lineTo(pt3.x, pt3.y - hh);
+    ctx.lineTo(pt4.x, pt4.y - hh);
+    ctx.closePath();
     ctx.fill();
 
-    // Cream borders
+    // Wave drips along bottom edges
     ctx.fillStyle = '#FFFFFF';
-    const borderPoints = [pt1, pt2, pt3, pt4, pt1];
-    borderPoints.forEach((pt, idx) => {
-      if (idx === borderPoints.length - 1) return;
-      const nextPt = borderPoints[idx + 1];
-      const steps = 10;
-      for (let i = 0; i <= steps; i++) {
-        const t = i / steps;
-        const px = pt.x + (nextPt.x - pt.x) * t;
-        const py = pt.y - hh + (nextPt.y - pt.y) * t;
-        ctx.beginPath();
-        ctx.arc(px, py, 4.5, 0, 2 * Math.PI);
-        ctx.fill();
-      }
-    });
+    ctx.beginPath();
+    ctx.moveTo(pt1.x, pt1.y - hh);
+    ctx.lineTo(pt2.x, pt2.y - hh);
+    ctx.lineTo(pt2.x, pt2.y - hh + 10);
+    ctx.lineTo(pt1.x, pt1.y - hh + 10);
+    ctx.closePath();
+    ctx.fill();
 
-    drawCandle(ctx, x - 10, y - hh - 5);
-    drawCandle(ctx, x + 10, y - hh - 5);
+    // Add Candles
+    drawCandles(ctx, x, y - hh, w * 0.4);
   }
 
-  // Customizer Controls & Event Listeners
-  if (cakeCanvas) {
-    // Colors
-    colorSwatches.forEach(swatch => {
-      swatch.addEventListener('click', () => {
-        colorSwatches.forEach(s => s.classList.remove('active'));
-        swatch.classList.add('active');
-        activeColor = swatch.getAttribute('data-color') || '#FDFBF7';
-        activeColorName = swatch.getAttribute('data-name') || 'Blanco Crema';
-        if (colorNameDisplay) colorNameDisplay.textContent = activeColorName;
-        drawCake();
-      });
-    });
+  // Handle native color picker input
+  customColorPicker?.addEventListener('input', () => {
+    activeColor = customColorPicker.value;
+    activeColorName = 'Personalizado';
+    if (colorNameDisplay) colorNameDisplay.textContent = activeColorName;
+    
+    // remove active class from predefined swatches
+    colorSwatches.forEach(s => s.classList.remove('active'));
+    drawCake();
+  });
 
-    // Size Selection
-    customSizeSelect?.addEventListener('change', () => {
-      const selectedOption = customSizeSelect.options[customSizeSelect.selectedIndex];
-      const price = selectedOption.getAttribute('data-price');
-      const val = customSizeSelect.value;
-
-      if (customPriceDisplay) {
-        customPriceDisplay.textContent = `$${price} CUP`;
-      }
-
-      // 2 floors option restriction: hides dough selector since it's wheat only
-      const doughWrapper = document.getElementById('custom-dough-wrapper');
-      if (val === 'cake-2-pisos') {
-        if (doughWrapper) doughWrapper.style.display = 'none';
-        if (customDoughSelect) customDoughSelect.value = 'trigo';
-        if (customDoughWarning) customDoughWarning.style.display = 'none';
-      } else {
-        if (doughWrapper) doughWrapper.style.display = 'flex';
-      }
-
+  // Handle predefined color buttons
+  colorSwatches.forEach(swatch => {
+    swatch.addEventListener('click', () => {
+      colorSwatches.forEach(s => s.classList.remove('active'));
+      swatch.classList.add('active');
+      activeColor = swatch.getAttribute('data-color') || '#FDFBF7';
+      activeColorName = swatch.getAttribute('data-name') || 'Blanco Crema';
+      if (colorNameDisplay) colorNameDisplay.textContent = activeColorName;
+      if (customColorPicker) customColorPicker.value = activeColor;
       drawCake();
     });
+  });
 
-    // Dough Selection warning banner trigger
-    customDoughSelect?.addEventListener('change', () => {
-      const isCustomDough = customDoughSelect.value !== 'trigo';
-      if (customDoughWarning) {
-        customDoughWarning.style.display = isCustomDough ? 'block' : 'none';
-      }
-    });
+  // Handle Size Selection
+  customSizeSelect?.addEventListener('change', () => {
+    const selectedOption = customSizeSelect.options[customSizeSelect.selectedIndex];
+    const price = selectedOption.getAttribute('data-price');
+    const val = customSizeSelect.value;
 
-    // Initial render
+    if (customPriceDisplay) {
+      customPriceDisplay.textContent = `$${price} CUP`;
+    }
+
+    // 2 floors option restriction: hides dough selector since it's wheat only
+    const doughWrapper = document.getElementById('custom-dough-wrapper');
+    if (val === 'cake-2-pisos') {
+      if (doughWrapper) doughWrapper.style.display = 'none';
+      if (customDoughSelect) customDoughSelect.value = 'trigo';
+      if (customDoughWarning) customDoughWarning.style.display = 'none';
+    } else {
+      if (doughWrapper) doughWrapper.style.display = 'flex';
+    }
+
+    drawCake();
+  });
+
+  // Dough Selection warning banner trigger
+  customDoughSelect?.addEventListener('change', () => {
+    const isCustomDough = customDoughSelect.value !== 'trigo';
+    if (customDoughWarning) {
+      customDoughWarning.style.display = isCustomDough ? 'block' : 'none';
+    }
+  });
+
+  // Initial draw
+  if (cakeCanvas) {
     drawCake();
   }
 
