@@ -19,9 +19,9 @@
   --bg-primary: #0D0D0D;         /* Midnight Black */
   --bg-secondary: #221A18;       /* Medium Dark Espresso variant */
   --bg-card: #362822;            /* Dark Espresso */
-  --text-primary: #EFE5D2;       /* Warm Champagne for high legibility */
-  --text-secondary: #C28D39;     /* Antique Gold */
-  --text-light: #8C8276;         /* Muted Champagne */
+  --text-primary: #FFFFFF;       /* Pure White for body text & primary elements */
+  --text-secondary: #EFE5D2;     /* Warm Champagne for secondary text */
+  --text-light: #C28D39;         /* Antique Gold reserved for labels/indicators */
   --text-white: #FFFFFF;
   
   /* Borders and Shadow */

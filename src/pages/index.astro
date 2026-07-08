@@ -330,7 +330,7 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
 
   .btn-primary {
     background: linear-gradient(135deg, var(--accent-color), var(--accent-dark));
-    color: var(--text-primary);
+    color: #0D0D0D;
     box-shadow: var(--shadow-md);
   }
 
@@ -581,10 +581,10 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
   }
 
   .add-to-cart-btn {
-    background-color: var(--bg-secondary);
-    border: 1px solid var(--accent-color);
-    color: var(--accent-color);
-    padding: 0.5rem 1.2rem;
+    background-color: var(--primary-color);
+    border: none;
+    color: var(--text-white);
+    padding: 0.6rem 1.4rem;
     border-radius: var(--border-radius-md);
     cursor: pointer;
     font-weight: 700;
@@ -593,8 +593,8 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
   }
 
   .add-to-cart-btn:hover {
-    background-color: var(--accent-color);
-    color: var(--bg-primary);
+    background-color: var(--primary-light);
+    transform: translateY(-1px);
   }
 
   /* Floating Cart Button */
