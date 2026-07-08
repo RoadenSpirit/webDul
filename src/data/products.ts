@@ -10,121 +10,48 @@ export interface Product {
 }
 
 export const PRODUCTS: Product[] = [
-  // MiniCakes
+  // 1. Mini Cakes
   {
-    id: 'minicake-15',
-    name: 'MiniCake de 15 cm',
+    id: 'minicake',
+    name: 'Mini Cakes',
     price: 2500,
-    description: 'Exquisito cake de 15 cm. Masa de harina suave y esponjosa, ideal para celebraciones íntimas. Personalizable en sabor y colores.',
+    description: 'Opción económica y deliciosa de 15 cm de diámetro. Ideal para celebraciones íntimas y pequeños detalles.',
     category: 'minicakes',
     customizable: true,
     image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=800&auto=format&fit=crop'
   },
   
-  // Cakes Harina
+  // 2. Cakes Redondos
   {
-    id: 'cake-22-harina',
-    name: 'Cake de 22 cm (Masa Harina)',
+    id: 'cake-redondo',
+    name: 'Cakes Redondos',
     price: 3500,
-    description: 'Cake clásico de 22 cm elaborado con nuestra fina masa de harina. Perfecto para compartir en familia.',
+    description: 'Cake clásico redondo. El precio base corresponde al tamaño de 20 cm con masa de harina de trigo.',
     category: 'cakes',
     customizable: true,
     image: 'https://images.unsplash.com/photo-1535141192574-5d4897c13636?q=80&w=800&auto=format&fit=crop'
   },
+
+  // 3. Cakes de Bandeja
   {
-    id: 'cake-bandeja-harina',
-    name: 'Cake de Bandeja (Masa Harina)',
-    price: 10700,
-    description: 'Gran cake de bandeja con base de masa de harina, ideal para grandes eventos y cumpleaños multitudinarios.',
+    id: 'cake-bandeja',
+    name: 'Cakes de Bandeja',
+    price: 5300,
+    description: 'Ideal para eventos familiares o corporativos. El precio base corresponde a Media Bandeja con masa de harina de trigo.',
     category: 'cakes',
     customizable: true,
     image: 'https://images.unsplash.com/photo-1621303837174-89787a7d4729?q=80&w=800&auto=format&fit=crop'
   },
+
+  // 4. Cakes de Varios Pisos
   {
-    id: 'medio-cake-bandeja-harina',
-    name: 'Medio Cake de Bandeja (Masa Harina)',
-    price: 5300,
-    description: 'Media porción del cake de bandeja clásico. Ideal para reuniones medianas.',
-    category: 'cakes',
-    customizable: true,
-    image: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?q=80&w=800&auto=format&fit=crop'
-  },
-  
-  // Cakes Maicena
-  {
-    id: 'cake-20x8-maicena',
-    name: 'Cake 20 cm x 8 cm de alto (Masa Maicena)',
-    price: 3600,
-    description: 'Delicado cake de maicena de 20 cm de diámetro y 8 cm de altura. Textura extra suave y ligera.',
-    category: 'cakes',
-    customizable: true,
-    image: 'https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?q=80&w=800&auto=format&fit=crop'
-  },
-  {
-    id: 'cake-20x15-maicena',
-    name: 'Cake 20 cm x 15 cm de alto (Masa Maicena)',
-    price: 5500,
-    description: 'Alto y elegante cake de maicena (15 cm de altura). Una presentación de gran valor visual y decorativo.',
-    category: 'cakes',
-    customizable: true,
-    image: 'https://images.unsplash.com/photo-1557925923-cd4648e21187?q=80&w=800&auto=format&fit=crop'
-  },
-  {
-    id: 'cake-bandeja-maicena',
-    name: 'Cake de Bandeja (Masa Maicena)',
-    price: 11200,
-    description: 'Gran cake de bandeja elaborado con masa de maicena. Súper esponjoso, ideal para ocasiones muy especiales.',
-    category: 'cakes',
-    customizable: true,
-    image: 'https://images.unsplash.com/photo-1606313564200-e75d5e30476c?q=80&w=800&auto=format&fit=crop'
-  },
-  
-  // Especiales
-  {
-    id: 'cake-capuchino-22',
-    name: 'Cake de Capuchino de 22 cm',
-    price: 5700,
-    priceNote: '5700 - 6500',
-    description: 'Exquisito cake de capuchino embebido en almíbar aromático, decorado con merengue tradicional cubano. El precio varía (5700 - 6500) según la complejidad de la decoración.',
-    category: 'cakes',
-    customizable: true,
-    image: 'https://images.unsplash.com/photo-1542826438-bd32f43d626f?q=80&w=800&auto=format&fit=crop'
-  },
-  {
-    id: 'cake-2-pisos',
-    name: 'Cake de 2 Pisos (Redondo o Bandeja)',
+    id: 'cake-varios-pisos',
+    name: 'Cakes de Varios Pisos',
     price: 16500,
-    description: 'Impactante cake de 2 pisos diseñado a medida. Estructura estable y decoraciones artísticas para celebraciones principales.',
+    description: 'Espectacular y majestuoso cake de varios pisos. Diseños y cotización a negociar de acuerdo a la complejidad.',
     category: 'cakes',
     customizable: true,
     image: 'https://images.unsplash.com/photo-1535254973040-607b474cb50d?q=80&w=800&auto=format&fit=crop'
-  },
-  {
-    id: 'cake-redondo-36',
-    name: 'Cake Redondo de 36 cm',
-    price: 15000,
-    description: 'Imponente cake de 36 cm de diámetro para grandes eventos. Elaboración artesanal y acabados majestuosos.',
-    category: 'cakes',
-    customizable: true,
-    image: 'https://images.unsplash.com/photo-1505976378723-9726b54e9bb9?q=80&w=800&auto=format&fit=crop'
-  },
-  {
-    id: 'cake-redondo-30',
-    name: 'Cake Redondo de 30 cm',
-    price: 10700,
-    description: 'Clásico familiar de 30 cm de diámetro. Relleno y cobertura decorada con un diseño de alta gama a su elección.',
-    category: 'cakes',
-    customizable: true,
-    image: 'https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?q=80&w=800&auto=format&fit=crop'
-  },
-  {
-    id: 'cake-redondo-25',
-    name: 'Cake Redondo de 25 cm',
-    price: 5000,
-    description: 'Perfecto para fiestas medianas. El equilibrio ideal entre tamaño, costo y una presentación sofisticada.',
-    category: 'cakes',
-    customizable: true,
-    image: 'https://images.unsplash.com/photo-1519869325930-281384150729?q=80&w=800&auto=format&fit=crop'
   },
   
   // Repostería

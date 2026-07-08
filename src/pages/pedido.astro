@@ -598,11 +598,25 @@ import Layout from '../layouts/Layout.astro';
         cart = [];
       }
     }
+    // Initialize properties if missing
+    cart.forEach(item => {
+      if (item.customizable) {
+        if (item.id === 'cake-redondo') {
+          item.size = item.size || '20';
+          if (item.doubleHeight === undefined) item.doubleHeight = false;
+        } else if (item.id === 'cake-bandeja') {
+          item.size = item.size || 'media';
+        } else if (item.id === 'minicake') {
+          if (item.doubleHeight === undefined) item.doubleHeight = false;
+        }
+      }
+    });
+
     if (cart.length === 0) {
       // Mock items for layout preview and screenshots
       cart = [
-        { id: 'cake-personalizado', name: 'Cake Personalizado Especial', price: 2500, quantity: 1, customizable: true, category: 'cakes', dough: 'trigo', note: 'Cubierta azul con crema blanca', ediblePrint: true, fileName: 'ejemplo.png' },
-        { id: 'cupcake-decorado', name: 'Cupcake Gourmet Decorado', price: 150, quantity: 6, customizable: false, category: 'reposteria' }
+        { id: 'cake-redondo', name: 'Cakes Redondos', price: 3500, quantity: 1, customizable: true, category: 'cakes', dough: 'trigo', size: '25', doubleHeight: true, note: 'Decoración de chocolate blanco', ediblePrint: false },
+        { id: 'minicake', name: 'Mini Cakes', price: 2500, quantity: 1, customizable: true, category: 'minicakes', dough: 'maicena', doubleHeight: false }
       ];
       console.log('Test Mode: Empty cart filled with mockup items.');
     }
@@ -610,20 +624,20 @@ import Layout from '../layouts/Layout.astro';
 
   // Icon classification based on product type
   const getProductIcon = (item) => {
-    const nameLower = item.name.toLowerCase();
-    const idLower = item.id.toLowerCase();
-    
-    if (idLower.includes('minicake') || nameLower.includes('minicake') || idLower.includes('cupcake') || nameLower.includes('cupcake')) {
+    const id = item.id;
+    if (id === 'minicake' || id.includes('cupcake')) {
       return { icon: '🧁', color: '#FBCFE8', label: 'Mini Cake / Cupcake' };
     }
-    if (idLower.includes('bandeja') || nameLower.includes('bandeja')) {
-      return { icon: '🍰', color: '#EEDBCE', label: 'Bandeja' }; // light brown
+    if (id === 'cake-bandeja') {
+      return { icon: '🍰', color: '#EEDBCE', label: 'Bandeja' };
     }
-    if (item.category === 'reposteria' || item.category === 'salados') {
-      return { icon: '🍪', color: '#A7F3D0', label: 'Buffet/Postre' };
+    if (id === 'cake-varios-pisos') {
+      return { icon: '🏢', color: '#DDD6FE', label: 'Varios Pisos' };
     }
-    // Default simple cakes
-    return { icon: '🎂', color: '#FEF08A', label: 'Cake Simple' };
+    if (id === 'cake-redondo') {
+      return { icon: '🎂', color: '#FEF08A', label: 'Cake Redondo' };
+    }
+    return { icon: '🍪', color: '#A7F3D0', label: 'Buffet/Postre' };
   };
 
   const renderSummaryItems = () => {
@@ -632,6 +646,24 @@ import Layout from '../layouts/Layout.astro';
     
     cart.forEach((item, index) => {
       const metaInfo = getProductIcon(item);
+      
+      // Calculate customized item unit price
+      let basePrice = item.price;
+      let sizeExtra = 0;
+      if (item.id === 'cake-redondo') {
+        const size = item.size || '20';
+        if (size === '25') sizeExtra = 1500;
+        else if (size === '30') sizeExtra = 7200;
+      } else if (item.id === 'cake-bandeja') {
+        const size = item.size || 'media';
+        if (size === 'completa') sizeExtra = 5400;
+      }
+      
+      let customizedUnitPrice = basePrice + sizeExtra;
+      if (item.doubleHeight && (item.id === 'cake-redondo' || item.id === 'minicake')) {
+        customizedUnitPrice = Math.round(customizedUnitPrice * 1.80);
+      }
+
       html += `
         <div class="flex gap-4 items-center bg-[#FFFDF9] border border-[#E7E2D8] p-3 rounded-xl shadow-sm">
           <div class="w-14 h-14 flex-shrink-0 rounded-lg overflow-hidden border border-[#E7E2D8]">
@@ -640,7 +672,7 @@ import Layout from '../layouts/Layout.astro';
           <div class="flex-grow min-w-0">
             <div class="flex justify-between items-start gap-2">
               <h4 class="text-sm font-bold text-[#1C1917] truncate">${item.name}</h4>
-              <span class="text-sm font-bold text-[#8C0D1B] whitespace-nowrap">$${item.price * item.quantity} CUP</span>
+              <span class="text-sm font-bold text-[#8C0D1B] whitespace-nowrap">$${customizedUnitPrice * item.quantity} CUP</span>
             </div>
             <div class="flex items-center gap-2 mt-1 text-xs text-[#78716C]">
               <span class="inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold" style="background-color: ${metaInfo.color};" title="${metaInfo.label}">${metaInfo.icon}</span>
@@ -656,7 +688,6 @@ import Layout from '../layouts/Layout.astro';
   const renderCakesCustomizers = () => {
     if (!cakesCustomizersContainer) return;
     
-    // Filter items that are cakes/minicakes and customizable
     const customizableCakes = cart.filter(item => item.customizable);
 
     if (customizableCakes.length === 0) {
@@ -668,13 +699,72 @@ import Layout from '../layouts/Layout.astro';
     
     let html = '';
     customizableCakes.forEach((item, idx) => {
-      // Find actual index in global cart array
       const globalIdx = cart.findIndex(c => c.id === item.id);
+      let sizeSelectorHtml = '';
+      let doubleOptionHtml = '';
       
+      if (item.id === 'cake-redondo') {
+        sizeSelectorHtml = `
+          <div class="flex flex-col gap-2">
+            <label for="cake-size-${globalIdx}" class="block text-sm font-bold text-[#1C1917]">📏 Tamaño del Cake:</label>
+            <select class="size-select-field w-full px-4 py-3 bg-[#FFFDF9] border-2 border-[#E7E2D8] rounded-xl text-sm text-[#1C1917] focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/10 transition-all outline-none cursor-pointer appearance-none" data-index="${globalIdx}" id="cake-size-${globalIdx}">
+              <option value="20" ${item.size === '20' || !item.size ? 'selected' : ''}>20 cm (Precio Base)</option>
+              <option value="25" ${item.size === '25' ? 'selected' : ''}>25 cm (+1500 CUP)</option>
+              <option value="30" ${item.size === '30' ? 'selected' : ''}>30 cm (+7200 CUP)</option>
+            </select>
+          </div>
+        `;
+        doubleOptionHtml = `
+          <label class="inline-flex items-center gap-3 w-full bg-[#FFFDF9] border-2 border-[#E7E2D8] hover:border-[#D4AF37] p-3 rounded-xl cursor-pointer transition-colors mt-2">
+            <input 
+              type="checkbox" 
+              class="double-height-checkbox-field w-4 h-4 text-[#8C0D1B] border-[#E7E2D8] rounded focus:ring-[#D4AF37] cursor-pointer" 
+              data-index="${globalIdx}" 
+              id="cake-double-${globalIdx}"
+              ${item.doubleHeight ? 'checked' : ''}
+            />
+            <span class="text-sm font-bold text-[#1C1917]">¿Deseas pedir el cake Doble? (Doble masa / altura, +80%)</span>
+          </label>
+        `;
+      } else if (item.id === 'cake-bandeja') {
+        sizeSelectorHtml = `
+          <div class="flex flex-col gap-2">
+            <label for="cake-size-${globalIdx}" class="block text-sm font-bold text-[#1C1917]">📏 Tamaño de la Bandeja:</label>
+            <select class="size-select-field w-full px-4 py-3 bg-[#FFFDF9] border-2 border-[#E7E2D8] rounded-xl text-sm text-[#1C1917] focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/10 transition-all outline-none cursor-pointer appearance-none" data-index="${globalIdx}" id="cake-size-${globalIdx}">
+              <option value="media" ${item.size === 'media' || !item.size ? 'selected' : ''}>Media Bandeja (Precio Base)</option>
+              <option value="completa" ${item.size === 'completa' ? 'selected' : ''}>Bandeja Completa (+5400 CUP)</option>
+            </select>
+          </div>
+        `;
+      } else if (item.id === 'minicake') {
+        doubleOptionHtml = `
+          <label class="inline-flex items-center gap-3 w-full bg-[#FFFDF9] border-2 border-[#E7E2D8] hover:border-[#D4AF37] p-3 rounded-xl cursor-pointer transition-colors mt-2">
+            <input 
+              type="checkbox" 
+              class="double-height-checkbox-field w-4 h-4 text-[#8C0D1B] border-[#E7E2D8] rounded focus:ring-[#D4AF37] cursor-pointer" 
+              data-index="${globalIdx}" 
+              id="cake-double-${globalIdx}"
+              ${item.doubleHeight ? 'checked' : ''}
+            />
+            <span class="text-sm font-bold text-[#1C1917]">¿Deseas pedir el cake Doble? (Doble masa / altura, +80%)</span>
+          </label>
+        `;
+      } else if (item.id === 'cake-varios-pisos') {
+        sizeSelectorHtml = `
+          <div class="bg-blue-50 border border-blue-200 text-blue-800 text-sm p-4 rounded-xl flex flex-col gap-1 leading-relaxed">
+            <span class="font-bold flex items-center gap-1">ℹ️ Nota sobre Cakes de Varios Pisos</span>
+            <span>Al ser la opción más elaborada con muchas variables de diseño y montaje, el tamaño y precio final se concertarán directamente a través de WhatsApp. El precio inicial base estimado comienza desde $16500 CUP.</span>
+          </div>
+        `;
+      }
+
       html += `
         <div class="bg-[#FBF7EE] border border-[#E7E2D8] rounded-xl p-5 mb-6 border-l-4 border-l-[#D4AF37] space-y-4" data-cart-index="${globalIdx}">
           <h4 class="text-base font-extrabold text-[#8C0D1B] flex items-center gap-1.5">🎂 Personalización: ${item.name}</h4>
           
+          ${sizeSelectorHtml}
+          ${doubleOptionHtml}
+
           <div class="flex flex-col gap-2">
             <label for="cake-dough-${globalIdx}" class="block text-sm font-bold text-[#1C1917]">🌾 Selección de Masa:</label>
             <select class="dough-select-field w-full px-4 py-3 bg-[#FFFDF9] border-2 border-[#E7E2D8] rounded-xl text-sm text-[#1C1917] focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/10 transition-all outline-none cursor-pointer appearance-none" data-index="${globalIdx}" id="cake-dough-${globalIdx}">
@@ -748,6 +838,28 @@ import Layout from '../layouts/Layout.astro';
         const idx = parseInt(target.getAttribute('data-index') || '0');
         
         cart[idx].dough = target.value;
+        updateTotals();
+      });
+    });
+
+    // Size selects
+    document.querySelectorAll('.size-select-field').forEach(select => {
+      select.addEventListener('change', (e) => {
+        const target = e.target as HTMLSelectElement;
+        const idx = parseInt(target.getAttribute('data-index') || '0');
+        
+        cart[idx].size = target.value;
+        updateTotals();
+      });
+    });
+
+    // Double height check
+    document.querySelectorAll('.double-height-checkbox-field').forEach(checkbox => {
+      checkbox.addEventListener('change', (e) => {
+        const target = e.target as HTMLInputElement;
+        const idx = parseInt(target.getAttribute('data-index') || '0');
+        
+        cart[idx].doubleHeight = target.checked;
         updateTotals();
       });
     });
@@ -835,7 +947,6 @@ import Layout from '../layouts/Layout.astro';
   };
 
   const saveCartToStorage = () => {
-    // Strip large binary/base64 fileData if present before saving to localStorage to prevent QuotaExceededError
     const cleanCart = cart.map(({ fileData, ...rest }) => rest);
     localStorage.setItem('el_lider_cart', JSON.stringify(cleanCart));
   };
@@ -846,11 +957,27 @@ import Layout from '../layouts/Layout.astro';
     let addonsExtra = 0;
 
     cart.forEach(item => {
-      subtotal += item.price * item.quantity;
+      let basePrice = item.price;
+      let sizeExtra = 0;
+      if (item.id === 'cake-redondo') {
+        const size = item.size || '20';
+        if (size === '25') sizeExtra = 1500;
+        else if (size === '30') sizeExtra = 7200;
+      } else if (item.id === 'cake-bandeja') {
+        const size = item.size || 'media';
+        if (size === 'completa') sizeExtra = 5400;
+      }
+      
+      let currentItemPrice = basePrice + sizeExtra;
+      if (item.doubleHeight && (item.id === 'cake-redondo' || item.id === 'minicake')) {
+        currentItemPrice = Math.round(currentItemPrice * 1.80);
+      }
+
+      subtotal += currentItemPrice * item.quantity;
       if (item.ediblePrint) {
         addonsExtra += 650 * item.quantity;
       }
-      // Deduce extra dough price in Cuban Peso for capuchino/maicena (approx adjustments)
+      // Dough calculation
       if (item.dough === 'maicena') {
         doughExtra += 150 * item.quantity;
       } else if (item.dough === 'capuchino') {
@@ -866,6 +993,7 @@ import Layout from '../layouts/Layout.astro';
     if (summaryTotal) summaryTotal.textContent = `$${total} CUP`;
 
     saveCartToStorage();
+    renderSummaryItems();
   };
 
   // WhatsApp checkout final message composition
@@ -885,7 +1013,7 @@ import Layout from '../layouts/Layout.astro';
       return;
     }
 
-    const phoneNumber = '5350000000'; // Shop target number
+    const phoneNumber = '5350000000';
     const dateParts = deliveryDate.split('-');
     const formattedDate = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
 
@@ -899,13 +1027,44 @@ import Layout from '../layouts/Layout.astro';
 
     let total = 0;
     cart.forEach((item, index) => {
-      let itemPriceTotal = item.price * item.quantity;
+      let basePrice = item.price;
+      let sizeExtra = 0;
+      let sizeLabel = '';
+      if (item.id === 'cake-redondo') {
+        const size = item.size || '20';
+        sizeLabel = `${size} cm`;
+        if (size === '25') sizeExtra = 1500;
+        else if (size === '30') sizeExtra = 7200;
+      } else if (item.id === 'cake-bandeja') {
+        const size = item.size || 'media';
+        sizeLabel = size === 'completa' ? 'Bandeja Completa' : 'Media Bandeja';
+        if (size === 'completa') sizeExtra = 5400;
+      } else if (item.id === 'minicake') {
+        sizeLabel = '15 cm';
+      } else if (item.id === 'cake-varios-pisos') {
+        sizeLabel = 'Varios Pisos (A definir)';
+      }
+
+      let currentItemPrice = basePrice + sizeExtra;
+      if (item.doubleHeight && (item.id === 'cake-redondo' || item.id === 'minicake')) {
+        currentItemPrice = Math.round(currentItemPrice * 1.80);
+      }
+
+      let itemPriceTotal = currentItemPrice * item.quantity;
       let customizations = [];
+
+      if (sizeLabel) {
+        customizations.push(`Tamaño: ${sizeLabel}`);
+      }
+
+      if (item.doubleHeight && (item.id === 'cake-redondo' || item.id === 'minicake')) {
+        customizations.push('Cake Doble (Doble masa / altura, +80%)');
+      }
 
       if (item.dough && item.dough !== 'trigo') {
         const extra = item.dough === 'maicena' ? 150 : 300;
         itemPriceTotal += extra * item.quantity;
-        customizations.push(`Masa: ${item.dough === 'maicena' ? 'Maicena' : 'Capuchino'}`);
+        customizations.push(`Masa: ${item.dough === 'maicena' ? 'Maicena (+150 CUP)' : 'Capuchino (+300 CUP)'}`);
       } else if (item.dough) {
         customizations.push('Masa: Harina de Trigo');
       }

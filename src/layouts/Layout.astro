@@ -37,13 +37,14 @@ const {
     <meta property="twitter:description" content={description} />
   </head>
   <body>
-    <!-- Premium Header -->
     <header class="main-header">
       <div class="header-container">
-        <a href="/" class="logo-area">
-          <span class="logo-title">El Líder</span>
-          <span class="logo-subtitle">DULCERÍA ARTESANAL</span>
-        </a>
+        <div class="flex-1 flex justify-start">
+          <a href="/" class="logo-area">
+            <span class="logo-title">El Líder</span>
+            <span class="logo-subtitle">DULCERÍA ARTESANAL</span>
+          </a>
+        </div>
         <nav class="main-nav">
           <a href="/#catalogo" class="nav-link">Nuestra Carta</a>
           <a href="/#decoraciones" class="nav-link">Decoraciones</a>
@@ -51,8 +52,10 @@ const {
           <a href="/pedido" class="nav-link" id="nav-order-link" style="display: none; align-items: center; gap: 0.25rem;">
             Mi Orden <span class="order-badge" id="nav-order-badge" style="background-color: var(--accent-color); color: var(--primary-dark); font-size: 0.75rem; padding: 1px 6px; border-radius: 10px; font-weight: bold;">0</span>
           </a>
-          <a href="/#contacto" class="nav-link font-accent">Hacer Encargo</a>
         </nav>
+        <div class="flex-1 flex justify-end">
+          <!-- Espaciador para centrado perfecto -->
+        </div>
       </div>
     </header>
 

@@ -31,9 +31,10 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
       <!-- Subcategory filters (Pills) -->
       <div class="carousel-subcategories">
         <button class="subcategory-pill active" data-filter="all">Todos los Cakes</button>
-        <button class="subcategory-pill" data-filter="minicakes">MiniCakes (15cm)</button>
-        <button class="subcategory-pill" data-filter="medianos">Cakes Medianos (20-25cm)</button>
-        <button class="subcategory-pill" data-filter="grandes-bandejas">Grandes y Bandejas (30cm+)</button>
+        <button class="subcategory-pill" data-filter="minicakes">Mini Cakes</button>
+        <button class="subcategory-pill" data-filter="redondos">Cakes Redondos</button>
+        <button class="subcategory-pill" data-filter="bandeja">Cakes de Bandeja</button>
+        <button class="subcategory-pill" data-filter="pisos">Cakes de Varios Pisos</button>
       </div>
     </div>
 
@@ -45,9 +46,10 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
           {cakes.map(product => {
             // Determine subcategory filter type
             let filterType = 'all';
-            if (product.id.includes('minicake')) filterType = 'minicakes';
-            else if (product.id.includes('25') || product.id.includes('22') || product.id.includes('20')) filterType = 'medianos';
-            else if (product.id.includes('30') || product.id.includes('36') || product.id.includes('bandeja') || product.id.includes('pisos')) filterType = 'grandes-bandejas';
+            if (product.id === 'minicake') filterType = 'minicakes';
+            else if (product.id === 'cake-redondo') filterType = 'redondos';
+            else if (product.id === 'cake-bandeja') filterType = 'bandeja';
+            else if (product.id === 'cake-varios-pisos') filterType = 'pisos';
 
             return (
               <div class="product-card carousel-slide" data-filter-type={filterType} data-id={product.id}>
@@ -217,19 +219,12 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
       <!-- Controls Panel -->
       <div class="customizer-controls">
         <div class="control-group">
-          <label for="custom-size">📏 Selecciona el Tamaño / Modelo:</label>
+          <label for="custom-size">📏 Selecciona la Categoría de Cake:</label>
           <select id="custom-size" class="customizer-select">
-            <option value="minicake-15" data-price="2500" data-type="minicake" selected>MiniCake (15 cm) — $2500 CUP</option>
-            <option value="cake-22-harina" data-price="3500" data-type="estandar">Cake Estándar (22 cm) — $3500 CUP</option>
-            <option value="cake-redondo-25" data-price="5000" data-type="mediano">Cake Mediano (25 cm) — $5000 CUP</option>
-            <option value="cake-redondo-30" data-price="10700" data-type="grande">Cake Grande (30 cm) — $10700 CUP</option>
-            <option value="cake-redondo-36" data-price="15000" data-type="gigante">Cake Gigante (36 cm) — $15000 CUP</option>
-            <option value="cake-2-pisos" data-price="16500" data-type="2pisos">Cake de 2 Pisos — $16500 CUP</option>
-            <option value="cake-bandeja-harina" data-price="10700" data-type="bandeja">Cake de Bandeja — $10700 CUP</option>
-            <option value="medio-cake-bandeja-harina" data-price="5300" data-type="mediobandeja">Medio Cake de Bandeja — $5300 CUP</option>
-            <option value="cake-20x8-maicena" data-price="3600" data-type="estandar">Cake 20x8 cm (Maicena) — $3600 CUP</option>
-            <option value="cake-20x15-maicena" data-price="5500" data-type="grande">Cake 20x15 cm (Maicena) — $5500 CUP</option>
-            <option value="cake-capuchino-22" data-price="5700" data-type="estandar">Cake de Capuchino (22 cm) — $5700 CUP</option>
+            <option value="minicake" data-price="2500" selected>Mini Cakes — $2500 CUP</option>
+            <option value="cake-redondo" data-price="3500">Cakes Redondos (Base 20 cm) — $3500 CUP</option>
+            <option value="cake-bandeja" data-price="5300">Cakes de Bandeja (Base Media Bandeja) — $5300 CUP</option>
+            <option value="cake-varios-pisos" data-price="16500">Cakes de Varios Pisos — $16500 CUP</option>
           </select>
         </div>
 
@@ -2208,18 +2203,15 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
 
     // 2 floors option restriction: hides dough selector since it's wheat only
     const doughWrapper = document.getElementById('custom-dough-wrapper');
-    if (val === 'cake-2-pisos') {
+    if (val === 'cake-varios-pisos') {
       if (doughWrapper) doughWrapper.style.display = 'none';
       if (customDoughSelect) customDoughSelect.value = 'trigo';
-      if (customDoughWarning) customDoughWarning.style.display = 'none';
     } else {
       if (doughWrapper) doughWrapper.style.display = 'flex';
     }
 
     drawCake();
   });
-
-  // Dough Selection trigger (no warning display needed)
 
   // Initial draw
   if (cakeCanvas) {
@@ -2240,20 +2232,26 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
     // Convert current canvas state to image for thumbnail
     const imageSrc = cakeCanvas ? (cakeCanvas as HTMLCanvasElement).toDataURL('image/png') : '';
 
-    // Push custom cake item to cart
-    cart.push({
-      id: `custom-${id}-${Date.now()}`,
-      name: `Cake Personalizado (${sizeLabel})`,
-      price: price,
-      quantity: 1,
-      customizable: true,
-      category: 'cakes',
-      imageSrc,
-      dough: dough,
-      note: `Color: ${activeColorName}.${theme ? ' Temática: ' + theme : ''}`,
-      ediblePrint: ediblePrint,
-      fileName: ''
-    });
+    const existingItem = cart.find(item => item.id === id);
+    if (existingItem) {
+      existingItem.quantity += 1;
+    } else {
+      cart.push({
+        id: id,
+        name: sizeLabel,
+        price: price,
+        quantity: 1,
+        customizable: true,
+        category: id === 'minicake' ? 'minicakes' : 'cakes',
+        imageSrc,
+        dough: dough,
+        note: `Color: ${activeColorName}.${theme ? ' Temática: ' + theme : ''}`,
+        ediblePrint: ediblePrint,
+        fileName: '',
+        size: id === 'cake-redondo' ? '20' : (id === 'cake-bandeja' ? 'media' : ''),
+        doubleHeight: false
+      });
+    }
 
     // Reset input fields and customizer state
     if (customThemeInput) customThemeInput.value = '';
