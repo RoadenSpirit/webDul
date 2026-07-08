@@ -61,6 +61,7 @@ html {
   background-color: var(--bg-primary);
   color: var(--text-primary);
   font-family: var(--font-sans);
+  color-scheme: dark;
 }
 
 body {

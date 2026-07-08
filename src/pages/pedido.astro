@@ -653,16 +653,16 @@ import Layout from '../layouts/Layout.astro';
       }
 
       html += `
-        <div class="flex gap-4 items-center bg-[#FFFDF9] border border-[#E7E2D8] p-3 rounded-xl shadow-sm">
-          <div class="w-14 h-14 flex-shrink-0 rounded-lg overflow-hidden border border-[#E7E2D8]">
+        <div class="flex gap-4 items-center bg-[var(--bg-primary)] border border-[var(--border-color)] p-3 rounded-xl shadow-sm">
+          <div class="w-14 h-14 flex-shrink-0 rounded-lg overflow-hidden border border-[var(--border-color)]">
             <img src="${item.imageSrc || 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=800&auto=format&fit=crop'}" alt="${item.name}" class="w-full h-full object-cover" />
           </div>
           <div class="flex-grow min-w-0">
             <div class="flex justify-between items-start gap-2">
-              <h4 class="text-sm font-bold text-[#1C1917] truncate">${item.name}</h4>
-              <span class="text-sm font-bold text-[#8C0D1B] whitespace-nowrap">$${customizedUnitPrice * item.quantity} CUP</span>
+              <h4 class="text-sm font-bold text-[var(--text-primary)] truncate">${item.name}</h4>
+              <span class="text-sm font-bold text-[var(--accent-color)] whitespace-nowrap">$${customizedUnitPrice * item.quantity} CUP</span>
             </div>
-            <div class="flex items-center gap-2 mt-1 text-xs text-[#78716C]">
+            <div class="flex items-center gap-2 mt-1 text-xs text-[var(--text-light)]">
               <span class="inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold" style="background-color: ${metaInfo.color};" title="${metaInfo.label}">${metaInfo.icon}</span>
               <span>Cantidad: ${item.quantity}</span>
             </div>
@@ -694,11 +694,11 @@ import Layout from '../layouts/Layout.astro';
       if (item.id === 'cake-redondo') {
         sizeSelectorHtml = `
           <div class="flex flex-col gap-2">
-            <label for="cake-size-${globalIdx}" class="block text-sm font-bold text-[#1C1917] flex items-center justify-between">
+            <label for="cake-size-${globalIdx}" class="block text-sm font-bold text-[var(--text-primary)] flex items-center justify-between">
               <span>📏 Tamaño del Cake:</span>
-              <span class="text-xs text-[#8C0D1B] bg-red-50 border border-red-100 px-2 py-0.5 rounded-full font-bold">Base: 20cm</span>
+              <span class="text-xs text-[var(--accent-color)] bg-[var(--bg-primary)] border border-[var(--border-color)] px-2 py-0.5 rounded-full font-bold">Base: 20cm</span>
             </label>
-            <select class="size-select-field w-full px-4 py-3 bg-[#FFFDF9] border-2 border-[#E7E2D8] rounded-xl text-sm text-[#1C1917] focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/10 transition-all outline-none cursor-pointer appearance-none" data-index="${globalIdx}" id="cake-size-${globalIdx}">
+            <select class="size-select-field w-full px-4 py-3 bg-[var(--bg-primary)] border-2 border-[var(--border-color)] rounded-xl text-sm text-[var(--text-primary)] focus:border-[var(--accent-color)] focus:ring-4 focus:ring-[var(--accent-color)]/10 transition-all outline-none cursor-pointer appearance-none" data-index="${globalIdx}" id="cake-size-${globalIdx}">
               <option value="20" ${item.size === '20' || !item.size ? 'selected' : ''}>20 cm (Incluido)</option>
               <option value="25" ${item.size === '25' ? 'selected' : ''}>25 cm (+1500 CUP)</option>
               <option value="30" ${item.size === '30' ? 'selected' : ''}>30 cm (+7200 CUP)</option>
@@ -706,28 +706,28 @@ import Layout from '../layouts/Layout.astro';
           </div>
         `;
         doubleOptionHtml = `
-          <label class="inline-flex items-center gap-3 w-full bg-[#FFFDF9] border-2 border-[#E7E2D8] hover:border-[#D4AF37] p-3 rounded-xl cursor-pointer transition-colors mt-2">
+          <label class="inline-flex items-center gap-3 w-full bg-[var(--bg-primary)] border-2 border-[var(--border-color)] hover:border-[var(--accent-color)] p-3 rounded-xl cursor-pointer transition-colors mt-2">
             <input 
               type="checkbox" 
-              class="double-height-checkbox-field w-4 h-4 text-[#8C0D1B] border-[#E7E2D8] rounded focus:ring-[#D4AF37] cursor-pointer" 
+              class="double-height-checkbox-field w-4 h-4 text-[var(--accent-color)] border-[var(--border-color)] rounded focus:ring-[var(--accent-color)] cursor-pointer" 
               data-index="${globalIdx}" 
               id="cake-double-${globalIdx}"
               ${item.doubleHeight ? 'checked' : ''}
             />
-            <span class="text-sm font-bold text-[#1C1917] flex-grow flex items-center justify-between">
+            <span class="text-sm font-bold text-[var(--text-primary)] flex-grow flex items-center justify-between">
               <span>¿Deseas pedir el cake Doble? (Doble masa / altura)</span>
-              <span class="text-xs text-[#8C0D1B] bg-red-50 border border-red-100 px-2 py-0.5 rounded-full font-bold">+80% costo base</span>
+              <span class="text-xs text-[var(--accent-color)] bg-[var(--bg-primary)] border border-[var(--border-color)] px-2 py-0.5 rounded-full font-bold">+80% costo base</span>
             </span>
           </label>
         `;
       } else if (item.id === 'cake-bandeja') {
         sizeSelectorHtml = `
           <div class="flex flex-col gap-2">
-            <label for="cake-size-${globalIdx}" class="block text-sm font-bold text-[#1C1917] flex items-center justify-between">
+            <label for="cake-size-${globalIdx}" class="block text-sm font-bold text-[var(--text-primary)] flex items-center justify-between">
               <span>📏 Tamaño de la Bandeja:</span>
-              <span class="text-xs text-[#8C0D1B] bg-red-50 border border-red-100 px-2 py-0.5 rounded-full font-bold">Base: Media</span>
+              <span class="text-xs text-[var(--accent-color)] bg-[var(--bg-primary)] border border-[var(--border-color)] px-2 py-0.5 rounded-full font-bold">Base: Media</span>
             </label>
-            <select class="size-select-field w-full px-4 py-3 bg-[#FFFDF9] border-2 border-[#E7E2D8] rounded-xl text-sm text-[#1C1917] focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/10 transition-all outline-none cursor-pointer appearance-none" data-index="${globalIdx}" id="cake-size-${globalIdx}">
+            <select class="size-select-field w-full px-4 py-3 bg-[var(--bg-primary)] border-2 border-[var(--border-color)] rounded-xl text-sm text-[var(--text-primary)] focus:border-[var(--accent-color)] focus:ring-4 focus:ring-[var(--accent-color)]/10 transition-all outline-none cursor-pointer appearance-none" data-index="${globalIdx}" id="cake-size-${globalIdx}">
               <option value="media" ${item.size === 'media' || !item.size ? 'selected' : ''}>Media Bandeja (Incluido)</option>
               <option value="completa" ${item.size === 'completa' ? 'selected' : ''}>Bandeja Completa (+5400 CUP)</option>
             </select>
@@ -735,39 +735,39 @@ import Layout from '../layouts/Layout.astro';
         `;
       } else if (item.id === 'minicake') {
         doubleOptionHtml = `
-          <label class="inline-flex items-center gap-3 w-full bg-[#FFFDF9] border-2 border-[#E7E2D8] hover:border-[#D4AF37] p-3 rounded-xl cursor-pointer transition-colors mt-2">
+          <label class="inline-flex items-center gap-3 w-full bg-[var(--bg-primary)] border-2 border-[var(--border-color)] hover:border-[var(--accent-color)] p-3 rounded-xl cursor-pointer transition-colors mt-2">
             <input 
               type="checkbox" 
-              class="double-height-checkbox-field w-4 h-4 text-[#8C0D1B] border-[#E7E2D8] rounded focus:ring-[#D4AF37] cursor-pointer" 
+              class="double-height-checkbox-field w-4 h-4 text-[var(--accent-color)] border-[var(--border-color)] rounded focus:ring-[var(--accent-color)] cursor-pointer" 
               data-index="${globalIdx}" 
               id="cake-double-${globalIdx}"
               ${item.doubleHeight ? 'checked' : ''}
             />
-            <span class="text-sm font-bold text-[#1C1917] flex-grow flex items-center justify-between">
+            <span class="text-sm font-bold text-[var(--text-primary)] flex-grow flex items-center justify-between">
               <span>¿Deseas pedir el cake Doble? (Doble masa / altura)</span>
-              <span class="text-xs text-[#8C0D1B] bg-red-50 border border-red-100 px-2 py-0.5 rounded-full font-bold">+80% costo base</span>
+              <span class="text-xs text-[var(--accent-color)] bg-[var(--bg-primary)] border border-[var(--border-color)] px-2 py-0.5 rounded-full font-bold">+80% costo base</span>
             </span>
           </label>
         `;
       } else if (item.id === 'cake-varios-pisos') {
         sizeSelectorHtml = `
-          <div class="bg-blue-50 border border-blue-200 text-blue-800 text-sm p-4 rounded-xl flex flex-col gap-1 leading-relaxed">
-            <span class="font-bold flex items-center gap-1">ℹ️ Nota sobre Cakes de Varios Pisos</span>
+          <div class="bg-[var(--bg-primary)] border border-[var(--border-color)] text-[var(--text-secondary)] text-sm p-4 rounded-xl flex flex-col gap-1 leading-relaxed">
+            <span class="font-bold flex items-center gap-1 text-[var(--accent-color)]">ℹ️ Nota sobre Cakes de Varios Pisos</span>
             <span>Al ser la opción más elaborada con muchas variables de diseño y montaje, el tamaño y precio final se concertarán directamente a través de WhatsApp. El precio inicial base estimado comienza desde $16500 CUP.</span>
           </div>
         `;
       }
 
       html += `
-        <div class="bg-[#FBF7EE] border border-[#E7E2D8] rounded-xl p-5 mb-6 border-l-4 border-l-[#D4AF37] space-y-4 shadow-sm" data-cart-index="${globalIdx}">
-          <h4 class="text-base font-extrabold text-[#8C0D1B] flex items-center gap-1.5">🎂 Personalización: ${item.name}</h4>
+        <div class="bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-xl p-5 mb-6 border-l-4 border-l-[var(--accent-color)] space-y-4 shadow-sm" data-cart-index="${globalIdx}">
+          <h4 class="text-base font-extrabold text-[var(--accent-color)] flex items-center gap-1.5">🎂 Personalización: ${item.name}</h4>
           
           ${sizeSelectorHtml}
           ${doubleOptionHtml}
 
           <div class="flex flex-col gap-2">
-            <label for="cake-dough-${globalIdx}" class="block text-sm font-bold text-[#1C1917]">🌾 Selección de Masa:</label>
-            <select class="dough-select-field w-full px-4 py-3 bg-[#FFFDF9] border-2 border-[#E7E2D8] rounded-xl text-sm text-[#1C1917] focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/10 transition-all outline-none cursor-pointer appearance-none" data-index="${globalIdx}" id="cake-dough-${globalIdx}">
+            <label for="cake-dough-${globalIdx}" class="block text-sm font-bold text-[var(--text-primary)]">🌾 Selección de Masa:</label>
+            <select class="dough-select-field w-full px-4 py-3 bg-[var(--bg-primary)] border-2 border-[var(--border-color)] rounded-xl text-sm text-[var(--text-primary)] focus:border-[var(--accent-color)] focus:ring-4 focus:ring-[var(--accent-color)]/10 transition-all outline-none cursor-pointer appearance-none" data-index="${globalIdx}" id="cake-dough-${globalIdx}">
               <option value="trigo" ${item.dough === 'trigo' || !item.dough ? 'selected' : ''}>Harina de trigo (Incluido)</option>
               <option value="maicena" ${item.dough === 'maicena' ? 'selected' : ''}>Maicena (+150 CUP)</option>
               <option value="capuchino" ${item.dough === 'capuchino' ? 'selected' : ''}>Capuchino (+300 CUP)</option>
@@ -775,9 +775,9 @@ import Layout from '../layouts/Layout.astro';
           </div>
 
           <div class="flex flex-col gap-2">
-            <label for="cake-theme-${globalIdx}" class="block text-sm font-bold text-[#1C1917]">✍️ Temática / Decoración y Colores:</label>
+            <label for="cake-theme-${globalIdx}" class="block text-sm font-bold text-[var(--text-primary)]">✍️ Temática / Decoración y Colores:</label>
             <textarea 
-              class="cake-note-field w-full px-4 py-3 bg-[#FFFDF9] border-2 border-[#E7E2D8] rounded-xl text-sm text-[#1C1917] focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/10 transition-all outline-none placeholder:text-[#A8A29E]" 
+              class="cake-note-field w-full px-4 py-3 bg-[var(--bg-primary)] border-2 border-[var(--border-color)] rounded-xl text-sm text-[var(--text-primary)] focus:border-[var(--accent-color)] focus:ring-4 focus:ring-[var(--accent-color)]/10 transition-all outline-none placeholder:text-[var(--text-light)]" 
               id="cake-theme-${globalIdx}"
               data-index="${globalIdx}" 
               rows="3" 
@@ -786,42 +786,42 @@ import Layout from '../layouts/Layout.astro';
           </div>
 
           <div class="flex flex-col gap-2">
-            <label class="block text-sm font-bold text-[#1C1917]">🖼️ Foto de Referencia para Decoración (Opcional):</label>
-            <div class="relative w-full border-2 border-dashed border-[#D4AF37] rounded-xl p-4 text-center cursor-pointer bg-[#FFFDF9] hover:bg-[#D4AF37]/5 transition-colors">
-              <span class="text-xs font-semibold text-[#1C1917]" id="ref-photo-label-${globalIdx}">
+            <label class="block text-sm font-bold text-[var(--text-primary)]">🖼️ Foto de Referencia para Decoración (Opcional):</label>
+            <div class="relative w-full border-2 border-dashed border-[var(--accent-color)] rounded-xl p-4 text-center cursor-pointer bg-[var(--bg-primary)] hover:bg-[var(--accent-color)]/5 transition-colors">
+              <span class="text-xs font-semibold text-[var(--text-primary)]" id="ref-photo-label-${globalIdx}">
                 ${item.refPhotoName ? `✓ ${item.refPhotoName}` : 'Haga clic para subir imagen de referencia'}
               </span>
               <input type="file" class="decorations-ref-upload-input" data-index="${globalIdx}" accept="image/*" />
             </div>
             <div class="flex items-center justify-center" id="ref-preview-${globalIdx}">
-              ${uploadedImages['ref-' + item.id] ? `<img src="${uploadedImages['ref-' + item.id]}" alt="preview" class="w-12 h-12 object-cover rounded-lg border border-[#E7E2D8] mt-2"/>` : ''}
+              ${uploadedImages['ref-' + item.id] ? `<img src="${uploadedImages['ref-' + item.id]}" alt="preview" class="w-12 h-12 object-cover rounded-lg border border-[var(--border-color)] mt-2"/>` : ''}
             </div>
           </div>
 
           <div class="flex flex-col gap-3">
-            <label class="inline-flex items-center gap-3 w-full bg-[#FFFDF9] border-2 border-[#E7E2D8] hover:border-[#D4AF37] p-3 rounded-xl cursor-pointer transition-colors">
+            <label class="inline-flex items-center gap-3 w-full bg-[var(--bg-primary)] border-2 border-[var(--border-color)] hover:border-[var(--accent-color)] p-3 rounded-xl cursor-pointer transition-colors">
               <input 
                 type="checkbox" 
-                class="edible-print-checkbox-field w-4 h-4 text-[#8C0D1B] border-[#E7E2D8] rounded focus:ring-[#D4AF37] cursor-pointer" 
+                class="edible-print-checkbox-field w-4 h-4 text-[var(--accent-color)] border-[var(--border-color)] rounded focus:ring-[var(--accent-color)] cursor-pointer" 
                 data-index="${globalIdx}" 
                 id="cake-print-${globalIdx}"
                 ${item.ediblePrint ? 'checked' : ''}
               />
-              <span class="text-sm font-bold text-[#1C1917] flex-grow flex items-center justify-between">
+              <span class="text-sm font-bold text-[var(--text-primary)] flex-grow flex items-center justify-between">
                 <span>¿Deseas añadir Impresión Comestible?</span>
-                <span class="text-xs text-[#8C0D1B] bg-red-50 border border-red-100 px-2 py-0.5 rounded-full font-bold">+650 CUP</span>
+                <span class="text-xs text-[var(--accent-color)] bg-[var(--bg-primary)] border border-[var(--border-color)] px-2 py-0.5 rounded-full font-bold">+650 CUP</span>
               </span>
             </label>
             
             <div class="print-upload-wrapper" id="print-upload-wrapper-${globalIdx}" style="display: ${item.ediblePrint ? 'block' : 'none'};">
-              <div class="relative w-full border-2 border-dashed border-[#D4AF37] rounded-xl p-4 text-center cursor-pointer bg-[#FFFDF9] hover:bg-[#D4AF37]/5 transition-colors">
-                <span class="text-xs font-semibold text-[#1C1917]" id="upload-label-${globalIdx}">
+              <div class="relative w-full border-2 border-dashed border-[var(--accent-color)] rounded-xl p-4 text-center cursor-pointer bg-[var(--bg-primary)] hover:bg-[var(--accent-color)]/5 transition-colors">
+                <span class="text-xs font-semibold text-[var(--text-primary)]" id="upload-label-${globalIdx}">
                   ${item.fileName ? `✓ ${item.fileName}` : 'Haga clic para subir la imagen para impresión'}
                 </span>
                 <input type="file" class="customizer-upload-input" data-index="${globalIdx}" accept="image/*" />
               </div>
               <div class="flex items-center justify-center mt-2" id="preview-${globalIdx}">
-                ${uploadedImages[item.id] ? `<img src="${uploadedImages[item.id]}" alt="preview" class="w-12 h-12 object-cover rounded-lg border border-[#E7E2D8]"/>` : ''}
+                ${uploadedImages[item.id] ? `<img src="${uploadedImages[item.id]}" alt="preview" class="w-12 h-12 object-cover rounded-lg border border-[var(--border-color)]"/>` : ''}
               </div>
             </div>
           </div>
