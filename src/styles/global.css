@@ -15,22 +15,22 @@
   --accent-light: #FDE68A;       /* Brand Gold Light (Soft gold cream) */
   --accent-dark: #AA7C11;        /* Brand Gold Dark */
   
-  /* Neutral Palette (Dark Theme using strictly Red & Gold variations) */
-  --bg-primary: #1A0204;         /* Deep Red Wine (Exclusive brand background) */
-  --bg-secondary: #2D0509;       /* Medium Red Wine */
-  --bg-card: #3F0B11;            /* Rich Burgundy Card Background */
-  --text-primary: #FFFDF9;       /* Pure Warm Cream for readability */
-  --text-secondary: #FDE68A;     /* Soft Gold-tinted cream text */
-  --text-light: #D4AF37;         /* Gold text for sub-labels */
+  /* Neutral Palette (Dark Theme: Midnight Blue Contrast) */
+  --bg-primary: #070A13;         /* Deep Midnight Navy Blue */
+  --bg-secondary: #0F1322;       /* Medium Velvet Navy Blue */
+  --bg-card: #171D32;            /* Rich Dark Blue Card Background */
+  --text-primary: #FFFDF9;       /* Pure Warm Cream for high legibility */
+  --text-secondary: #94A3B8;     /* Elegant Muted Slate Blue */
+  --text-light: #64748B;         /* Slate Gray */
   --text-white: #FFFFFF;
   
   /* Borders and Shadow */
-  --border-color: #5C121A;       /* Deep Red Border */
-  --border-gold: rgba(212, 175, 55, 0.45);
-  --shadow-sm: 0 2px 4px rgba(26, 2, 4, 0.5);
-  --shadow-md: 0 4px 12px rgba(26, 2, 4, 0.7);
-  --shadow-lg: 0 12px 24px rgba(26, 2, 4, 0.9);
-  --shadow-gold: 0 4px 14px rgba(212, 175, 55, 0.35);
+  --border-color: #232B44;       /* Midnight Steel Blue Border */
+  --border-gold: rgba(212, 175, 55, 0.4);
+  --shadow-sm: 0 2px 4px rgba(7, 10, 19, 0.5);
+  --shadow-md: 0 4px 12px rgba(7, 10, 19, 0.7);
+  --shadow-lg: 0 12px 24px rgba(7, 10, 19, 0.9);
+  --shadow-gold: 0 4px 14px rgba(212, 175, 55, 0.3);
   
   /* Typography */
   --font-serif: 'Playfair Display', Georgia, serif;
