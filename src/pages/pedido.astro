@@ -3,57 +3,45 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Completar Encargo">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-    <div class="mb-8 sm:mb-12">
-      <a href="/" class="inline-flex items-center text-sm font-semibold text-[#D4AF37] hover:text-[#aa7c11] transition-colors mb-4">← Volver a la Dulcería</a>
-      <h1 class="text-3xl sm:text-4xl font-serif font-extrabold text-[#8C0D1B] mb-2">🎂 Completar detalles del encargo</h1>
-      <p class="text-[#57534E] text-base sm:text-lg">Introduce los datos requeridos para generar tu orden y enviarla directamente por WhatsApp.</p>
-    </div>
-
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      <!-- Columna Izquierda: Formulario -->
-      <div class="lg:col-span-2">
-        <form id="checkout-form" class="space-y-8">
-          
-          <div class="bg-[#FFFDF9] border border-[#E7E2D8] rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
-            <h3 class="text-lg sm:text-xl font-bold text-[#8C0D1B] border-b border-[#E7E2D8] pb-4 flex items-center gap-2">👤 Datos de Contacto</h3>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div class="flex flex-col gap-2">
-                <label for="client-name" class="block text-sm font-bold text-[#1C1917]">Nombre Completo <span class="text-[#ef4444] font-bold">*</span></label>
-                <input type="text" id="client-name" required placeholder="Ej: Juan Pérez" class="w-full px-4 py-3 bg-[#FFFDF9] border border-[#E7E2D8] rounded-xl text-base text-[#1C1917] placeholder:text-[#A8A29E] focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/10 transition-all outline-none" />
-              </div>
-              <div class="flex flex-col gap-2">
-                <label for="client-phone" class="block text-sm font-bold text-[#1C1917]">Número de Teléfono <span class="text-[#ef4444] font-bold">*</span></label>
-                <input type="tel" id="client-phone" required placeholder="Ej: +53 5200 0000" class="w-full px-4 py-3 bg-[#FFFDF9] border border-[#E7E2D8] rounded-xl text-base text-[#1C1917] placeholder:text-[#A8A29E] focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/10 transition-all outline-none" />
-              </div>
-            </div>
-          </div>
-
-          <div class="bg-[#FFFDF9] border border-[#E7E2D8] rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
-            <h3 class="text-lg sm:text-xl font-bold text-[#8C0D1B] border-b border-[#E7E2D8] pb-4 flex items-center gap-2">📅 Detalles de Entrega o Recogida</h3>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div class="flex flex-col gap-2">
-                <label for="delivery-date" class="block text-sm font-bold text-[#1C1917]">Fecha Requerida <span class="text-[#ef4444] font-bold">*</span></label>
-                <input type="date" id="delivery-date" required class="w-full px-4 py-3 bg-[#FFFDF9] border border-[#E7E2D8] rounded-xl text-base text-[#1C1917] focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/10 transition-all outline-none cursor-pointer" />
-              </div>
-              <div class="flex flex-col gap-2">
-                <label for="delivery-time" class="block text-sm font-bold text-[#1C1917]">Hora Sugerida <span class="text-[#ef4444] font-bold">*</span></label>
-                <input type="time" id="delivery-time" required class="w-full px-4 py-3 bg-[#FFFDF9] border border-[#E7E2D8] rounded-xl text-base text-[#1C1917] focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/10 transition-all outline-none cursor-pointer" />
-              </div>
-            </div>
-            <p class="text-[#78716C] text-xs sm:text-sm">Recuerda hacer tu pedido con suficiente antelación para agendarlo correctamente.</p>
-          </div>
-
-          <!-- Bloque dinámico para personalizar cada cake del pedido -->
-          <div class="bg-[#FFFDF9] border border-[#E7E2D8] rounded-2xl p-6 sm:p-8 shadow-sm space-y-6" id="cakes-customization-section">
-            <h3 class="text-lg sm:text-xl font-bold text-[#8C0D1B] border-b border-[#E7E2D8] pb-4 flex items-center gap-2">🎨 Personalización de tus Cakes</h3>
-            <div id="cakes-customizers-container" class="space-y-6">
-              <!-- Se inyecta dinámicamente con JS para cada cake del carrito -->
-            </div>
-          </div>
-
-        </form>
+  <div class="min-h-screen bg-gradient-to-b from-[#FFFDF9] via-[#FDFBF7] to-[#F5EFE6] py-8 sm:py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mb-8 sm:mb-12">
+        <a href="/" class="inline-flex items-center text-sm font-semibold text-[#D4AF37] hover:text-[#aa7c11] transition-colors mb-4">← Volver a la Dulcería</a>
+        <h1 class="text-3xl sm:text-4xl font-serif font-extrabold text-[#8C0D1B] mb-2 tracking-wide">🧁 Personaliza y Completa tu Pedido</h1>
+        <p class="text-[#57534E] text-base sm:text-lg">Configura el tamaño, masa y detalles de decoración para cada cake de tu pedido antes de enviarlo por WhatsApp.</p>
       </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Columna Izquierda: Formulario -->
+        <div class="lg:col-span-2">
+          <form id="checkout-form" class="space-y-8">
+            
+            <!-- Bloque 1: Personalización de los Cakes -->
+            <div class="bg-white border border-[#E7E2D8] rounded-2xl p-6 sm:p-8 shadow-md hover:shadow-lg transition-shadow space-y-6" id="cakes-customization-section">
+              <h3 class="text-lg sm:text-xl font-bold text-[#8C0D1B] border-b border-[#E7E2D8] pb-4 flex items-center gap-2">🎨 1. Personalización de tus Cakes</h3>
+              <div id="cakes-customizers-container" class="space-y-6">
+                <!-- Se inyecta dinámicamente con JS para cada cake del carrito -->
+              </div>
+            </div>
+
+            <!-- Bloque 2: Detalles de Entrega -->
+            <div class="bg-white border border-[#E7E2D8] rounded-2xl p-6 sm:p-8 shadow-md hover:shadow-lg transition-shadow space-y-6">
+              <h3 class="text-lg sm:text-xl font-bold text-[#8C0D1B] border-b border-[#E7E2D8] pb-4 flex items-center gap-2">📅 2. Detalles de Entrega o Recogida</h3>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div class="flex flex-col gap-2">
+                  <label for="delivery-date" class="block text-sm font-bold text-[#1C1917]">Fecha Requerida <span class="text-[#ef4444] font-bold">*</span></label>
+                  <input type="date" id="delivery-date" required class="w-full px-4 py-3 bg-[#FFFDF9] border border-[#E7E2D8] rounded-xl text-base text-[#1C1917] focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/10 transition-all outline-none cursor-pointer font-medium" />
+                </div>
+                <div class="flex flex-col gap-2">
+                  <label for="delivery-time" class="block text-sm font-bold text-[#1C1917]">Hora Sugerida <span class="text-[#ef4444] font-bold">*</span></label>
+                  <input type="time" id="delivery-time" required class="w-full px-4 py-3 bg-[#FFFDF9] border border-[#E7E2D8] rounded-xl text-base text-[#1C1917] focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/10 transition-all outline-none cursor-pointer font-medium" />
+                </div>
+              </div>
+              <p class="text-[#78716C] text-xs sm:text-sm">Agendaremos tu pedido de forma inmediata al contactarnos por WhatsApp.</p>
+            </div>
+
+          </form>
+        </div>
 
       <!-- Columna Derecha: Resumen de Pedido -->
       <div class="lg:col-span-1">
@@ -706,9 +694,12 @@ import Layout from '../layouts/Layout.astro';
       if (item.id === 'cake-redondo') {
         sizeSelectorHtml = `
           <div class="flex flex-col gap-2">
-            <label for="cake-size-${globalIdx}" class="block text-sm font-bold text-[#1C1917]">📏 Tamaño del Cake:</label>
+            <label for="cake-size-${globalIdx}" class="block text-sm font-bold text-[#1C1917] flex items-center justify-between">
+              <span>📏 Tamaño del Cake:</span>
+              <span class="text-xs text-[#8C0D1B] bg-red-50 border border-red-100 px-2 py-0.5 rounded-full font-bold">Base: 20cm</span>
+            </label>
             <select class="size-select-field w-full px-4 py-3 bg-[#FFFDF9] border-2 border-[#E7E2D8] rounded-xl text-sm text-[#1C1917] focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/10 transition-all outline-none cursor-pointer appearance-none" data-index="${globalIdx}" id="cake-size-${globalIdx}">
-              <option value="20" ${item.size === '20' || !item.size ? 'selected' : ''}>20 cm (Precio Base)</option>
+              <option value="20" ${item.size === '20' || !item.size ? 'selected' : ''}>20 cm (Incluido)</option>
               <option value="25" ${item.size === '25' ? 'selected' : ''}>25 cm (+1500 CUP)</option>
               <option value="30" ${item.size === '30' ? 'selected' : ''}>30 cm (+7200 CUP)</option>
             </select>
@@ -723,15 +714,21 @@ import Layout from '../layouts/Layout.astro';
               id="cake-double-${globalIdx}"
               ${item.doubleHeight ? 'checked' : ''}
             />
-            <span class="text-sm font-bold text-[#1C1917]">¿Deseas pedir el cake Doble? (Doble masa / altura, +80%)</span>
+            <span class="text-sm font-bold text-[#1C1917] flex-grow flex items-center justify-between">
+              <span>¿Deseas pedir el cake Doble? (Doble masa / altura)</span>
+              <span class="text-xs text-[#8C0D1B] bg-red-50 border border-red-100 px-2 py-0.5 rounded-full font-bold">+80% costo base</span>
+            </span>
           </label>
         `;
       } else if (item.id === 'cake-bandeja') {
         sizeSelectorHtml = `
           <div class="flex flex-col gap-2">
-            <label for="cake-size-${globalIdx}" class="block text-sm font-bold text-[#1C1917]">📏 Tamaño de la Bandeja:</label>
+            <label for="cake-size-${globalIdx}" class="block text-sm font-bold text-[#1C1917] flex items-center justify-between">
+              <span>📏 Tamaño de la Bandeja:</span>
+              <span class="text-xs text-[#8C0D1B] bg-red-50 border border-red-100 px-2 py-0.5 rounded-full font-bold">Base: Media</span>
+            </label>
             <select class="size-select-field w-full px-4 py-3 bg-[#FFFDF9] border-2 border-[#E7E2D8] rounded-xl text-sm text-[#1C1917] focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/10 transition-all outline-none cursor-pointer appearance-none" data-index="${globalIdx}" id="cake-size-${globalIdx}">
-              <option value="media" ${item.size === 'media' || !item.size ? 'selected' : ''}>Media Bandeja (Precio Base)</option>
+              <option value="media" ${item.size === 'media' || !item.size ? 'selected' : ''}>Media Bandeja (Incluido)</option>
               <option value="completa" ${item.size === 'completa' ? 'selected' : ''}>Bandeja Completa (+5400 CUP)</option>
             </select>
           </div>
@@ -746,7 +743,10 @@ import Layout from '../layouts/Layout.astro';
               id="cake-double-${globalIdx}"
               ${item.doubleHeight ? 'checked' : ''}
             />
-            <span class="text-sm font-bold text-[#1C1917]">¿Deseas pedir el cake Doble? (Doble masa / altura, +80%)</span>
+            <span class="text-sm font-bold text-[#1C1917] flex-grow flex items-center justify-between">
+              <span>¿Deseas pedir el cake Doble? (Doble masa / altura)</span>
+              <span class="text-xs text-[#8C0D1B] bg-red-50 border border-red-100 px-2 py-0.5 rounded-full font-bold">+80% costo base</span>
+            </span>
           </label>
         `;
       } else if (item.id === 'cake-varios-pisos') {
@@ -759,7 +759,7 @@ import Layout from '../layouts/Layout.astro';
       }
 
       html += `
-        <div class="bg-[#FBF7EE] border border-[#E7E2D8] rounded-xl p-5 mb-6 border-l-4 border-l-[#D4AF37] space-y-4" data-cart-index="${globalIdx}">
+        <div class="bg-[#FBF7EE] border border-[#E7E2D8] rounded-xl p-5 mb-6 border-l-4 border-l-[#D4AF37] space-y-4 shadow-sm" data-cart-index="${globalIdx}">
           <h4 class="text-base font-extrabold text-[#8C0D1B] flex items-center gap-1.5">🎂 Personalización: ${item.name}</h4>
           
           ${sizeSelectorHtml}
@@ -768,9 +768,9 @@ import Layout from '../layouts/Layout.astro';
           <div class="flex flex-col gap-2">
             <label for="cake-dough-${globalIdx}" class="block text-sm font-bold text-[#1C1917]">🌾 Selección de Masa:</label>
             <select class="dough-select-field w-full px-4 py-3 bg-[#FFFDF9] border-2 border-[#E7E2D8] rounded-xl text-sm text-[#1C1917] focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/10 transition-all outline-none cursor-pointer appearance-none" data-index="${globalIdx}" id="cake-dough-${globalIdx}">
-              <option value="trigo" ${item.dough === 'trigo' || !item.dough ? 'selected' : ''}>Harina de trigo (Por defecto)</option>
-              <option value="maicena" ${item.dough === 'maicena' ? 'selected' : ''}>Maicena</option>
-              <option value="capuchino" ${item.dough === 'capuchino' ? 'selected' : ''}>Capuchino</option>
+              <option value="trigo" ${item.dough === 'trigo' || !item.dough ? 'selected' : ''}>Harina de trigo (Incluido)</option>
+              <option value="maicena" ${item.dough === 'maicena' ? 'selected' : ''}>Maicena (+150 CUP)</option>
+              <option value="capuchino" ${item.dough === 'capuchino' ? 'selected' : ''}>Capuchino (+300 CUP)</option>
             </select>
           </div>
 
@@ -807,7 +807,10 @@ import Layout from '../layouts/Layout.astro';
                 id="cake-print-${globalIdx}"
                 ${item.ediblePrint ? 'checked' : ''}
               />
-              <span class="text-sm font-bold text-[#1C1917]">¿Deseas añadir Impresión Comestible?</span>
+              <span class="text-sm font-bold text-[#1C1917] flex-grow flex items-center justify-between">
+                <span>¿Deseas añadir Impresión Comestible?</span>
+                <span class="text-xs text-[#8C0D1B] bg-red-50 border border-red-100 px-2 py-0.5 rounded-full font-bold">+650 CUP</span>
+              </span>
             </label>
             
             <div class="print-upload-wrapper" id="print-upload-wrapper-${globalIdx}" style="display: ${item.ediblePrint ? 'block' : 'none'};">
@@ -998,18 +1001,14 @@ import Layout from '../layouts/Layout.astro';
 
   // WhatsApp checkout final message composition
   confirmWhatsappCheckoutBtn?.addEventListener('click', () => {
-    const clientNameInput = document.getElementById('client-name') as HTMLInputElement | null;
-    const clientPhoneInput = document.getElementById('client-phone') as HTMLInputElement | null;
     const deliveryDateInput = document.getElementById('delivery-date') as HTMLInputElement | null;
     const deliveryTimeInput = document.getElementById('delivery-time') as HTMLInputElement | null;
 
-    const clientName = clientNameInput?.value.trim();
-    const clientPhone = clientPhoneInput?.value.trim();
     const deliveryDate = deliveryDateInput?.value;
     const deliveryTime = deliveryTimeInput?.value;
 
-    if (!clientName || !clientPhone || !deliveryDate || !deliveryTime) {
-      alert('Por favor, rellene todos los campos obligatorios del formulario (Nombre, Teléfono, Fecha y Hora).');
+    if (!deliveryDate || !deliveryTime) {
+      alert('Por favor, rellene todos los campos obligatorios del formulario (Fecha y Hora Requerida).');
       return;
     }
 
@@ -1018,8 +1017,6 @@ import Layout from '../layouts/Layout.astro';
     const formattedDate = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
 
     let message = '🍰 *NUEVO ENCARGO - DULCERÍA EL LÍDER* 🍰\n\n';
-    message += `👤 *CLIENTE:* ${clientName}\n`;
-    message += `📱 *TELÉFONO:* ${clientPhone}\n`;
     message += `📅 *FECHA DE ENTREGA:* ${formattedDate}\n`;
     message += `🕒 *HORA DE ENTREGA:* ${deliveryTime}\n\n`;
     message += '━━━━━━━━━━━━━━━━━━━━━━━━━\n';
