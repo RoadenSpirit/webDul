@@ -3,12 +3,12 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Completar Encargo">
-  <div class="min-h-screen bg-gradient-to-b from-[#FFFDF9] via-[#FDFBF7] to-[#F5EFE6] py-8 sm:py-12">
+  <div class="min-h-screen bg-gradient-to-b from-[var(--bg-primary)] via-[var(--bg-secondary)] to-[var(--bg-primary)] py-8 sm:py-12 text-[var(--text-primary)]">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="mb-8 sm:mb-12">
-        <a href="/" class="inline-flex items-center text-sm font-semibold text-[#D4AF37] hover:text-[#aa7c11] transition-colors mb-4">← Volver a la Dulcería</a>
-        <h1 class="text-3xl sm:text-4xl font-serif font-extrabold text-[#8C0D1B] mb-2 tracking-wide">🧁 Personaliza y Completa tu Pedido</h1>
-        <p class="text-[#57534E] text-base sm:text-lg">Configura el tamaño, masa y detalles de decoración para cada cake de tu pedido antes de enviarlo por WhatsApp.</p>
+        <a href="/" class="inline-flex items-center text-sm font-semibold text-[var(--accent-color)] hover:text-[var(--accent-dark)] transition-colors mb-4">← Volver a la Dulcería</a>
+        <h1 class="text-3xl sm:text-4xl font-serif font-extrabold text-[var(--accent-color)] mb-2 tracking-wide">🧁 Personaliza y Completa tu Pedido</h1>
+        <p class="text-[var(--text-secondary)] text-base sm:text-lg">Configura el tamaño, masa y detalles de decoración para cada cake de tu pedido antes de enviarlo por WhatsApp.</p>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -17,27 +17,27 @@ import Layout from '../layouts/Layout.astro';
           <form id="checkout-form" class="space-y-8">
             
             <!-- Bloque 1: Personalización de los Cakes -->
-            <div class="bg-white border border-[#E7E2D8] rounded-2xl p-6 sm:p-8 shadow-md hover:shadow-lg transition-shadow space-y-6" id="cakes-customization-section">
-              <h3 class="text-lg sm:text-xl font-bold text-[#8C0D1B] border-b border-[#E7E2D8] pb-4 flex items-center gap-2">🎨 1. Personalización de tus Cakes</h3>
+            <div class="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-6 sm:p-8 shadow-md hover:shadow-lg transition-shadow space-y-6" id="cakes-customization-section">
+              <h3 class="text-lg sm:text-xl font-bold text-[var(--accent-color)] border-b border-[var(--border-color)] pb-4 flex items-center gap-2">🎨 1. Personalización de tus Cakes</h3>
               <div id="cakes-customizers-container" class="space-y-6">
                 <!-- Se inyecta dinámicamente con JS para cada cake del carrito -->
               </div>
             </div>
 
             <!-- Bloque 2: Detalles de Entrega -->
-            <div class="bg-white border border-[#E7E2D8] rounded-2xl p-6 sm:p-8 shadow-md hover:shadow-lg transition-shadow space-y-6">
-              <h3 class="text-lg sm:text-xl font-bold text-[#8C0D1B] border-b border-[#E7E2D8] pb-4 flex items-center gap-2">📅 2. Detalles de Entrega o Recogida</h3>
+            <div class="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-6 sm:p-8 shadow-md hover:shadow-lg transition-shadow space-y-6">
+              <h3 class="text-lg sm:text-xl font-bold text-[var(--accent-color)] border-b border-[var(--border-color)] pb-4 flex items-center gap-2">📅 2. Detalles de Entrega o Recogida</h3>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div class="flex flex-col gap-2">
-                  <label for="delivery-date" class="block text-sm font-bold text-[#1C1917]">Fecha Requerida <span class="text-[#ef4444] font-bold">*</span></label>
-                  <input type="date" id="delivery-date" required class="w-full px-4 py-3 bg-[#FFFDF9] border border-[#E7E2D8] rounded-xl text-base text-[#1C1917] focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/10 transition-all outline-none cursor-pointer font-medium" />
+                  <label for="delivery-date" class="block text-sm font-bold text-[var(--text-primary)]">Fecha Requerida <span class="text-[#ef4444] font-bold">*</span></label>
+                  <input type="date" id="delivery-date" required class="w-full px-4 py-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl text-base text-[var(--text-primary)] focus:border-[var(--accent-color)] focus:ring-4 focus:ring-[var(--accent-color)]/10 transition-all outline-none cursor-pointer font-medium" />
                 </div>
                 <div class="flex flex-col gap-2">
-                  <label for="delivery-time" class="block text-sm font-bold text-[#1C1917]">Hora Sugerida <span class="text-[#ef4444] font-bold">*</span></label>
-                  <input type="time" id="delivery-time" required class="w-full px-4 py-3 bg-[#FFFDF9] border border-[#E7E2D8] rounded-xl text-base text-[#1C1917] focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/10 transition-all outline-none cursor-pointer font-medium" />
+                  <label for="delivery-time" class="block text-sm font-bold text-[var(--text-primary)]">Hora Sugerida <span class="text-[#ef4444] font-bold">*</span></label>
+                  <input type="time" id="delivery-time" required class="w-full px-4 py-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl text-base text-[var(--text-primary)] focus:border-[var(--accent-color)] focus:ring-4 focus:ring-[var(--accent-color)]/10 transition-all outline-none cursor-pointer font-medium" />
                 </div>
               </div>
-              <p class="text-[#78716C] text-xs sm:text-sm">Agendaremos tu pedido de forma inmediata al contactarnos por WhatsApp.</p>
+              <p class="text-[var(--text-light)] text-xs sm:text-sm">Agendaremos tu pedido de forma inmediata al contactarnos por WhatsApp.</p>
             </div>
 
           </form>
@@ -45,34 +45,34 @@ import Layout from '../layouts/Layout.astro';
 
       <!-- Columna Derecha: Resumen de Pedido -->
       <div class="lg:col-span-1">
-        <div class="bg-[#FFFDF9] border border-[#E7E2D8] rounded-2xl p-6 sm:p-8 shadow-sm space-y-6 sticky top-8">
-          <h3 class="text-lg sm:text-xl font-bold text-[#8C0D1B] border-b border-[#E7E2D8] pb-4 flex items-center gap-2">🛒 Resumen del Encargo</h3>
+        <div class="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-6 sm:p-8 shadow-sm space-y-6 sticky top-8">
+          <h3 class="text-lg sm:text-xl font-bold text-[var(--accent-color)] border-b border-[var(--border-color)] pb-4 flex items-center gap-2">🛒 Resumen del Encargo</h3>
           
           <div id="summary-items-list" class="space-y-4 max-h-[350px] overflow-y-auto pr-1">
             <!-- Inyectado dinámicamente por JS -->
           </div>
 
-          <div class="border-t border-[#E7E2D8] pt-4 space-y-2 text-sm text-[#57534E]">
+          <div class="border-t border-[var(--border-color)] pt-4 space-y-2 text-sm text-[var(--text-secondary)]">
             <div class="flex justify-between">
               <span>Subtotal dulces</span>
-              <span id="summary-subtotal" class="font-semibold">$0 CUP</span>
+              <span id="summary-subtotal" class="font-semibold text-[var(--text-primary)]">$0 CUP</span>
             </div>
             <div class="flex justify-between">
               <span>Masa maicena/capuchino</span>
-              <span id="summary-dough-extra" class="font-semibold">$0 CUP</span>
+              <span id="summary-dough-extra" class="font-semibold text-[var(--text-primary)]">$0 CUP</span>
             </div>
             <div class="flex justify-between">
               <span>Impresión comestible</span>
-              <span id="summary-addons-extra" class="font-semibold">$0 CUP</span>
+              <span id="summary-addons-extra" class="font-semibold text-[var(--text-primary)]">$0 CUP</span>
             </div>
-            <div class="flex justify-between text-base font-bold text-[#8C0D1B] border-t border-[#E7E2D8] pt-3 mt-2">
+            <div class="flex justify-between text-base font-bold text-[var(--accent-color)] border-t border-[var(--border-color)] pt-3 mt-2">
               <span>Total Estimado</span>
-              <span id="summary-total" class="text-[#8C0D1B]">$0 CUP</span>
+              <span id="summary-total" class="text-[var(--accent-color)]">$0 CUP</span>
             </div>
           </div>
 
           <div class="space-y-4">
-            <div class="bg-[#FFFBEB] border border-[#FEF3C7] text-[#B45309] text-xs p-3 rounded-xl leading-relaxed">
+            <div class="bg-[var(--bg-secondary)] border border-[var(--border-color)] text-[var(--text-secondary)] text-xs p-3 rounded-xl leading-relaxed">
               ⚠️ La decoración final y precio de cakes personalizados se acordará por WhatsApp. Decoraciones complejas pueden variar el precio.
             </div>
             <button type="button" id="confirm-whatsapp-checkout-btn" class="w-full py-4 bg-[#25D366] hover:bg-[#20ba59] active:scale-[0.98] text-white font-bold text-base rounded-xl transition-all shadow-md flex items-center justify-center gap-2">

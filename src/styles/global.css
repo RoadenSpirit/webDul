@@ -4,33 +4,33 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Design System for Dulcería El Líder */
+/* Design System for Dulcería El Líder (Dark Premium Mode) */
 
 :root {
   /* Color Palette */
-  --primary-color: #8C0D1B;      /* Premium Burgundy / Red */
-  --primary-light: #B81D24;      /* Lighter Crimson */
-  --primary-dark: #58000A;       /* Deep Burgundy */
-  --accent-color: #D4AF37;       /* Classic Gold */
-  --accent-light: #F3E5AB;       /* Soft Light Gold */
+  --primary-color: #B81D24;      /* Lighter Burgundy/Crimson for high-contrast visibility on dark backgrounds */
+  --primary-light: #EF4444;      /* Bright Red */
+  --primary-dark: #8C0D1B;       /* Premium Burgundy */
+  --accent-color: #D4AF37;       /* Classic Metallic Gold */
+  --accent-light: #FBF7EE;       /* Warm Cream */
   --accent-dark: #AA7C11;        /* Dark Antique Gold */
   
-  /* Neutral Palette */
-  --bg-primary: #FFFDF9;         /* Creamy warm white */
-  --bg-secondary: #FBF7EE;       /* Warm secondary cream */
-  --bg-card: #FFFFFF;
-  --text-primary: #1C1917;       /* Very dark brown/charcoal */
-  --text-secondary: #57534E;     /* Medium warm gray */
-  --text-light: #878580;         /* Light muted gray */
+  /* Neutral Palette (Dark Theme) */
+  --bg-primary: #0A0506;         /* Deepest dark velvet black with burgundy tint */
+  --bg-secondary: #13080A;       /* Secondary dark burgundy-tinted black */
+  --bg-card: #1C0F11;            /* Lighter dark burgundy card background */
+  --text-primary: #FFFDF9;       /* Creamy warm white for high legibility */
+  --text-secondary: #E7E2D8;     /* Muted cream */
+  --text-light: #A8A29E;         /* Warm muted gray */
   --text-white: #FFFFFF;
   
   /* Borders and Shadow */
-  --border-color: #E7E2D8;
-  --border-gold: rgba(212, 175, 55, 0.3);
-  --shadow-sm: 0 2px 4px rgba(140, 13, 27, 0.04);
-  --shadow-md: 0 4px 12px rgba(140, 13, 27, 0.08);
-  --shadow-lg: 0 12px 24px rgba(140, 13, 27, 0.12);
-  --shadow-gold: 0 4px 14px rgba(212, 175, 55, 0.2);
+  --border-color: #2D1A1D;       /* Subtle dark burgundy border */
+  --border-gold: rgba(212, 175, 55, 0.4);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.7);
+  --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.9);
+  --shadow-gold: 0 4px 14px rgba(212, 175, 55, 0.35);
   
   /* Typography */
   --font-serif: 'Playfair Display', Georgia, serif;
@@ -71,10 +71,17 @@ body {
 }
 
 /* Headings */
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3 {
   font-family: var(--font-serif);
   font-weight: 700;
-  color: var(--primary-dark);
+  color: var(--accent-color);
+  line-height: 1.25;
+}
+
+h4, h5, h6 {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  color: var(--text-primary);
   line-height: 1.25;
 }
 

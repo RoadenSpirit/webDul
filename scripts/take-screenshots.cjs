@@ -40,8 +40,9 @@ const targets = [
 
 function downloadScreenshot(target, element) {
   return new Promise((resolve, reject) => {
-    // Build Microlink API URL leveraging caching
-    let microlinkUrl = `https://api.microlink.io?url=${encodeURIComponent(target.url)}&screenshot=true&embed=screenshot.url&viewport.width=${target.width}&viewport.height=${target.height}${target.isMobile ? '&viewport.isMobile=true' : ''}`;
+    const separator = target.url.includes('?') ? '&' : '?';
+    const targetUrlWithBuster = `${target.url}${separator}cb=${Date.now()}`;
+    let microlinkUrl = `https://api.microlink.io?url=${encodeURIComponent(targetUrlWithBuster)}&screenshot=true&embed=screenshot.url&viewport.width=${target.width}&viewport.height=${target.height}${target.isMobile ? '&viewport.isMobile=true' : ''}`;
     
     if (element) {
       microlinkUrl += `&screenshot.element=${encodeURIComponent(element)}&force=true`;
