@@ -7,30 +7,30 @@
 /* Design System for Dulcería El Líder (Dark Premium Mode) */
 
 :root {
-  /* Color Palette */
-  --primary-color: #8C0D1B;      /* Brand Red (Burgundy) */
-  --primary-light: #B81D24;      /* Brand Red Light */
-  --primary-dark: #58000A;       /* Brand Red Dark */
-  --accent-color: #D4AF37;       /* Brand Gold */
-  --accent-light: #FDE68A;       /* Brand Gold Light (Soft gold cream) */
-  --accent-dark: #AA7C11;        /* Brand Gold Dark */
+  /* Color Palette (Eliza Palette) */
+  --primary-color: #710912;      /* Deep Burgundy */
+  --primary-light: #9c1723;
+  --primary-dark: #4a0309;
+  --accent-color: #C28D39;       /* Antique Gold */
+  --accent-light: #EFE5D2;       /* Warm Champagne */
+  --accent-dark: #916624;
   
-  /* Neutral Palette (Dark Theme: Midnight Blue Contrast) */
-  --bg-primary: #070A13;         /* Deep Midnight Navy Blue */
-  --bg-secondary: #0F1322;       /* Medium Velvet Navy Blue */
-  --bg-card: #171D32;            /* Rich Dark Blue Card Background */
-  --text-primary: #FFFDF9;       /* Pure Warm Cream for high legibility */
-  --text-secondary: #94A3B8;     /* Elegant Muted Slate Blue */
-  --text-light: #64748B;         /* Slate Gray */
+  /* Neutral Palette (Dark Theme: Midnight Black & Espresso Contrast) */
+  --bg-primary: #0D0D0D;         /* Midnight Black */
+  --bg-secondary: #221A18;       /* Medium Dark Espresso variant */
+  --bg-card: #362822;            /* Dark Espresso */
+  --text-primary: #EFE5D2;       /* Warm Champagne for high legibility */
+  --text-secondary: #C28D39;     /* Antique Gold */
+  --text-light: #8C8276;         /* Muted Champagne */
   --text-white: #FFFFFF;
   
   /* Borders and Shadow */
-  --border-color: #232B44;       /* Midnight Steel Blue Border */
-  --border-gold: rgba(212, 175, 55, 0.4);
-  --shadow-sm: 0 2px 4px rgba(7, 10, 19, 0.5);
-  --shadow-md: 0 4px 12px rgba(7, 10, 19, 0.7);
-  --shadow-lg: 0 12px 24px rgba(7, 10, 19, 0.9);
-  --shadow-gold: 0 4px 14px rgba(212, 175, 55, 0.3);
+  --border-color: #4E3B33;       /* Espresso Border */
+  --border-gold: rgba(194, 141, 57, 0.4);
+  --shadow-sm: 0 2px 4px rgba(13, 13, 13, 0.5);
+  --shadow-md: 0 4px 12px rgba(13, 13, 13, 0.7);
+  --shadow-lg: 0 12px 24px rgba(13, 13, 13, 0.9);
+  --shadow-gold: 0 4px 14px rgba(194, 141, 57, 0.35);
   
   /* Typography */
   --font-serif: 'Playfair Display', Georgia, serif;

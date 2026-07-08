@@ -15,6 +15,8 @@ En este archivo se lleva el control del estado de las características planifica
 - [x] Formulario de pedido reorganizado situando la personalización de cakes al principio y los detalles de entrega al final.
 - [x] Remoción de los campos Nombre y Teléfono en el checkout para simplificar y usar la identidad de WhatsApp del cliente.
 - [x] Inclusión de avisos detallados de incremento de precio (+1500, +7200, +5400, +80%, +150, +300, +650) directamente en el formulario de la página de pedido para mayor claridad en el paso final.
+- [x] Agregar la imagen de la paleta de colores de diseño "Eliza" (`palette.jpg` / `eliza_palette.jpg`) en la carpeta `public/` para uso como referencia visual (2026-07-08).
+
 
 ## Características Pendientes
 - [ ] Validar visualmente la página de checkout (`/pedido`) con las nuevas opciones de personalización (tamaños, cakes dobles y bandeja completa) y con el fondo crema mejorado.
