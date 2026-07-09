@@ -41,8 +41,11 @@ const {
       <div class="header-container">
         <div class="flex-1 flex justify-start">
           <a href="/" class="logo-area">
-            <span class="logo-title">El Líder</span>
-            <span class="logo-subtitle">DULCERÍA ARTESANAL</span>
+            <img src="/logo-en-blanco.png" alt="Carmay Outfit Logo" class="logo-img" />
+            <div class="logo-text-wrapper">
+              <span class="logo-title">El Líder</span>
+              <span class="logo-subtitle">DULCERÍA ARTESANAL</span>
+            </div>
           </a>
         </div>
         <nav class="main-nav">
@@ -67,7 +70,10 @@ const {
     <footer id="contacto" class="main-footer">
       <div class="footer-container">
         <div class="footer-section">
-          <h3>El Líder</h3>
+          <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+            <img src="/logo-en-blanco.png" alt="Carmay Outfit Logo" style="height: 48px; width: auto; object-fit: contain;" />
+            <h3 style="margin: 0; font-size: 1.5rem;">El Líder</h3>
+          </div>
           <p class="footer-desc">Dulces exquisitos elaborados con ingredientes seleccionados y decoraciones de gran valor. Cada dulce es una obra de arte única hecha por encargo.</p>
         </div>
         <div class="footer-section">
@@ -135,6 +141,18 @@ const {
   }
 
   .logo-area {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .logo-img {
+    height: 42px;
+    width: auto;
+    object-fit: contain;
+  }
+
+  .logo-text-wrapper {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
