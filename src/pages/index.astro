@@ -8,18 +8,18 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
 
 <Layout title="Inicio - Dulcería por Encargo">
   <!-- Hero Section -->
-  <section class="relative h-[80vh] min-h-[500px] flex items-center justify-center bg-cover bg-center text-center px-8" style="background-image: url('https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=1600&auto=format&fit=crop');">
-    <div class="absolute inset-0 bg-gradient-to-br from-[#58000a]/85 to-[#0c0c0c]/70 z-10"></div>
-    <div class="relative z-20 max-w-3xl space-y-6">
-      <div class="flex justify-center mb-2">
-        <img src="/logo-correcto.png" alt="Dulcería El Líder Logo" class="h-24 w-24 sm:h-28 sm:w-28 object-cover rounded-full shadow-lg border-2 border-[var(--accent-color)]" style="aspect-ratio: 1/1;" />
+  <section class="hero-section">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-logo-wrap">
+        <img src="/logo-correcto.png" alt="Dulcería El Líder Logo" class="hero-logo" />
       </div>
-      <span class="inline-block bg-[#D4AF37] text-[#1C1917] px-5 py-1.5 font-bold text-xs uppercase tracking-[2px] rounded-full shadow-sm">Artesanal & Premium</span>
-      <h1 class="text-4xl sm:text-5xl md:text-6xl font-serif font-extrabold text-white leading-tight drop-shadow-md">El Arte de la Dulcería Fina</h1>
-      <p class="text-lg sm:text-xl font-light text-white/95 max-w-2xl mx-auto leading-relaxed">Cakes exclusivos y dulces de alta calidad elaborados totalmente por encargo para hacer de tu celebración un momento inolvidable.</p>
-      <div class="flex flex-col sm:flex-row gap-4 justify-center pt-2">
-        <a href="#catalogo" class="px-8 py-4 bg-gradient-to-r from-[#D4AF37] to-[#aa7c11] hover:from-[#aa7c11] hover:to-[#D4AF37] active:scale-[0.98] text-[#1C1917] font-bold text-base rounded-xl transition-all shadow-lg">Ver la Carta</a>
-        <a href="#como-pedir" class="px-8 py-4 bg-transparent border-2 border-white hover:bg-white hover:text-[#1C1917] active:scale-[0.98] text-white font-bold text-base rounded-xl transition-all">¿Cómo pedir?</a>
+      <span class="hero-badge">✨ Artesanal &amp; Premium</span>
+      <h1 class="hero-title">El Arte de la Dulcería Fina</h1>
+      <p class="hero-subtitle">Cakes exclusivos y dulces de alta calidad elaborados totalmente por encargo para hacer de tu celebración un momento inolvidable.</p>
+      <div class="hero-actions">
+        <a href="#catalogo" class="hero-btn-primary">🎂 Ver la Carta</a>
+        <a href="#como-pedir" class="hero-btn-secondary">¿Cómo pedir?</a>
       </div>
     </div>
   </section>
@@ -317,14 +317,152 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
 </Layout>
 
 <style>
-  /* General Components */
+  /* ============================================================
+     HERO SECTION
+     ============================================================ */
+  .hero-section {
+    position: relative;
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #E8196C 0%, #FF6B35 100%);
+    text-align: center;
+    padding: 4rem 2rem;
+    overflow: hidden;
+  }
+
+  .hero-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url('https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat;
+    opacity: 0.12;
+    z-index: 0;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(232,25,108,0.75) 0%, rgba(255,107,53,0.7) 100%);
+    z-index: 1;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 760px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .hero-logo-wrap {
+    margin-bottom: 0.5rem;
+  }
+
+  .hero-logo {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid rgba(255,255,255,0.5);
+    box-shadow: 0 0 40px rgba(255,255,255,0.25), 0 8px 32px rgba(0,0,0,0.3);
+  }
+
+  @media (min-width: 640px) {
+    .hero-logo {
+      width: 200px;
+      height: 200px;
+    }
+  }
+
+  .hero-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.25);
+    backdrop-filter: blur(8px);
+    color: #fff;
+    padding: 0.45rem 1.25rem;
+    font-weight: 800;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    border-radius: 50px;
+    border: 1px solid rgba(255,255,255,0.4);
+  }
+
+  .hero-title {
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 6vw, 3.75rem);
+    font-weight: 900;
+    color: #FFFFFF;
+    line-height: 1.15;
+    text-shadow: 0 2px 16px rgba(0,0,0,0.3);
+  }
+
+  .hero-subtitle {
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    color: rgba(255,255,255,0.95);
+    max-width: 600px;
+    line-height: 1.7;
+    font-weight: 400;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 0.5rem;
+  }
+
+  .hero-btn-primary {
+    background: #FFFFFF;
+    color: #E8196C;
+    font-weight: 800;
+    font-size: 1rem;
+    padding: 0.9rem 2.25rem;
+    border-radius: var(--border-radius-md);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.2);
+    transition: all var(--transition-fast);
+    letter-spacing: 0.3px;
+  }
+
+  .hero-btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 32px rgba(0,0,0,0.3);
+    background: #FFF8F0;
+    color: #C2185B;
+  }
+
+  .hero-btn-secondary {
+    background: transparent;
+    color: #FFFFFF;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 0.9rem 2.25rem;
+    border-radius: var(--border-radius-md);
+    border: 2px solid rgba(255,255,255,0.7);
+    transition: all var(--transition-fast);
+  }
+
+  .hero-btn-secondary:hover {
+    background: rgba(255,255,255,0.15);
+    border-color: #fff;
+    transform: translateY(-2px);
+  }
+
+  /* ============================================================
+     GENERAL COMPONENTS
+     ============================================================ */
   .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     padding: 0.8rem 2rem;
     font-size: 0.95rem;
-    font-weight: 600;
+    font-weight: 700;
     border-radius: var(--border-radius-md);
     cursor: pointer;
     transition: all var(--transition-fast);
@@ -332,15 +470,15 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
   }
 
   .btn-primary {
-    background: linear-gradient(135deg, var(--accent-color), var(--accent-dark));
-    color: #0D0D0D;
+    background: var(--gradient-brand);
+    color: #FFFFFF;
     box-shadow: var(--shadow-md);
   }
 
   .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: var(--shadow-gold);
-    background: linear-gradient(135deg, #f7d25b, var(--accent-color));
+    box-shadow: var(--shadow-lg);
+    background: linear-gradient(135deg, #C2185B, #E8196C);
   }
 
   .btn-outline {
@@ -363,123 +501,127 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
     font-size: 0.85rem;
   }
 
-  /* Sections general */
+  /* ============================================================
+     SECCIONES — GENERAL
+     ============================================================ */
   .section-header {
     text-align: center;
-    margin-bottom: 4rem;
+    margin-bottom: 3.5rem;
   }
 
   .section-header .subtitle {
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     text-transform: uppercase;
     letter-spacing: 3px;
-    color: var(--accent-dark);
-    font-weight: 700;
+    font-weight: 800;
     display: block;
     margin-bottom: 0.5rem;
   }
 
   .section-header h2 {
-    font-size: 2.5rem;
-    color: var(--accent-color);
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
   }
 
   .divider {
     width: 60px;
     height: 3px;
-    background-color: var(--accent-color);
+    background: var(--gradient-brand);
     margin: 1rem auto 0;
+    border-radius: 2px;
   }
 
-  /* Info Section / Cómo Pedir */
+  /* ============================================================
+     INFO SECTION — CÓMO PEDIR (fondo crema claro)
+     ============================================================ */
   .info-section {
-    padding: 6rem 2rem;
-    background-color: var(--bg-secondary);
+    padding: 5.5rem 2rem;
+    background-color: var(--bg-light);
+  }
+
+  .info-section .subtitle {
+    color: var(--primary-deep);
+  }
+
+  .info-section h2 {
+    color: var(--text-on-light);
+  }
+
+  .info-section .section-desc {
+    color: rgba(42,10,20,0.75);
   }
 
   .steps-grid {
     max-width: var(--max-width);
     margin: 0 auto;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 3rem;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2.5rem;
   }
 
   .step-card {
-    background-color: var(--bg-card);
-    padding: 3rem 2rem;
+    background-color: #FFFFFF;
+    padding: 2.5rem 1.75rem;
     border-radius: var(--border-radius-lg);
-    box-shadow: var(--shadow-sm);
+    box-shadow: 0 4px 20px rgba(232,25,108,0.1);
     text-align: center;
-    border: 1px solid var(--border-color);
+    border: 1px solid rgba(232,25,108,0.12);
     position: relative;
     transition: transform var(--transition-fast), box-shadow var(--transition-fast);
   }
 
   .step-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-md);
-    border-color: var(--accent-color);
+    transform: translateY(-6px);
+    box-shadow: 0 12px 32px rgba(232,25,108,0.18);
   }
 
   .step-icon {
-    width: 50px;
-    height: 50px;
-    background-color: var(--primary-color);
-    color: var(--text-white);
-    font-size: 1.5rem;
-    font-weight: 700;
+    width: 52px;
+    height: 52px;
+    background: var(--gradient-brand);
+    color: #fff;
+    font-size: 1.4rem;
+    font-weight: 800;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto 1.5rem;
-    border: 2px solid var(--accent-color);
+    box-shadow: 0 4px 16px rgba(232,25,108,0.3);
   }
 
   .step-card h3 {
-    font-size: 1.25rem;
-    margin-bottom: 1rem;
-    color: var(--accent-color);
+    font-size: 1.15rem;
+    margin-bottom: 0.75rem;
+    color: var(--primary-dark);
+    font-family: var(--font-serif);
   }
 
   .step-card p {
-    color: var(--text-secondary);
-    font-size: 0.95rem;
+    color: rgba(42,10,20,0.75);
+    font-size: 0.93rem;
+    line-height: 1.6;
   }
 
-  /* Catalog / Products Section */
+  /* ============================================================
+     CATALOG SECTION (fondo crema claro)
+     ============================================================ */
   .catalog-section {
-    padding: 6rem 2rem;
+    padding: 5.5rem 2rem;
+    max-width: 100%;
+    background-color: var(--bg-light);
+  }
+
+  .catalog-section .section-header {
     max-width: var(--max-width);
-    margin: 0 auto;
+    margin: 0 auto 3.5rem auto;
   }
 
-  .category-filters {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin-top: 2rem;
-    flex-wrap: wrap;
+  .catalog-section .subtitle {
+    color: var(--primary-deep);
   }
 
-  .filter-btn {
-    background-color: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    padding: 0.6rem 1.5rem;
-    border-radius: 50px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-    transition: all var(--transition-fast);
-  }
-
-  .filter-btn:hover, .filter-btn.active {
-    background-color: var(--primary-color);
-    color: var(--text-white);
-    border-color: var(--primary-color);
-    box-shadow: var(--shadow-sm);
+  .catalog-section h2 {
+    color: var(--text-on-light);
   }
 
   /* Products Grid */
@@ -490,19 +632,19 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
   }
 
   .product-card {
-    background-color: var(--bg-card);
+    background-color: #FFFFFF;
     border-radius: var(--border-radius-lg);
     overflow: hidden;
-    box-shadow: var(--shadow-sm);
-    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 20px rgba(232,25,108,0.08);
+    border: 1px solid rgba(232,25,108,0.1);
     transition: transform var(--transition-fast), box-shadow var(--transition-fast);
     display: flex;
     flex-direction: column;
   }
 
   .product-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-lg);
+    transform: translateY(-6px);
+    box-shadow: 0 16px 40px rgba(232,25,108,0.18);
   }
 
   .product-image-container {
@@ -526,14 +668,14 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
     position: absolute;
     top: 1rem;
     right: 1rem;
-    background-color: rgba(140, 13, 27, 0.9);
-    color: var(--text-white);
-    padding: 0.25rem 0.75rem;
-    font-size: 0.75rem;
-    font-weight: 700;
+    background: var(--gradient-brand);
+    color: #fff;
+    padding: 0.3rem 0.85rem;
+    font-size: 0.72rem;
+    font-weight: 800;
     text-transform: uppercase;
     border-radius: 50px;
-    border: 1px solid var(--accent-color);
+    letter-spacing: 0.5px;
   }
 
   .product-info {
@@ -544,84 +686,91 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
   }
 
   .product-info h3 {
-    font-size: 1.35rem;
-    margin-bottom: 0.75rem;
-    color: var(--accent-color);
+    font-size: 1.25rem;
+    margin-bottom: 0.65rem;
+    color: var(--text-on-light);
+    font-family: var(--font-serif);
   }
 
   .product-description {
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-    margin-bottom: 1.5rem;
+    font-size: 0.88rem;
+    color: rgba(42,10,20,0.65);
+    margin-bottom: 1.25rem;
     flex: 1;
+    line-height: 1.55;
   }
 
   .product-meta {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-top: 1px solid var(--border-color);
+    border-top: 1px solid rgba(232,25,108,0.1);
     padding-top: 1rem;
   }
 
   .product-price {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--accent-light);
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--primary);
   }
 
   .product-price .currency {
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     font-weight: 600;
-    color: var(--text-secondary);
+    color: rgba(42,10,20,0.5);
   }
 
   .price-note {
-    font-size: 0.75rem;
+    font-size: 0.73rem;
     font-weight: 400;
-    color: var(--text-light);
+    color: rgba(42,10,20,0.5);
     display: block;
   }
 
   .add-to-cart-btn {
-    background-color: var(--primary-color);
+    background: var(--gradient-brand);
     border: none;
-    color: var(--text-white);
+    color: #fff;
     padding: 0.6rem 1.4rem;
     border-radius: var(--border-radius-md);
     cursor: pointer;
-    font-weight: 700;
+    font-weight: 800;
     font-size: 0.85rem;
     transition: all var(--transition-fast);
+    box-shadow: 0 3px 12px rgba(232,25,108,0.3);
   }
 
   .add-to-cart-btn:hover {
-    background-color: var(--primary-light);
-    transform: translateY(-1px);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(232,25,108,0.45);
+    background: linear-gradient(135deg, #C2185B, #E8196C);
   }
 
-  /* Floating Cart Button */
+  /* ============================================================
+     FLOATING CART BUTTON
+     ============================================================ */
   .floating-cart {
     position: fixed;
     bottom: 2rem;
     right: 2rem;
-    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-    color: var(--text-white);
-    width: 65px;
-    height: 65px;
+    background: var(--gradient-brand);
+    color: #fff;
+    width: 66px;
+    height: 66px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 20px rgba(140, 13, 27, 0.4);
+    box-shadow: 0 4px 24px rgba(232,25,108,0.5);
     cursor: pointer;
     z-index: 99;
-    border: 2px solid var(--accent-color);
-    transition: transform var(--transition-fast);
+    border: 3px solid rgba(255,255,255,0.4);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
   }
 
   .floating-cart:hover {
-    transform: scale(1.05);
+    transform: scale(1.08);
+    box-shadow: 0 8px 32px rgba(232,25,108,0.65);
   }
 
   .cart-icon {
@@ -632,20 +781,22 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
     position: absolute;
     top: -5px;
     right: -5px;
-    background-color: var(--accent-color);
-    color: var(--text-primary);
-    width: 25px;
-    height: 25px;
+    background: #FFFFFF;
+    color: var(--primary);
+    width: 26px;
+    height: 26px;
     border-radius: 50%;
     font-size: 0.8rem;
-    font-weight: 700;
+    font-weight: 800;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 2px solid var(--primary-dark);
+    border: 2px solid var(--primary);
   }
 
-  /* Cart Drawer/Sidebar */
+  /* ============================================================
+     CART DRAWER
+     ============================================================ */
   .cart-drawer {
     position: fixed;
     top: 0;
@@ -667,7 +818,7 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(10, 5, 6, 0.6);
+    background-color: rgba(42,10,20,0.55);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     opacity: 0;
@@ -685,9 +836,10 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
     width: 100%;
     max-width: 480px;
     height: 100%;
-    background-color: var(--bg-primary);
-    border-left: 2px solid var(--accent-color);
-    box-shadow: -10px 0 40px rgba(0, 0, 0, 0.15);
+    background-color: var(--bg-secondary);
+    border-left: 3px solid transparent;
+    border-image: linear-gradient(180deg, #E8196C, #FF6B35) 1;
+    box-shadow: -10px 0 50px rgba(0, 0, 0, 0.4);
     transition: right var(--transition-normal);
     display: flex;
     flex-direction: column;
@@ -698,48 +850,54 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
   }
 
   .cart-header {
-    padding: 1.5rem;
-    border-bottom: 1px solid var(--border-color);
+    padding: 1.35rem 1.5rem;
+    border-bottom: 1px solid rgba(232,25,108,0.2);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: var(--bg-secondary);
+    background: linear-gradient(135deg, #A01050, #C2185B);
   }
 
   .cart-header h2 {
-    font-size: 1.4rem;
+    font-size: 1.35rem;
     font-weight: 800;
-    color: var(--accent-color);
+    color: #FFFFFF;
     letter-spacing: 0.5px;
   }
 
   .close-btn {
-    background: none;
+    background: rgba(255,255,255,0.15);
     border: none;
-    font-size: 2.2rem;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    font-size: 1.5rem;
     line-height: 1;
     cursor: pointer;
-    color: var(--text-secondary);
-    transition: transform var(--transition-normal), color var(--transition-normal);
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-normal);
   }
 
   .close-btn:hover {
-    color: var(--accent-color);
+    background: rgba(255,255,255,0.3);
     transform: rotate(90deg);
   }
 
   .cart-items-container {
     flex: 1;
     overflow-y: auto;
-    padding: 1.5rem;
+    padding: 1.25rem;
     scrollbar-width: thin;
-    scrollbar-color: var(--accent-color) var(--bg-card);
+    scrollbar-color: var(--primary) var(--bg-primary);
   }
 
   .empty-cart-message {
     text-align: center;
     padding: 4rem 1rem;
-    color: var(--text-secondary);
+    color: var(--neutral-cream);
   }
 
   .empty-cart-message p {
@@ -750,16 +908,16 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
   /* Cart Item Card */
   .cart-item {
     background-color: var(--bg-card);
-    border: 1px solid var(--border-color);
+    border: 1px solid rgba(232,25,108,0.2);
     border-radius: var(--border-radius-md);
     padding: 1rem;
     margin-bottom: 1.25rem;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    transition: transform var(--transition-fast);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+    transition: border-color var(--transition-fast);
   }
 
   .cart-item:hover {
-    border-color: var(--accent-color);
+    border-color: rgba(232,25,108,0.5);
   }
 
   .cart-item-row {
@@ -812,7 +970,7 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
   }
 
   .cart-item-price {
-    font-weight: 700;
+    font-weight: 800;
     color: var(--accent-light);
     font-size: 1rem;
   }
@@ -866,18 +1024,22 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
   .remove-item-btn {
     background: none;
     border: none;
-    color: #b81d24;
+    color: rgba(232,25,108,0.9);
     cursor: pointer;
     font-size: 0.85rem;
-    font-weight: 600;
+    font-weight: 700;
+    transition: color var(--transition-fast);
+  }
+  .remove-item-btn:hover {
+    color: #E8196C;
   }
 
   /* Customization block inside cart item */
   .cart-item-customization {
-    background-color: var(--bg-secondary);
+    background-color: var(--bg-primary);
     padding: 0.85rem;
     border-radius: var(--border-radius-sm);
-    border-left: 3px solid var(--accent-color);
+    border-left: 3px solid var(--primary);
     margin-top: 0.75rem;
   }
 
@@ -971,8 +1133,8 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
 
   /* Cart Footer */
   .cart-footer {
-    background-color: var(--bg-card);
-    border-top: 1px solid var(--border-color);
+    background-color: var(--bg-primary);
+    border-top: 1px solid rgba(232,25,108,0.2);
     padding: 1.5rem;
   }
 
@@ -1044,22 +1206,22 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
     justify-content: space-between;
     font-size: 0.95rem;
     margin-bottom: 0.5rem;
-    color: var(--text-secondary);
+    color: var(--neutral-cream);
   }
 
   .total-row {
     font-size: 1.25rem;
     font-weight: 800;
-    color: var(--accent-color);
+    color: #FF8C42;
     margin-top: 0.75rem;
     padding-top: 0.75rem;
-    border-top: 2px double var(--border-color);
+    border-top: 2px solid rgba(255,140,66,0.4);
   }
 
   .cart-note-warning {
-    background-color: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    color: var(--accent-color);
+    background-color: rgba(255,248,240,0.08);
+    border: 1px solid rgba(255,140,66,0.3);
+    color: var(--neutral-cream);
     padding: 0.75rem;
     font-size: 0.8rem;
     border-radius: var(--border-radius-sm);
@@ -1067,10 +1229,24 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
     line-height: 1.4;
   }
 
-  /* Interactive Customizer */
+  /* ============================================================
+     INTERACTIVE CUSTOMIZER (fondo oscuro profundo)
+     ============================================================ */
   .customizer-section {
-    padding: 4rem 1.5rem;
-    background-color: var(--bg-primary);
+    padding: 5rem 1.5rem;
+    background-color: var(--bg-secondary);
+  }
+
+  .customizer-section .subtitle {
+    color: var(--accent-light);
+  }
+
+  .customizer-section h2 {
+    color: var(--neutral-cream);
+  }
+
+  .customizer-section .section-desc {
+    color: rgba(245,230,200,0.8);
   }
 
   .customizer-grid {
@@ -1079,11 +1255,11 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
     gap: 2rem;
     max-width: 1100px;
     margin: 0 auto;
-    background-color: var(--bg-card);
+    background-color: var(--bg-primary);
     border-radius: var(--border-radius-lg);
     box-shadow: var(--shadow-lg);
     padding: 1.5rem;
-    border: 1px solid var(--border-color);
+    border: 1px solid rgba(232,25,108,0.2);
   }
 
   @media (min-width: 768px) {
@@ -1099,10 +1275,10 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: radial-gradient(circle, #2a1518, #0e0507);
+    background: radial-gradient(circle, #3D1A24, #1A060C);
     border-radius: var(--border-radius-md);
-    border: 2px solid var(--accent-color);
-    box-shadow: var(--shadow-inner);
+    border: 2px solid rgba(232,25,108,0.4);
+    box-shadow: inset 0 0 24px rgba(0,0,0,0.4);
     padding: 1rem;
     min-height: 320px;
   }
@@ -1126,19 +1302,19 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
   }
 
   .control-group label {
-    font-size: 0.95rem;
+    font-size: 0.93rem;
     font-weight: 700;
-    color: var(--text-primary);
+    color: var(--neutral-cream);
   }
 
   .customizer-select,
   .customizer-input {
     padding: 0.7rem;
-    border: 1px solid var(--border-color);
+    border: 1.5px solid rgba(232,25,108,0.25);
     border-radius: var(--border-radius-sm);
     font-family: var(--font-sans);
     font-size: 0.95rem;
-    background-color: var(--bg-primary);
+    background-color: var(--bg-secondary);
     color: var(--text-primary);
     outline: none;
     width: 100%;
@@ -1146,7 +1322,8 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
 
   .customizer-select:focus,
   .customizer-input:focus {
-    border-color: var(--accent-color);
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(232,25,108,0.15);
   }
 
   .color-picker-row {
@@ -1161,7 +1338,7 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
     appearance: none;
     width: 56px;
     height: 56px;
-    border: 3px solid var(--accent-color);
+    border: 3px solid var(--primary);
     border-radius: 50%;
     background: none;
     cursor: pointer;
@@ -1204,9 +1381,9 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
   }
 
   .color-swatch-btn.active {
-    border-color: var(--accent-color);
+    border-color: var(--primary);
     transform: scale(1.15);
-    box-shadow: 0 0 0 2px var(--bg-card), 0 0 0 4px var(--accent-color);
+    box-shadow: 0 0 0 2px var(--bg-secondary), 0 0 0 4px var(--primary);
   }
 
   .selected-color-label {
@@ -1221,12 +1398,12 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
     background-color: var(--bg-primary);
     padding: 0.9rem;
     border-radius: var(--border-radius-sm);
-    border-left: 4px solid var(--accent-color);
+    border-left: 4px solid var(--primary);
   }
 
   .price-display-box span {
     font-weight: 700;
-    color: var(--text-secondary);
+    color: var(--neutral-cream);
   }
 
   .price-display-box .price-value {
@@ -1235,12 +1412,9 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
     color: var(--accent-light);
   }
 
-  /* Catalog & Carousel */
-  .catalog-section {
-    padding: 4rem 1.5rem;
-    background-color: var(--bg-primary);
-  }
-
+  /* ============================================================
+     CAROUSEL — Pills y controles
+     ============================================================ */
   .carousel-subcategories {
     display: flex;
     gap: 0.75rem;
@@ -1248,11 +1422,11 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
     padding-bottom: 0.75rem;
     margin-top: 1.5rem;
     justify-content: flex-start;
-    scrollbar-width: none; /* Firefox */
+    scrollbar-width: none;
   }
 
   .carousel-subcategories::-webkit-scrollbar {
-    display: none; /* Chrome/Safari */
+    display: none;
   }
 
   @media (min-width: 768px) {
@@ -1262,13 +1436,13 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
   }
 
   .subcategory-pill {
-    padding: 0.5rem 1.25rem;
-    background-color: var(--bg-card);
-    border: 1px solid var(--border-color);
+    padding: 0.5rem 1.35rem;
+    background-color: rgba(42,10,20,0.08);
+    border: 1.5px solid rgba(42,10,20,0.15);
     border-radius: 50px;
     font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--text-secondary);
+    font-weight: 700;
+    color: var(--text-on-light);
     cursor: pointer;
     white-space: nowrap;
     transition: all var(--transition-fast);
@@ -1276,10 +1450,10 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
 
   .subcategory-pill:hover,
   .subcategory-pill.active {
-    background: linear-gradient(135deg, var(--accent-color), var(--accent-dark));
-    color: var(--text-primary);
-    border-color: var(--accent-color);
-    box-shadow: var(--shadow-sm);
+    background: var(--gradient-brand);
+    color: #fff;
+    border-color: transparent;
+    box-shadow: 0 4px 16px rgba(232,25,108,0.35);
   }
 
   .carousel-outer-wrapper {
@@ -1325,13 +1499,13 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
   }
 
   .carousel-control {
-    background-color: var(--primary-dark);
-    color: var(--accent-color);
-    border: 2px solid var(--accent-color);
+    background: var(--gradient-brand);
+    color: #fff;
+    border: none;
     width: 44px;
     height: 44px;
     border-radius: 50%;
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     font-weight: bold;
     cursor: pointer;
     position: absolute;
@@ -1341,14 +1515,13 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: var(--shadow-md);
+    box-shadow: 0 4px 16px rgba(232,25,108,0.4);
     transition: all var(--transition-fast);
   }
 
   .carousel-control:hover {
-    background-color: var(--accent-color);
-    color: var(--primary-dark);
-    transform: translateY(-50%) scale(1.1);
+    transform: translateY(-50%) scale(1.12);
+    box-shadow: 0 6px 24px rgba(232,25,108,0.6);
   }
 
   .carousel-control.prev {
@@ -1364,7 +1537,6 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
       width: 38px;
       height: 38px;
       font-size: 1rem;
-      background-color: rgba(10, 5, 6, 0.85);
     }
     .carousel-control.prev {
       left: 8px;
@@ -1388,12 +1560,22 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
     height: 100%;
   }
 
-  /* Buffet Section Grid */
+  /* ============================================================
+     BUFFET SECTION (fondo oscuro secundario)
+     ============================================================ */
   .buffet-section {
-    padding: 4rem 1.5rem;
-    background-color: var(--bg-card);
-    border-top: 1px solid var(--border-color);
-    border-bottom: 1px solid var(--border-color);
+    padding: 5rem 1.5rem;
+    background-color: var(--bg-secondary);
+    border-top: 1px solid rgba(232,25,108,0.15);
+    border-bottom: 1px solid rgba(232,25,108,0.15);
+  }
+
+  .buffet-section .subtitle {
+    color: var(--accent-light);
+  }
+
+  .buffet-section h2 {
+    color: var(--neutral-cream);
   }
 
   .buffet-grid {
@@ -1405,8 +1587,8 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
   }
 
   .buffet-card {
-    background-color: var(--bg-primary);
-    border: 1px solid var(--border-color);
+    background-color: var(--bg-card);
+    border: 1px solid rgba(232,25,108,0.15);
     border-radius: var(--border-radius-md);
     overflow: hidden;
     box-shadow: var(--shadow-sm);
@@ -1416,8 +1598,9 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
   }
 
   .buffet-card:hover {
-    transform: translateY(-4px);
+    transform: translateY(-5px);
     box-shadow: var(--shadow-md);
+    border-color: rgba(232,25,108,0.35);
   }
 
   .buffet-image-container {
@@ -1441,14 +1624,15 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
   .buffet-info h3 {
     margin: 0 0 0.5rem 0;
     font-size: 1.15rem;
-    color: var(--accent-color);
+    color: var(--neutral-cream);
+    font-family: var(--font-serif);
   }
 
   .buffet-description {
     margin: 0 0 1.5rem 0;
     font-size: 0.88rem;
-    color: var(--text-secondary);
-    line-height: 1.5;
+    color: rgba(245,230,200,0.75);
+    line-height: 1.55;
     flex: 1;
   }
 
@@ -1460,8 +1644,8 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
 
   .buffet-price {
     font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--primary-color);
+    font-weight: 800;
+    color: var(--accent-light);
   }
 
   #checkout-whatsapp-btn {
@@ -1493,11 +1677,25 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
     }
   }
 
-  /* Decorations Gallery Section */
+  /* ============================================================
+     DECORATIONS GALLERY SECTION (fondo bg-primary vino oscuro)
+     ============================================================ */
   .decorations-section {
-    padding: 5rem 2rem;
+    padding: 5.5rem 2rem;
     background-color: var(--bg-primary);
-    border-top: 1px solid var(--border-color);
+    border-top: 1px solid rgba(232,25,108,0.15);
+  }
+
+  .decorations-section .subtitle {
+    color: var(--accent-light);
+  }
+
+  .decorations-section h2 {
+    color: var(--neutral-cream);
+  }
+
+  .decorations-section .section-desc {
+    color: rgba(245,230,200,0.8);
   }
 
   .decorations-carousel-container {
@@ -1513,7 +1711,7 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
     overflow: hidden;
     width: 100%;
     border-radius: var(--border-radius-md);
-    box-shadow: var(--shadow-lg);
+    box-shadow: 0 16px 48px rgba(0,0,0,0.5);
   }
 
   .decorations-track {
@@ -1539,27 +1737,27 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
     bottom: 0;
     left: 0;
     width: 100%;
-    background: linear-gradient(to top, rgba(10, 5, 6, 0.9) 0%, rgba(10, 5, 6, 0.4) 70%, transparent 100%);
+    background: linear-gradient(to top, rgba(42,10,20,0.92) 0%, rgba(42,10,20,0.5) 65%, transparent 100%);
     padding: 2rem 1.5rem 1.5rem 1.5rem;
-    color: var(--text-white);
+    color: #fff;
   }
 
   .decoration-overlay-info h4 {
     font-size: 1.3rem;
-    color: var(--accent-color);
+    color: #FF8C42;
     margin-bottom: 0.5rem;
     font-weight: 800;
   }
 
   .decoration-overlay-info p {
     font-size: 0.95rem;
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(255, 248, 240, 0.92);
   }
 
   .dec-carousel-control {
-    background-color: var(--primary-dark);
-    color: var(--accent-color);
-    border: 2px solid var(--accent-color);
+    background: var(--gradient-brand);
+    color: #fff;
+    border: none;
     width: 44px;
     height: 44px;
     border-radius: 50%;
@@ -1573,14 +1771,13 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: var(--shadow-md);
+    box-shadow: 0 4px 16px rgba(232,25,108,0.4);
     transition: all var(--transition-fast);
   }
 
   .dec-carousel-control:hover {
-    background-color: var(--accent-color);
-    color: var(--primary-dark);
-    transform: translateY(-50%) scale(1.1);
+    transform: translateY(-50%) scale(1.12);
+    box-shadow: 0 6px 24px rgba(232,25,108,0.6);
   }
 
   .dec-carousel-control.prev {
@@ -1594,9 +1791,9 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
   .decorations-warning-banner {
     max-width: 1000px;
     margin: 2rem auto 0 auto;
-    background-color: #fffbeb;
-    border: 1px solid #fef3c7;
-    color: #b45309;
+    background-color: rgba(249,213,229,0.1);
+    border: 1px solid rgba(232,25,108,0.3);
+    color: var(--neutral-cream);
     padding: 1rem;
     border-radius: var(--border-radius-sm);
     font-size: 0.9rem;

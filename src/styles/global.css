@@ -1,54 +1,90 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400..900;1,400..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Design System for Dulcería El Líder (Dark Premium Mode) */
+/* ============================================================
+   DESIGN SYSTEM — Dulcería El Líder (New Vibrant Palette)
+   Basado en paleta SunCat Creative: Fucsia-Naranja-Crema
+   ============================================================ */
 
 :root {
-  /* Color Palette (Eliza Palette) */
-  --primary-color: #710912;      /* Deep Burgundy */
-  --primary-light: #9c1723;
-  --primary-dark: #4a0309;
-  --accent-color: #C28D39;       /* Antique Gold */
-  --accent-light: #EFE5D2;       /* Warm Champagne */
-  --accent-dark: #916624;
-  
-  /* Neutral Palette (Dark Theme: Midnight Black & Espresso Contrast) */
-  --bg-primary: #0D0D0D;         /* Midnight Black */
-  --bg-secondary: #221A18;       /* Medium Dark Espresso variant */
-  --bg-card: #362822;            /* Dark Espresso */
-  --text-primary: #FFFFFF;       /* Pure White for body text & primary elements */
-  --text-secondary: #EFE5D2;     /* Warm Champagne for secondary text */
-  --text-light: #C28D39;         /* Antique Gold reserved for labels/indicators */
+  /* === PALETA PRINCIPAL (Hot Pink → Sunset Orange) === */
+  --primary: #E8196C;          /* Hot Pink – color de marca principal */
+  --primary-deep: #C2185B;     /* Deep Magenta – variante oscura */
+  --primary-dark: #A01050;     /* Deep Rose – fondos profundos y footer */
+
+  --accent: #FF6B35;           /* Sunset Orange – acento cálido vibrante */
+  --accent-light: #FF8C42;     /* Warm Tangerine – precios y highlights */
+  --accent-pale: #FFA07A;      /* Melocotón suave – hover states */
+
+  /* === NEUTRALES CÁLIDOS (Sand Cream) === */
+  --neutral-cream: #F5E6C8;    /* Sand Cream – fondo neutro principal */
+  --neutral-blush: #F9D5E5;    /* Pale Blush – fondos suaves / avisos */
+  --neutral-warm: #FFF8F0;     /* Off White – blanco cálido */
+  --neutral-deep: #3D1A24;     /* Ciruela oscura – fondos intermedios */
+
+  /* === FONDOS === */
+  --bg-primary: #2A0A14;       /* Vino muy oscuro – fondo base oscuro */
+  --bg-secondary: #3D1A24;     /* Ciruela oscura – secciones y tarjetas */
+  --bg-card: #4A2030;          /* Rosa oscuro – cards */
+  --bg-light: #F5E6C8;         /* Sand Cream – secciones claras */
+  --bg-ultra-light: #FFF8F0;   /* Off White – fondos casi blancos */
+
+  /* === TEXTO === */
+  --text-primary: #FFFFFF;     /* Blanco puro – sobre fondos oscuros */
+  --text-secondary: #F5E6C8;   /* Crema arena – texto secundario elegante */
+  --text-light: #FF8C42;       /* Tangerine – etiquetas / indicadores */
+  --text-on-light: #2A0A14;    /* Oscuro vino – texto sobre fondos claros */
   --text-white: #FFFFFF;
-  
-  /* Borders and Shadow */
-  --border-color: #4E3B33;       /* Espresso Border */
-  --border-gold: rgba(194, 141, 57, 0.4);
-  --shadow-sm: 0 2px 4px rgba(13, 13, 13, 0.5);
-  --shadow-md: 0 4px 12px rgba(13, 13, 13, 0.7);
-  --shadow-lg: 0 12px 24px rgba(13, 13, 13, 0.9);
-  --shadow-gold: 0 4px 14px rgba(194, 141, 57, 0.35);
-  
-  /* Typography */
+
+  /* === GRADIENTES DE MARCA === */
+  --gradient-brand: linear-gradient(135deg, #E8196C, #FF6B35);
+  --gradient-brand-vertical: linear-gradient(180deg, #E8196C, #FF6B35);
+  --gradient-subtle: linear-gradient(135deg, #C2185B, #E8196C);
+  --gradient-warm: linear-gradient(135deg, #FF6B35, #FFA07A);
+  --gradient-dark-brand: linear-gradient(135deg, #A01050, #C2185B);
+
+  /* === BORDES === */
+  --border-color: rgba(232, 25, 108, 0.25);
+  --border-accent: rgba(255, 107, 53, 0.35);
+  --border-light: rgba(245, 230, 200, 0.3);
+
+  /* === SOMBRAS === */
+  --shadow-sm: 0 2px 8px rgba(232, 25, 108, 0.15);
+  --shadow-md: 0 4px 16px rgba(232, 25, 108, 0.25);
+  --shadow-lg: 0 12px 32px rgba(232, 25, 108, 0.35);
+  --shadow-orange: 0 4px 14px rgba(255, 107, 53, 0.4);
+  --shadow-dark: 0 8px 24px rgba(0, 0, 0, 0.5);
+
+  /* === TIPOGRAFÍA === */
   --font-serif: 'Playfair Display', Georgia, serif;
-  --font-sans: 'Montserrat', Helvetica, Arial, sans-serif;
-  
-  /* Transitions */
+  --font-sans: 'Nunito', Helvetica, Arial, sans-serif;
+
+  /* === TRANSICIONES === */
   --transition-fast: 0.2s ease;
   --transition-normal: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-  
-  --border-radius-sm: 4px;
-  --border-radius-md: 8px;
-  --border-radius-lg: 16px;
-  
-  /* Layout */
+
+  /* === RADIO DE BORDES === */
+  --border-radius-sm: 8px;
+  --border-radius-md: 12px;
+  --border-radius-lg: 20px;
+
+  /* === LAYOUT === */
   --max-width: 1200px;
+
+  /* === ALIAS DE COMPATIBILIDAD (para código anterior que use estas vars) === */
+  --primary-color: var(--primary);
+  --primary-light: var(--primary-deep);
+  --accent-color: var(--accent-light);
+  --accent-dark: var(--accent);
+  --accent-light-alias: var(--neutral-cream);
 }
 
-/* Base Reset */
+/* ============================================================
+   RESET BASE
+   ============================================================ */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -71,19 +107,21 @@ body {
   line-height: 1.6;
 }
 
-/* Headings */
+/* ============================================================
+   TIPOGRAFÍA GLOBAL
+   ============================================================ */
 h1, h2, h3 {
   font-family: var(--font-serif);
   font-weight: 700;
-  color: var(--accent-color);
   line-height: 1.25;
+  color: var(--neutral-cream);
 }
 
 h4, h5, h6 {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-weight: 700;
-  color: var(--text-primary);
   line-height: 1.25;
+  color: var(--text-primary);
 }
 
 a {
