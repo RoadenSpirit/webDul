@@ -8,7 +8,7 @@ interface Props {
 
 const { 
   title, 
-  description = "Dulcería El Líder - Dulces finos y decoraciones personalizadas por encargo en Camagüey, Cuba. Cakes, cupcakes, bocaditos y más con calidad premium." 
+  description = "Dulcería El Líder — Cakes artesanales y dulces finos por encargo en Camagüey, Cuba. Mensajería a domicilio disponible para toda la provincia. ¡Pide hoy!" 
 } = Astro.props;
 ---
 
@@ -21,17 +21,14 @@ const {
     <link rel="icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
     
-    <!-- Primary Meta Tags -->
     <title>{title} | Dulcería El Líder</title>
     <meta name="title" content={`${title} | Dulcería El Líder`} />
     <meta name="description" content={description} />
 
-    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content={`${title} | Dulcería El Líder`} />
     <meta property="og:description" content={description} />
 
-    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={`${title} | Dulcería El Líder`} />
     <meta name="twitter:description" content={description} />
@@ -39,26 +36,24 @@ const {
   <body>
     <header class="main-header">
       <div class="header-container">
-        <div class="flex-1 flex justify-start">
-          <a href="/" class="logo-area">
-            <img src="/logo-correcto.png" alt="Dulcería El Líder Logo" class="logo-img" style="border-radius: 50%; object-fit: cover; aspect-ratio: 1/1; border: 2px solid rgba(255,255,255,0.4);" />
-            <div class="logo-text-wrapper">
-              <span class="logo-title">El Líder</span>
-              <span class="logo-subtitle">DULCERÍA ARTESANAL</span>
-            </div>
-          </a>
-        </div>
+        <a href="/" class="logo-area">
+          <div class="logo-img-wrapper">
+            <img src="/logo-correcto.png" alt="Dulcería El Líder Logo" class="logo-img" />
+          </div>
+          <div class="logo-text-wrapper">
+            <span class="logo-title">El Líder</span>
+            <span class="logo-subtitle">DULCERÍA ARTESANAL</span>
+          </div>
+        </a>
+
         <nav class="main-nav">
           <a href="/#catalogo" class="nav-link">Nuestra Carta</a>
           <a href="/#decoraciones" class="nav-link">Decoraciones</a>
           <a href="/#como-pedir" class="nav-link">¿Cómo pedir?</a>
-          <a href="/pedido" class="nav-link" id="nav-order-link" style="display: none; align-items: center; gap: 0.25rem;">
+          <a href="/pedido" class="nav-link nav-order" id="nav-order-link" style="display: none; align-items: center; gap: 0.35rem;">
             Mi Orden <span class="order-badge" id="nav-order-badge">0</span>
           </a>
         </nav>
-        <div class="flex-1 flex justify-end">
-          <!-- Espaciador para centrado perfecto -->
-        </div>
       </div>
     </header>
 
@@ -66,23 +61,50 @@ const {
       <slot />
     </main>
 
-    <!-- Premium Footer -->
+    <!-- Footer -->
     <footer id="contacto" class="main-footer">
       <div class="footer-inner">
+
+        <!-- Logo grande -->
         <div class="footer-logo-block">
-          <img src="/logo-correcto.png" alt="Dulcería El Líder Logo" class="footer-logo-img" />
+          <div class="footer-logo-ring">
+            <img src="/logo-correcto.png" alt="Dulcería El Líder" class="footer-logo-img" />
+          </div>
           <h3 class="footer-brand-name">El Líder</h3>
+          <p class="footer-brand-tagline">Dulcería Artesanal · Camagüey, Cuba</p>
         </div>
-        <p class="footer-description">
-          Somos una <strong>dulcería camagüeyana</strong>. Solo aceptamos pedidos para entrega o recogida en la provincia de <strong>Camagüey, Cuba</strong>.
-        </p>
+
+        <!-- Mensaje de marketing positivo -->
+        <div class="footer-message-block">
+          <p class="footer-headline">
+            🎂 Tu dulcería de confianza en <strong>Camagüey</strong>
+          </p>
+          <p class="footer-description">
+            Elaboramos cada dulce con amor y los llevamos hasta la puerta de tu casa.
+            Con nuestro <strong>servicio de mensajería</strong>, cualquier camagüeyano puede 
+            disfrutar de nuestros cakes y bocaditos sin salir del sofá.
+          </p>
+        </div>
+
+        <!-- Entrega a domicilio badge -->
+        <div class="footer-delivery-badge">
+          <span class="delivery-icon">🛵</span>
+          <div>
+            <strong>Entrega a domicilio disponible</strong>
+            <span>en toda la provincia de Camagüey</span>
+          </div>
+        </div>
+
+        <!-- Contacto -->
         <div class="footer-contact">
-          <span class="footer-contact-label">📱 WhatsApp de Contacto:</span>
+          <span class="footer-contact-label">📱 Pedidos por WhatsApp:</span>
           <a href="https://wa.me/5351394921" class="footer-phone">+53 5139 4921</a>
         </div>
+
       </div>
+
       <div class="footer-bottom">
-        <p>&copy; {new Date().getFullYear()} Dulcería El Líder. Todos los derechos reservados.</p>
+        <p>&copy; {new Date().getFullYear()} Dulcería El Líder · Camagüey, Cuba. Todos los derechos reservados.</p>
       </div>
     </footer>
 
@@ -91,7 +113,6 @@ const {
         const orderLink = document.getElementById('nav-order-link');
         const orderBadge = document.getElementById('nav-order-badge');
         if (!orderLink || !orderBadge) return;
-        
         try {
           const cartData = JSON.parse(localStorage.getItem('el_lider_cart') || '[]');
           const count = cartData.reduce((sum, item) => sum + item.quantity, 0);
@@ -105,7 +126,6 @@ const {
           orderLink.style.display = 'none';
         }
       }
-      
       updateGlobalOrderNav();
       setInterval(updateGlobalOrderNav, 1000);
     </script>
@@ -117,9 +137,9 @@ const {
      HEADER
      ============================================================ */
   .main-header {
-    background: rgba(42, 10, 20, 0.92);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: rgba(30, 6, 16, 0.95);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     border-bottom: 2px solid transparent;
     border-image: linear-gradient(90deg, #E8196C, #FF6B35) 1;
     position: sticky;
@@ -131,64 +151,94 @@ const {
   .header-container {
     max-width: var(--max-width);
     margin: 0 auto;
-    padding: 0.85rem 2rem;
+    padding: 0.7rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 1.5rem;
   }
 
+  /* --- Logo --- */
   .logo-area {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.85rem;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+
+  .logo-img-wrapper {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    flex-shrink: 0;
+  }
+
+  .logo-img-wrapper::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #E8196C, #FF6B35);
+    z-index: 0;
+    opacity: 0.7;
   }
 
   .logo-img {
-    height: 44px;
-    width: 44px;
+    position: relative;
+    z-index: 1;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
     object-fit: cover;
+    border: 2px solid rgba(255,255,255,0.3);
   }
 
   .logo-text-wrapper {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    gap: 1px;
   }
 
   .logo-title {
-    font-family: var(--font-serif);
-    font-size: 1.5rem;
-    font-weight: 900;
-    background: linear-gradient(135deg, #FFFFFF, #F5E6C8);
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    letter-spacing: 0.5px;
+    line-height: 1;
+    /* Gradiente de texto sutil */
+    background: linear-gradient(135deg, #FFFFFF 40%, #F5E6C8 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    letter-spacing: 1px;
-    line-height: 1;
   }
 
   .logo-subtitle {
-    font-size: 0.6rem;
-    letter-spacing: 3px;
-    color: rgba(245, 230, 200, 0.7);
-    font-weight: 700;
-    margin-top: 2px;
+    font-family: var(--font-sans);
+    font-size: 0.58rem;
+    letter-spacing: 2.5px;
+    color: rgba(255, 200, 180, 0.75);
+    font-weight: 600;
     text-transform: uppercase;
   }
 
+  /* --- Nav --- */
   .main-nav {
     display: flex;
-    gap: 2rem;
+    gap: 1.75rem;
     align-items: center;
   }
 
   .nav-link {
+    font-family: var(--font-sans);
     font-weight: 700;
-    font-size: 0.9rem;
-    color: rgba(245, 230, 200, 0.85);
-    letter-spacing: 0.5px;
+    font-size: 0.88rem;
+    color: rgba(255, 248, 240, 0.85);
+    letter-spacing: 0.3px;
     position: relative;
-    padding: 0.5rem 0;
+    padding: 0.4rem 0;
     transition: color var(--transition-fast);
   }
 
@@ -215,10 +265,10 @@ const {
   .order-badge {
     background: var(--gradient-brand);
     color: #fff;
-    font-size: 0.7rem;
-    padding: 1px 6px;
+    font-size: 0.68rem;
+    padding: 1px 7px;
     border-radius: 10px;
-    font-weight: bold;
+    font-weight: 800;
   }
 
   /* ============================================================
@@ -232,78 +282,161 @@ const {
      FOOTER
      ============================================================ */
   .main-footer {
-    background: linear-gradient(180deg, #A01050 0%, #7A0038 100%);
-    color: var(--text-white);
-    padding: 3.5rem 2rem 0;
+    background: linear-gradient(160deg, #9A0048 0%, #6D0030 60%, #4A001E 100%);
+    color: #FFF8F0;
+    padding: 4rem 2rem 0;
     border-top: 3px solid transparent;
     border-image: linear-gradient(90deg, #E8196C, #FF6B35) 1;
   }
 
   .footer-inner {
-    max-width: 600px;
+    max-width: 640px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: 1.25rem;
+    gap: 1.75rem;
   }
 
+  /* Logo del footer — grande y prominente */
   .footer-logo-block {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.6rem;
+    gap: 0.65rem;
+  }
+
+  .footer-logo-ring {
+    position: relative;
+    width: 110px;
+    height: 110px;
+  }
+
+  .footer-logo-ring::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #E8196C, #FF6B35);
+    z-index: 0;
   }
 
   .footer-logo-img {
-    height: 80px;
-    width: 80px;
-    object-fit: cover;
+    position: relative;
+    z-index: 1;
+    width: 110px;
+    height: 110px;
     border-radius: 50%;
-    border: 3px solid rgba(255, 255, 255, 0.35);
-    box-shadow: 0 0 24px rgba(232, 25, 108, 0.4);
+    object-fit: cover;
+    border: 3px solid rgba(255,255,255,0.25);
+    box-shadow: 0 0 32px rgba(232, 25, 108, 0.45);
   }
 
   .footer-brand-name {
-    font-family: var(--font-serif);
-    font-size: 2rem;
-    font-weight: 900;
-    color: #FFF8F0;
+    font-family: var(--font-display);
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: #FFFFFF;
     margin: 0;
     letter-spacing: 1px;
+    line-height: 1;
+  }
+
+  .footer-brand-tagline {
+    font-family: var(--font-sans);
+    font-size: 0.82rem;
+    color: rgba(255, 200, 180, 0.8);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  /* Mensaje de marketing */
+  .footer-message-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    max-width: 520px;
+  }
+
+  .footer-headline {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    line-height: 1.3;
   }
 
   .footer-description {
-    font-size: 1.05rem;
-    color: rgba(255, 248, 240, 0.9);
-    line-height: 1.7;
-    max-width: 440px;
+    font-size: 0.98rem;
+    color: rgba(255, 248, 240, 0.88);
+    line-height: 1.75;
   }
 
   .footer-description strong {
-    color: #FFF8F0;
+    color: #FF8C42;
     font-weight: 800;
   }
 
+  /* Badge de entrega a domicilio */
+  .footer-delivery-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    background: rgba(255, 107, 53, 0.18);
+    border: 1.5px solid rgba(255, 140, 66, 0.5);
+    border-radius: var(--border-radius-lg);
+    padding: 0.85rem 1.5rem;
+    text-align: left;
+    max-width: 420px;
+    width: 100%;
+  }
+
+  .delivery-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+  }
+
+  .footer-delivery-badge div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .footer-delivery-badge strong {
+    color: #FF8C42;
+    font-size: 0.95rem;
+    font-weight: 800;
+    display: block;
+  }
+
+  .footer-delivery-badge span {
+    color: rgba(255, 248, 240, 0.8);
+    font-size: 0.84rem;
+  }
+
+  /* Contacto */
   .footer-contact {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.6rem;
     font-size: 1rem;
     flex-wrap: wrap;
     justify-content: center;
   }
 
   .footer-contact-label {
-    color: rgba(255, 248, 240, 0.8);
+    color: rgba(255, 248, 240, 0.78);
+    font-weight: 500;
   }
 
   .footer-phone {
     font-weight: 800;
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     color: #FF8C42;
     text-decoration: underline;
+    text-underline-offset: 3px;
     transition: color var(--transition-fast);
   }
 
@@ -314,11 +447,12 @@ const {
   .footer-bottom {
     max-width: var(--max-width);
     margin: 2.5rem auto 0;
-    padding: 1.25rem 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 1.15rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
     text-align: center;
-    font-size: 0.82rem;
-    color: rgba(255, 248, 240, 0.45);
+    font-size: 0.8rem;
+    color: rgba(255, 248, 240, 0.38);
+    font-family: var(--font-sans);
   }
 
   /* ============================================================
@@ -326,17 +460,38 @@ const {
      ============================================================ */
   @media (max-width: 768px) {
     .header-container {
-      flex-direction: column;
-      gap: 0.75rem;
-      padding: 0.75rem 1.25rem;
+      padding: 0.65rem 1.25rem;
+      gap: 1rem;
+    }
+    .logo-img-wrapper,
+    .logo-img {
+      width: 50px;
+      height: 50px;
+    }
+    .logo-title {
+      font-size: 1.35rem;
     }
     .main-nav {
-      gap: 1rem;
+      gap: 0.85rem;
       flex-wrap: wrap;
       justify-content: center;
     }
+    .nav-link {
+      font-size: 0.82rem;
+    }
     .main-footer {
       padding: 3rem 1.25rem 0;
+    }
+    .footer-logo-ring,
+    .footer-logo-img {
+      width: 90px;
+      height: 90px;
+    }
+    .footer-brand-name {
+      font-size: 2rem;
+    }
+    .footer-delivery-badge {
+      padding: 0.75rem 1.1rem;
     }
   }
 </style>

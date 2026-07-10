@@ -1,42 +1,43 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400..900;1,400..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /* ============================================================
-   DESIGN SYSTEM — Dulcería El Líder (New Vibrant Palette)
-   Basado en paleta SunCat Creative: Fucsia-Naranja-Crema
+   DESIGN SYSTEM — Dulcería El Líder (Vibrant Palette)
+   Paleta SunCat Creative: Fucsia → Naranja → Crema
    ============================================================ */
 
 :root {
-  /* === PALETA PRINCIPAL (Hot Pink → Sunset Orange) === */
-  --primary: #E8196C;          /* Hot Pink – color de marca principal */
-  --primary-deep: #C2185B;     /* Deep Magenta – variante oscura */
-  --primary-dark: #A01050;     /* Deep Rose – fondos profundos y footer */
+  /* === PALETA PRINCIPAL === */
+  --primary: #E8196C;
+  --primary-deep: #C2185B;
+  --primary-dark: #A01050;
 
-  --accent: #FF6B35;           /* Sunset Orange – acento cálido vibrante */
-  --accent-light: #FF8C42;     /* Warm Tangerine – precios y highlights */
-  --accent-pale: #FFA07A;      /* Melocotón suave – hover states */
+  --accent: #FF6B35;
+  --accent-light: #FF8C42;
+  --accent-pale: #FFA07A;
 
-  /* === NEUTRALES CÁLIDOS (Sand Cream) === */
-  --neutral-cream: #F5E6C8;    /* Sand Cream – fondo neutro principal */
-  --neutral-blush: #F9D5E5;    /* Pale Blush – fondos suaves / avisos */
-  --neutral-warm: #FFF8F0;     /* Off White – blanco cálido */
-  --neutral-deep: #3D1A24;     /* Ciruela oscura – fondos intermedios */
+  /* === NEUTRALES CÁLIDOS === */
+  --neutral-cream: #F5E6C8;
+  --neutral-blush: #F9D5E5;
+  --neutral-warm: #FFF8F0;
+  --neutral-deep: #3D1A24;
 
   /* === FONDOS === */
-  --bg-primary: #2A0A14;       /* Vino muy oscuro – fondo base oscuro */
-  --bg-secondary: #3D1A24;     /* Ciruela oscura – secciones y tarjetas */
-  --bg-card: #4A2030;          /* Rosa oscuro – cards */
-  --bg-light: #F5E6C8;         /* Sand Cream – secciones claras */
-  --bg-ultra-light: #FFF8F0;   /* Off White – fondos casi blancos */
+  --bg-primary: #2A0A14;
+  --bg-secondary: #3D1A24;
+  --bg-card: #4A2030;
+  --bg-light: #F5E6C8;
+  --bg-ultra-light: #FFF8F0;
 
-  /* === TEXTO === */
-  --text-primary: #FFFFFF;     /* Blanco puro – sobre fondos oscuros */
-  --text-secondary: #F5E6C8;   /* Crema arena – texto secundario elegante */
-  --text-light: #FF8C42;       /* Tangerine – etiquetas / indicadores */
-  --text-on-light: #2A0A14;    /* Oscuro vino – texto sobre fondos claros */
+  /* === TEXTO — Mejorado para contraste WCAG === */
+  --text-primary: #FFFFFF;
+  --text-secondary: #F5E6C8;
+  --text-light: #FF8C42;
+  --text-on-light: #1A0508;      /* Más oscuro para mayor contraste sobre crema */
+  --text-on-light-soft: #3D0F1A; /* Texto secundario sobre fondos claros */
   --text-white: #FFFFFF;
 
   /* === GRADIENTES DE MARCA === */
@@ -58,9 +59,13 @@
   --shadow-orange: 0 4px 14px rgba(255, 107, 53, 0.4);
   --shadow-dark: 0 8px 24px rgba(0, 0, 0, 0.5);
 
-  /* === TIPOGRAFÍA === */
+  /* === TIPOGRAFÍA ===
+     Fredoka       → Headings festivos y alegres (perfecta para dulcería)
+     Plus Jakarta  → Body moderno, legible y fresco
+     Playfair      → Títulos elegantes cuando se requiere sophisticación */
+  --font-display: 'Fredoka', 'Plus Jakarta Sans', sans-serif;
   --font-serif: 'Playfair Display', Georgia, serif;
-  --font-sans: 'Nunito', Helvetica, Arial, sans-serif;
+  --font-sans: 'Plus Jakarta Sans', Helvetica, Arial, sans-serif;
 
   /* === TRANSICIONES === */
   --transition-fast: 0.2s ease;
@@ -70,16 +75,16 @@
   --border-radius-sm: 8px;
   --border-radius-md: 12px;
   --border-radius-lg: 20px;
+  --border-radius-xl: 28px;
 
   /* === LAYOUT === */
   --max-width: 1200px;
 
-  /* === ALIAS DE COMPATIBILIDAD (para código anterior que use estas vars) === */
+  /* === ALIAS DE COMPATIBILIDAD === */
   --primary-color: var(--primary);
   --primary-light: var(--primary-deep);
   --accent-color: var(--accent-light);
   --accent-dark: var(--accent);
-  --accent-light-alias: var(--neutral-cream);
 }
 
 /* ============================================================
@@ -104,15 +109,23 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  line-height: 1.6;
+  line-height: 1.65;
 }
 
 /* ============================================================
    TIPOGRAFÍA GLOBAL
    ============================================================ */
-h1, h2, h3 {
-  font-family: var(--font-serif);
+h1, h2 {
+  font-family: var(--font-display);
   font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--neutral-cream);
+}
+
+h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
   line-height: 1.25;
   color: var(--neutral-cream);
 }
@@ -120,8 +133,14 @@ h1, h2, h3 {
 h4, h5, h6 {
   font-family: var(--font-sans);
   font-weight: 700;
-  line-height: 1.25;
+  line-height: 1.3;
   color: var(--text-primary);
+}
+
+p {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  line-height: 1.7;
 }
 
 a {
