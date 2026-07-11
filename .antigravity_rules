@@ -1,0 +1,18 @@
+# Reglas Globales y de Diseño: Dulcería El Líder
+
+## 1. Nomenclatura Oficial (Branding)
+* El negocio se denomina única y exclusivamente como **Dulcería** (ej. "Dulcería El Líder"). No usar "repostería", "repostería artesanal", etc.
+
+## 2. Desarrollo Móvil-Primero y Responsivo
+* La web se diseña y valida primero en móviles.
+* El **Carrito de Compras (Cart Drawer)** debe ocupar el 100% del ancho en móviles (`max-width: 100%`) y tener un scroll independiente para los productos, manteniendo la cabecera y el total/checkout pegados a los bordes sin desbordar.
+
+## 3. Ilustrador Interactivo de Cakes (Canvas)
+* La decoración de merengue de cobertura debe ser una onda continua (`drawWavyFrostingLine`), no puntos aislados.
+* El selector de color primario es el selector cromático libre (`input[type="color"]`) estilizado en forma circular, con atajos secundarios.
+* Las coordenadas de las chispas (sprinkles) se determinan con semilla (`seedRandom`) para evitar parpadeos molestos al actualizar.
+* Soporte para pantallas Retina / High-DPI mediante el escalado de `devicePixelRatio`.
+
+## 4. Estética de Diseño Premium
+* Fondos oscuros profundos con contrastes en oro metálico y transiciones fluidas.
+* Los elementos de interacción (botones de flecha del carrusel, botones del carrito) deben tener bordes redondeados y fondos con transparencias o sombras.
