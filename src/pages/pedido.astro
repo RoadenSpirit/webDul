@@ -607,6 +607,7 @@ import Layout from '../layouts/Layout.astro';
     }
     // Initialize properties if missing
     cart.forEach(item => {
+      item.uniqueId = item.uniqueId || (Date.now() + Math.random()).toString();
       if (item.customizable) {
         if (item.id === 'cake-redondo') {
           item.size = item.size || '20';
@@ -706,7 +707,7 @@ import Layout from '../layouts/Layout.astro';
     
     let html = '';
     customizableCakes.forEach((item, idx) => {
-      const globalIdx = cart.findIndex(c => c.id === item.id);
+      const globalIdx = cart.indexOf(item);
       let sizeSelectorHtml = '';
       let doubleOptionHtml = '';
       
