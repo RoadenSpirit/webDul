@@ -20,6 +20,7 @@ En este archivo se lleva el control del estado de las características planifica
 - [x] Documento de especificación de rediseño `diseno_radical.md` con paleta exacta, tokens CSS, lógica por sección y verificación de contraste WCAG.
 
 ## Características Pendientes
+- [ ] Implementar el paquete `auto skills` de `midu dev`.
 - [ ] Validar visualmente el rediseño radical en todos los viewports (desktop y móvil).
 - [ ] Actualizar estilos de la página de checkout (`/pedido`) para alinear con la nueva paleta fucsia-naranja-crema.
 
