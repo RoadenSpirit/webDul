@@ -34,6 +34,13 @@ En este archivo se lleva el control del estado de las características planifica
   7. Footer simplificado con contacto oficial `+53 5139 4921` y cero menciones de mensajería.
   8. Botón flotante `#floating-cart-btn` siempre accesible para abrir el drawer del carrito.
   9. Enrutamiento Baileys configurado al bot `5352122630@s.whatsapp.net` y soporte cliente a `+53 5139 4921`.
+- [x] **Refinamiento de UX y Pedidos Unificados** (2026-10-16):
+  1. Hero a 100vw y 100vh exactos con scroll suave automático al catálogo.
+  2. Logo aumentado de tamaño (150px) para máximo protagonismo.
+  3. Tarjetas con dos botones: icono de carrito (+1) y botón directo "Comprar Ahora" (carga directa a `/pedido`).
+  4. Ticket eliminado visualmente; total unificado sin recargos desagregados confusos.
+  5. Jerarquía en `/pedido`: títulos centrados, tipografía bold ampliada, productos ordenados (cakes primero, buffets después).
+  6. Selector de masa adaptado solo a cakes válidos (excluidos cupcakes, salados y buffets).
 - [x] Desplegar a producción con `npx vercel --prod` y verificar el live site (2026-10-16: desplegado con token personal a `https://dulceria-el-lider.vercel.app`, verificado que ya tiene ticket, WhatsApp y sin personalizador).
 
 ## Características Pendientes
