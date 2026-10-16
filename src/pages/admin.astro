@@ -1,0 +1,392 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Panel Administrativo — Dulcería El Líder">
+  <!-- Pantalla de Login -->
+  <div id="admin-login-screen" class="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center p-4">
+    <div class="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-8 max-w-md w-full shadow-xl text-center space-y-6">
+      <div class="w-20 h-20 mx-auto rounded-full p-1 bg-gradient-to-tr from-[var(--primary)] to-[var(--accent)]">
+        <img src="/logo-correcto.png" alt="Logo" class="w-full h-full object-cover rounded-full" />
+      </div>
+      <div>
+        <h1 class="text-2xl font-black text-white font-[var(--font-display)]">Acceso Administrativo</h1>
+        <p class="text-xs text-[var(--neutral-cream)] mt-1">Gestión de Catálogo y Matriz de Precios</p>
+      </div>
+
+      <form id="login-form" class="space-y-4 text-left">
+        <div>
+          <label class="block text-xs font-bold text-[var(--text-secondary)] mb-1">Usuario</label>
+          <input type="text" id="admin-user" required class="w-full px-4 py-2.5 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl text-white outline-none focus:border-[var(--primary)]" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-[var(--text-secondary)] mb-1">Contraseña</label>
+          <input type="password" id="admin-pass" required class="w-full px-4 py-2.5 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl text-white outline-none focus:border-[var(--primary)]" />
+        </div>
+        <p id="login-error" class="text-xs text-red-400 font-bold hidden"></p>
+        <button type="submit" class="w-full py-3 bg-[var(--gradient-brand)] text-white font-bold rounded-xl shadow-lg hover:opacity-95 transition-all">
+          Iniciar Sesión
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Panel Principal (2 Columnas) -->
+  <div id="admin-dashboard" class="hidden min-h-screen bg-[var(--bg-primary)] text-white">
+    <!-- Header Admin -->
+    <header class="bg-[var(--bg-secondary)] border-b border-[var(--border-color)] px-6 py-4 flex items-center justify-between sticky top-0 z-30">
+      <div class="flex items-center gap-3">
+        <img src="/logo-correcto.png" alt="Logo" class="w-10 h-10 rounded-full border border-white/20" />
+        <div>
+          <h2 class="text-lg font-black font-[var(--font-display)]">Dulcería El Líder · Admin</h2>
+          <span class="text-xs text-[var(--accent-light)] font-semibold">Matriz Dinámica de Precios (SQLite)</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="/" target="_blank" class="text-xs bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-lg font-bold transition-colors">Ver Web Pública ↗</a>
+        <button id="logout-btn" class="text-xs text-red-400 hover:text-red-300 font-bold">Cerrar Sesión</button>
+      </div>
+    </header>
+
+    <!-- Contenido en 2 Columnas -->
+    <div class="max-w-7xl mx-auto p-6 grid grid-cols-1 lg:grid-cols-12 gap-8">
+      
+      <!-- Columna Izquierda: Lista de Productos y Tamaños (4 cols) -->
+      <aside class="lg:col-span-4 space-y-4">
+        <div class="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-5 shadow-sm">
+          <h3 class="text-sm font-black uppercase tracking-wider text-[var(--accent-light)] mb-3">1. Productos &amp; Tamaños</h3>
+          <div id="product-list" class="space-y-2 max-h-[70vh] overflow-y-auto pr-1">
+            <!-- Inyectado por JS -->
+            <p class="text-xs text-white/50 text-center py-4">Cargando productos...</p>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Columna Derecha: Matriz Interactiva de Atributos del Producto (8 cols) -->
+      <main class="lg:col-span-8 space-y-6">
+        <div class="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-6 shadow-sm space-y-6">
+          <div class="flex items-start justify-between border-b border-[var(--border-color)] pb-4">
+            <div>
+              <span id="selected-product-category" class="text-xs font-bold uppercase tracking-wider text-[var(--accent-light)]">Categoría</span>
+              <h2 id="selected-product-name" class="text-2xl font-black text-white mt-0.5">Selecciona un producto</h2>
+            </div>
+            <div class="text-right">
+              <label class="block text-xs text-[var(--text-secondary)] font-bold">Precio Base (CUP)</label>
+              <div class="flex items-center gap-2 mt-1">
+                <input type="number" id="selected-product-base-price" class="w-28 px-3 py-1.5 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-lg text-right font-black text-lg text-[var(--accent-light)] outline-none" />
+                <button id="save-base-price-btn" class="px-3 py-1.5 bg-white/10 hover:bg-white/20 text-xs font-bold rounded-lg transition-colors">Guardar</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Matriz de Variaciones Habilitadas -->
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-base font-bold text-white flex items-center gap-2">
+                <span>⚙️ Opciones &amp; Atributos Asignables</span>
+              </h3>
+              <span class="text-xs text-[var(--neutral-cream)]/70">Solo las opciones activas se mostrarán al cliente</span>
+            </div>
+
+            <div id="variations-matrix" class="space-y-4">
+              <!-- Inyectado por JS -->
+              <p class="text-xs text-white/50 text-center py-6">Elige un producto de la izquierda para configurar su matriz.</p>
+            </div>
+          </div>
+
+          <!-- Añadir nueva variación / opción -->
+          <div class="border-t border-[var(--border-color)] pt-4">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-[var(--accent-light)] mb-3">➕ Añadir Nuevo Atributo/Opción al Sistema</h4>
+            <div class="flex gap-2">
+              <select id="new-attr-type" class="bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl px-3 py-2 text-xs text-white outline-none">
+                <option value="masa">Masa</option>
+                <option value="altura">Altura/Doble</option>
+                <option value="impresion">Adicional</option>
+              </select>
+              <input type="text" id="new-option-name" placeholder="Ej: Relleno de Chocolate, 3 Pisos..." class="flex-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl px-3 py-2 text-xs text-white outline-none" />
+              <button id="add-option-btn" class="px-4 py-2 bg-[var(--gradient-brand)] text-xs font-bold rounded-xl text-white shadow-md">Crear Opción</button>
+            </div>
+          </div>
+
+        </div>
+      </main>
+
+    </div>
+  </div>
+</Layout>
+
+<script>
+  let products = [];
+  let allOptions = [];
+  let currentProduct = null;
+
+  const loginScreen = document.getElementById('admin-login-screen');
+  const dashboard = document.getElementById('admin-dashboard');
+  const loginForm = document.getElementById('login-form');
+  const loginError = document.getElementById('login-error');
+  const logoutBtn = document.getElementById('logout-btn');
+
+  const productList = document.getElementById('product-list');
+  const selectedName = document.getElementById('selected-product-name');
+  const selectedCategory = document.getElementById('selected-product-category');
+  const selectedBasePrice = document.getElementById('selected-product-base-price') as HTMLInputElement | null;
+  const saveBasePriceBtn = document.getElementById('save-base-price-btn');
+  const variationsMatrix = document.getElementById('variations-matrix');
+
+  const newAttrType = document.getElementById('new-attr-type') as HTMLSelectElement | null;
+  const newOptionName = document.getElementById('new-option-name') as HTMLInputElement | null;
+  const addOptionBtn = document.getElementById('add-option-btn');
+
+  // Login handler
+  loginForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const username = (document.getElementById('admin-user') as HTMLInputElement)?.value;
+    const password = (document.getElementById('admin-pass') as HTMLInputElement)?.value;
+
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+      const data = await res.json();
+      if (data.ok) {
+        sessionStorage.setItem('admin_token', data.token);
+        showDashboard();
+      } else {
+        if (loginError) {
+          loginError.textContent = 'Usuario o contraseña incorrectos';
+          loginError.classList.remove('hidden');
+        }
+      }
+    } catch (err: any) {
+      if (loginError) {
+        loginError.textContent = 'Error de conexión: ' + err.message;
+        loginError.classList.remove('hidden');
+      }
+    }
+  });
+
+  logoutBtn?.addEventListener('click', () => {
+    sessionStorage.removeItem('admin_token');
+    window.location.reload();
+  });
+
+  const checkAuth = () => {
+    if (sessionStorage.getItem('admin_token')) {
+      showDashboard();
+    }
+  };
+
+  const showDashboard = () => {
+    loginScreen?.classList.add('hidden');
+    dashboard?.classList.remove('hidden');
+    loadProducts();
+  };
+
+  const loadProducts = async () => {
+    try {
+      const res = await fetch('/api/admin/products');
+      const data = await res.json();
+      if (data.ok) {
+        products = data.products;
+        allOptions = data.allOptions;
+        renderProductList();
+        if (products.length > 0 && !currentProduct) {
+          selectProduct(products[0]);
+        }
+      }
+    } catch (err) {
+      console.error('Error al cargar productos:', err);
+    }
+  };
+
+  const renderProductList = () => {
+    if (!productList) return;
+    let html = '';
+    products.forEach(p => {
+      const isSelected = currentProduct && currentProduct.id === p.id;
+      const activeVars = (p.variations || []).filter(v => v.is_enabled);
+      html += `
+        <div class="p-3 rounded-xl cursor-pointer transition-all border ${isSelected ? 'bg-[var(--bg-secondary)] border-[var(--primary)] shadow-md' : 'bg-[var(--bg-primary)]/60 border-transparent hover:border-white/10'}" data-id="${p.id}">
+          <div class="flex justify-between items-start">
+            <h4 class="font-bold text-sm text-white">${p.name}</h4>
+            <span class="text-xs font-black text-[var(--accent-light)]">$${p.base_price} CUP</span>
+          </div>
+          <div class="flex items-center gap-2 mt-2 text-[10px] text-white/60">
+            <span class="uppercase font-bold tracking-wider">${p.category}</span>
+            <span>•</span>
+            <span class="text-[var(--primary)] font-semibold">${activeVars.length} opciones activas</span>
+          </div>
+        </div>
+      `;
+    });
+    productList.innerHTML = html;
+
+    productList.querySelectorAll('[data-id]').forEach(el => {
+      el.addEventListener('click', () => {
+        const id = el.getAttribute('data-id');
+        const found = products.find(p => p.id === id);
+        if (found) selectProduct(found);
+      });
+    });
+  };
+
+  const selectProduct = (prod) => {
+    currentProduct = prod;
+    renderProductList(); // Actualizar clase seleccionada
+
+    if (selectedName) selectedName.textContent = prod.name;
+    if (selectedCategory) selectedCategory.textContent = prod.category;
+    if (selectedBasePrice) selectedBasePrice.value = prod.base_price;
+
+    renderVariationsMatrix();
+  };
+
+  saveBasePriceBtn?.addEventListener('click', async () => {
+    if (!currentProduct || !selectedBasePrice) return;
+    const basePrice = parseInt(selectedBasePrice.value || '0');
+    try {
+      const res = await fetch('/api/admin/products', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'update_base_price', productId: currentProduct.id, basePrice })
+      });
+      if (res.ok) {
+        currentProduct.base_price = basePrice;
+        renderProductList();
+        alert('✓ Precio base actualizado correctamente');
+      }
+    } catch (e) {
+      alert('Error al guardar precio base');
+    }
+  });
+
+  const renderVariationsMatrix = () => {
+    if (!variationsMatrix || !currentProduct) return;
+    
+    // Agrupar opciones por atributo
+    const grouped = {};
+    allOptions.forEach(opt => {
+      if (!grouped[opt.attribute_name]) grouped[opt.attribute_name] = [];
+      grouped[opt.attribute_name].push(opt);
+    });
+
+    let html = '';
+
+    Object.keys(grouped).forEach(attrName => {
+      html += `
+        <div class="bg-[var(--bg-primary)] border border-[var(--border-color)]/60 rounded-xl p-4 space-y-3">
+          <h4 class="text-xs font-black uppercase tracking-wider text-[var(--accent-light)] flex items-center justify-between">
+            <span>${attrName}</span>
+          </h4>
+          <div class="space-y-2">
+      `;
+
+      grouped[attrName].forEach(opt => {
+        const variation = (currentProduct.variations || []).find(v => v.option_id === opt.id);
+        const isEnabled = variation ? variation.is_enabled === 1 : false;
+        const price = variation ? variation.price : 0;
+
+        html += `
+          <div class="flex items-center justify-between gap-4 p-2.5 rounded-lg bg-[var(--bg-card)]/50 border border-white/5">
+            <label class="flex items-center gap-3 cursor-pointer">
+              <input type="checkbox" class="var-toggle w-4 h-4 rounded text-[var(--primary)] focus:ring-[var(--primary)]" data-opt-id="${opt.id}" ${isEnabled ? 'checked' : ''} />
+              <span class="text-sm font-semibold text-white">${opt.name}</span>
+            </label>
+            <div class="flex items-center gap-2">
+              <span class="text-xs text-white/50">Precio exacto/recargo:</span>
+              <input type="number" class="var-price w-24 px-2 py-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded text-right text-xs font-bold text-white outline-none" data-opt-id="${opt.id}" value="${price}" ${!isEnabled ? 'disabled' : ''} />
+              <span class="text-xs text-[var(--accent-light)] font-bold">CUP</span>
+              <button class="save-var-btn px-2.5 py-1 bg-white/10 hover:bg-white/20 text-[10px] font-bold rounded transition-colors" data-opt-id="${opt.id}">Guardar</button>
+            </div>
+          </div>
+        `;
+      });
+
+      html += `</div></div>`;
+    });
+
+    variationsMatrix.innerHTML = html;
+
+    // Handlers para la matriz
+    variationsMatrix.querySelectorAll('.var-toggle').forEach(chk => {
+      chk.addEventListener('change', (e) => {
+        const target = e.target as HTMLInputElement;
+        const optId = target.getAttribute('data-opt-id');
+        const priceInput = variationsMatrix.querySelector(`.var-price[data-opt-id="${optId}"]`) as HTMLInputElement | null;
+        if (priceInput) priceInput.disabled = !target.checked;
+        saveVariation(optId, target.checked, parseInt(priceInput?.value || '0'));
+      });
+    });
+
+    variationsMatrix.querySelectorAll('.save-var-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const optId = (e.currentTarget as HTMLElement).getAttribute('data-opt-id');
+        const chk = variationsMatrix.querySelector(`.var-toggle[data-opt-id="${optId}"]`) as HTMLInputElement | null;
+        const priceInput = variationsMatrix.querySelector(`.var-price[data-opt-id="${optId}"]`) as HTMLInputElement | null;
+        if (optId && chk && priceInput) {
+          saveVariation(optId, chk.checked, parseInt(priceInput.value || '0'));
+        }
+      });
+    });
+  };
+
+  const saveVariation = async (optionId, isEnabled, price) => {
+    if (!currentProduct) return;
+    try {
+      const res = await fetch('/api/admin/products', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'toggle_variation',
+          productId: currentProduct.id,
+          optionId,
+          isEnabled,
+          price
+        })
+      });
+      if (res.ok) {
+        // Actualizar en memoria local
+        if (!currentProduct.variations) currentProduct.variations = [];
+        const existing = currentProduct.variations.find(v => v.option_id === optionId);
+        if (existing) {
+          existing.is_enabled = isEnabled ? 1 : 0;
+          existing.price = price;
+        } else {
+          currentProduct.variations.push({ option_id: optionId, is_enabled: isEnabled ? 1 : 0, price });
+        }
+        renderProductList();
+      }
+    } catch (e) {
+      alert('Error al guardar variación');
+    }
+  };
+
+  addOptionBtn?.addEventListener('click', async () => {
+    const attributeId = newAttrType?.value;
+    const optionName = newOptionName?.value.trim();
+    if (!attributeId || !optionName) {
+      alert('Ingresa el nombre de la nueva opción');
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/admin/products', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'create_attribute_option', attributeId, optionName })
+      });
+      const data = await res.json();
+      if (data.ok) {
+        if (newOptionName) newOptionName.value = '';
+        await loadProducts();
+        alert('✓ Opción creada y añadida a la matriz con éxito');
+      }
+    } catch (e) {
+      alert('Error al crear opción');
+    }
+  });
+
+  checkAuth();
+</script>

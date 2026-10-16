@@ -41,7 +41,13 @@ En este archivo se lleva el control del estado de las características planifica
   4. Ticket eliminado visualmente; total unificado sin recargos desagregados confusos.
   5. Jerarquía en `/pedido`: títulos centrados, tipografía bold ampliada, productos ordenados (cakes primero, buffets después).
   6. Selector de masa adaptado solo a cakes válidos (excluidos cupcakes, salados y buffets).
-- [x] Desplegar a producción con `npx vercel --prod` y verificar el live site (2026-10-16: desplegado con token personal a `https://dulceria-el-lider.vercel.app`, verificado que ya tiene ticket, WhatsApp y sin personalizador).
+- [x] **Panel `/admin` con Matriz Dinámica SQLite y Precios Exactos** (2026-10-16):
+  1. Base de datos SQLite creada en `data/database.sqlite` con tablas relacionales (`products`, `attributes`, `attribute_options`, `product_variations`).
+  2. Sembrados todos los precios oficiales exactos (MiniCake 15cm $2500, Cake 22cm $3800/doble $6500/capuchino $6900/capuchino doble $9700, 20cm maicena $3900/doble $6700, 25cm $6500/capuchino $12500, 30cm $14000, 36cm $18000, medio bandeja $6700, bandeja $13500/maicena $14000/capuchino $20000, 2 pisos bandeja $17000, 2 pisos redondo $18000, buffet y adicionales).
+  3. Panel `/admin` interactivo protegido con usuario `riveron` y contraseña `alvaroesmihijofavorito`.
+  4. Diseño de 2 columnas: lista de productos y matriz interactiva de atributos (switches on/off, precio obligatorio y creador de atributos).
+  5. Catálogo (`src/data/products.ts`) y checkout (`src/pages/pedido.astro`) conectados con reglas de precios exactas e impresiones a +$900 CUP.
+  6. Desplegado y verificado en producción: `https://dulceria-el-lider.vercel.app/admin`.
 
 ## Características Pendientes
 - [ ] Validar visualmente el MVP simplificado en todos los viewports (desktop y móvil).

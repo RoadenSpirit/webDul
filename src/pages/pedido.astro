@@ -641,23 +641,17 @@ import Layout from '../layouts/Layout.astro';
   const getItemFullTitle = (item) => {
     let name = item.name;
     let parts = [];
+    const rule = RULES[item.id];
 
-    // Size details
-    if (item.id === 'cake-redondo') {
-      const sz = item.size || '20';
-      parts.push(`${sz} cm`);
-    } else if (item.id === 'cake-bandeja') {
-      const sz = item.size || 'media';
-      parts.push(sz === 'completa' ? 'Bandeja Completa' : 'Media Bandeja');
-    }
-
-    if (item.doubleHeight && (item.id === 'cake-redondo' || item.id === 'minicake')) {
+    if (item.doubleHeight && rule && rule.hasDouble) {
       parts.push('Doble');
     }
 
-    // Dough details (only for cakes)
+    // Dough details (only for cakes with options)
     if (item.dough && item.dough !== 'trigo') {
-      parts.push(`masa ${item.dough === 'maicena' ? 'de maicena' : 'capuchino'}`);
+      const dObj = rule?.doughs?.find(d => d.id === item.dough);
+      const dName = dObj ? dObj.label.split('(')[0].trim() : item.dough;
+      parts.push(`Masa: ${dName}`);
     }
 
     if (item.ediblePrint) {
@@ -688,30 +682,87 @@ import Layout from '../layouts/Layout.astro';
     return { icon: '🍪', color: '#F5E6C8', label: 'Buffet/Postre' };
   };
 
+  const RULES = {
+    'minicake-15': {
+      basePrice: 2500,
+      doughs: [{ id: 'trigo', label: 'Harina de trigo ($2500 CUP)', price: 2500 }],
+      hasDouble: false
+    },
+    'cake-22': {
+      basePrice: 3800,
+      doughs: [
+        { id: 'trigo', label: 'Harina de trigo ($3800 CUP)', price: 3800 },
+        { id: 'capuchino', label: 'Capuchino ($6900 CUP)', price: 6900 }
+      ],
+      hasDouble: true,
+      doublePrice: 2700 // harina doble = 6500, capuchino doble = 9700
+    },
+    'cake-20-maicena': {
+      basePrice: 3900,
+      doughs: [{ id: 'maicena', label: 'Masa de Maicena ($3900 CUP)', price: 3900 }],
+      hasDouble: true,
+      doublePrice: 2800 // altura 15cm = 6700
+    },
+    'cake-25': {
+      basePrice: 6500,
+      doughs: [
+        { id: 'trigo', label: 'Harina de trigo ($6500 CUP)', price: 6500 },
+        { id: 'capuchino', label: 'Capuchino ($12500 CUP)', price: 12500 }
+      ],
+      hasDouble: false
+    },
+    'cake-30': {
+      basePrice: 14000,
+      doughs: [{ id: 'trigo', label: 'Harina de trigo ($14000 CUP)', price: 14000 }],
+      hasDouble: false
+    },
+    'cake-36': {
+      basePrice: 18000,
+      doughs: [{ id: 'trigo', label: 'Harina de trigo ($18000 CUP)', price: 18000 }],
+      hasDouble: false
+    },
+    'medio-cake-bandeja': {
+      basePrice: 6700,
+      doughs: [{ id: 'trigo', label: 'Harina de trigo ($6700 CUP)', price: 6700 }],
+      hasDouble: false
+    },
+    'cake-bandeja': {
+      basePrice: 13500,
+      doughs: [
+        { id: 'trigo', label: 'Harina de trigo ($13500 CUP)', price: 13500 },
+        { id: 'maicena', label: 'Masa de Maicena ($14000 CUP)', price: 14000 },
+        { id: 'capuchino', label: 'Capuchino ($20000 CUP)', price: 20000 }
+      ],
+      hasDouble: false
+    },
+    'cake-2pisos-bandeja': {
+      basePrice: 17000,
+      doughs: [{ id: 'trigo', label: 'Masa de Harina ($17000 CUP)', price: 17000 }],
+      hasDouble: false
+    },
+    'cake-2pisos-redondo': {
+      basePrice: 18000,
+      doughs: [{ id: 'trigo', label: 'Masa de Harina (Desde $18000 CUP)', price: 18000 }],
+      hasDouble: false
+    }
+  };
+
   const calculateItemUnitPrice = (item) => {
-    let basePrice = item.price;
-    let sizeExtra = 0;
-    if (item.id === 'cake-redondo') {
-      const size = item.size || '20';
-      if (size === '25') sizeExtra = 1500;
-      else if (size === '30') sizeExtra = 7200;
-    } else if (item.id === 'cake-bandeja') {
-      const size = item.size || 'media';
-      if (size === 'completa') sizeExtra = 5400;
+    const rule = RULES[item.id];
+    let unit = item.price || 0;
+
+    if (rule) {
+      const selectedDough = rule.doughs?.find(d => d.id === item.dough) || rule.doughs?.[0];
+      unit = selectedDough ? selectedDough.price : rule.basePrice;
+      if (item.doubleHeight && rule.hasDouble) {
+        unit += (rule.doublePrice || 0);
+      }
     }
-    
-    let unit = basePrice + sizeExtra;
-    if (item.doubleHeight && (item.id === 'cake-redondo' || item.id === 'minicake')) {
-      unit = Math.round(unit * 1.80);
-    }
+
     if (item.ediblePrint) {
-      unit += 650;
+      unit += 900;
     }
-    if (item.dough === 'maicena') {
-      unit += 150;
-    } else if (item.dough === 'capuchino') {
-      unit += 300;
-    }
+
     return unit;
   };
 
@@ -758,88 +809,44 @@ import Layout from '../layouts/Layout.astro';
     let html = '';
     customizableCakes.forEach((item, idx) => {
       const globalIdx = cart.indexOf(item);
-      const isRealCake = item.id === 'cake-redondo' || item.id === 'minicake' || item.id === 'cake-bandeja' || item.id === 'cake-varios-pisos';
+      const rule = RULES[item.id];
 
-      let sizeSelectorHtml = '';
       let doubleOptionHtml = '';
       let doughSelectorHtml = '';
-      
-      if (item.id === 'cake-redondo') {
-        sizeSelectorHtml = `
-          <div class="flex flex-col gap-2">
-            <label for="cake-size-${globalIdx}" class="block text-sm font-bold text-[var(--text-primary)] flex items-center justify-between">
-              <span>📏 Tamaño del Cake:</span>
-              <span class="text-xs text-[var(--accent-color)] bg-[var(--bg-primary)] border border-[var(--border-color)] px-2 py-0.5 rounded-full font-bold">Base: 20cm</span>
-            </label>
-            <select class="size-select-field w-full px-4 py-3 bg-[var(--bg-primary)] border-2 border-[var(--border-color)] rounded-xl text-sm text-[var(--text-primary)] focus:border-[var(--accent-color)] focus:ring-4 focus:ring-[var(--accent-color)]/10 transition-all outline-none cursor-pointer appearance-none" data-index="${globalIdx}" id="cake-size-${globalIdx}">
-              <option value="20" ${item.size === '20' || !item.size ? 'selected' : ''}>20 cm</option>
-              <option value="25" ${item.size === '25' ? 'selected' : ''}>25 cm</option>
-              <option value="30" ${item.size === '30' ? 'selected' : ''}>30 cm</option>
-            </select>
-          </div>
-        `;
-        doubleOptionHtml = `
-          <label class="inline-flex items-center gap-3 w-full bg-[var(--bg-primary)] border-2 border-[var(--border-color)] hover:border-[var(--accent-color)] p-3 rounded-xl cursor-pointer transition-colors mt-2">
-            <input 
-              type="checkbox" 
-              class="double-height-checkbox-field w-4 h-4 text-[var(--accent-color)] border-[var(--border-color)] rounded focus:ring-[var(--accent-color)] cursor-pointer" 
-              data-index="${globalIdx}" 
-              id="cake-double-${globalIdx}"
-              ${item.doubleHeight ? 'checked' : ''}
-            />
-            <span class="text-sm font-bold text-[var(--text-primary)] flex-grow flex items-center justify-between">
-              <span>Cake Doble (Doble masa / altura)</span>
-            </span>
-          </label>
-        `;
-      } else if (item.id === 'cake-bandeja') {
-        sizeSelectorHtml = `
-          <div class="flex flex-col gap-2">
-            <label for="cake-size-${globalIdx}" class="block text-sm font-bold text-[var(--text-primary)] flex items-center justify-between">
-              <span>📏 Tamaño de la Bandeja:</span>
-              <span class="text-xs text-[var(--accent-color)] bg-[var(--bg-primary)] border border-[var(--border-color)] px-2 py-0.5 rounded-full font-bold">Base: Media</span>
-            </label>
-            <select class="size-select-field w-full px-4 py-3 bg-[var(--bg-primary)] border-2 border-[var(--border-color)] rounded-xl text-sm text-[var(--text-primary)] focus:border-[var(--accent-color)] focus:ring-4 focus:ring-[var(--accent-color)]/10 transition-all outline-none cursor-pointer appearance-none" data-index="${globalIdx}" id="cake-size-${globalIdx}">
-              <option value="media" ${item.size === 'media' || !item.size ? 'selected' : ''}>Media Bandeja</option>
-              <option value="completa" ${item.size === 'completa' ? 'selected' : ''}>Bandeja Completa</option>
-            </select>
-          </div>
-        `;
-      } else if (item.id === 'minicake') {
-        doubleOptionHtml = `
-          <label class="inline-flex items-center gap-3 w-full bg-[var(--bg-primary)] border-2 border-[var(--border-color)] hover:border-[var(--accent-color)] p-3 rounded-xl cursor-pointer transition-colors mt-2">
-            <input 
-              type="checkbox" 
-              class="double-height-checkbox-field w-4 h-4 text-[var(--accent-color)] border-[var(--border-color)] rounded focus:ring-[var(--accent-color)] cursor-pointer" 
-              data-index="${globalIdx}" 
-              id="cake-double-${globalIdx}"
-              ${item.doubleHeight ? 'checked' : ''}
-            />
-            <span class="text-sm font-bold text-[var(--text-primary)] flex-grow flex items-center justify-between">
-              <span>Cake Doble (Doble masa / altura)</span>
-            </span>
-          </label>
-        `;
-      } else if (item.id === 'cake-varios-pisos') {
-        sizeSelectorHtml = `
-          <div class="bg-[var(--bg-primary)] border border-[var(--border-color)] text-[var(--text-secondary)] text-sm p-4 rounded-xl flex flex-col gap-1 leading-relaxed">
-            <span class="font-bold flex items-center gap-1 text-[var(--accent-color)]">ℹ️ Nota sobre Cakes de Varios Pisos</span>
-            <span>El tamaño, estructura y montaje se concertarán directamente a través de WhatsApp.</span>
-          </div>
-        `;
-      }
 
-      // Masa selector only for cakes (not for cupcakes or savory/buffet items)
-      if (isRealCake && item.id !== 'cake-varios-pisos') {
+      if (rule && rule.doughs && rule.doughs.length > 1) {
         doughSelectorHtml = `
           <div class="flex flex-col gap-2">
             <label for="cake-dough-${globalIdx}" class="block text-sm font-bold text-[var(--text-primary)]">🌾 Selección de Masa:</label>
             <select class="dough-select-field w-full px-4 py-3 bg-[var(--bg-primary)] border-2 border-[var(--border-color)] rounded-xl text-sm text-[var(--text-primary)] focus:border-[var(--accent-color)] focus:ring-4 focus:ring-[var(--accent-color)]/10 transition-all outline-none cursor-pointer appearance-none" data-index="${globalIdx}" id="cake-dough-${globalIdx}">
-              <option value="trigo" ${item.dough === 'trigo' || !item.dough ? 'selected' : ''}>Harina de trigo</option>
-              <option value="maicena" ${item.dough === 'maicena' ? 'selected' : ''}>Maicena</option>
-              <option value="capuchino" ${item.dough === 'capuchino' ? 'selected' : ''}>Capuchino</option>
+              ${rule.doughs.map(d => `<option value="${d.id}" ${item.dough === d.id ? 'selected' : ''}>${d.label}</option>`).join('')}
             </select>
           </div>
+        `;
+      } else if (rule && rule.doughs && rule.doughs.length === 1) {
+        doughSelectorHtml = `
+          <div class="bg-[var(--bg-primary)]/80 border border-[var(--border-color)]/60 rounded-xl px-4 py-2.5 text-xs text-[var(--neutral-cream)] flex items-center justify-between">
+            <span class="font-bold">Masa única:</span>
+            <span class="text-[var(--accent-light)] font-bold">${rule.doughs[0].label}</span>
+          </div>
+        `;
+      }
+
+      if (rule && rule.hasDouble) {
+        doubleOptionHtml = `
+          <label class="inline-flex items-center gap-3 w-full bg-[var(--bg-primary)] border-2 border-[var(--border-color)] hover:border-[var(--accent-color)] p-3 rounded-xl cursor-pointer transition-colors mt-2">
+            <input 
+              type="checkbox" 
+              class="double-height-checkbox-field w-4 h-4 text-[var(--accent-color)] border-[var(--border-color)] rounded focus:ring-[var(--accent-color)] cursor-pointer" 
+              data-index="${globalIdx}" 
+              id="cake-double-${globalIdx}"
+              ${item.doubleHeight ? 'checked' : ''}
+            />
+            <span class="text-sm font-bold text-[var(--text-primary)] flex-grow flex items-center justify-between">
+              <span>Cake Doble / Doble Altura</span>
+              <span class="text-xs text-[var(--accent-light)] font-black">+${rule.doublePrice} CUP</span>
+            </span>
+          </label>
         `;
       }
 
@@ -887,8 +894,9 @@ import Layout from '../layouts/Layout.astro';
                 id="cake-print-${globalIdx}"
                 ${item.ediblePrint ? 'checked' : ''}
               />
-              <span class="text-sm font-bold text-[var(--text-primary)] flex-grow">
-                Añadir Impresión Comestible
+              <span class="text-sm font-bold text-[var(--text-primary)] flex-grow flex items-center justify-between">
+                <span>¿Deseas añadir Impresión Comestible?</span>
+                <span class="text-xs text-[var(--accent-light)] font-black">+900 CUP</span>
               </span>
             </label>
             
