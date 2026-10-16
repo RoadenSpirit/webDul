@@ -302,9 +302,7 @@ const decorations = [
     line-height: 1.15;
     color: #FFFFFF;
     letter-spacing: -0.5px;
-    background: linear-gradient(135deg, #FFFFFF 50%, #F5E6C8 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    text-wrap: balance;
   }
 
   .hero-subtitle {
@@ -342,12 +340,18 @@ const decorations = [
   .scroll-arrow {
     width: 24px;
     height: 24px;
-    animation: scrollBounce 2s infinite ease-in-out;
+    animation: scrollGlide 2.4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
   }
 
-  @keyframes scrollBounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(6px); }
+  @keyframes scrollGlide {
+    0%, 100% { transform: translateY(0); opacity: 0.75; }
+    50% { transform: translateY(6px); opacity: 1; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .scroll-arrow {
+      animation: none;
+    }
   }
 
   /* ============================================================

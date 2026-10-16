@@ -257,7 +257,6 @@ import Layout from '../layouts/Layout.astro';
     border-radius: var(--border-radius-md);
     padding: 1.5rem;
     margin-bottom: 1.5rem;
-    border-left: 4px solid var(--accent-color);
     box-shadow: var(--shadow-sm);
   }
 
@@ -791,8 +790,8 @@ import Layout from '../layouts/Layout.astro';
         `;
       }
 
-      html += `
-        <div class="bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-xl p-5 mb-6 border-l-4 border-l-[var(--accent-color)] space-y-4 shadow-sm" data-cart-index="${globalIdx}">
+        html += `
+        <div class="bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-xl p-5 mb-6 space-y-4 shadow-sm" data-cart-index="${globalIdx}">
           <h4 class="text-base font-extrabold text-[var(--accent-color)] flex items-center gap-1.5">🎂 Personalización: ${item.name}</h4>
           
           ${sizeSelectorHtml}
