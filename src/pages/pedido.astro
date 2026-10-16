@@ -48,6 +48,16 @@ import Layout from '../layouts/Layout.astro';
 
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div class="flex flex-col gap-2">
+                  <label for="customer-name" class="block text-sm font-bold text-[var(--text-primary)]">Tu Nombre <span class="text-[#FF6B6B] font-bold">*</span></label>
+                  <input type="text" id="customer-name" required placeholder="Ej: María Pérez" class="w-full px-4 py-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl text-base text-[var(--text-primary)] focus:border-[var(--primary)] focus:ring-4 focus:ring-[rgba(232,25,108,0.12)] transition-all outline-none font-medium placeholder:text-[var(--text-light)]/60" />
+                </div>
+                <div class="flex flex-col gap-2">
+                  <label for="customer-phone" class="block text-sm font-bold text-[var(--text-primary)]">Tu WhatsApp <span class="text-[#FF6B6B] font-bold">*</span></label>
+                  <input type="tel" id="customer-phone" required placeholder="Ej: 5351234567" pattern="[0-9+ ]{8,16}" class="w-full px-4 py-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl text-base text-[var(--text-primary)] focus:border-[var(--primary)] focus:ring-4 focus:ring-[rgba(232,25,108,0.12)] transition-all outline-none font-medium placeholder:text-[var(--text-light)]/60" />
+                </div>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div class="flex flex-col gap-2">
                   <label for="delivery-date" class="block text-sm font-bold text-[var(--text-primary)]">Fecha Requerida <span class="text-[#FF6B6B] font-bold">*</span></label>
                   <input type="date" id="delivery-date" required class="w-full px-4 py-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl text-base text-[var(--text-primary)] focus:border-[var(--primary)] focus:ring-4 focus:ring-[rgba(232,25,108,0.12)] transition-all outline-none cursor-pointer font-medium" />
                 </div>
@@ -84,6 +94,10 @@ import Layout from '../layouts/Layout.astro';
               <span>Impresión comestible</span>
               <span id="summary-addons-extra" class="font-semibold text-[var(--text-primary)]">$0 CUP</span>
             </div>
+            <div class="flex justify-between text-xs text-[var(--text-secondary)]">
+              <span>Nº de Ticket</span>
+              <span id="summary-ticket" class="font-mono font-bold text-[var(--accent-light)]">—</span>
+            </div>
             <div class="flex justify-between text-base font-bold text-[var(--accent-color)] border-t border-[var(--border-color)] pt-3 mt-2">
               <span>Total Estimado</span>
               <span id="summary-total" class="text-[var(--accent-color)]">$0 CUP</span>
@@ -100,10 +114,12 @@ import Layout from '../layouts/Layout.astro';
               </svg>
               Confirmar Pedido vía WhatsApp
             </button>
+            <p id="order-status" class="text-xs text-center font-semibold text-[var(--text-secondary)] leading-relaxed" role="status"></p>
           </div>
         </div>
       </div>
     </div>
+  </div>
   </div>
 </Layout>
 
@@ -135,8 +151,8 @@ import Layout from '../layouts/Layout.astro';
 
   .checkout-header h1 {
     font-size: 2.2rem;
-    font-family: var(--font-serif);
-    color: var(--primary-dark);
+    font-family: var(--font-display);
+    color: var(--text-primary);
     margin-bottom: 0.5rem;
   }
 
@@ -173,10 +189,10 @@ import Layout from '../layouts/Layout.astro';
   }
 
   .form-section h3 {
-    font-family: var(--font-sans);
+    font-family: var(--font-display);
     font-size: 1.25rem;
-    font-weight: 800;
-    color: var(--primary-dark);
+    font-weight: 700;
+    color: var(--accent-light);
     margin-bottom: 1.25rem;
     border-bottom: 1px solid var(--border-color);
     padding-bottom: 0.75rem;
@@ -224,9 +240,9 @@ import Layout from '../layouts/Layout.astro';
   .form-group input:focus,
   .form-group select:focus,
   .form-group textarea:focus {
-    border-color: var(--accent-color);
+    border-color: var(--primary);
     background-color: var(--bg-card);
-    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15);
+    box-shadow: 0 0 0 3px rgba(232, 25, 108, 0.18);
   }
 
   .required {
@@ -253,8 +269,8 @@ import Layout from '../layouts/Layout.astro';
 
   .cake-customizer-card h4 {
     font-size: 1.05rem;
-    color: var(--primary-dark);
-    font-weight: 800;
+    color: var(--accent-light);
+    font-weight: 700;
     margin-bottom: 1rem;
   }
 
@@ -324,7 +340,7 @@ import Layout from '../layouts/Layout.astro';
   .summary-info h4 {
     font-size: 0.95rem;
     font-weight: 700;
-    color: var(--primary-dark);
+    color: var(--text-primary);
     margin: 0;
     word-break: break-word;
   }
@@ -332,7 +348,7 @@ import Layout from '../layouts/Layout.astro';
   .summary-price {
     font-size: 0.9rem;
     font-weight: 700;
-    color: var(--primary-color);
+    color: var(--accent-light);
     margin-left: 0.5rem;
   }
 
@@ -374,7 +390,7 @@ import Layout from '../layouts/Layout.astro';
   .total-row {
     font-size: 1.3rem;
     font-weight: 800;
-    color: var(--primary-dark);
+    color: var(--accent-light);
     border-top: 2px double var(--border-color);
     padding-top: 0.75rem;
     margin-top: 0.75rem;
@@ -445,8 +461,8 @@ import Layout from '../layouts/Layout.astro';
   }
 
   .customizer-upload-area:hover {
-    background-color: rgba(212, 175, 55, 0.05);
-    border-color: var(--accent-dark);
+    background-color: rgba(255, 107, 53, 0.1);
+    border-color: var(--accent-light);
   }
 
   .customizer-upload-label {
@@ -474,8 +490,8 @@ import Layout from '../layouts/Layout.astro';
   }
 
   .edible-print-option:hover {
-    background-color: rgba(212, 175, 55, 0.05);
-    border-color: var(--accent-color);
+    background-color: rgba(255, 107, 53, 0.1);
+    border-color: var(--accent-light);
   }
 
   .edible-print-option input[type="checkbox"] {
@@ -529,7 +545,7 @@ import Layout from '../layouts/Layout.astro';
   /* Custom styled date/time pickers */
   input[type="date"], input[type="time"] {
     position: relative;
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238C0D1B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3crect x='3' y='4' width='18' height='18' rx='2' ry='2'%3e%3c/rect%3e%3cline x1='16' y1='2' x2='16' y2='6'%3e%3c/line%3e%3cline x1='8' y1='2' x2='8' y2='6'%3e%3c/line%3e%3cline x1='3' y1='10' x2='21' y2='10'%3e%3c/line%3e%3c/svg%3e");
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FF8C42' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3crect x='3' y='4' width='18' height='18' rx='2' ry='2'%3e%3c/rect%3e%3cline x1='16' y1='2' x2='16' y2='6'%3e%3c/line%3e%3cline x1='8' y1='2' x2='8' y2='6'%3e%3c/line%3e%3cline x1='3' y1='10' x2='21' y2='10'%3e%3c/line%3e%3c/svg%3e");
     background-repeat: no-repeat;
     background-position: right 1rem center;
     background-size: 1.25rem;
@@ -538,7 +554,7 @@ import Layout from '../layouts/Layout.astro';
   }
   
   input[type="time"] {
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238C0D1B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3ccircle cx='12' cy='12' r='10'%3e%3c/circle%3e%3cpolyline points='12 6 12 12 16 14'%3e%3c/polyline%3e%3c/svg%3e");
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FF8C42' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3ccircle cx='12' cy='12' r='10'%3e%3c/circle%3e%3cpolyline points='12 6 12 12 16 14'%3e%3c/polyline%3e%3c/svg%3e");
   }
   
   input[type="date"]::-webkit-calendar-picker-indicator,
@@ -557,7 +573,7 @@ import Layout from '../layouts/Layout.astro';
 
   /* Custom dropdown arrow for selects */
   select.dough-select-field {
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238C0D1B' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FF8C42' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
     background-repeat: no-repeat;
     background-position: right 1rem center;
     background-size: 1.2rem;
@@ -637,18 +653,18 @@ import Layout from '../layouts/Layout.astro';
   const getProductIcon = (item) => {
     const id = item.id;
     if (id === 'minicake' || id.includes('cupcake')) {
-      return { icon: '🧁', color: '#FBCFE8', label: 'Mini Cake / Cupcake' };
+      return { icon: '🧁', color: '#E8196C', label: 'Mini Cake / Cupcake' };
     }
     if (id === 'cake-bandeja') {
-      return { icon: '🍰', color: '#EEDBCE', label: 'Bandeja' };
+      return { icon: '🍰', color: '#FF6B35', label: 'Bandeja' };
     }
     if (id === 'cake-varios-pisos') {
-      return { icon: '🏢', color: '#DDD6FE', label: 'Varios Pisos' };
+      return { icon: '🏢', color: '#FFA07A', label: 'Varios Pisos' };
     }
     if (id === 'cake-redondo') {
-      return { icon: '🎂', color: '#FEF08A', label: 'Cake Redondo' };
+      return { icon: '🎂', color: '#FF8C42', label: 'Cake Redondo' };
     }
-    return { icon: '🍪', color: '#A7F3D0', label: 'Buffet/Postre' };
+    return { icon: '🍪', color: '#F5E6C8', label: 'Buffet/Postre' };
   };
 
   const renderSummaryItems = () => {
@@ -1022,24 +1038,75 @@ import Layout from '../layouts/Layout.astro';
     renderSummaryItems();
   };
 
+  // ---- MVP: Ticket + envío automático vía Baileys API ----
+  // NOTA SEGURIDAD (MVP): la API key queda visible en el bundle estático.
+  // Si hay abuso, mover el envío a un proxy backend (n8n webhook) y rotar la key.
+  const BAILEYS_URL = 'https://ia.carmayn8n.cloud/api/wa/send';
+  const BAILEYS_API_KEY = 'REDACTED_BAILEYS_KEY';
+  const SHOP_PHONE = '5350000000';
+  const SHOP_CHAT_ID = `${SHOP_PHONE}@s.whatsapp.net`;
+
+  const generateTicketId = () => {
+    const d = new Date();
+    const pad = (n) => String(n).padStart(2, '0');
+    const rand = Math.floor(100 + Math.random() * 900);
+    return `EL-${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}-${rand}`;
+  };
+
+  let ticketId = generateTicketId();
+  const summaryTicket = document.getElementById('summary-ticket');
+  if (summaryTicket) summaryTicket.textContent = ticketId;
+
+  const normalizePhone = (raw) => {
+    let digits = (raw || '').replace(/\D/g, '');
+    if (digits.startsWith('53') && digits.length >= 10) return digits;
+    if (digits.length === 8) return '53' + digits;
+    return digits;
+  };
+
   // WhatsApp checkout final message composition
-  confirmWhatsappCheckoutBtn?.addEventListener('click', () => {
+  confirmWhatsappCheckoutBtn?.addEventListener('click', async () => {
+    const customerNameInput = document.getElementById('customer-name') as HTMLInputElement | null;
+    const customerPhoneInput = document.getElementById('customer-phone') as HTMLInputElement | null;
     const deliveryDateInput = document.getElementById('delivery-date') as HTMLInputElement | null;
     const deliveryTimeInput = document.getElementById('delivery-time') as HTMLInputElement | null;
+    const orderStatus = document.getElementById('order-status');
 
+    const customerName = customerNameInput?.value.trim();
+    const customerPhoneRaw = customerPhoneInput?.value.trim();
     const deliveryDate = deliveryDateInput?.value;
     const deliveryTime = deliveryTimeInput?.value;
 
-    if (!deliveryDate || !deliveryTime) {
-      alert('Por favor, rellene todos los campos obligatorios del formulario (Fecha y Hora Requerida).');
+    if (!customerName || !customerPhoneRaw || !deliveryDate || !deliveryTime) {
+      alert('Por favor, rellene todos los campos obligatorios (Nombre, WhatsApp, Fecha y Hora).');
       return;
     }
 
-    const phoneNumber = '5350000000';
+    const customerPhone = normalizePhone(customerPhoneRaw);
+    if (customerPhone.length < 10) {
+      alert('Por favor, revise su número de WhatsApp (ej: 5351234567).');
+      return;
+    }
+
+    if (cart.length === 0) {
+      alert('Su pedido está vacío. Añada productos del catálogo primero.');
+      return;
+    }
+
+    const setStatus = (msg, ok) => {
+      if (!orderStatus) return;
+      orderStatus.textContent = msg;
+      orderStatus.style.color = ok === true ? '#25D366' : ok === false ? '#FF6B6B' : '';
+    };
+
+    const phoneNumber = SHOP_PHONE;
     const dateParts = deliveryDate.split('-');
     const formattedDate = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
 
-    let message = '🍰 *NUEVO ENCARGO - DULCERÍA EL LÍDER* 🍰\n\n';
+    let message = `🍰 *NUEVO ENCARGO \u2014 DULCERÍA EL LÍDER* 🍰\n\n`;
+    message += `🎟️ *TICKET:* ${ticketId}\n`;
+    message += `👤 *CLIENTE:* ${customerName}\n`;
+    message += `📱 *WHATSAPP CLIENTE:* +${customerPhone}\n`;
     message += `📅 *FECHA DE ENTREGA:* ${formattedDate}\n`;
     message += `🕒 *HORA DE ENTREGA:* ${deliveryTime}\n\n`;
     message += '━━━━━━━━━━━━━━━━━━━━━━━━━\n';
@@ -1119,9 +1186,39 @@ import Layout from '../layouts/Layout.astro';
     message += `⚠️ _La decoración y cotización final se concertarán en este chat._\n`;
     message += `📍 Por favor, confírmenme disponibilidad para agendar. ¡Gracias!`;
 
+    // 1) Notificación automática a la dulcería vía Baileys (no depende del clic del cliente)
+    setStatus('⏳ Enviando su pedido a la dulcería…');
+    if (confirmWhatsappCheckoutBtn) {
+      (confirmWhatsappCheckoutBtn as HTMLButtonElement).disabled = true;
+    }
+    try {
+      const res = await fetch(BAILEYS_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': BAILEYS_API_KEY
+        },
+        body: JSON.stringify({ chatId: SHOP_CHAT_ID, message })
+      });
+      if (!res.ok) throw new Error(`Baileys respondió ${res.status}`);
+      setStatus('✅ ¡Pedido enviado! La dulcería le confirmará por WhatsApp. Ticket: ' + ticketId, true);
+    } catch (err) {
+      console.error('Baileys send failed:', err);
+      setStatus('⚠️ No se pudo avisar automáticamente. Se abrirá WhatsApp para completar su pedido.', false);
+    } finally {
+      if (confirmWhatsappCheckoutBtn) {
+        (confirmWhatsappCheckoutBtn as HTMLButtonElement).disabled = false;
+      }
+    }
+
+    // 2) Respaldo: abrir el chat del cliente con el pedido pre-rellenado
     const encodedMessage = encodeURIComponent(message);
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
     window.open(whatsappUrl, '_blank');
+
+    // 3) Rotar ticket para el próximo pedido
+    ticketId = generateTicketId();
+    if (summaryTicket) summaryTicket.textContent = ticketId;
   });
 
   // Initialization

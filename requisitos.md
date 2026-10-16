@@ -18,9 +18,14 @@ En este archivo se lleva el control del estado de las características planifica
 - [x] Agregar la imagen de la paleta de colores de diseño "Eliza" (`palette.jpg` / `eliza_palette.jpg`) en la carpeta `public/` para uso como referencia visual (2026-07-08).
 - [x] **Rediseño Radical de Paleta de Colores** (2026-07-10): Nueva paleta fucsia→naranja→crema basada en imagen de referencia SunCat Creative. Sustitución completa de variables CSS en `global.css`, rediseño de Header, Footer, Hero (gradiente fucsia-naranja), Catálogo (fondo crema), Decoraciones, Carrito, Customizer. El rojo/dorado se reserva exclusivamente para el logo.
 - [x] Documento de especificación de rediseño `diseno_radical.md` con paleta exacta, tokens CSS, lógica por sección y verificación de contraste WCAG.
+- [x] Creación de `AGENTS.md` en la raíz del repositorio con guía compacta y de alto impacto para futuros agentes.
+- [x] Actualizar estilos de la página de checkout (`/pedido`) alineando tipografía, badges, SVGs y focos a la paleta fucsia-naranja-crema.
+- [x] Corrección de la estructura HTML y etiquetas de cierre en `src/pages/pedido.astro`.
+- [x] **MVP Simplificado** (2026-10-16): header sin nav links (solo logo + pill `Mi Pedido`), eliminación total de `#personalizador` (Canvas 2D + CSS + ~450 líneas JS), checkout con Nombre + WhatsApp + ticket `EL-YYYYMMDD-###`, y envío automático vía Baileys `POST https://ia.carmayn8n.cloud/api/wa/send` con respaldo `wa.me`.
+- [x] `AGENTS.md` actualizado al flujo MVP (sin Canvas, con flujo de pedido Baileys documentado).
 
 ## Características Pendientes
-- [ ] Implementar el paquete `auto skills` de `midu dev`.
-- [ ] Validar visualmente el rediseño radical en todos los viewports (desktop y móvil).
-- [ ] Actualizar estilos de la página de checkout (`/pedido`) para alinear con la nueva paleta fucsia-naranja-crema.
+- [ ] Validar visualmente el MVP simplificado en todos los viewports (desktop y móvil).
+- [ ] Mover el envío de Baileys a un proxy backend (webhook n8n) si la API key embebida sufre abuso, y rotarla.
+- [ ] Desplegar a producción con `npx vercel --prod` y verificar el envío Baileys desde la URL pública.
 

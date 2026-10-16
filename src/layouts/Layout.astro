@@ -47,11 +47,8 @@ const {
         </a>
 
         <nav class="main-nav">
-          <a href="/#catalogo" class="nav-link">Nuestra Carta</a>
-          <a href="/#decoraciones" class="nav-link">Decoraciones</a>
-          <a href="/#como-pedir" class="nav-link">¿Cómo pedir?</a>
-          <a href="/pedido" class="nav-link nav-order" id="nav-order-link" style="display: none; align-items: center; gap: 0.35rem;">
-            Mi Orden <span class="order-badge" id="nav-order-badge">0</span>
+          <a href="/pedido" class="nav-order-pill" id="nav-order-link" style="display: none; align-items: center; gap: 0.5rem;">
+            🛒 Mi Pedido <span class="order-badge" id="nav-order-badge">0</span>
           </a>
         </nav>
       </div>
@@ -262,12 +259,29 @@ const {
     width: 100%;
   }
 
-  .order-badge {
+  .nav-order-pill {
     background: var(--gradient-brand);
-    color: #fff;
-    font-size: 0.68rem;
-    padding: 1px 7px;
-    border-radius: 10px;
+    color: #FFFFFF;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 0.5rem 1.1rem;
+    border-radius: var(--border-radius-xl);
+    box-shadow: 0 4px 14px rgba(232, 25, 108, 0.35);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  }
+
+  .nav-order-pill:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(232, 25, 108, 0.5);
+  }
+
+  .order-badge {
+    background: #FFFFFF;
+    color: var(--primary);
+    font-size: 0.72rem;
+    padding: 2px 8px;
+    border-radius: 12px;
     font-weight: 800;
   }
 
