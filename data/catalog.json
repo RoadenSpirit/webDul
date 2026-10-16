@@ -2,139 +2,131 @@
   "products": [
     {
       "id": "minicake-15",
-      "name": "MiniCake de 15 cm",
+      "name": "MiniCake de 15 cm masa de harina",
       "category": "cakes",
       "base_price": 2500,
       "image": "https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=800&auto=format&fit=crop",
-      "description": "MiniCake económico de 15 cm. Masa de harina de trigo."
+      "description": "MiniCake de 15 cm masa de harina"
     },
     {
       "id": "cake-20-maicena",
-      "name": "Cake de 20 cm (Masa de Maicena)",
+      "name": "Cake de 20 cm por 8 de alto, masa de maicena",
       "category": "cakes",
       "base_price": 3900,
       "image": "https://images.unsplash.com/photo-1535141192574-5d4897c13636?q=80&w=800&auto=format&fit=crop",
-      "description": "Exquisito cake de 20 cm en masa de maicena. Estándar 8cm o Doble 15cm."
+      "description": "Cake de 20 cm por 8 de alto, masa de maicena"
     },
     {
       "id": "cake-22",
-      "name": "Cake de 22 cm",
+      "name": "Cake de 22 cm masa de harina",
       "category": "cakes",
       "base_price": 3800,
       "image": "https://images.unsplash.com/photo-1535141192574-5d4897c13636?q=80&w=800&auto=format&fit=crop",
-      "description": "Cake tradicional de 22 cm con opciones en harina y capuchino."
+      "description": "Cake de 22 cm masa de harina"
     },
     {
       "id": "cake-25",
-      "name": "Cake de 25 cm",
+      "name": "Cake redondo de 25 cm (harina)",
       "category": "cakes",
       "base_price": 6500,
       "image": "https://images.unsplash.com/photo-1535141192574-5d4897c13636?q=80&w=800&auto=format&fit=crop",
-      "description": "Cake de 25 cm mediano en harina o capuchino."
+      "description": "Cake redondo de 25 cm (harina)"
     },
     {
       "id": "cake-30",
-      "name": "Cake de 30 cm",
+      "name": "Cake redondo de 30 cm",
       "category": "cakes",
       "base_price": 14000,
       "image": "https://images.unsplash.com/photo-1535141192574-5d4897c13636?q=80&w=800&auto=format&fit=crop",
-      "description": "Cake grande de 30 cm para celebraciones familiares."
+      "description": "Cake redondo de 30 cm"
     },
     {
       "id": "cake-36",
-      "name": "Cake de 36 cm",
+      "name": "Cake redondo de 36 cm",
       "category": "cakes",
       "base_price": 18000,
       "image": "https://images.unsplash.com/photo-1535141192574-5d4897c13636?q=80&w=800&auto=format&fit=crop",
-      "description": "Cake gigante redondo de 36 cm."
+      "description": "Cake redondo de 36 cm"
     },
     {
       "id": "medio-cake-bandeja",
-      "name": "Medio Cake de Bandeja",
+      "name": "Medio Cake de bandeja masa de harina",
       "category": "cakes",
       "base_price": 6700,
       "image": "https://images.unsplash.com/photo-1621303837174-89787a7d4729?q=80&w=800&auto=format&fit=crop",
-      "description": "Media bandeja tradicional en masa de harina."
+      "description": "Medio Cake de bandeja masa de harina"
     },
     {
       "id": "cake-bandeja",
-      "name": "Cake de Bandeja Completa",
+      "name": "Cake de bandeja masa de harina",
       "category": "cakes",
       "base_price": 13500,
       "image": "https://images.unsplash.com/photo-1621303837174-89787a7d4729?q=80&w=800&auto=format&fit=crop",
-      "description": "Bandeja completa para eventos en harina, maicena o capuchino."
+      "description": "Cake de bandeja masa de harina"
     },
     {
       "id": "cake-2pisos-bandeja",
-      "name": "Cake de 2 Pisos de Bandeja",
+      "name": "Cake de 2 pisos de bandeja",
       "category": "cakes",
       "base_price": 17000,
       "image": "https://images.unsplash.com/photo-1535254973040-607b474cb50d?q=80&w=800&auto=format&fit=crop",
-      "description": "Majestuoso cake de 2 pisos montado en bandeja."
+      "description": "Cake de 2 pisos de bandeja"
     },
     {
       "id": "cake-2pisos-redondo",
-      "name": "Cake de 2 Pisos Redondo",
+      "name": "Cake de 2 pisos redondo",
       "category": "cakes",
       "base_price": 18000,
       "image": "https://images.unsplash.com/photo-1535254973040-607b474cb50d?q=80&w=800&auto=format&fit=crop",
-      "description": "Cake de 2 pisos circular. Cotización base de 18000 a 20000 CUP."
+      "description": "Cake de 2 pisos redondo (18000 - 20000)"
     },
     {
       "id": "marquesitas-30",
-      "name": "Bandeja de Marquesitas (30 u)",
+      "name": "Marquesitas, la bandeja de 30",
       "category": "reposteria",
       "base_price": 6000,
       "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=800&auto=format&fit=crop",
-      "description": "Fina repostería tradicional."
+      "description": "Marquesitas, la bandeja de 30"
     },
     {
       "id": "minidonas-chocolate",
-      "name": "Minidonas de Chocolate (unidad)",
+      "name": "Minidonas cubiertas de chocolate",
       "category": "reposteria",
       "base_price": 55,
       "image": "https://images.unsplash.com/photo-1551024601-bec78aea704b?q=80&w=800&auto=format&fit=crop",
-      "description": "Rosquillas esponjosas glaseadas."
+      "description": "Minidonas cubiertas de chocolate"
     },
     {
       "id": "cupcake-vainilla",
-      "name": "Cupcake de Vainilla (unidad)",
+      "name": "Cupcake (vainilla)",
       "category": "reposteria",
       "base_price": 160,
       "image": "https://images.unsplash.com/photo-1576618148400-f54bed99fcfd?q=80&w=800&auto=format&fit=crop",
-      "description": "Cupcake suave con frosting de vainilla."
+      "description": "Cupcake (vainilla)"
     },
     {
       "id": "cupcake-chocolate",
-      "name": "Cupcake de Chocolate (unidad)",
+      "name": "Cupcake (chocolate)",
       "category": "reposteria",
       "base_price": 165,
       "image": "https://images.unsplash.com/photo-1576618148400-f54bed99fcfd?q=80&w=800&auto=format&fit=crop",
-      "description": "Cupcake con masa húmeda de chocolate."
+      "description": "Cupcake (chocolate)"
     },
     {
-      "id": "cangrejitos",
-      "name": "Cangrejitos / Empanadillas (unidad)",
+      "id": "cangrejitos-empanadillas-croquetitas",
+      "name": "Cangrejitos, empanadillas, croqueticas",
       "category": "salados",
       "base_price": 40,
       "image": "https://images.unsplash.com/photo-1608897013039-887f21d8c804?q=80&w=800&auto=format&fit=crop",
-      "description": "Aperitivo salado crujiente."
-    },
-    {
-      "id": "croqueticas",
-      "name": "Croqueticas Artesanales (unidad)",
-      "category": "salados",
-      "base_price": 40,
-      "image": "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?q=80&w=800&auto=format&fit=crop",
-      "description": "Croquetas cremosas y doradas."
+      "description": "Cangrejitos, empanadillas, croqueticas a 40 cada uno"
     },
     {
       "id": "pan-con-pasta",
-      "name": "Pan con Pasta (unidad)",
+      "name": "Pan con pasta",
       "category": "salados",
       "base_price": 55,
       "image": "https://images.unsplash.com/photo-1509722747041-616f39b57569?q=80&w=800&auto=format&fit=crop",
-      "description": "Bocadito de pan suave relleno con pasta especial."
+      "description": "Pan con pasta a 55 cada uno"
     }
   ],
   "attributes": [
@@ -145,67 +137,56 @@
     {
       "id": "altura",
       "name": "Altura / Doble"
-    },
-    {
-      "id": "relleno",
-      "name": "Relleno Especial"
     }
   ],
   "options": [
     {
       "id": "masa-harina",
       "attribute_id": "masa",
-      "name": "Masa de Harina"
+      "name": "Masa de Harina",
+      "is_base": 1
     },
     {
       "id": "masa-maicena",
       "attribute_id": "masa",
-      "name": "Masa de Maicena"
+      "name": "Masa de Maicena",
+      "is_base": 0
     },
     {
       "id": "masa-capuchino",
       "attribute_id": "masa",
-      "name": "Masa de Capuchino"
+      "name": "Masa de Capuchino",
+      "is_base": 0
+    },
+    {
+      "id": "masa-capuchino-doble",
+      "attribute_id": "masa",
+      "name": "Capuchino Doble",
+      "is_base": 0
     },
     {
       "id": "altura-estandar",
       "attribute_id": "altura",
-      "name": "Altura Estándar"
+      "name": "Altura Estándar",
+      "is_base": 1
     },
     {
       "id": "altura-doble",
       "attribute_id": "altura",
-      "name": "Doble Altura / 15cm"
-    },
-    {
-      "id": "relleno-fresa",
-      "attribute_id": "relleno",
-      "name": "Fresa Natural"
-    },
-    {
-      "id": "relleno-chocolate",
-      "attribute_id": "relleno",
-      "name": "Chocolate Cremoso"
+      "name": "Doble / 15cm",
+      "is_base": 0
     }
   ],
   "variations": [
     {
-      "product_id": "minicake-15",
-      "attribute_id": "masa",
-      "attribute_name": "Tipo de Masa",
-      "option_id": "masa-harina",
-      "option_name": "Masa de Harina",
-      "direct_price": 2500,
-      "is_enabled": 1
-    },
-    {
       "product_id": "cake-22",
-      "attribute_id": "masa",
-      "attribute_name": "Tipo de Masa",
-      "option_id": "masa-harina",
-      "option_name": "Masa de Harina",
-      "direct_price": 3800,
-      "is_enabled": 1
+      "attribute_id": "altura",
+      "attribute_name": "Altura / Doble",
+      "option_id": "altura-doble",
+      "option_name": "Doble / 15cm",
+      "direct_price": 6500,
+      "is_enabled": 1,
+      "is_base": 0
     },
     {
       "product_id": "cake-22",
@@ -214,61 +195,28 @@
       "option_id": "masa-capuchino",
       "option_name": "Masa de Capuchino",
       "direct_price": 6900,
-      "is_enabled": 1
+      "is_enabled": 1,
+      "is_base": 0
     },
     {
       "product_id": "cake-22",
-      "attribute_id": "altura",
-      "attribute_name": "Altura / Doble",
-      "option_id": "altura-estandar",
-      "option_name": "Altura Estándar",
-      "direct_price": 3800,
-      "is_enabled": 1
-    },
-    {
-      "product_id": "cake-22",
-      "attribute_id": "altura",
-      "attribute_name": "Altura / Doble",
-      "option_id": "altura-doble",
-      "option_name": "Doble Altura / 15cm",
-      "direct_price": 6500,
-      "is_enabled": 1
-    },
-    {
-      "product_id": "cake-20-maicena",
       "attribute_id": "masa",
       "attribute_name": "Tipo de Masa",
-      "option_id": "masa-maicena",
-      "option_name": "Masa de Maicena",
-      "direct_price": 3900,
-      "is_enabled": 1
-    },
-    {
-      "product_id": "cake-20-maicena",
-      "attribute_id": "altura",
-      "attribute_name": "Altura / Doble",
-      "option_id": "altura-estandar",
-      "option_name": "Altura Estándar",
-      "direct_price": 3900,
-      "is_enabled": 1
+      "option_id": "masa-capuchino-doble",
+      "option_name": "Capuchino Doble",
+      "direct_price": 9700,
+      "is_enabled": 1,
+      "is_base": 0
     },
     {
       "product_id": "cake-20-maicena",
       "attribute_id": "altura",
       "attribute_name": "Altura / Doble",
       "option_id": "altura-doble",
-      "option_name": "Doble Altura / 15cm",
+      "option_name": "Doble / 15cm",
       "direct_price": 6700,
-      "is_enabled": 1
-    },
-    {
-      "product_id": "cake-25",
-      "attribute_id": "masa",
-      "attribute_name": "Tipo de Masa",
-      "option_id": "masa-harina",
-      "option_name": "Masa de Harina",
-      "direct_price": 6500,
-      "is_enabled": 1
+      "is_enabled": 1,
+      "is_base": 0
     },
     {
       "product_id": "cake-25",
@@ -277,43 +225,8 @@
       "option_id": "masa-capuchino",
       "option_name": "Masa de Capuchino",
       "direct_price": 12500,
-      "is_enabled": 1
-    },
-    {
-      "product_id": "cake-30",
-      "attribute_id": "masa",
-      "attribute_name": "Tipo de Masa",
-      "option_id": "masa-harina",
-      "option_name": "Masa de Harina",
-      "direct_price": 14000,
-      "is_enabled": 1
-    },
-    {
-      "product_id": "cake-36",
-      "attribute_id": "masa",
-      "attribute_name": "Tipo de Masa",
-      "option_id": "masa-harina",
-      "option_name": "Masa de Harina",
-      "direct_price": 18000,
-      "is_enabled": 1
-    },
-    {
-      "product_id": "medio-cake-bandeja",
-      "attribute_id": "masa",
-      "attribute_name": "Tipo de Masa",
-      "option_id": "masa-harina",
-      "option_name": "Masa de Harina",
-      "direct_price": 6700,
-      "is_enabled": 1
-    },
-    {
-      "product_id": "cake-bandeja",
-      "attribute_id": "masa",
-      "attribute_name": "Tipo de Masa",
-      "option_id": "masa-harina",
-      "option_name": "Masa de Harina",
-      "direct_price": 13500,
-      "is_enabled": 1
+      "is_enabled": 1,
+      "is_base": 0
     },
     {
       "product_id": "cake-bandeja",
@@ -322,7 +235,8 @@
       "option_id": "masa-maicena",
       "option_name": "Masa de Maicena",
       "direct_price": 14000,
-      "is_enabled": 1
+      "is_enabled": 1,
+      "is_base": 0
     },
     {
       "product_id": "cake-bandeja",
@@ -331,25 +245,18 @@
       "option_id": "masa-capuchino",
       "option_name": "Masa de Capuchino",
       "direct_price": 20000,
-      "is_enabled": 1
-    },
-    {
-      "product_id": "cake-2pisos-bandeja",
-      "attribute_id": "masa",
-      "attribute_name": "Tipo de Masa",
-      "option_id": "masa-harina",
-      "option_name": "Masa de Harina",
-      "direct_price": 17000,
-      "is_enabled": 1
+      "is_enabled": 1,
+      "is_base": 0
     },
     {
       "product_id": "cake-2pisos-redondo",
-      "attribute_id": "masa",
-      "attribute_name": "Tipo de Masa",
-      "option_id": "masa-harina",
-      "option_name": "Masa de Harina",
-      "direct_price": 18000,
-      "is_enabled": 1
+      "attribute_id": "altura",
+      "attribute_name": "Altura / Doble",
+      "option_id": "altura-doble",
+      "option_name": "Doble / 15cm",
+      "direct_price": 20000,
+      "is_enabled": 1,
+      "is_base": 0
     }
   ],
   "ediblePrintPrice": 900

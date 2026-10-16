@@ -210,22 +210,27 @@ const initialCatalog = catalogData;
   const modalNewOptionPrice = document.getElementById('modal-new-option-price');
   const modalAddOptBtn = document.getElementById('modal-add-opt-btn');
 
-  // Load from Storage or Initial
+  // Load from Storage or Initial (migrando a v2 oficial sin relleno inventado)
+  const CATALOG_VERSION = 'v2_oficial_dulcera';
   const loadCatalog = () => {
     try {
+      const savedVersion = localStorage.getItem('el_lider_catalog_version');
       const saved = localStorage.getItem('el_lider_admin_catalog');
-      if (saved) {
+      if (saved && savedVersion === CATALOG_VERSION) {
         catalog = JSON.parse(saved);
       } else {
-        catalog = initialCatalog;
+        catalog = JSON.parse(JSON.stringify(initialCatalog));
+        localStorage.setItem('el_lider_admin_catalog', JSON.stringify(catalog));
+        localStorage.setItem('el_lider_catalog_version', CATALOG_VERSION);
       }
     } catch {
-      catalog = initialCatalog;
+      catalog = JSON.parse(JSON.stringify(initialCatalog));
     }
   };
 
   const persistLocal = () => {
     localStorage.setItem('el_lider_admin_catalog', JSON.stringify(catalog));
+    localStorage.setItem('el_lider_catalog_version', CATALOG_VERSION);
     markAsChanged();
   };
 
@@ -333,8 +338,15 @@ const initialCatalog = catalogData;
     const cakes = catalog.products || [];
 
     cakes.forEach(cake => {
-      // Obtener variaciones asignadas a este cake
-      const cakeVars = (catalog.variations || []).filter(v => v.product_id === cake.id && v.is_enabled);
+      // Obtener variaciones asignadas a este cake excluyendo la versión básica por defecto (no duplicar en píldora)
+      const cakeVars = (catalog.variations || []).filter(v => {
+        if (v.product_id !== cake.id || !v.is_enabled) return false;
+        // Omitir opciones base/básicas si tienen el mismo precio base
+        if (v.is_base === 1 && v.direct_price === cake.base_price) return false;
+        if (v.option_id === 'masa-harina' && v.direct_price === cake.base_price) return false;
+        if (v.option_id === 'altura-estandar' && v.direct_price === cake.base_price) return false;
+        return true;
+      });
       
       // Agrupar por atributo
       const attrGroups = {};
@@ -354,7 +366,7 @@ const initialCatalog = catalogData;
       const groupKeys = Object.keys(attrGroups);
 
       if (groupKeys.length === 0) {
-        pillsHtml = `<span class="text-xs text-white/40 italic">Sin atributos asignados (precio fijo base)</span>`;
+        pillsHtml = `<span class="text-xs text-white/40 italic">Solo versión básica ($${cake.base_price} CUP)</span>`;
       } else {
         pillsHtml = `<div class="flex flex-wrap gap-2">`;
         groupKeys.forEach(attrId => {
@@ -364,7 +376,7 @@ const initialCatalog = catalogData;
           pillsHtml += `
             <div class="inline-flex items-center gap-1.5 bg-[var(--bg-primary)] border border-[var(--border-color)] px-3 py-1.5 rounded-full text-xs shadow-sm group hover:border-[var(--primary)] transition-all">
               <span class="font-extrabold text-[var(--accent-light)]">${group.attrName}:</span>
-              <span class="text-white/80 max-w-[280px] truncate" title="${optsText}">${optsText}</span>
+              <span class="text-white/90 max-w-[320px] truncate" title="${optsText}">${optsText}</span>
               
               <!-- SVG de lápiz ✏️ para editar atributo -->
               <button 
@@ -491,7 +503,7 @@ const initialCatalog = catalogData;
   // Renderizar Opciones y Precios en el Modal
   const renderModalOptions = (attrId) => {
     if (!modalOptionsList || !attrId) return;
-    const opts = (catalog.options || []).filter(o => o.attribute_id === attrId);
+    const opts = (catalog.options || []).filter(o => o.attribute_id === attrId && o.is_base !== 1);
     const cake = (catalog.products || []).find(p => p.id === editingCakeId);
     const baseP = cake ? cake.base_price : 0;
 
