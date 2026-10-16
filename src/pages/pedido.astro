@@ -747,20 +747,47 @@ import Layout from '../layouts/Layout.astro';
     }
   };
 
+  // Cargar catálogo dinámico con atributos asignados desde localStorage o initial
+  let activeCatalog = null;
+  try {
+    const saved = localStorage.getItem('el_lider_admin_catalog');
+    if (saved) activeCatalog = JSON.parse(saved);
+  } catch (e) {}
+
   const calculateItemUnitPrice = (item) => {
-    const rule = RULES[item.id];
     let unit = item.price || 0;
 
-    if (rule) {
-      const selectedDough = rule.doughs?.find(d => d.id === item.dough) || rule.doughs?.[0];
-      unit = selectedDough ? selectedDough.price : rule.basePrice;
-      if (item.doubleHeight && rule.hasDouble) {
-        unit += (rule.doublePrice || 0);
+    // Buscar variaciones asignadas a este producto
+    if (activeCatalog && activeCatalog.variations) {
+      const vars = activeCatalog.variations.filter(v => v.product_id === item.id && v.is_enabled);
+      
+      // Si el usuario seleccionó una opción específica de masa/variación
+      if (item.dough) {
+        const foundVar = vars.find(v => v.option_id === item.dough || v.option_id.includes(item.dough));
+        if (foundVar) {
+          unit = foundVar.direct_price;
+        }
+      }
+      
+      if (item.doubleHeight) {
+        const doubleVar = vars.find(v => v.option_id === 'altura-doble');
+        if (doubleVar) {
+          unit = doubleVar.direct_price;
+        }
+      }
+    } else {
+      const rule = RULES[item.id];
+      if (rule) {
+        const selectedDough = rule.doughs?.find(d => d.id === item.dough) || rule.doughs?.[0];
+        unit = selectedDough ? selectedDough.price : rule.basePrice;
+        if (item.doubleHeight && rule.hasDouble) {
+          unit += (rule.doublePrice || 0);
+        }
       }
     }
 
     if (item.ediblePrint) {
-      unit += 900;
+      unit += (activeCatalog?.ediblePrintPrice || 900);
     }
 
     return unit;

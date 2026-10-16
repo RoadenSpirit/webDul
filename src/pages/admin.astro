@@ -1,22 +1,20 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { PRODUCTS } from '../data/products';
-import { PRODUCT_RULES } from '../data/rules';
+import catalogData from '../../data/catalog.json';
 
-const initialProducts = PRODUCTS;
-const initialRules = PRODUCT_RULES;
+const initialCatalog = catalogData;
 ---
 
 <Layout title="Panel Administrativo — Dulcería El Líder">
-  <!-- Pantalla de Login -->
+  <!-- 1. Pantalla de Login -->
   <div id="admin-login-screen" class="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center p-4">
-    <div class="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-8 max-w-md w-full shadow-xl text-center space-y-6">
-      <div class="w-20 h-20 mx-auto rounded-full p-1 bg-gradient-to-tr from-[var(--primary)] to-[var(--accent)]">
+    <div class="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-8 max-w-md w-full shadow-2xl text-center space-y-6">
+      <div class="w-20 h-20 mx-auto rounded-full p-1 bg-gradient-to-tr from-[var(--primary)] to-[var(--accent)] shadow-lg">
         <img src="/logo-correcto.png" alt="Logo" class="w-full h-full object-cover rounded-full" />
       </div>
       <div>
         <h1 class="text-2xl font-black text-white font-[var(--font-display)]">Acceso Administrativo</h1>
-        <p class="text-xs text-[var(--neutral-cream)] mt-1">Gestión de Catálogo y Matriz de Precios</p>
+        <p class="text-xs text-[var(--neutral-cream)] mt-1">Gestión Dinámica de Cakes, Atributos y Precios</p>
       </div>
 
       <form id="login-form" class="space-y-4 text-left">
@@ -36,135 +34,225 @@ const initialRules = PRODUCT_RULES;
     </div>
   </div>
 
-  <!-- Panel Principal (2 Columnas) -->
-  <div id="admin-dashboard" class="hidden min-h-screen bg-[var(--bg-primary)] text-white">
-    <!-- Header Admin -->
-    <header class="bg-[var(--bg-secondary)] border-b border-[var(--border-color)] px-6 py-4 flex items-center justify-between sticky top-0 z-30">
-      <div class="flex items-center gap-3">
-        <img src="/logo-correcto.png" alt="Logo" class="w-10 h-10 rounded-full border border-white/20" />
-        <div>
-          <h2 class="text-lg font-black font-[var(--font-display)]">Dulcería El Líder · Admin</h2>
-          <span class="text-xs text-[var(--accent-light)] font-semibold">Matriz Interactiva de Precios</span>
+  <!-- 2. Dashboard con Barra Superior Fija y Disquete de Guardado -->
+  <div id="admin-dashboard" class="hidden min-h-screen bg-[var(--bg-primary)] text-white pb-20">
+    
+    <!-- Barra Superior Sticky con Alerta de Cambios y Disquete 💾 -->
+    <header class="bg-[var(--bg-secondary)] border-b border-[var(--border-color)] px-6 py-3.5 sticky top-0 z-40 shadow-md">
+      <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <img src="/logo-correcto.png" alt="Logo" class="w-10 h-10 rounded-full border border-white/20" />
+          <div>
+            <h2 class="text-base sm:text-lg font-black font-[var(--font-display)]">Dulcería El Líder · Catálogo de Cakes</h2>
+            <span class="text-[11px] text-[var(--accent-light)] font-semibold">Atributos dinámicos &amp; precios directos</span>
+          </div>
         </div>
-      </div>
-      <div class="flex items-center gap-4">
-        <button id="reset-defaults-btn" class="text-xs bg-red-500/20 text-red-300 hover:bg-red-500/30 px-3 py-1.5 rounded-lg font-bold transition-colors cursor-pointer" title="Restaura la lista de precios oficial inicial">Restaurar Precios Oficiales</button>
-        <a href="/" target="_blank" class="text-xs bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-lg font-bold transition-colors">Ver Web Pública ↗</a>
-        <button id="logout-btn" class="text-xs text-red-400 hover:text-red-300 font-bold cursor-pointer">Cerrar Sesión</button>
+
+        <!-- Indicador & Botón de Guardar con Disquete 💾 -->
+        <div class="flex items-center gap-3">
+          <button 
+            id="save-changes-btn" 
+            class="hidden items-center gap-2.5 px-5 py-2.5 bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-400 hover:to-green-500 text-white font-extrabold text-sm rounded-xl shadow-xl transition-all animate-pulse cursor-pointer border border-emerald-300/40"
+            title="Guardar todos los cambios realizados en el catálogo"
+          >
+            <!-- SVG de Disquete grande y llamativo -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
+              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+              <polyline points="17 21 17 13 7 13 7 21"></polyline>
+              <polyline points="7 3 7 8 15 8"></polyline>
+            </svg>
+            <span>GUARDAR CAMBIOS</span>
+          </button>
+
+          <button id="reset-defaults-btn" class="text-xs bg-white/10 hover:bg-white/20 text-[var(--neutral-cream)] px-3 py-2 rounded-lg font-bold transition-colors cursor-pointer" title="Restaurar valores oficiales iniciales">
+            Restaurar Base
+          </button>
+          <a href="/" target="_blank" class="text-xs bg-[var(--primary)]/20 hover:bg-[var(--primary)]/30 text-white px-3 py-2 rounded-lg font-bold transition-colors">
+            Ver Web ↗
+          </a>
+          <button id="logout-btn" class="text-xs text-red-400 hover:text-red-300 font-bold cursor-pointer">
+            Salir
+          </button>
+        </div>
       </div>
     </header>
 
-    <!-- Contenido en 2 Columnas -->
-    <div class="max-w-7xl mx-auto p-6 grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <!-- Contenedor Principal: Tabla Horizontal de Cakes -->
+    <div class="max-w-7xl mx-auto p-4 sm:p-6 space-y-6">
       
-      <!-- Columna Izquierda: Lista de Productos y Tamaños (4 cols) -->
-      <aside class="lg:col-span-4 space-y-4">
-        <div class="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-5 shadow-sm">
-          <h3 class="text-sm font-black uppercase tracking-wider text-[var(--accent-light)] mb-3">1. Productos &amp; Tamaños</h3>
-          <div id="product-list" class="space-y-2 max-h-[70vh] overflow-y-auto pr-1">
-            <!-- Inyectado por JS -->
-          </div>
+      <!-- Banner Informativo -->
+      <div class="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-5 flex items-center justify-between gap-4 flex-wrap">
+        <div>
+          <h3 class="font-bold text-white text-base">🎂 Matriz de Variaciones por Cake</h3>
+          <p class="text-xs text-[var(--neutral-cream)]/80 mt-0.5">
+            Cada tamaño cuenta con sus atributos asignados. Los precios son <strong class="text-[var(--accent-light)]">cerrados y directos</strong>.
+          </p>
         </div>
-      </aside>
-
-      <!-- Columna Derecha: Matriz Interactiva de Atributos del Producto (8 cols) -->
-      <main class="lg:col-span-8 space-y-6">
-        <div class="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-6 shadow-sm space-y-6">
-          <div class="flex items-start justify-between border-b border-[var(--border-color)] pb-4 flex-wrap gap-4">
-            <div>
-              <span id="selected-product-category" class="text-xs font-bold uppercase tracking-wider text-[var(--accent-light)]">Categoría</span>
-              <h2 id="selected-product-name" class="text-2xl font-black text-white mt-0.5">Selecciona un producto</h2>
-            </div>
-            <div class="text-right">
-              <label class="block text-xs text-[var(--text-secondary)] font-bold">Precio Base (CUP)</label>
-              <div class="flex items-center gap-2 mt-1">
-                <input type="number" id="selected-product-base-price" class="w-28 px-3 py-1.5 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-lg text-right font-black text-lg text-[var(--accent-light)] outline-none" />
-                <button id="save-base-price-btn" class="px-3 py-1.5 bg-[var(--primary)] hover:opacity-90 text-xs font-bold rounded-lg transition-all cursor-pointer">Guardar</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Matriz de Variaciones Habilitadas -->
-          <div>
-            <div class="flex items-center justify-between mb-4 flex-wrap gap-2">
-              <h3 class="text-base font-bold text-white flex items-center gap-2">
-                <span>⚙️ Opciones &amp; Atributos Asignables</span>
-              </h3>
-              <span class="text-xs text-[var(--neutral-cream)]/70">Solo las opciones activas se habilitarán al cliente en el encargo</span>
-            </div>
-
-            <div id="variations-matrix" class="space-y-4">
-              <!-- Inyectado por JS -->
-            </div>
-          </div>
-
-          <!-- Añadir nueva opción personalizada -->
-          <div class="border-t border-[var(--border-color)] pt-4">
-            <h4 class="text-xs font-bold uppercase tracking-wider text-[var(--accent-light)] mb-3">➕ Añadir Nueva Opción de Masa para este Cake</h4>
-            <div class="flex gap-2 flex-wrap sm:flex-nowrap">
-              <input type="text" id="new-dough-label" placeholder="Nombre de la opción (ej: Masa Marmoleada, Chocolate...)" class="flex-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl px-3 py-2 text-xs text-white outline-none" />
-              <input type="number" id="new-dough-price" placeholder="Precio CUP" class="w-28 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl px-3 py-2 text-xs text-white outline-none text-right" />
-              <button id="add-dough-btn" class="px-4 py-2 bg-[var(--gradient-brand)] text-xs font-bold rounded-xl text-white shadow-md cursor-pointer whitespace-nowrap">Añadir Opción</button>
-            </div>
-          </div>
-
+        <div class="text-right">
+          <span class="inline-flex items-center gap-1.5 text-xs text-emerald-400 font-bold bg-emerald-950/40 border border-emerald-500/30 px-3 py-1 rounded-full">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+            Modo Edición Rápida
+          </span>
         </div>
-      </main>
+      </div>
+
+      <!-- TABLA HORIZONTAL DE PRODUCTOS -->
+      <div class="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl shadow-xl overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse min-w-[700px]">
+            <thead>
+              <tr class="bg-[var(--bg-secondary)] border-b border-[var(--border-color)] text-[11px] font-black uppercase tracking-wider text-[var(--accent-light)]">
+                <th class="py-4 px-6 w-1/4">Tipo de Cake / Producto</th>
+                <th class="py-4 px-6 w-2/4">Atributos y Opciones con Precio Directo</th>
+                <th class="py-4 px-6 w-1/4 text-right">Acción</th>
+              </tr>
+            </thead>
+            <tbody id="cakes-table-body" class="divide-y divide-[var(--border-color)]/50 text-sm">
+              <!-- Renderizado dinámicamente por JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
 
     </div>
+
+    <!-- MODAL / POP-UP: ASIGNAR O EDITAR ATRIBUTO -->
+    <div id="attribute-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
+      <div class="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-5 animate-in fade-in zoom-in-95">
+        
+        <div class="flex items-center justify-between border-b border-[var(--border-color)] pb-3">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-[var(--accent-light)]" id="modal-cake-title">Cake</span>
+            <h3 class="text-lg font-black text-white" id="modal-header-title">Configurar Atributo</h3>
+          </div>
+          <button id="close-modal-btn" class="text-2xl text-white/50 hover:text-white leading-none cursor-pointer">&times;</button>
+        </div>
+
+        <!-- 1. Selección o Creación de Atributo -->
+        <div class="space-y-2">
+          <label class="block text-xs font-bold text-[var(--text-secondary)]">Atributo</label>
+          <div class="flex gap-2">
+            <select id="modal-attribute-select" class="flex-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-[var(--primary)]">
+              <!-- Opciones dinámicas de atributos -->
+            </select>
+          </div>
+          <p class="text-[10px] text-[var(--neutral-cream)]/70">O crea un atributo nuevo si no existe:</p>
+          <div class="flex gap-2">
+            <input type="text" id="modal-new-attribute-name" placeholder="Ej: Relleno, Cobertura, Pisos..." class="flex-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl px-3 py-1.5 text-xs text-white outline-none" />
+            <button id="modal-create-attr-btn" class="px-3 py-1.5 bg-white/10 hover:bg-white/20 text-xs font-bold rounded-xl transition-colors cursor-pointer">Crear</button>
+          </div>
+        </div>
+
+        <!-- 2. Opciones del Atributo con Precios Directos -->
+        <div class="space-y-2">
+          <label class="block text-xs font-bold text-[var(--text-secondary)]">Opciones Disponibles y Precio Directo para este Cake</label>
+          <div id="modal-options-list" class="space-y-2 max-h-[35vh] overflow-y-auto pr-1">
+            <!-- Inyectado dinámicamente -->
+          </div>
+
+          <!-- Añadir nueva opción a este atributo -->
+          <div class="pt-2 border-t border-[var(--border-color)]/40 flex gap-2">
+            <input type="text" id="modal-new-option-name" placeholder="Nueva opción (ej: Chocolate, Fresa...)" class="flex-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl px-3 py-1.5 text-xs text-white outline-none" />
+            <input type="number" id="modal-new-option-price" placeholder="Precio CUP" class="w-24 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl px-3 py-1.5 text-xs text-white outline-none text-right" />
+            <button id="modal-add-opt-btn" class="px-3 py-1.5 bg-white/10 hover:bg-white/20 text-xs font-bold rounded-xl transition-colors cursor-pointer">Añadir</button>
+          </div>
+        </div>
+
+        <!-- Botones Modal -->
+        <div class="flex items-center justify-between pt-3 border-t border-[var(--border-color)]">
+          <button id="modal-remove-attr-btn" class="text-xs text-red-400 hover:text-red-300 font-bold cursor-pointer hidden">
+            🗑️ Quitar Atributo de este Cake
+          </button>
+          <div class="flex gap-2 ml-auto">
+            <button id="modal-cancel-btn" class="px-4 py-2 bg-white/10 hover:bg-white/20 text-xs font-bold rounded-xl text-white cursor-pointer">Cancelar</button>
+            <button id="modal-save-btn" class="px-5 py-2 bg-[var(--gradient-brand)] text-xs font-bold rounded-xl text-white shadow-lg hover:opacity-95 cursor-pointer">Aplicar Cambios</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
   </div>
 </Layout>
 
-<script define:vars={{ initialProducts, initialRules }}>
-  let products = [];
-  let rules = {};
-  let currentProduct = null;
+<script define:vars={{ initialCatalog }}>
+  let catalog = initialCatalog;
+  let hasPendingChanges = false;
+  let editingCakeId = null;
+  let editingAttributeId = null;
 
+  // DOM Elements
   const loginScreen = document.getElementById('admin-login-screen');
   const dashboard = document.getElementById('admin-dashboard');
   const loginForm = document.getElementById('login-form');
   const loginError = document.getElementById('login-error');
   const logoutBtn = document.getElementById('logout-btn');
   const resetDefaultsBtn = document.getElementById('reset-defaults-btn');
+  const saveChangesBtn = document.getElementById('save-changes-btn');
 
-  const productList = document.getElementById('product-list');
-  const selectedName = document.getElementById('selected-product-name');
-  const selectedCategory = document.getElementById('selected-product-category');
-  const selectedBasePrice = document.getElementById('selected-product-base-price');
-  const saveBasePriceBtn = document.getElementById('save-base-price-btn');
-  const variationsMatrix = document.getElementById('variations-matrix');
+  const tableBody = document.getElementById('cakes-table-body');
 
-  const newDoughLabel = document.getElementById('new-dough-label');
-  const newDoughPrice = document.getElementById('new-dough-price');
-  const addDoughBtn = document.getElementById('add-dough-btn');
+  // Modal Elements
+  const modal = document.getElementById('attribute-modal');
+  const modalCakeTitle = document.getElementById('modal-cake-title');
+  const modalHeaderTitle = document.getElementById('modal-header-title');
+  const closeModalBtn = document.getElementById('close-modal-btn');
+  const modalCancelBtn = document.getElementById('modal-cancel-btn');
+  const modalSaveBtn = document.getElementById('modal-save-btn');
+  const modalRemoveAttrBtn = document.getElementById('modal-remove-attr-btn');
 
-  // Inicializar almacenamiento local
-  const loadData = () => {
+  const modalAttrSelect = document.getElementById('modal-attribute-select');
+  const modalNewAttrName = document.getElementById('modal-new-attribute-name');
+  const modalCreateAttrBtn = document.getElementById('modal-create-attr-btn');
+
+  const modalOptionsList = document.getElementById('modal-options-list');
+  const modalNewOptionName = document.getElementById('modal-new-option-name');
+  const modalNewOptionPrice = document.getElementById('modal-new-option-price');
+  const modalAddOptBtn = document.getElementById('modal-add-opt-btn');
+
+  // Load from Storage or Initial
+  const loadCatalog = () => {
     try {
-      const savedProducts = localStorage.getItem('el_lider_admin_products');
-      products = savedProducts ? JSON.parse(savedProducts) : initialProducts;
-      
-      const savedRules = localStorage.getItem('el_lider_admin_rules');
-      rules = savedRules ? JSON.parse(savedRules) : initialRules;
-    } catch (e) {
-      products = initialProducts;
-      rules = initialRules;
+      const saved = localStorage.getItem('el_lider_admin_catalog');
+      if (saved) {
+        catalog = JSON.parse(saved);
+      } else {
+        catalog = initialCatalog;
+      }
+    } catch {
+      catalog = initialCatalog;
     }
   };
 
-  const saveData = () => {
-    localStorage.setItem('el_lider_admin_products', JSON.stringify(products));
-    localStorage.setItem('el_lider_admin_rules', JSON.stringify(rules));
+  const persistLocal = () => {
+    localStorage.setItem('el_lider_admin_catalog', JSON.stringify(catalog));
+    markAsChanged();
   };
 
-  // Login handler
+  const markAsChanged = () => {
+    hasPendingChanges = true;
+    if (saveChangesBtn) {
+      saveChangesBtn.classList.remove('hidden');
+      saveChangesBtn.classList.add('inline-flex');
+    }
+  };
+
+  const clearChanged = () => {
+    hasPendingChanges = false;
+    if (saveChangesBtn) {
+      saveChangesBtn.classList.add('hidden');
+      saveChangesBtn.classList.remove('inline-flex');
+    }
+  };
+
+  // Auth Handler
   loginForm?.addEventListener('submit', (e) => {
     e.preventDefault();
-    const username = document.getElementById('admin-user')?.value.trim();
-    const password = document.getElementById('admin-pass')?.value.trim();
+    const user = (document.getElementById('admin-user')).value.trim();
+    const pass = (document.getElementById('admin-pass')).value.trim();
 
-    if (username === 'riveron' && password === 'alvaroesmihijofavorito') {
-      sessionStorage.setItem('admin_token', 'auth_riveron_session_token');
+    if (user === 'riveron' && pass === 'alvaroesmihijofavorito') {
+      sessionStorage.setItem('admin_token', 'riveron_valid');
       showDashboard();
     } else {
       if (loginError) {
@@ -179,19 +267,6 @@ const initialRules = PRODUCT_RULES;
     window.location.reload();
   });
 
-  resetDefaultsBtn?.addEventListener('click', () => {
-    if (confirm('¿Deseas restaurar todos los precios oficiales exactos iniciales?')) {
-      products = initialProducts;
-      rules = initialRules;
-      saveData();
-      renderProductList();
-      if (currentProduct) {
-        selectProduct(products.find(p => p.id === currentProduct.id) || products[0]);
-      }
-      alert('✓ Precios oficiales restaurados');
-    }
-  });
-
   const checkAuth = () => {
     if (sessionStorage.getItem('admin_token')) {
       showDashboard();
@@ -201,228 +276,353 @@ const initialRules = PRODUCT_RULES;
   const showDashboard = () => {
     loginScreen?.classList.add('hidden');
     dashboard?.classList.remove('hidden');
-    loadData();
-    renderProductList();
-    if (products.length > 0) {
-      selectProduct(products[0]);
-    }
+    loadCatalog();
+    renderCakesTable();
   };
 
-  const renderProductList = () => {
-    if (!productList) return;
+  // Reset to Defaults
+  resetDefaultsBtn?.addEventListener('click', () => {
+    if (confirm('¿Restaurar todos los cakes, atributos y precios a los oficiales iniciales?')) {
+      catalog = JSON.parse(JSON.stringify(initialCatalog));
+      persistLocal();
+      renderCakesTable();
+      alert('✓ Precios oficiales restaurados');
+    }
+  });
+
+  // Guardar Cambios en Servidor VPS
+  saveChangesBtn?.addEventListener('click', async () => {
+    saveChangesBtn.disabled = true;
+    saveChangesBtn.innerHTML = `
+      <svg class="animate-spin h-5 w-5 text-white" viewBox="0 0 24 24" fill="none"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg>
+      <span>Guardando en Servidor...</span>
+    `;
+
+    try {
+      // Petición a servidor de sincronización VPS
+      const res = await fetch('http://localhost:3004/save-catalog', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(catalog)
+      });
+      const data = await res.json();
+      if (data.ok) {
+        clearChanged();
+        alert('💾 ¡Cambios guardados con éxito en la base de datos de la VPS!');
+      } else {
+        throw new Error(data.error || 'Fallo al guardar');
+      }
+    } catch (e) {
+      console.warn('Sync server offline, guardado en almacenamiento local activo:', e);
+      clearChanged();
+      alert('💾 Cambios guardados localmente con éxito.');
+    } finally {
+      saveChangesBtn.disabled = false;
+      saveChangesBtn.innerHTML = `
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+        <span>GUARDAR CAMBIOS</span>
+      `;
+    }
+  });
+
+  // Renderizar Tabla de Cakes con Píldoras Desplegables
+  const renderCakesTable = () => {
+    if (!tableBody) return;
     let html = '';
-    products.forEach(p => {
-      const isSelected = currentProduct && currentProduct.id === p.id;
-      const rule = rules[p.id];
-      const doughCount = rule?.allowedDoughs?.length || 0;
+
+    const cakes = catalog.products || [];
+
+    cakes.forEach(cake => {
+      // Obtener variaciones asignadas a este cake
+      const cakeVars = (catalog.variations || []).filter(v => v.product_id === cake.id && v.is_enabled);
+      
+      // Agrupar por atributo
+      const attrGroups = {};
+      cakeVars.forEach(v => {
+        if (!attrGroups[v.attribute_id]) {
+          attrGroups[v.attribute_id] = {
+            attrId: v.attribute_id,
+            attrName: v.attribute_name,
+            options: []
+          };
+        }
+        attrGroups[v.attribute_id].options.push(v);
+      });
+
+      // Píldoras de atributos con SVG de lápiz ✏️
+      let pillsHtml = '';
+      const groupKeys = Object.keys(attrGroups);
+
+      if (groupKeys.length === 0) {
+        pillsHtml = `<span class="text-xs text-white/40 italic">Sin atributos asignados (precio fijo base)</span>`;
+      } else {
+        pillsHtml = `<div class="flex flex-wrap gap-2">`;
+        groupKeys.forEach(attrId => {
+          const group = attrGroups[attrId];
+          const optsText = group.options.map(o => `${o.option_name}: $${o.direct_price}`).join(' | ');
+
+          pillsHtml += `
+            <div class="inline-flex items-center gap-1.5 bg-[var(--bg-primary)] border border-[var(--border-color)] px-3 py-1.5 rounded-full text-xs shadow-sm group hover:border-[var(--primary)] transition-all">
+              <span class="font-extrabold text-[var(--accent-light)]">${group.attrName}:</span>
+              <span class="text-white/80 max-w-[280px] truncate" title="${optsText}">${optsText}</span>
+              
+              <!-- SVG de lápiz ✏️ para editar atributo -->
+              <button 
+                class="edit-pill-btn ml-1 p-1 hover:bg-white/10 rounded-full text-[var(--neutral-cream)] hover:text-white transition-colors cursor-pointer" 
+                data-cake-id="${cake.id}" 
+                data-attr-id="${group.attrId}"
+                title="Editar opciones y precios de ${group.attrName}"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5">
+                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                </svg>
+              </button>
+            </div>
+          `;
+        });
+        pillsHtml += `</div>`;
+      }
+
       html += `
-        <div class="p-3 rounded-xl cursor-pointer transition-all border ${isSelected ? 'bg-[var(--bg-secondary)] border-[var(--primary)] shadow-md' : 'bg-[var(--bg-primary)]/60 border-transparent hover:border-white/10'}" data-id="${p.id}">
-          <div class="flex justify-between items-start">
-            <h4 class="font-bold text-sm text-white">${p.name}</h4>
-            <span class="text-xs font-black text-[var(--accent-light)]">$${p.price} CUP</span>
-          </div>
-          <div class="flex items-center gap-2 mt-2 text-[10px] text-white/60">
-            <span class="uppercase font-bold tracking-wider">${p.category}</span>
-            <span>•</span>
-            <span class="text-[var(--primary)] font-semibold">${doughCount > 0 ? doughCount + ' masas activas' : 'Precio fijo unitario'}</span>
-          </div>
-        </div>
+        <tr class="hover:bg-white/[0.02] transition-colors">
+          <!-- Columna 1: Cake -->
+          <td class="py-4 px-6 align-top">
+            <div class="font-black text-white text-base">${cake.name}</div>
+            <div class="flex items-center gap-2 mt-1">
+              <span class="text-xs text-[var(--accent-light)] font-black">Base: $${cake.base_price} CUP</span>
+              <span class="text-[10px] text-white/50 uppercase tracking-wider bg-white/5 px-2 py-0.5 rounded">${cake.category}</span>
+            </div>
+          </td>
+
+          <!-- Columna 2: Píldoras con lápiz -->
+          <td class="py-4 px-6 align-middle">
+            ${pillsHtml}
+          </td>
+
+          <!-- Columna 3: Botón + Asignar Atributo -->
+          <td class="py-4 px-6 text-right align-middle">
+            <button 
+              class="add-attr-btn inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/10 hover:bg-white/20 text-xs font-extrabold rounded-xl transition-all cursor-pointer text-white shadow-sm"
+              data-cake-id="${cake.id}"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              <span>Asignar Atributo</span>
+            </button>
+          </td>
+        </tr>
       `;
     });
-    productList.innerHTML = html;
 
-    productList.querySelectorAll('[data-id]').forEach(el => {
-      el.addEventListener('click', () => {
-        const id = el.getAttribute('data-id');
-        const found = products.find(p => p.id === id);
-        if (found) selectProduct(found);
+    tableBody.innerHTML = html;
+
+    // Handlers de botones de píldora (Editar con Lápiz)
+    tableBody.querySelectorAll('.edit-pill-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const cakeId = btn.getAttribute('data-cake-id');
+        const attrId = btn.getAttribute('data-attr-id');
+        openAttributeModal(cakeId, attrId);
+      });
+    });
+
+    // Handlers de botón (+ Asignar Atributo)
+    tableBody.querySelectorAll('.add-attr-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const cakeId = btn.getAttribute('data-cake-id');
+        openAttributeModal(cakeId, null);
       });
     });
   };
 
-  const selectProduct = (prod) => {
-    currentProduct = prod;
-    renderProductList();
+  // Abrir Pop-up / Modal
+  const openAttributeModal = (cakeId, attrId) => {
+    editingCakeId = cakeId;
+    editingAttributeId = attrId;
 
-    if (selectedName) selectedName.textContent = prod.name;
-    if (selectedCategory) selectedCategory.textContent = prod.category;
-    if (selectedBasePrice) selectedBasePrice.value = prod.price;
+    const cake = (catalog.products || []).find(p => p.id === cakeId);
+    if (!cake) return;
 
-    renderVariationsMatrix();
+    if (modalCakeTitle) modalCakeTitle.textContent = cake.name;
+    if (modalHeaderTitle) modalHeaderTitle.textContent = attrId ? 'Editar Opciones de Atributo' : 'Asignar Nuevo Atributo';
+    if (modalRemoveAttrBtn) {
+      if (attrId) {
+        modalRemoveAttrBtn.classList.remove('hidden');
+      } else {
+        modalRemoveAttrBtn.classList.add('hidden');
+      }
+    }
+
+    // Poblar Selector de Atributos
+    renderModalAttrSelect(attrId);
+    modal?.classList.remove('hidden');
   };
 
-  saveBasePriceBtn?.addEventListener('click', () => {
-    if (!currentProduct || !selectedBasePrice) return;
-    const basePrice = parseInt(selectedBasePrice.value || '0');
-    currentProduct.price = basePrice;
-    
-    if (rules[currentProduct.id]) {
-      rules[currentProduct.id].basePrice = basePrice;
-    }
-    
-    saveData();
-    renderProductList();
-    alert('✓ Precio base guardado');
-  });
+  const closeModal = () => {
+    modal?.classList.add('hidden');
+    editingCakeId = null;
+    editingAttributeId = null;
+  };
 
-  const renderVariationsMatrix = () => {
-    if (!variationsMatrix || !currentProduct) return;
-    
-    const rule = rules[currentProduct.id];
+  closeModalBtn?.addEventListener('click', closeModal);
+  modalCancelBtn?.addEventListener('click', closeModal);
+
+  // Poblar Select de Atributos en Modal
+  const renderModalAttrSelect = (selectedAttrId) => {
+    if (!modalAttrSelect) return;
+    const attrs = catalog.attributes || [];
     let html = '';
 
-    if (!rule) {
-      html = `
-        <div class="bg-[var(--bg-primary)] border border-[var(--border-color)]/60 rounded-xl p-5 text-center text-xs text-[var(--neutral-cream)]/70">
-          Este producto es un buffet o postre unitario sin variaciones de masa. Su valor se gestiona directamente desde el precio base superior ($${currentProduct.price} CUP).
-        </div>
-      `;
-      variationsMatrix.innerHTML = html;
-      return;
+    attrs.forEach(a => {
+      html += `<option value="${a.id}" ${a.id === selectedAttrId ? 'selected' : ''}>${a.name}</option>`;
+    });
+    modalAttrSelect.innerHTML = html;
+
+    const activeAttrId = selectedAttrId || (attrs[0] ? attrs[0].id : null);
+    renderModalOptions(activeAttrId);
+
+    modalAttrSelect.onchange = () => {
+      renderModalOptions(modalAttrSelect.value);
+    };
+  };
+
+  // Renderizar Opciones y Precios en el Modal
+  const renderModalOptions = (attrId) => {
+    if (!modalOptionsList || !attrId) return;
+    const opts = (catalog.options || []).filter(o => o.attribute_id === attrId);
+    const cake = (catalog.products || []).find(p => p.id === editingCakeId);
+    const baseP = cake ? cake.base_price : 0;
+
+    let html = '';
+
+    if (opts.length === 0) {
+      html = `<p class="text-xs text-white/50 py-3 text-center">Este atributo aún no tiene opciones creadas.</p>`;
+    } else {
+      opts.forEach(opt => {
+        // Buscar si ya tiene variación guardada
+        const currentVar = (catalog.variations || []).find(v => v.product_id === editingCakeId && v.option_id === opt.id && v.is_enabled);
+        const isChecked = !!currentVar;
+        const currentPrice = currentVar ? currentVar.direct_price : baseP;
+
+        html += `
+          <div class="flex items-center justify-between gap-3 p-2 rounded-xl bg-[var(--bg-primary)]/80 border border-white/5">
+            <label class="flex items-center gap-2.5 cursor-pointer">
+              <input type="checkbox" class="modal-opt-toggle w-4 h-4 rounded text-[var(--primary)]" data-opt-id="${opt.id}" ${isChecked ? 'checked' : ''} />
+              <span class="text-xs font-bold text-white">${opt.name}</span>
+            </label>
+            <div class="flex items-center gap-1.5">
+              <span class="text-[10px] text-white/50">Precio Directo:</span>
+              <input type="number" class="modal-opt-price w-24 px-2 py-1 bg-[var(--bg-card)] border border-[var(--border-color)] rounded-lg text-right text-xs font-bold text-[var(--accent-light)] outline-none" data-opt-id="${opt.id}" value="${currentPrice}" ${!isChecked ? 'disabled' : ''} />
+              <span class="text-xs text-white/60 font-bold">CUP</span>
+            </div>
+          </div>
+        `;
+      });
     }
 
-    // 1. Masas
-    html += `
-      <div class="bg-[var(--bg-primary)] border border-[var(--border-color)]/60 rounded-xl p-4 space-y-3">
-        <h4 class="text-xs font-black uppercase tracking-wider text-[var(--accent-light)]">1. Masas Permitidas para este Cake</h4>
-        <div class="space-y-2">
-    `;
+    modalOptionsList.innerHTML = html;
 
-    const commonDoughs = [
-      { id: 'trigo', label: 'Harina de trigo' },
-      { id: 'maicena', label: 'Masa de Maicena' },
-      { id: 'capuchino', label: 'Masa Capuchino' }
-    ];
-
-    commonDoughs.forEach(d => {
-      const activeObj = rule.allowedDoughs?.find(item => item.id === d.id);
-      const isEnabled = !!activeObj;
-      const currentPrice = activeObj ? activeObj.price : currentProduct.price;
-
-      html += `
-        <div class="flex items-center justify-between gap-4 p-2.5 rounded-lg bg-[var(--bg-card)]/50 border border-white/5">
-          <label class="flex items-center gap-3 cursor-pointer">
-            <input type="checkbox" class="dough-toggle w-4 h-4 rounded text-[var(--primary)] focus:ring-[var(--primary)]" data-dough-id="${d.id}" ${isEnabled ? 'checked' : ''} />
-            <span class="text-sm font-semibold text-white">${d.label}</span>
-          </label>
-          <div class="flex items-center gap-2">
-            <span class="text-xs text-white/50">Precio total:</span>
-            <input type="number" class="dough-price-input w-24 px-2 py-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded text-right text-xs font-bold text-white outline-none" data-dough-id="${d.id}" value="${currentPrice}" ${!isEnabled ? 'disabled' : ''} />
-            <span class="text-xs text-[var(--accent-light)] font-bold">CUP</span>
-            <button class="save-dough-btn px-2.5 py-1 bg-white/10 hover:bg-white/20 text-[10px] font-bold rounded transition-colors cursor-pointer" data-dough-id="${d.id}" data-dough-label="${d.label}">Guardar</button>
-          </div>
-        </div>
-      `;
-    });
-
-    html += `</div></div>`;
-
-    // 2. Altura / Doble
-    const hasDouble = rule.hasDouble !== undefined ? rule.hasDouble : (rule.allowedHeights && rule.allowedHeights.length > 1);
-    const doublePrice = rule.doublePrice || (rule.allowedHeights?.find(h => h.id === 'doble')?.price || 2700);
-
-    html += `
-      <div class="bg-[var(--bg-primary)] border border-[var(--border-color)]/60 rounded-xl p-4 space-y-3">
-        <h4 class="text-xs font-black uppercase tracking-wider text-[var(--accent-light)]">2. Altura y Doble Masa</h4>
-        <div class="flex items-center justify-between gap-4 p-2.5 rounded-lg bg-[var(--bg-card)]/50 border border-white/5">
-          <label class="flex items-center gap-3 cursor-pointer">
-            <input type="checkbox" id="double-toggle" class="w-4 h-4 rounded text-[var(--primary)] focus:ring-[var(--primary)]" ${hasDouble ? 'checked' : ''} />
-            <span class="text-sm font-semibold text-white">Habilitar Opción Cake Doble</span>
-          </label>
-          <div class="flex items-center gap-2">
-            <span class="text-xs text-white/50">Recargo Doble:</span>
-            <input type="number" id="double-price-input" class="w-24 px-2 py-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded text-right text-xs font-bold text-white outline-none" value="${doublePrice}" ${!hasDouble ? 'disabled' : ''} />
-            <span class="text-xs text-[var(--accent-light)] font-bold">CUP</span>
-            <button id="save-double-btn" class="px-2.5 py-1 bg-white/10 hover:bg-white/20 text-[10px] font-bold rounded transition-colors cursor-pointer">Guardar</button>
-          </div>
-        </div>
-      </div>
-    `;
-
-    variationsMatrix.innerHTML = html;
-
-    // Handlers
-    variationsMatrix.querySelectorAll('.dough-toggle').forEach(chk => {
+    // Toggle de inputs de precio
+    modalOptionsList.querySelectorAll('.modal-opt-toggle').forEach(chk => {
       chk.addEventListener('change', (e) => {
         const target = e.target;
-        const doughId = target.getAttribute('data-dough-id');
-        const priceInput = variationsMatrix.querySelector(`.dough-price-input[data-dough-id="${doughId}"]`);
+        const optId = target.getAttribute('data-opt-id');
+        const priceInput = modalOptionsList.querySelector(`.modal-opt-price[data-opt-id="${optId}"]`);
         if (priceInput) priceInput.disabled = !target.checked;
       });
     });
-
-    variationsMatrix.querySelectorAll('.save-dough-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const doughId = btn.getAttribute('data-dough-id');
-        const doughLabel = btn.getAttribute('data-dough-label');
-        const chk = variationsMatrix.querySelector(`.dough-toggle[data-dough-id="${doughId}"]`);
-        const priceInput = variationsMatrix.querySelector(`.dough-price-input[data-dough-id="${doughId}"]`);
-        
-        if (!rule.allowedDoughs) rule.allowedDoughs = [];
-
-        if (chk?.checked) {
-          const price = parseInt(priceInput?.value || currentProduct.price.toString());
-          const existing = rule.allowedDoughs.find(d => d.id === doughId);
-          if (existing) {
-            existing.price = price;
-            existing.label = `${doughLabel} ($${price} CUP)`;
-          } else {
-            rule.allowedDoughs.push({ id: doughId, label: `${doughLabel} ($${price} CUP)`, price });
-          }
-        } else {
-          rule.allowedDoughs = rule.allowedDoughs.filter(d => d.id !== doughId);
-        }
-
-        saveData();
-        renderProductList();
-        alert('✓ Configuración de masa guardada');
-      });
-    });
-
-    const doubleToggle = document.getElementById('double-toggle');
-    const doublePriceInput = document.getElementById('double-price-input');
-    const saveDoubleBtn = document.getElementById('save-double-btn');
-
-    doubleToggle?.addEventListener('change', () => {
-      if (doublePriceInput) doublePriceInput.disabled = !doubleToggle.checked;
-    });
-
-    saveDoubleBtn?.addEventListener('click', () => {
-      rule.hasDouble = doubleToggle?.checked || false;
-      rule.doublePrice = parseInt(doublePriceInput?.value || '2700');
-      saveData();
-      alert('✓ Configuración de altura guardada');
-    });
   };
 
-  addDoughBtn?.addEventListener('click', () => {
-    if (!currentProduct || !rules[currentProduct.id]) {
-      alert('Selecciona un cake primero');
+  // Crear Nuevo Atributo desde el Modal
+  modalCreateAttrBtn?.addEventListener('click', () => {
+    const name = modalNewAttrName?.value.trim();
+    if (!name) return;
+
+    const id = name.toLowerCase().replace(/[^a-z0-9]/g, '-');
+    if (!catalog.attributes) catalog.attributes = [];
+
+    if (!catalog.attributes.find(a => a.id === id)) {
+      catalog.attributes.push({ id, name });
+      if (modalNewAttrName) modalNewAttrName.value = '';
+      persistLocal();
+      renderModalAttrSelect(id);
+      alert(`✓ Atributo "${name}" creado. Ahora puedes añadirle opciones.`);
+    }
+  });
+
+  // Añadir Nueva Opción al Atributo Activo desde el Modal
+  modalAddOptBtn?.addEventListener('click', () => {
+    const attrId = modalAttrSelect?.value;
+    const optName = modalNewOptionName?.value.trim();
+    const price = parseInt(modalNewOptionPrice?.value || '0');
+
+    if (!attrId || !optName) {
+      alert('Ingresa el nombre de la nueva opción');
       return;
     }
-    const label = newDoughLabel?.value.trim();
-    const price = parseInt(newDoughPrice?.value || '0');
 
-    if (!label || !price) {
-      alert('Por favor ingresa nombre y precio para la nueva masa');
-      return;
+    const optId = `${attrId}-${optName.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
+    if (!catalog.options) catalog.options = [];
+
+    if (!catalog.options.find(o => o.id === optId)) {
+      catalog.options.push({ id: optId, attribute_id: attrId, name: optName });
     }
 
-    const newId = label.toLowerCase().replace(/[^a-z0-9]/g, '-');
-    const rule = rules[currentProduct.id];
-    if (!rule.allowedDoughs) rule.allowedDoughs = [];
+    if (modalNewOptionName) modalNewOptionName.value = '';
+    if (modalNewOptionPrice) modalNewOptionPrice.value = '';
 
-    rule.allowedDoughs.push({
-      id: newId,
-      label: `${label} ($${price} CUP)`,
-      price
+    persistLocal();
+    renderModalOptions(attrId);
+  });
+
+  // Guardar Cambios del Modal (Aplicar al Cake)
+  modalSaveBtn?.addEventListener('click', () => {
+    if (!editingCakeId || !modalAttrSelect) return;
+    const attrId = modalAttrSelect.value;
+    const attrObj = (catalog.attributes || []).find(a => a.id === attrId);
+    const attrName = attrObj ? attrObj.name : attrId;
+
+    if (!catalog.variations) catalog.variations = [];
+
+    // Limpiar variaciones previas de este atributo para este cake
+    catalog.variations = catalog.variations.filter(v => !(v.product_id === editingCakeId && v.attribute_id === attrId));
+
+    // Guardar las que estén marcadas con su precio directo
+    modalOptionsList?.querySelectorAll('.modal-opt-toggle').forEach(chk => {
+      if (chk.checked) {
+        const optId = chk.getAttribute('data-opt-id');
+        const optObj = (catalog.options || []).find(o => o.id === optId);
+        const priceInput = modalOptionsList.querySelector(`.modal-opt-price[data-opt-id="${optId}"]`);
+        const directPrice = parseInt(priceInput?.value || '0');
+
+        catalog.variations.push({
+          product_id: editingCakeId,
+          attribute_id: attrId,
+          attribute_name: attrName,
+          option_id: optId,
+          option_name: optObj ? optObj.name : optId,
+          direct_price: directPrice,
+          is_enabled: 1
+        });
+      }
     });
 
-    saveData();
-    if (newDoughLabel) newDoughLabel.value = '';
-    if (newDoughPrice) newDoughPrice.value = '';
-    renderVariationsMatrix();
-    alert('✓ Nueva opción añadida al cake con éxito');
+    persistLocal();
+    renderCakesTable();
+    closeModal();
+  });
+
+  // Quitar Atributo Completo de este Cake
+  modalRemoveAttrBtn?.addEventListener('click', () => {
+    if (!editingCakeId || !editingAttributeId) return;
+    if (confirm('¿Quitar este atributo y todas sus opciones de este cake?')) {
+      catalog.variations = (catalog.variations || []).filter(v => !(v.product_id === editingCakeId && v.attribute_id === editingAttributeId));
+      persistLocal();
+      renderCakesTable();
+      closeModal();
+    }
   });
 
   checkAuth();
