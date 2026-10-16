@@ -4,371 +4,229 @@ import { PRODUCTS } from '../data/products';
 
 const cakes = PRODUCTS.filter(p => p.category === 'cakes' || p.category === 'minicakes');
 const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.category === 'salados');
+
+// Galería curada de decoraciones artesanales
+const decorations = [
+  {
+    title: 'Temática Infantil / Cumpleaños',
+    desc: 'Modelado artístico y colores vibrantes en merengue fino.',
+    image: 'https://images.unsplash.com/photo-1535254973040-607b474cb50d?q=80&w=800&auto=format&fit=crop'
+  },
+  {
+    title: 'Elegancia Floral & Bodas',
+    desc: 'Detalles sobrios y delicados para momentos inolvidables.',
+    image: 'https://images.unsplash.com/photo-1557925923-cd4648e21187?q=80&w=800&auto=format&fit=crop'
+  },
+  {
+    title: 'Chocolate Gourmet & Drips',
+    desc: 'Bañados en chocolate brillante, trufas y texturas crocantes.',
+    image: 'https://images.unsplash.com/photo-1519869325930-281384150729?q=80&w=800&auto=format&fit=crop'
+  },
+  {
+    title: 'Fantasía Rosa & Sprinkles',
+    desc: 'Tonos pasteles alegres para aniversarios y agasajos íntimos.',
+    image: 'https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?q=80&w=800&auto=format&fit=crop'
+  }
+];
 ---
 
-<Layout title="Inicio - Dulcería por Encargo">
-  <!-- Hero Section -->
+<Layout title="Dulcería El Líder — Cakes y Dulces por Encargo">
+  <!-- 1. HERO MINIMALISTA & PROTAGONISTA -->
   <section class="hero-section">
     <div class="hero-overlay"></div>
-
-    <!-- SVG Decorativos flotantes -->
-    <div class="hero-svgs" aria-hidden="true">
-      <!-- Cake 8 (Todos/Whole cake) -->
-      <div class="hero-svg hero-svg--cake">
-        <img src="/icons/cake8.svg" alt="" style="width: 100%; height: 100%; opacity: 0.25;" />
-      </div>
-
-      <!-- Cupcake (Cake 5) -->
-      <div class="hero-svg hero-svg--cupcake">
-        <img src="/icons/cake5.svg" alt="" style="width: 100%; height: 100%; opacity: 0.25;" />
-      </div>
-
-      <!-- Estrella / sprinkle 1 (Cake 7 - Dona) -->
-      <div class="hero-svg hero-svg--star1">
-        <img src="/icons/cake7.svg" alt="" style="width: 100%; height: 100%; opacity: 0.25;" />
-      </div>
-
-      <!-- Estrella / sprinkle 2 (Cake 6) -->
-      <div class="hero-svg hero-svg--star2">
-        <img src="/icons/cake6.svg" alt="" style="width: 100%; height: 100%; opacity: 0.25;" />
-      </div>
-
-      <!-- Corazón (Cake 1) -->
-      <div class="hero-svg hero-svg--heart">
-        <img src="/icons/cake1.svg" alt="" style="width: 100%; height: 100%; opacity: 0.25;" />
-      </div>
-
-      <!-- Dona (Cake 2) -->
-      <div class="hero-svg hero-svg--donut">
-        <img src="/icons/cake2.svg" alt="" style="width: 100%; height: 100%; opacity: 0.25;" />
-      </div>
-    </div>
 
     <div class="hero-content">
       <div class="hero-logo-wrap">
         <img src="/logo-correcto.png" alt="Dulcería El Líder Logo" class="hero-logo" />
       </div>
-      <span class="hero-badge">✨ Artesanal &amp; Premium</span>
+      <span class="hero-badge">✨ Dulcería Fina Artesanal</span>
       <h1 class="hero-title">El Arte de la Dulcería Fina</h1>
-      <p class="hero-subtitle">Cakes exclusivos y dulces de alta calidad elaborados totalmente por encargo para hacer de tu celebración un momento inolvidable.</p>
-      <div class="hero-actions">
-        <a href="#catalogo" class="hero-btn-primary">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
-            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-          </svg>
-          Ver la Carta
-        </a>
-        <a href="#como-pedir" class="hero-btn-secondary">¿Cómo pedir?</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Cakes Catalog Section -->
-  <section id="catalogo" class="catalog-section">
-    <div class="section-deco section-deco--catalog" aria-hidden="true">
-      <div class="sdeco sdeco--cupcake-l">
-        <img src="/icons/cake5.svg" alt="" style="width: 100%; height: 100%; opacity: 0.15;" />
-      </div>
-      <div class="sdeco sdeco--star-r">
-        <img src="/icons/cake7.svg" alt="" style="width: 100%; height: 100%; opacity: 0.15;" />
-      </div>
-      <div class="sdeco sdeco--heart-tl">
-        <img src="/icons/cake1.svg" alt="" style="width: 100%; height: 100%; opacity: 0.15;" />
-      </div>
-    </div>
-    <div class="section-header">
-      <span class="subtitle">Exquisiteces</span>
-      <h2>¿Qué tipo de cake deseas para tu celebración?</h2>
-      <div class="divider"></div>
+      <p class="hero-subtitle">Cakes exclusivos y dulces artesanales elaborados por encargo para hacer de tu fiesta una ocasión única.</p>
       
-      <!-- Subcategory filters (Pills) -->
-      <div class="carousel-subcategories">
-        <button class="subcategory-pill active" data-filter="all">
-          <img src="/icons/cake8.svg" class="pill-icon-img" alt="Todos" width="22" height="22" />
-          Todos
-        </button>
-        <button class="subcategory-pill" data-filter="minicakes">
-          <img src="/icons/cake1.svg" class="pill-icon-img" alt="Mini Cakes" width="22" height="22" />
-          Mini Cakes
-        </button>
-        <button class="subcategory-pill" data-filter="redondos">
-          <img src="/icons/cake2.svg" class="pill-icon-img" alt="Cakes Redondos" width="22" height="22" />
-          Cakes Redondos
-        </button>
-        <button class="subcategory-pill" data-filter="bandeja">
-          <img src="/icons/cake4.svg" class="pill-icon-img" alt="Cakes de Bandeja" width="22" height="22" />
-          De Bandeja
-        </button>
-        <button class="subcategory-pill" data-filter="pisos">
-          <img src="/icons/cake3.svg" class="pill-icon-img" alt="Cakes de Varios Pisos" width="22" height="22" />
-          Varios Pisos
-        </button>
-      </div>
+      <!-- Flecha de scroll indicador sin botones duplicados -->
+      <a href="#catalogo" class="hero-scroll-indicator" aria-label="Explorar la carta">
+        <span class="scroll-label">Ver catálogo</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="scroll-arrow">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </a>
     </div>
+  </section>
 
-    <!-- Carousel Container (Large Cards) -->
-    <div class="carousel-outer-wrapper">
-      <button class="carousel-control prev" id="carousel-prev-btn" aria-label="Anterior">&lt;</button>
-      <div class="carousel-viewport" id="carousel-viewport">
-        <div class="carousel-track" id="carousel-track">
-          {cakes.map(product => {
-            // Determine subcategory filter type
-            let filterType = 'all';
-            if (product.id === 'minicake') filterType = 'minicakes';
-            else if (product.id === 'cake-redondo') filterType = 'redondos';
-            else if (product.id === 'cake-bandeja') filterType = 'bandeja';
-            else if (product.id === 'cake-varios-pisos') filterType = 'pisos';
+  <!-- 2. OFERTAS DE CAKES (Grid Directo) -->
+  <section id="catalogo" class="section-container bg-cream">
+    <div class="section-inner">
+      <div class="section-header">
+        <span class="section-badge">Nuestra Carta</span>
+        <h2 class="section-title">Cakes por Encargo</h2>
+        <div class="section-divider"></div>
+        <p class="section-desc">Selecciona la base ideal para tu celebración. Podrás personalizar masa, tamaño y temática en el siguiente paso.</p>
+      </div>
 
-            return (
-              <div class="product-card carousel-slide" data-filter-type={filterType} data-id={product.id}>
-                <div class="product-image-container">
-                  <img src={product.image} alt={product.name} class="product-image" loading="lazy" />
-                  <span class="product-badge">{product.category === 'minicakes' ? 'MiniCake' : 'Cake'}</span>
+      <div class="cakes-grid">
+        {cakes.map(product => (
+          <article class="cake-card" data-id={product.id}>
+            <div class="cake-image-wrap">
+              <img src={product.image} alt={product.name} class="cake-image" loading="lazy" />
+              <span class="card-badge">{product.category === 'minicakes' ? 'Mini Cake' : 'Cake'}</span>
+            </div>
+            <div class="cake-content">
+              <h3 class="cake-name">{product.name}</h3>
+              <p class="cake-desc">{product.description}</p>
+              <div class="cake-footer">
+                <div class="price-wrap">
+                  <span class="price-label">Desde</span>
+                  <span class="price-amount">${product.price} <small class="currency">CUP</small></span>
                 </div>
-                <div class="product-info">
-                  <h3>{product.name}</h3>
-                  <p class="product-description">{product.description}</p>
-                  <div class="product-meta">
-                    <span class="product-price">
-                      ${product.price} <span class="currency">CUP</span>
-                      {product.priceNote && <span class="price-note">({product.priceNote})</span>}
-                    </span>
-                    <button 
-                      class="add-to-cart-btn" 
-                      data-id={product.id}
-                      data-name={product.name}
-                      data-price={product.price}
-                      data-category={product.category}
-                      data-customizable={product.customizable ? "true" : "false"}
-                    >
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" style="display: inline-block;">
-                        <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
-                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-                      </svg>
-                      Agregar
-                    </button>
-                  </div>
-                </div>
+                <button 
+                  class="btn-add-cart add-to-cart-btn" 
+                  data-id={product.id}
+                  data-name={product.name}
+                  data-price={product.price}
+                  data-category={product.category}
+                  data-customizable={product.customizable ? "true" : "false"}
+                >
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+                    <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                  </svg>
+                  Añadir al pedido
+                </button>
               </div>
-            );
-          })}
-        </div>
-      </div>
-      <button class="carousel-control next" id="carousel-next-btn" aria-label="Siguiente">&gt;</button>
-    </div>
-  </section>
-
-  <!-- Buffet & Dessert Offers Section -->
-  <section id="buffet" class="buffet-section">
-    <div class="section-deco section-deco--buffet" aria-hidden="true">
-      <div class="sdeco sdeco--star-big">
-        <img src="/icons/cake7.svg" alt="" style="width: 100%; height: 100%; opacity: 0.12;" />
-      </div>
-      <div class="sdeco sdeco--cupcake-r2">
-        <img src="/icons/cake5.svg" alt="" style="width: 100%; height: 100%; opacity: 0.12;" />
-      </div>
-    </div>
-    <div class="section-header">
-      <span class="subtitle">Ofertas Adicionales</span>
-      <h2>Acompaña tu Fiesta (Buffet y Postres)</h2>
-      <div class="divider"></div>
-      <p class="section-desc">Exquisitos salados y dulces tradicionales para complementar tu celebración de manera perfecta.</p>
-    </div>
-    
-    <div class="buffet-grid">
-      {buffetItems.map(product => (
-        <div class="buffet-card">
-          <div class="buffet-image-container">
-            <img src={product.image} alt={product.name} class="buffet-image" loading="lazy" />
-          </div>
-          <div class="buffet-info">
-            <h3>{product.name}</h3>
-            <p class="buffet-description">{product.description}</p>
-            <div class="buffet-meta">
-              <span class="buffet-price">${product.price} CUP c/u</span>
-              <button 
-                class="add-to-cart-btn" 
-                data-id={product.id}
-                data-name={product.name}
-                data-price={product.price}
-                data-category={product.category}
-                data-customizable={product.customizable ? "true" : "false"}
-              >
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" style="display: inline-block;">
-                  <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
-                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-                </svg>
-                Añadir
-              </button>
             </div>
-          </div>
-        </div>
-      ))}
-    </div>
-  </section>
-
-  <!-- Gallery of Custom Decorations Section -->
-  <section id="decoraciones" class="decorations-section">
-    <div class="section-deco section-deco--decorations" aria-hidden="true">
-      <div class="sdeco sdeco--heart-r" style="width: 60px; right: 2%; bottom: 15%; animation: heroPulse 4s ease-in-out infinite;">
-        <img src="/icons/cake1.svg" alt="" style="width: 100%; height: 100%; opacity: 0.15;" />
-      </div>
-      <div class="sdeco sdeco--star-l" style="width: 50px; left: 2%; top: 12%; animation: heroSpin 10s linear infinite;">
-        <img src="/icons/cake7.svg" alt="" style="width: 100%; height: 100%; opacity: 0.15;" />
-      </div>
-    </div>
-    <div class="section-header">
-      <span class="subtitle">Inspiración</span>
-      <h2>Nuestras Decoraciones Personalizadas</h2>
-      <div class="divider"></div>
-      <p class="section-desc">Diseños artísticos elaborados a mano. Cada pastel es personalizado a tu gusto y temática de celebración.</p>
-    </div>
-
-    <div class="decorations-carousel-container">
-      <button class="dec-carousel-control prev" id="dec-prev-btn" aria-label="Anterior">&lt;</button>
-      <div class="decorations-viewport" id="dec-viewport">
-        <div class="decorations-track" id="dec-track">
-          <div class="decoration-slide">
-            <img src="https://images.unsplash.com/photo-1535254973040-607b474cb50d?q=80&w=600&auto=format&fit=crop" alt="Decoración Infantil Dinosaurios" />
-            <div class="decoration-overlay-info">
-              <h4>Temática Infantil / Dinosaurios</h4>
-              <p>Modelado artístico 2D y 3D en merengue fino.</p>
-            </div>
-          </div>
-          <div class="decoration-slide">
-            <img src="https://images.unsplash.com/photo-1557925923-cd4648e21187?q=80&w=600&auto=format&fit=crop" alt="Decoración Elegante Floral" />
-            <div class="decoration-overlay-info">
-              <h4>Diseño Elegante Floral</h4>
-              <p>Detalles florales perfectos para bodas y aniversarios.</p>
-            </div>
-          </div>
-          <div class="decoration-slide">
-            <img src="https://images.unsplash.com/photo-1519869325930-281384150729?q=80&w=600&auto=format&fit=crop" alt="Decoración de Chocolate Premium" />
-            <div class="decoration-overlay-info">
-              <h4>Glaseado de Chocolate y Drips</h4>
-              <p>Drips de chocolate gourmet y trufas seleccionadas.</p>
-            </div>
-          </div>
-          <div class="decoration-slide">
-            <img src="https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?q=80&w=600&auto=format&fit=crop" alt="Fantasía Rosa y Sprinkles" />
-            <div class="decoration-overlay-info">
-              <h4>Fantasía en Rosa y Merengue</h4>
-              <p>Tonos pasteles y chispas de colores para cumpleaños alegres.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <button class="dec-carousel-control next" id="dec-next-btn" aria-label="Siguiente">&gt;</button>
-    </div>
-
-
-  </section>
-
-  <!-- Info Section / Como Pedir -->
-  <section id="como-pedir" class="info-section">
-    <div class="section-deco section-deco--info" aria-hidden="true">
-      <div class="sdeco sdeco--cake-big">
-        <img src="/icons/cake3.svg" alt="" style="width: 100%; height: 100%; opacity: 0.12;" />
-      </div>
-      <div class="sdeco sdeco--donut-r">
-        <img src="/icons/cake7.svg" alt="" style="width: 100%; height: 100%; opacity: 0.12;" />
-      </div>
-    </div>
-    <div class="section-header">
-      <span class="subtitle">Paso a Paso</span>
-      <h2>¿Cómo funciona nuestro servicio por encargo?</h2>
-      <div class="divider"></div>
-    </div>
-    
-    <div class="steps-grid">
-      <div class="step-card">
-        <div class="step-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="22" height="22">
-            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-          </svg>
-        </div>
-        <h3>Selecciona tus Dulces</h3>
-        <p>Explora nuestra carta exclusiva y elige tus dulces favoritos agregándolos al carrito de compras.</p>
-      </div>
-      <div class="step-card">
-        <div class="step-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="22" height="22">
-            <path d="M12 20h9M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>
-          </svg>
-        </div>
-        <h3>Personaliza tu Cake</h3>
-        <p>En el carrito, define los colores, la temática o añade una <strong>Impresión Comestible</strong> subiendo tu propia imagen.</p>
-      </div>
-      <div class="step-card">
-        <div class="step-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="22" height="22">
-            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4Z"/>
-          </svg>
-        </div>
-        <h3>Envía por WhatsApp</h3>
-        <p>Tu pedido se procesará automáticamente en un mensaje detallado para finalizar la cotización y agendar la fecha por WhatsApp.</p>
+          </article>
+        ))}
       </div>
     </div>
   </section>
 
-  <!-- Floating Cart Button -->
-  <button id="floating-cart-btn" class="floating-cart">
+  <!-- 3. BUFFET Y POSTRES (Grid de Acompañamiento) -->
+  <section id="buffet" class="section-container bg-dark">
+    <div class="section-inner">
+      <div class="section-header">
+        <span class="section-badge-light">Acompañamientos</span>
+        <h2 class="section-title text-white">Buffet &amp; Postres Finos</h2>
+        <div class="section-divider"></div>
+        <p class="section-desc text-cream">Deliciosos salados artesanales y bocaditos tradicionales para consentir a tus invitados.</p>
+      </div>
+      
+      <div class="buffet-grid">
+        {buffetItems.map(product => (
+          <article class="buffet-card">
+            <div class="buffet-image-wrap">
+              <img src={product.image} alt={product.name} class="buffet-image" loading="lazy" />
+            </div>
+            <div class="buffet-content">
+              <h3 class="buffet-name">{product.name}</h3>
+              <p class="buffet-desc">{product.description}</p>
+              <div class="buffet-footer">
+                <span class="buffet-price">${product.price} <small class="currency">CUP</small></span>
+                <button 
+                  class="btn-add-buffet add-to-cart-btn" 
+                  data-id={product.id}
+                  data-name={product.name}
+                  data-price={product.price}
+                  data-category={product.category}
+                  data-customizable={product.customizable ? "true" : "false"}
+                >
+                  + Añadir
+                </button>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. DECORACIONES TEMÁTICAS Y PERSONALIZADAS (Galería Visual) -->
+  <section id="decoraciones" class="section-container bg-cream">
+    <div class="section-inner">
+      <div class="section-header">
+        <span class="section-badge">Inspiración</span>
+        <h2 class="section-title">Decoraciones Personalizadas</h2>
+        <div class="section-divider"></div>
+        <p class="section-desc">Acabados artísticos elaborados a mano según el tema o motivo de tu fiesta.</p>
+      </div>
+
+      <div class="gallery-grid">
+        {decorations.map(item => (
+          <div class="gallery-card">
+            <div class="gallery-image-wrap">
+              <img src={item.image} alt={item.title} class="gallery-image" loading="lazy" />
+              <div class="gallery-overlay">
+                <h4 class="gallery-title">{item.title}</h4>
+                <p class="gallery-desc">{item.desc}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. FLUJO DE ENCARGO (3 Pasos Icónicos) -->
+  <section id="como-pedir" class="section-container bg-dark">
+    <div class="section-inner">
+      <div class="section-header">
+        <span class="section-badge-light">Sencillo &amp; Rápido</span>
+        <h2 class="section-title text-white">¿Cómo es el flujo de encargo?</h2>
+        <div class="section-divider"></div>
+      </div>
+      
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <h3 class="step-title">Elige tus dulces</h3>
+          <p class="step-text">Explora nuestra carta y agrega los cakes y postres favoritos a tu pedido.</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <h3 class="step-title">Personaliza a tu gusto</h3>
+          <p class="step-text">En el formulario defines masa, tamaño, colores, temática o foto de referencia.</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-num">3</div>
+          <h3 class="step-title">Coordinamos por WhatsApp</h3>
+          <p class="step-text">Recibes tu ticket automático y acordamos los detalles finales de forma directa.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Botón flotante circular del Carrito (Siempre accesible) -->
+  <button id="floating-cart-btn" class="floating-cart" aria-label="Ver pedido">
     <span class="cart-icon">🛒</span>
-    <span class="cart-count">0</span>
+    <span class="cart-count" id="floating-cart-count">0</span>
   </button>
 
-  <!-- Cart Drawer/Sidebar -->
+  <!-- Drawer Lateral del Carrito -->
   <div id="cart-drawer" class="cart-drawer">
-    <div class="cart-drawer-overlay"></div>
+    <div class="cart-drawer-overlay" id="cart-drawer-overlay"></div>
     <div class="cart-drawer-content">
       <div class="cart-header">
-        <h2>Tu Encargo</h2>
-        <button id="close-cart-btn" class="close-btn">&times;</button>
+        <h2>Tu Pedido</h2>
+        <button id="close-cart-btn" class="close-btn" aria-label="Cerrar pedido">&times;</button>
       </div>
       
       <div id="cart-items-container" class="cart-items-container">
-        <!-- Rendered dynamically by JS -->
+        <!-- Generado dinámicamente -->
         <div class="empty-cart-message">
-          <p>Tu carrito está vacío</p>
-          <a href="#catalogo" id="explore-btn" class="btn btn-outline btn-sm">Explorar la Carta</a>
+          <p>Tu pedido está vacío</p>
+          <a href="#catalogo" id="explore-btn" class="btn-explore">Explorar Carta</a>
         </div>
       </div>
 
       <div class="cart-footer">
-        <!-- SVG decorativo inferior del carrito -->
-        <div class="cart-sweet-deco" aria-hidden="true">
-          <svg viewBox="0 0 320 48" fill="none" xmlns="http://www.w3.org/2000/svg" class="cart-deco-svg">
-            <!-- Cake pequeño izq -->
-            <rect x="8" y="18" width="28" height="16" rx="4" fill="rgba(232,25,108,0.25)"/>
-            <ellipse cx="22" cy="18" rx="14" ry="4" fill="rgba(232,25,108,0.35)"/>
-            <line x1="22" y1="8" x2="22" y2="17" stroke="rgba(255,200,100,0.9)" stroke-width="2" stroke-linecap="round"/>
-            <circle cx="22" cy="7" r="2.5" fill="rgba(255,107,53,0.8)"/>
-            <!-- Corazón centro -->
-            <path d="M155 22 C155 22 148 16 148 12 C148 9.5 150 8 152 8 C153.5 8 154.5 9 155 10.5 C155.5 9 156.5 8 158 8 C160 8 162 9.5 162 12 C162 16 155 22 155 22Z" fill="rgba(232,25,108,0.5)"/>
-            <!-- Estrella der -->
-            <polygon points="290,10 292,17 299,17 294,21 296,28 290,24 284,28 286,21 281,17 288,17" fill="rgba(255,200,100,0.45)"/>
-            <!-- Cupcake der -->
-            <path d="M300 34 L304 44 H318 L322 34 Z" fill="rgba(255,255,255,0.12)"/>
-            <path d="M298 33 Q311 22 324 33" fill="rgba(255,200,180,0.2)"/>
-            <circle cx="311" cy="22" r="3" fill="rgba(232,25,108,0.6)"/>
-            <!-- Sprinkles -->
-            <circle cx="60" cy="30" r="3" fill="rgba(255,107,53,0.35)"/>
-            <circle cx="80" cy="20" r="2" fill="rgba(232,25,108,0.3)"/>
-            <circle cx="110" cy="35" r="2.5" fill="rgba(255,200,100,0.35)"/>
-            <circle cx="200" cy="28" r="2" fill="rgba(255,107,53,0.3)"/>
-            <circle cx="240" cy="38" r="3" fill="rgba(232,25,108,0.25)"/>
-            <circle cx="130" cy="15" r="2" fill="rgba(255,255,255,0.2)"/>
-          </svg>
+        <div class="cart-total-row">
+          <span>Total Estimado:</span>
+          <span id="cart-total-display" class="cart-total-amount">$0 CUP</span>
         </div>
-
-        <div class="cart-summary-row total-row">
-          <span>Total Estimado</span>
-          <span id="cart-total">$0 CUP</span>
-        </div>
-        <button id="go-to-checkout-btn" class="btn btn-primary btn-block cart-checkout-btn">
-          <span>Continuar con el Encargo</span>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12H19M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
+        <a href="/pedido" id="checkout-btn" class="btn-checkout">
+          Continuar y Personalizar Pedido →
+        </a>
       </div>
     </div>
   </div>
@@ -376,40 +234,32 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
 
 <style>
   /* ============================================================
-     HERO SECTION
+     HERO MINIMALISTA
      ============================================================ */
   .hero-section {
     position: relative;
-    min-height: 80vh;
+    min-height: 90vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #E8196C 0%, #FF6B35 100%);
     text-align: center;
-    padding: 4rem 2rem;
+    padding: 3rem 1.5rem 4rem;
+    background: radial-gradient(circle at center, #3D1A24 0%, #2A0A14 70%);
     overflow: hidden;
-  }
-
-  .hero-section::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: url('https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat;
-    opacity: 0.38;
-    z-index: 0;
   }
 
   .hero-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(232,25,108,0.52) 0%, rgba(255,107,53,0.48) 100%);
-    z-index: 1;
+    background: radial-gradient(circle at center, rgba(232,25,108,0.18) 0%, rgba(42,10,20,0.85) 80%);
+    pointer-events: none;
   }
 
   .hero-content {
     position: relative;
     z-index: 2;
-    max-width: 760px;
+    max-width: 680px;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -417,1465 +267,324 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
   }
 
   .hero-logo-wrap {
-    margin-bottom: 0.5rem;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    padding: 4px;
+    background: linear-gradient(135deg, #E8196C, #FF6B35);
+    box-shadow: 0 0 35px rgba(232, 25, 108, 0.45);
   }
 
   .hero-logo {
-    width: 160px;
-    height: 160px;
+    width: 100%;
+    height: 100%;
     border-radius: 50%;
     object-fit: cover;
-    border: 4px solid rgba(255,255,255,0.5);
-    box-shadow: 0 0 40px rgba(255,255,255,0.25), 0 8px 32px rgba(0,0,0,0.3);
-  }
-
-  @media (min-width: 640px) {
-    .hero-logo {
-      width: 200px;
-      height: 200px;
-    }
+    border: 2px solid #FFFFFF;
   }
 
   .hero-badge {
-    display: inline-block;
-    background: rgba(255,255,255,0.25);
-    backdrop-filter: blur(8px);
-    color: #fff;
-    padding: 0.45rem 1.25rem;
-    font-weight: 800;
-    font-size: 0.78rem;
-    text-transform: uppercase;
-    letter-spacing: 2.5px;
+    background: rgba(255, 107, 53, 0.15);
+    border: 1px solid rgba(255, 140, 66, 0.4);
+    color: var(--accent-light);
+    font-size: 0.82rem;
+    font-weight: 700;
+    padding: 0.4rem 1.1rem;
     border-radius: 50px;
-    border: 1px solid rgba(255,255,255,0.4);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
   }
 
   .hero-title {
-    font-family: var(--font-serif);
-    font-size: clamp(2rem, 6vw, 3.75rem);
-    font-weight: 900;
-    color: #FFFFFF;
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 5.5vw, 3.8rem);
+    font-weight: 700;
     line-height: 1.15;
-    text-shadow: 0 2px 16px rgba(0,0,0,0.3);
+    color: #FFFFFF;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, #FFFFFF 50%, #F5E6C8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
   .hero-subtitle {
-    font-size: clamp(1rem, 2.5vw, 1.2rem);
-    color: rgba(255,255,255,0.95);
-    max-width: 600px;
-    line-height: 1.7;
-    font-weight: 400;
+    font-size: clamp(1rem, 2vw, 1.15rem);
+    color: var(--neutral-cream);
+    line-height: 1.6;
+    max-width: 540px;
+    opacity: 0.95;
   }
 
-  .hero-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    justify-content: center;
-    margin-top: 0.5rem;
-  }
-
-  .hero-btn-primary {
+  /* Flecha interactiva de scroll */
+  .hero-scroll-indicator {
     display: inline-flex;
+    flex-direction: column;
     align-items: center;
-    gap: 0.6rem;
-    background: #FFFFFF;
-    color: #E8196C;
-    font-weight: 800;
-    font-size: 1rem;
-    padding: 0.9rem 2.25rem;
-    border-radius: var(--border-radius-md);
-    box-shadow: 0 6px 24px rgba(0,0,0,0.2);
-    transition: all var(--transition-fast);
-    letter-spacing: 0.3px;
+    gap: 0.35rem;
+    color: var(--accent-light);
+    text-decoration: none;
+    margin-top: 1.5rem;
+    transition: transform var(--transition-fast), color var(--transition-fast);
   }
 
-  .hero-btn-primary:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 32px rgba(0,0,0,0.3);
-    background: #FFF8F0;
-    color: #C2185B;
-  }
-
-  .hero-btn-secondary {
-    background: transparent;
+  .hero-scroll-indicator:hover {
+    transform: translateY(4px);
     color: #FFFFFF;
+  }
+
+  .scroll-label {
+    font-size: 0.8rem;
     font-weight: 700;
-    font-size: 1rem;
-    padding: 0.9rem 2.25rem;
-    border-radius: var(--border-radius-md);
-    border: 2px solid rgba(255,255,255,0.7);
-    transition: all var(--transition-fast);
-  }
-
-  .hero-btn-secondary:hover {
-    background: rgba(255,255,255,0.15);
-    border-color: #fff;
-    transform: translateY(-2px);
-  }
-
-  /* ============================================================
-     HERO — SVGs DECORATIVOS FLOTANTES
-     ============================================================ */
-  .hero-svgs {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
-    overflow: hidden;
-  }
-
-  .hero-svg {
-    position: absolute;
-    opacity: 0.9;
-  }
-
-  /* Cake grande — arriba izquierda */
-  .hero-svg--cake {
-    width: 100px;
-    top: 8%;
-    left: 3%;
-    animation: heroFloat 6s ease-in-out infinite;
-  }
-
-  /* Cupcake — abajo derecha */
-  .hero-svg--cupcake {
-    width: 75px;
-    bottom: 12%;
-    right: 4%;
-    animation: heroFloat 5s ease-in-out infinite reverse;
-  }
-
-  /* Estrella grande — arriba derecha */
-  .hero-svg--star1 {
-    width: 44px;
-    top: 15%;
-    right: 10%;
-    animation: heroSpin 10s linear infinite;
-  }
-
-  /* Estrella pequeña — abajo izquierda */
-  .hero-svg--star2 {
-    width: 28px;
-    bottom: 20%;
-    left: 8%;
-    animation: heroSpin 8s linear infinite reverse;
-  }
-
-  /* Corazón — centro izquierda */
-  .hero-svg--heart {
-    width: 52px;
-    top: 55%;
-    left: 5%;
-    animation: heroPulse 3s ease-in-out infinite;
-  }
-
-  /* Dona — centro derecha */
-  .hero-svg--donut {
-    width: 70px;
-    top: 30%;
-    right: 2%;
-    animation: heroFloat 7s ease-in-out infinite 1s;
-  }
-
-  @keyframes heroFloat {
-    0%, 100% { transform: translateY(0px) rotate(-3deg); }
-    50%       { transform: translateY(-16px) rotate(3deg); }
-  }
-
-  @keyframes heroSpin {
-    from { transform: rotate(0deg); }
-    to   { transform: rotate(360deg); }
-  }
-
-  @keyframes heroPulse {
-    0%, 100% { transform: scale(1); opacity: 0.85; }
-    50%       { transform: scale(1.18); opacity: 1; }
-  }
-
-  /* En móvil reducimos los SVGs para no tapar el contenido */
-  @media (max-width: 640px) {
-    .hero-svg--cake    { width: 60px; left: 1%; }
-    .hero-svg--cupcake { width: 48px; right: 1%; }
-    .hero-svg--donut   { display: none; }
-    .hero-svg--heart   { width: 36px; }
-    .hero-svg--star1   { width: 30px; }
-    .hero-svg--star2   { width: 20px; }
-  }
-
-  /* ============================================================
-     CART ITEM — NUEVO DISEÑO PREMIUM
-     ============================================================ */
-
-  /* Item wrapper con animación de entrada/salida */
-  .cart-item {
-    border: 1px solid rgba(232,25,108,0.2);
-    border-radius: var(--border-radius-md);
-    padding: 1rem;
-    margin-bottom: 0.85rem;
-    transition: border-color var(--transition-fast), opacity 0.28s ease, transform 0.28s ease;
-  }
-
-  .cart-item:nth-child(3n+1) {
-    background-color: rgba(232, 25, 108, 0.08);
-  }
-  .cart-item:nth-child(3n+2) {
-    background-color: rgba(255, 107, 53, 0.08);
-  }
-  .cart-item:nth-child(3n) {
-    background-color: rgba(245, 230, 200, 0.08);
-  }
-
-  .cart-item:hover {
-    border-color: rgba(232,25,108,0.45);
-  }
-
-  .cart-item.ci-removing {
-    opacity: 0;
-    transform: translateX(30px);
-  }
-
-  /* Fila principal: contenedor principal de fila */
-  .ci-main {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    gap: 1rem;
-  }
-
-  /* Lado izquierdo: [Ícono] [Nombre + subtexto] */
-  .ci-left {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    flex: 1;
-    min-width: 0;
-  }
-
-  /* Badge de categoría circular */
-  .ci-icon {
-    width: 46px;
-    height: 46px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
-  }
-
-  .ci-emoji {
-    font-size: 1.35rem;
-    line-height: 1;
-  }
-
-  /* Columna central — nombre y precio unitario */
-  .ci-body {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .ci-name {
-    font-family: var(--font-sans);
-    font-size: 0.93rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    line-height: 1.3;
-    margin: 0;
-  }
-
-  .ci-unit-price {
-    font-size: 0.75rem;
-    color: rgba(245,230,200,0.6);
-    margin: 0;
-    margin-top: 2px;
-  }
-
-  /* Lado derecho — precio total + botón eliminar */
-  .ci-right {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    flex-shrink: 0;
-  }
-
-  .ci-total {
-    font-size: 0.95rem;
-    font-weight: 800;
-    color: #FF8C42;
-    white-space: nowrap;
-  }
-
-  /* Botón eliminar — círculo rojo con equis */
-  .ci-remove {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: rgba(239, 68, 68, 0.15);
-    border: 1.5px solid rgba(239, 68, 68, 0.5);
-    color: #EF4444;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background var(--transition-fast), transform var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
-    padding: 0;
-  }
-
-  .ci-remove:hover {
-    background: #EF4444;
-    border-color: #EF4444;
-    color: #ffffff;
-    transform: scale(1.15) rotate(90deg);
-  }
-
-  .ci-remove:active {
-    transform: scale(0.9);
-  }
-
-  /* Fila de cantidad y fila duplicar */
-  .ci-qty-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 0.75rem;
-    padding-top: 0.75rem;
-    border-top: 1px solid rgba(232,25,108,0.12);
-  }
-
-  .ci-duplicate-row {
-    margin-top: 0.85rem;
-    padding-top: 0.75rem;
-    border-top: 1px solid rgba(232,25,108,0.12);
-    display: flex;
-    justify-content: center;
-  }
-
-  .ci-qty-label {
-    font-size: 0.78rem;
-    font-weight: 600;
-    color: rgba(245,230,200,0.6);
-    letter-spacing: 0.3px;
-  }
-
-  .ci-qty-control {
-    display: flex;
-    align-items: center;
-    background: var(--bg-primary);
-    border: 1.5px solid rgba(232,25,108,0.25);
-    border-radius: var(--border-radius-sm);
-    overflow: hidden;
-  }
-
-  .ci-qty-btn {
-    width: 34px;
-    height: 34px;
-    background: transparent;
-    border: none;
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    cursor: pointer;
-    transition: background var(--transition-fast), color var(--transition-fast);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    line-height: 1;
-  }
-
-  .ci-qty-btn:hover {
-    background: rgba(232,25,108,0.2);
-    color: #FF8C42;
-  }
-
-  .ci-qty-btn:disabled {
-    opacity: 0.3;
-    cursor: not-allowed;
-  }
-
-  .ci-qty-btn:disabled:hover {
-    background: transparent;
-    color: var(--text-primary);
-  }
-
-  .ci-qty-val {
-    min-width: 32px;
-    text-align: center;
-    font-size: 0.92rem;
-    font-weight: 800;
-    color: var(--text-primary);
-    padding: 0 4px;
-    border-left: 1px solid rgba(232,25,108,0.2);
-    border-right: 1px solid rgba(232,25,108,0.2);
-    height: 34px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  /* Cart footer decoración SVG */
-  .cart-sweet-deco {
-    margin-bottom: 0.75rem;
-    opacity: 0.85;
-  }
-
-  .cart-deco-svg {
-    width: 100%;
-    height: 48px;
-    display: block;
-  }
-
-  /* Botón checkout con flecha */
-  .cart-checkout-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.6rem;
-    margin-top: 1rem;
-  }
-
-
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.8rem 2rem;
-    font-size: 0.95rem;
-    font-weight: 700;
-    border-radius: var(--border-radius-md);
-    cursor: pointer;
-    transition: all var(--transition-fast);
-    border: none;
-  }
-
-  .btn-primary {
-    background: var(--gradient-brand);
-    color: #FFFFFF;
-    box-shadow: var(--shadow-md);
-  }
-
-  .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
-    background: linear-gradient(135deg, #C2185B, #E8196C);
-  }
-
-  .btn-outline {
-    background-color: transparent;
-    color: var(--text-white);
-    border: 2px solid var(--text-white);
-  }
-
-  .btn-outline:hover {
-    background-color: var(--text-white);
-    color: var(--primary-dark);
-  }
-
-  .btn-block {
-    width: 100%;
-  }
-
-  .btn-sm {
-    padding: 0.5rem 1rem;
-    font-size: 0.85rem;
-  }
-
-  /* ============================================================
-     SECCIONES — GENERAL
-     ============================================================ */
-  .section-header {
-    text-align: center;
-    margin-bottom: 3.5rem;
-  }
-
-  .section-header .subtitle {
-    font-size: 0.82rem;
+    letter-spacing: 1px;
     text-transform: uppercase;
-    letter-spacing: 3px;
-    font-weight: 800;
-    display: block;
-    margin-bottom: 0.5rem;
   }
 
-  .section-header h2 {
-    font-size: clamp(1.75rem, 4vw, 2.5rem);
+  .scroll-arrow {
+    width: 24px;
+    height: 24px;
+    animation: scrollBounce 2s infinite ease-in-out;
   }
 
-  .divider {
-    width: 60px;
-    height: 3px;
-    background: var(--gradient-brand);
-    margin: 1rem auto 0;
-    border-radius: 2px;
+  @keyframes scrollBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(6px); }
   }
 
   /* ============================================================
-     INFO SECTION — CÓMO PEDIR (fondo crema claro)
+     SECCIONES GENERALES
      ============================================================ */
-  .info-section {
-    padding: 5.5rem 2rem;
+  .section-container {
+    padding: 5rem 1.5rem;
+  }
+
+  .section-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+
+  .bg-cream {
     background-color: var(--bg-light);
   }
 
-  .info-section .subtitle {
-    color: var(--primary-deep);
+  .bg-dark {
+    background-color: var(--bg-primary);
   }
 
-  .info-section h2 {
-    color: var(--text-on-light);
-  }
+  .text-white { color: #FFFFFF !important; }
+  .text-cream { color: var(--neutral-cream) !important; }
 
-  .info-section .section-desc {
-    color: rgba(42,10,20,0.75);
-  }
-
-  .steps-grid {
-    max-width: var(--max-width);
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 2.5rem;
-  }
-
-  .step-card {
-    background-color: #FFFFFF;
-    padding: 2.5rem 1.75rem;
-    border-radius: var(--border-radius-lg);
-    box-shadow: 0 4px 20px rgba(232,25,108,0.1);
+  .section-header {
     text-align: center;
-    border: 1px solid rgba(232,25,108,0.12);
-    position: relative;
-    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
-  }
-
-  .step-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 32px rgba(232,25,108,0.18);
-  }
-
-  .step-icon {
-    width: 52px;
-    height: 52px;
-    background: var(--gradient-brand);
-    color: #fff;
-    font-size: 1.4rem;
-    font-weight: 800;
-    border-radius: 50%;
+    max-width: 640px;
+    margin: 0 auto 3.5rem;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    margin: 0 auto 1.5rem;
-    box-shadow: 0 4px 16px rgba(232,25,108,0.3);
+    gap: 0.6rem;
   }
 
-  .step-card h3 {
-    font-size: 1.15rem;
-    margin-bottom: 0.75rem;
-    color: var(--primary-dark);
-    font-family: var(--font-serif);
+  .section-badge {
+    background: rgba(232, 25, 108, 0.1);
+    color: var(--primary);
+    font-size: 0.8rem;
+    font-weight: 800;
+    padding: 0.3rem 0.9rem;
+    border-radius: 50px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
   }
 
-  .step-card p {
-    color: rgba(42,10,20,0.75);
-    font-size: 0.93rem;
+  .section-badge-light {
+    background: rgba(255, 107, 53, 0.15);
+    color: var(--accent-light);
+    font-size: 0.8rem;
+    font-weight: 800;
+    padding: 0.3rem 0.9rem;
+    border-radius: 50px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 700;
+    color: var(--text-on-light);
+    line-height: 1.2;
+  }
+
+  .section-divider {
+    width: 50px;
+    height: 3px;
+    background: var(--gradient-brand);
+    border-radius: 2px;
+  }
+
+  .section-desc {
+    font-size: 1rem;
+    color: var(--text-on-light-soft);
     line-height: 1.6;
   }
 
   /* ============================================================
-     SVGs DECORATIVOS GLOBALES — Posicionados en toda la web
+     CAKES GRID DIRECTO (4 Categorías limpias)
      ============================================================ */
-  .section-deco {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    overflow: hidden;
-    z-index: 0;
-  }
-
-  .sdeco {
-    position: absolute;
-    opacity: 0.85;
-  }
-
-  /* --- CATÁLOGO --- */
-  .section-deco--catalog { position: absolute; inset: 0; }
-
-  .sdeco--cupcake-l {
-    width: 120px;
-    bottom: 10%;
-    left: 1%;
-    animation: heroFloat 7s ease-in-out infinite;
-  }
-
-  .sdeco--star-r {
-    width: 56px;
-    top: 8%;
-    right: 2%;
-    animation: heroSpin 12s linear infinite;
-  }
-
-  .sdeco--heart-tl {
-    width: 70px;
-    top: 5%;
-    left: 4%;
-    animation: heroPulse 4s ease-in-out infinite;
-  }
-
-  /* --- INFO / CÓMO PEDIR --- */
-  .section-deco--info { position: absolute; inset: 0; }
-
-  .sdeco--cake-big {
-    width: 140px;
-    top: 50%;
-    right: 0.5%;
-    transform: translateY(-50%);
-    animation: heroFloat 8s ease-in-out infinite 0.5s;
-  }
-
-  .sdeco--donut-r {
-    width: 100px;
-    bottom: 5%;
-    left: 1%;
-    animation: heroFloat 6s ease-in-out infinite reverse;
-  }
-
-  /* --- BUFFET --- */
-  .section-deco--buffet { position: absolute; inset: 0; }
-  .section-deco--decorations { position: absolute; inset: 0; }
-
-  .sdeco--star-big {
-    width: 80px;
-    top: 8%;
-    left: 1%;
-    animation: heroSpin 14s linear infinite reverse;
-  }
-
-  .sdeco--cupcake-r2 {
-    width: 130px;
-    bottom: 8%;
-    right: 1%;
-    animation: heroFloat 9s ease-in-out infinite 1s;
-  }
-
-  /* Ensure parent sections have position: relative */
-  .catalog-section,
-  .info-section,
-  .buffet-section,
-  .decorations-section {
-    position: relative;
-    overflow: hidden;
-  }
-
-  /* ============================================================
-     SELECTOR DE CANTIDAD — Ultra Premium (invita a aumentar)
-     ============================================================ */
-
-  /* Override ci-qty-row para hacerlo más prominente */
-  .ci-qty-row {
-    margin-top: 0.85rem !important;
-    padding-top: 0.75rem !important;
-    border-top: 1px solid rgba(232,25,108,0.15) !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 0.75rem !important;
-  }
-
-  .ci-qty-label {
-    font-size: 0.8rem !important;
-    font-weight: 700 !important;
-    color: rgba(245,230,200,0.7) !important;
-    text-transform: uppercase !important;
-    letter-spacing: 0.8px !important;
-    flex-shrink: 0 !important;
-  }
-
-  /* Control completo: wrap para centrado y visual invitador */
-  .ci-qty-control {
-    display: flex !important;
-    align-items: stretch !important;
-    background: linear-gradient(135deg, rgba(42,10,20,0.8), rgba(74,32,48,0.8)) !important;
-    border: 1.5px solid rgba(232,25,108,0.4) !important;
-    border-radius: 50px !important;  /* pill shape — más premium */
-    overflow: hidden !important;
-    box-shadow: 0 2px 12px rgba(232,25,108,0.2), inset 0 1px 0 rgba(255,255,255,0.08) !important;
-    transition: border-color var(--transition-fast), box-shadow var(--transition-fast) !important;
-  }
-
-  .ci-qty-control:hover {
-    border-color: rgba(232,25,108,0.7) !important;
-    box-shadow: 0 4px 18px rgba(232,25,108,0.35) !important;
-  }
-
-  .ci-qty-btn {
-    width: 40px !important;
-    height: 40px !important;
-    font-size: 1.3rem !important;
-    font-weight: 800 !important;
-    color: #FF8C42 !important;
-    cursor: pointer !important;
-    background: transparent !important;
-    border: none !important;
-    transition: background var(--transition-fast), color var(--transition-fast), transform 0.1s !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-  }
-
-  .ci-qty-btn:hover:not(:disabled) {
-    background: rgba(232,25,108,0.25) !important;
-    color: #FFFFFF !important;
-    transform: scale(1.1) !important;
-  }
-
-  .ci-qty-btn:active:not(:disabled) {
-    transform: scale(0.92) !important;
-    background: rgba(232,25,108,0.4) !important;
-  }
-
-  .ci-qty-btn:disabled {
-    opacity: 0.25 !important;
-    cursor: not-allowed !important;
-    color: rgba(245,230,200,0.4) !important;
-  }
-
-  .ci-qty-val {
-    min-width: 40px !important;
-    height: 40px !important;
-    font-size: 1rem !important;
-    font-weight: 900 !important;
-    color: #FFFFFF !important;
-    background: rgba(232,25,108,0.18) !important;
-    border-left: 1px solid rgba(232,25,108,0.25) !important;
-    border-right: 1px solid rgba(232,25,108,0.25) !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    letter-spacing: 0.5px !important;
-  }
-
-  /* Hint visual de que se puede añadir más */
-  .ci-qty-hint {
-    font-size: 0.7rem;
-    color: rgba(255,140,66,0.7);
-    font-style: italic;
-    margin-left: auto;
-    white-space: nowrap;
-  }
-
-  /* ============================================================
-     CATALOG SECTION (fondo crema claro)
-     ============================================================ */
-  .catalog-section {
-    padding: 5.5rem 2rem;
-    max-width: 100%;
-    background-color: var(--bg-light);
-  }
-
-
-  .catalog-section .section-header {
-    max-width: var(--max-width);
-    margin: 0 auto 3.5rem auto;
-  }
-
-  .catalog-section .subtitle {
-    color: var(--primary-deep);
-  }
-
-  .catalog-section h2 {
-    color: var(--text-on-light);
-  }
-
-  /* Products Grid */
-  .products-grid {
+  .cakes-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 2.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2rem;
   }
 
-  .product-card {
-    background-color: #FFFFFF;
+  .cake-card {
+    background: #FFFFFF;
     border-radius: var(--border-radius-lg);
     overflow: hidden;
-    box-shadow: 0 4px 20px rgba(232,25,108,0.08);
-    border: 1px solid rgba(232,25,108,0.1);
-    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    box-shadow: 0 4px 20px rgba(42, 10, 20, 0.08);
     display: flex;
     flex-direction: column;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    border: 1px solid rgba(42, 10, 20, 0.06);
   }
 
-  .product-card:hover {
+  .cake-card:hover {
     transform: translateY(-6px);
-    box-shadow: 0 16px 40px rgba(232,25,108,0.18);
+    box-shadow: 0 12px 30px rgba(232, 25, 108, 0.15);
   }
 
-  .product-image-container {
-    height: 240px;
+  .cake-image-wrap {
     position: relative;
+    width: 100%;
+    height: 220px;
     overflow: hidden;
   }
 
-  .product-image {
+  .cake-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.5s ease;
+    transition: transform 0.4s ease;
   }
 
-  .product-card:hover .product-image {
+  .cake-card:hover .cake-image {
     transform: scale(1.05);
   }
 
-  .product-badge {
+  .card-badge {
     position: absolute;
     top: 1rem;
     right: 1rem;
-    background: var(--gradient-brand);
-    color: #fff;
-    padding: 0.3rem 0.85rem;
-    font-size: 0.72rem;
-    font-weight: 800;
-    text-transform: uppercase;
+    background: rgba(30, 6, 16, 0.85);
+    backdrop-filter: blur(8px);
+    color: #FFFFFF;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.3rem 0.8rem;
     border-radius: 50px;
     letter-spacing: 0.5px;
   }
 
-  .product-info {
+  .cake-content {
     padding: 1.5rem;
     display: flex;
     flex-direction: column;
     flex: 1;
+    gap: 0.8rem;
   }
 
-  .product-info h3 {
-    font-size: 1.25rem;
-    margin-bottom: 0.65rem;
-    color: var(--text-on-light);
-    font-family: var(--font-serif);
-  }
-
-  .product-description {
-    font-size: 0.88rem;
-    color: rgba(42,10,20,0.65);
-    margin-bottom: 1.25rem;
-    flex: 1;
-    line-height: 1.55;
-  }
-
-  .product-meta {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-top: 1px solid rgba(232,25,108,0.1);
-    padding-top: 1rem;
-  }
-
-  .product-price {
-    font-size: 1.2rem;
-    font-weight: 800;
-    color: var(--primary);
-  }
-
-  .product-price .currency {
-    font-size: 0.78rem;
-    font-weight: 600;
-    color: rgba(42,10,20,0.5);
-  }
-
-  .price-note {
-    font-size: 0.73rem;
-    font-weight: 400;
-    color: rgba(42,10,20,0.5);
-    display: block;
-  }
-
-  .add-to-cart-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    background: var(--gradient-brand);
-    border: none;
-    color: #fff;
-    padding: 0.6rem 1.4rem;
-    border-radius: var(--border-radius-md);
-    cursor: pointer;
-    font-weight: 800;
-    font-size: 0.85rem;
-    transition: all var(--transition-fast);
-    box-shadow: 0 3px 12px rgba(232,25,108,0.3);
-  }
-
-  .add-to-cart-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(232,25,108,0.45);
-    background: linear-gradient(135deg, #C2185B, #E8196C);
-  }
-
-  /* ============================================================
-     FLOATING CART BUTTON
-     ============================================================ */
-  .floating-cart {
-    position: fixed;
-    bottom: 2rem;
-    right: 2rem;
-    background: var(--gradient-brand);
-    color: #fff;
-    width: 66px;
-    height: 66px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 24px rgba(232,25,108,0.5);
-    cursor: pointer;
-    z-index: 99;
-    border: 3px solid rgba(255,255,255,0.4);
-    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
-  }
-
-  .floating-cart:hover {
-    transform: scale(1.08);
-    box-shadow: 0 8px 32px rgba(232,25,108,0.65);
-  }
-
-  .cart-icon {
-    font-size: 1.5rem;
-  }
-
-  .cart-count {
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    background: #FFFFFF;
-    color: var(--primary);
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    font-size: 0.8rem;
-    font-weight: 800;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid var(--primary);
-  }
-
-  /* ============================================================
-     CART DRAWER
-     ============================================================ */
-  .cart-drawer {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1000;
-    visibility: hidden;
-    transition: visibility var(--transition-normal);
-  }
-
-  .cart-drawer.open {
-    visibility: visible;
-  }
-
-  .cart-drawer-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(42,10,20,0.55);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    opacity: 0;
-    transition: opacity var(--transition-normal);
-  }
-
-  .cart-drawer.open .cart-drawer-overlay {
-    opacity: 1;
-  }
-
-  .cart-drawer-content {
-    position: absolute;
-    top: 0;
-    right: -100%;
-    width: 100%;
-    max-width: 480px;
-    height: 100%;
-    background-color: var(--bg-secondary);
-    border-left: 3px solid transparent;
-    border-image: linear-gradient(180deg, #E8196C, #FF6B35) 1;
-    box-shadow: -10px 0 50px rgba(0, 0, 0, 0.4);
-    transition: right var(--transition-normal);
-    display: flex;
-    flex-direction: column;
-  }
-
-  .cart-drawer.open .cart-drawer-content {
-    right: 0;
-  }
-
-  .cart-header {
-    padding: 1.35rem 1.5rem;
-    border-bottom: 1px solid rgba(232,25,108,0.2);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: linear-gradient(135deg, #A01050, #C2185B);
-  }
-
-  .cart-header h2 {
+  .cake-name {
+    font-family: var(--font-display);
     font-size: 1.35rem;
-    font-weight: 800;
-    color: #FFFFFF;
-    letter-spacing: 0.5px;
-  }
-
-  .close-btn {
-    background: rgba(255,255,255,0.15);
-    border: none;
-    border-radius: 50%;
-    width: 36px;
-    height: 36px;
-    font-size: 1.5rem;
-    line-height: 1;
-    cursor: pointer;
-    color: #FFFFFF;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all var(--transition-normal);
-  }
-
-  .close-btn:hover {
-    background: rgba(255,255,255,0.3);
-    transform: rotate(90deg);
-  }
-
-  .cart-items-container {
-    flex: 1;
-    overflow-y: auto;
-    padding: 1.25rem;
-    scrollbar-width: thin;
-    scrollbar-color: var(--primary) var(--bg-primary);
-  }
-
-  .empty-cart-message {
-    text-align: center;
-    padding: 4rem 1rem;
-    color: var(--neutral-cream);
-  }
-
-  .empty-cart-message p {
-    margin-bottom: 1.5rem;
-    font-size: 1.05rem;
-  }
-
-
-
-  /* Customization block inside cart item */
-  .cart-item-customization {
-    background-color: var(--bg-primary);
-    padding: 0.85rem;
-    border-radius: var(--border-radius-sm);
-    border-left: 3px solid var(--primary);
-    margin-top: 0.75rem;
-  }
-
-  .customization-title {
-    font-size: 0.8rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: var(--text-secondary);
-    margin-bottom: 0.5rem;
-    display: block;
-  }
-
-  .custom-note-textarea {
-    width: 100%;
-    height: 60px;
-    padding: 0.5rem;
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius-sm);
-    font-family: var(--font-sans);
-    font-size: 0.85rem;
-    resize: none;
-    margin-bottom: 0.75rem;
-  }
-
-  .custom-note-textarea::placeholder {
-    color: var(--text-light);
-  }
-
-  .edible-print-option {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    margin-bottom: 0.5rem;
-  }
-
-  .edible-print-option input {
-    accent-color: var(--primary-color);
-    width: 16px;
-    height: 16px;
-  }
-
-  .upload-area {
-    margin-top: 0.5rem;
-    border: 1px dashed var(--accent-dark);
-    padding: 0.5rem;
-    border-radius: var(--border-radius-sm);
-    text-align: center;
-    background-color: var(--bg-card);
-    position: relative;
-    cursor: pointer;
-  }
-
-  .upload-label {
-    font-size: 0.75rem;
-    color: var(--text-secondary);
-    display: block;
-  }
-
-  .upload-input {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    cursor: pointer;
-  }
-
-  .file-preview {
-    margin-top: 0.5rem;
-    font-size: 0.75rem;
-    color: var(--accent-light);
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.25rem;
-  }
-
-  .file-preview img {
-    width: 30px;
-    height: 30px;
-    object-fit: cover;
-    border-radius: 4px;
-    border: 1px solid var(--border-color);
-  }
-
-  /* Cart Footer */
-  .cart-footer {
-    background-color: var(--bg-primary);
-    border-top: 1px solid rgba(232,25,108,0.2);
-    padding: 1.5rem;
-  }
-
-  .cart-date-picker {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-  }
-
-  .cart-date-picker label {
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: var(--text-primary);
-  }
-
-  .cart-date-picker input[type="date"],
-  .cart-date-picker input[type="time"] {
-    padding: 0.6rem;
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius-sm);
-    font-family: var(--font-sans);
-    font-size: 0.95rem;
-    outline: none;
-    color: var(--text-primary);
-    background-color: var(--bg-primary);
-  }
-
-  .cart-date-picker input[type="date"]:focus,
-  .cart-date-picker input[type="time"]:focus {
-    border-color: var(--accent-color);
-    box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
-  }
-
-  .dough-selector-container {
-    margin-top: 0.75rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-  }
-
-  .dough-select {
-    padding: 0.4rem;
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius-sm);
-    font-size: 0.85rem;
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
-    outline: none;
-  }
-
-  .dough-select:focus {
-    border-color: var(--accent-color);
-  }
-
-  .dough-warning-banner {
-    background-color: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    color: var(--accent-color);
-    padding: 0.5rem;
-    font-size: 0.75rem;
-    border-radius: var(--border-radius-sm);
-    margin-top: 0.25rem;
-    line-height: 1.3;
-  }
-
-  .cart-summary-row {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.95rem;
-    margin-bottom: 0.5rem;
-    color: var(--neutral-cream);
-  }
-
-  .total-row {
-    font-size: 1.25rem;
-    font-weight: 800;
-    color: #FF8C42;
-    margin-top: 0.75rem;
-    padding-top: 0.75rem;
-    border-top: 2px solid rgba(255,140,66,0.4);
-  }
-
-  .cart-note-warning {
-    background-color: rgba(255,248,240,0.08);
-    border: 1px solid rgba(255,140,66,0.3);
-    color: var(--neutral-cream);
-    padding: 0.75rem;
-    font-size: 0.8rem;
-    border-radius: var(--border-radius-sm);
-    margin: 1rem 0;
-    line-height: 1.4;
-  }
-
-  /* ============================================================
-     CAROUSEL — Pills y controles
-     ============================================================ */
-  .carousel-subcategories {
-    display: flex;
-    gap: 0.75rem;
-    overflow-x: auto;
-    padding-bottom: 0.75rem;
-    margin-top: 1.5rem;
-    justify-content: flex-start;
-    scrollbar-width: none;
-  }
-
-  .carousel-subcategories::-webkit-scrollbar {
-    display: none;
-  }
-
-  @media (min-width: 768px) {
-    .carousel-subcategories {
-      justify-content: center;
-    }
-  }
-
-  .subcategory-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 1.35rem;
-    background-color: rgba(42,10,20,0.08);
-    border: 1.5px solid rgba(42,10,20,0.15);
-    border-radius: 50px;
-    font-size: 0.85rem;
     font-weight: 700;
     color: var(--text-on-light);
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all var(--transition-fast);
   }
 
-  .pill-icon-img {
-    flex-shrink: 0;
-    transition: filter var(--transition-fast);
+  .cake-desc {
+    font-size: 0.9rem;
+    color: var(--text-on-light-soft);
+    line-height: 1.5;
+    flex: 1;
   }
 
-  .subcategory-pill:hover .pill-icon-img,
-  .subcategory-pill.active .pill-icon-img {
-    filter: brightness(0) invert(1);
-  }
-
-  .subcategory-pill:hover,
-  .subcategory-pill.active {
-    background: var(--gradient-brand);
-    color: #fff;
-    border-color: transparent;
-    box-shadow: 0 4px 16px rgba(232,25,108,0.35);
-  }
-
-  .carousel-outer-wrapper {
-    position: relative;
+  .cake-footer {
     display: flex;
     align-items: center;
-    max-width: 1200px;
-    margin: 2rem auto 0 auto;
-    padding: 0 0.5rem;
+    justify-content: space-between;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(42, 10, 20, 0.08);
   }
 
-  .carousel-viewport {
-    overflow: hidden;
-    width: 100%;
-  }
-
-  .carousel-track {
-    display: flex;
-    gap: 1.5rem;
-    transition: transform 0.4s ease-in-out;
-  }
-
-  .carousel-slide {
-    flex: 0 0 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-    transition: opacity 0.3s ease;
-  }
-
-  /* Large Card Sizes */
-  @media (min-width: 600px) {
-    .carousel-slide {
-      flex: 0 0 calc(50% - 0.75rem);
-      max-width: calc(50% - 0.75rem);
-    }
-  }
-
-  @media (min-width: 992px) {
-    .carousel-slide {
-      flex: 0 0 calc(33.333% - 1rem);
-      max-width: calc(33.333% - 1rem);
-    }
-  }
-
-  .carousel-control {
-    background: var(--gradient-brand);
-    color: #fff;
-    border: none;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    font-size: 1.2rem;
-    font-weight: bold;
-    cursor: pointer;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 16px rgba(232,25,108,0.4);
-    transition: all var(--transition-fast);
-  }
-
-  .carousel-control:hover {
-    transform: translateY(-50%) scale(1.12);
-    box-shadow: 0 6px 24px rgba(232,25,108,0.6);
-  }
-
-  .carousel-control.prev {
-    left: -22px;
-  }
-
-  .carousel-control.next {
-    right: -22px;
-  }
-
-  @media (max-width: 600px) {
-    .carousel-control {
-      width: 38px;
-      height: 38px;
-      font-size: 1rem;
-    }
-    .carousel-control.prev {
-      left: 8px;
-    }
-    .carousel-control.next {
-      right: 8px;
-    }
-  }
-
-  .product-card {
-    min-height: 460px;
+  .price-wrap {
     display: flex;
     flex-direction: column;
   }
 
-  .product-image-container {
-    height: 250px;
+  .price-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--text-on-light-soft);
+    letter-spacing: 0.5px;
   }
 
-  .product-image {
-    height: 100%;
+  .price-amount {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--primary);
+  }
+
+  .currency {
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+
+  .btn-add-cart {
+    background: var(--gradient-brand);
+    color: #FFFFFF;
+    border: none;
+    padding: 0.65rem 1.1rem;
+    border-radius: var(--border-radius-md);
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 0.88rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    box-shadow: 0 4px 12px rgba(232, 25, 108, 0.3);
+  }
+
+  .btn-add-cart:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(232, 25, 108, 0.45);
   }
 
   /* ============================================================
-     BUFFET SECTION (fondo oscuro secundario)
+     BUFFET GRID
      ============================================================ */
-  .buffet-section {
-    padding: 5rem 1.5rem;
-    background-color: var(--bg-secondary);
-    border-top: 1px solid rgba(232,25,108,0.15);
-    border-bottom: 1px solid rgba(232,25,108,0.15);
-  }
-
-  .buffet-section .subtitle {
-    color: var(--accent-light);
-  }
-
-  .buffet-section h2 {
-    color: var(--neutral-cream);
-  }
-
   .buffet-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
-    max-width: 1200px;
-    margin: 2.5rem auto 0 auto;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 1.5rem;
   }
 
   .buffet-card {
-    background-color: var(--bg-card);
-    border: 1px solid rgba(232,25,108,0.15);
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
     border-radius: var(--border-radius-md);
     overflow: hidden;
-    box-shadow: var(--shadow-sm);
     display: flex;
     flex-direction: column;
-    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    transition: transform var(--transition-fast);
   }
 
   .buffet-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-md);
-    border-color: rgba(232,25,108,0.35);
+    transform: translateY(-4px);
   }
 
-  .buffet-image-container {
-    height: 200px;
+  .buffet-image-wrap {
+    width: 100%;
+    height: 160px;
     overflow: hidden;
   }
 
@@ -1885,416 +594,476 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
     object-fit: cover;
   }
 
-  .buffet-info {
-    padding: 1.5rem;
+  .buffet-content {
+    padding: 1.25rem;
     display: flex;
     flex-direction: column;
     flex: 1;
+    gap: 0.5rem;
   }
 
-  .buffet-info h3 {
-    margin: 0 0 0.5rem 0;
-    font-size: 1.15rem;
+  .buffet-name {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #FFFFFF;
+  }
+
+  .buffet-desc {
+    font-size: 0.85rem;
     color: var(--neutral-cream);
-    font-family: var(--font-serif);
-  }
-
-  .buffet-description {
-    margin: 0 0 1.5rem 0;
-    font-size: 0.88rem;
-    color: rgba(245,230,200,0.75);
-    line-height: 1.55;
+    line-height: 1.45;
     flex: 1;
+    opacity: 0.85;
   }
 
-  .buffet-meta {
+  .buffet-footer {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
+    padding-top: 0.85rem;
+    border-top: 1px solid var(--border-color);
   }
 
   .buffet-price {
+    font-weight: 800;
     font-size: 1.1rem;
-    font-weight: 800;
     color: var(--accent-light);
   }
 
-  #checkout-whatsapp-btn {
-    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
-    border: none;
+  .btn-add-buffet {
+    background: rgba(255, 107, 53, 0.18);
+    border: 1.5px solid var(--accent);
     color: #FFFFFF;
+    font-size: 0.82rem;
     font-weight: 700;
-    letter-spacing: 0.5px;
-    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
-    animation: whatsappPulse 2.5s infinite;
-    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
-  }
-
-  #checkout-whatsapp-btn:hover {
-    transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.45);
-    background: linear-gradient(135deg, #2ae772 0%, #16a090 100%);
-  }
-
-  @keyframes whatsappPulse {
-    0% {
-      box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.6);
-    }
-    70% {
-      box-shadow: 0 0 0 10px rgba(37, 211, 102, 0);
-    }
-    100% {
-      box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
-    }
-  }
-
-  /* ============================================================
-     DECORATIONS GALLERY SECTION (fondo bg-primary vino oscuro)
-     ============================================================ */
-  .decorations-section {
-    padding: 5.5rem 2rem;
-    background-color: var(--bg-primary);
-    border-top: 1px solid rgba(232,25,108,0.15);
-  }
-
-  .decorations-section .subtitle {
-    color: var(--accent-light);
-  }
-
-  .decorations-section h2 {
-    color: var(--neutral-cream);
-  }
-
-  .decorations-section .section-desc {
-    color: rgba(245,230,200,0.8);
-  }
-
-  .decorations-carousel-container {
-    position: relative;
-    display: flex;
-    align-items: center;
-    max-width: 1000px;
-    margin: 2rem auto 0 auto;
-    padding: 0 0.5rem;
-  }
-
-  .decorations-viewport {
-    overflow: hidden;
-    width: 100%;
-    border-radius: var(--border-radius-md);
-    box-shadow: 0 16px 48px rgba(0,0,0,0.5);
-  }
-
-  .decorations-track {
-    display: flex;
-    transition: transform 0.4s ease-in-out;
-  }
-
-  .decoration-slide {
-    flex: 0 0 100%;
-    max-width: 100%;
-    position: relative;
-    height: 400px;
-  }
-
-  .decoration-slide img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .decoration-overlay-info {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background: linear-gradient(to top, rgba(42,10,20,0.92) 0%, rgba(42,10,20,0.5) 65%, transparent 100%);
-    padding: 2rem 1.5rem 1.5rem 1.5rem;
-    color: #fff;
-  }
-
-  .decoration-overlay-info h4 {
-    font-size: 1.3rem;
-    color: #FF8C42;
-    margin-bottom: 0.5rem;
-    font-weight: 800;
-  }
-
-  .decoration-overlay-info p {
-    font-size: 0.95rem;
-    color: rgba(255, 248, 240, 0.92);
-  }
-
-  .dec-carousel-control {
-    background: var(--gradient-brand);
-    color: #fff;
-    border: none;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    font-size: 1.25rem;
-    font-weight: bold;
+    padding: 0.4rem 0.9rem;
+    border-radius: var(--border-radius-sm);
     cursor: pointer;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 16px rgba(232,25,108,0.4);
     transition: all var(--transition-fast);
   }
 
-  .dec-carousel-control:hover {
-    transform: translateY(-50%) scale(1.12);
-    box-shadow: 0 6px 24px rgba(232,25,108,0.6);
+  .btn-add-buffet:hover {
+    background: var(--accent);
   }
 
-  .dec-carousel-control.prev {
-    left: -22px;
+  /* ============================================================
+     GALERÍA DE DECORACIONES
+     ============================================================ */
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
   }
 
-  .dec-carousel-control.next {
-    right: -22px;
+  .gallery-card {
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 4px 15px rgba(42, 10, 20, 0.08);
   }
 
-  .decorations-warning-banner {
-    max-width: 1000px;
-    margin: 2rem auto 0 auto;
-    background-color: rgba(249,213,229,0.1);
-    border: 1px solid rgba(232,25,108,0.3);
+  .gallery-image-wrap {
+    position: relative;
+    width: 100%;
+    height: 320px;
+    overflow: hidden;
+  }
+
+  .gallery-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .gallery-card:hover .gallery-image {
+    transform: scale(1.08);
+  }
+
+  .gallery-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 40%, rgba(30, 6, 16, 0.9) 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 1.5rem;
+    color: #FFFFFF;
+  }
+
+  .gallery-title {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-bottom: 0.25rem;
+  }
+
+  .gallery-desc {
+    font-size: 0.85rem;
     color: var(--neutral-cream);
-    padding: 1rem;
-    border-radius: var(--border-radius-sm);
-    font-size: 0.9rem;
     line-height: 1.4;
+    opacity: 0.9;
+  }
+
+  /* ============================================================
+     FLUJO EN 3 PASOS
+     ============================================================ */
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2rem;
+  }
+
+  .step-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-lg);
+    padding: 2.25rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    box-shadow: var(--shadow-sm);
+    gap: 1rem;
+    position: relative;
+    transition: transform var(--transition-fast);
   }
 
-  @media (max-width: 768px) {
-    .decoration-slide {
-      height: 300px;
-    }
-    .dec-carousel-control {
-      width: 36px;
-      height: 36px;
-      font-size: 1rem;
-    }
-    .dec-carousel-control.prev {
-      left: 5px;
-    }
-    .dec-carousel-control.next {
-      right: 5px;
-    }
+  .step-card:hover {
+    transform: translateY(-5px);
   }
 
-  /* Responsive styling */
+  .step-num {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--gradient-brand);
+    color: #FFFFFF;
+    font-size: 1.4rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(232, 25, 108, 0.4);
+  }
+
+  .step-title {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #FFFFFF;
+  }
+
+  .step-text {
+    font-size: 0.92rem;
+    color: var(--neutral-cream);
+    line-height: 1.55;
+    opacity: 0.9;
+  }
+
+  /* ============================================================
+     BOTÓN FLOTANTE Y CART DRAWER
+     ============================================================ */
+  .floating-cart {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 99;
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    background: var(--gradient-brand);
+    color: #FFFFFF;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 8px 24px rgba(232, 25, 108, 0.5);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  }
+
+  .floating-cart:hover {
+    transform: scale(1.08);
+    box-shadow: 0 10px 28px rgba(232, 25, 108, 0.65);
+  }
+
+  .cart-icon {
+    font-size: 1.6rem;
+  }
+
+  .cart-count {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: #FFFFFF;
+    color: var(--primary);
+    font-size: 0.75rem;
+    font-weight: 800;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  }
+
+  .cart-drawer {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    pointer-events: none;
+    visibility: hidden;
+    transition: visibility 0.3s ease;
+  }
+
+  .cart-drawer.open {
+    pointer-events: auto;
+    visibility: visible;
+  }
+
+  .cart-drawer-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .cart-drawer.open .cart-drawer-overlay {
+    opacity: 1;
+  }
+
+  .cart-drawer-content {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    max-width: 420px;
+    height: 100%;
+    background: var(--bg-primary);
+    border-left: 2px solid var(--border-color);
+    box-shadow: -8px 0 30px rgba(0, 0, 0, 0.7);
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .cart-drawer.open .cart-drawer-content {
+    transform: translateX(0);
+  }
+
+  .cart-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .cart-header h2 {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #FFFFFF;
+  }
+
+  .close-btn {
+    background: none;
+    border: none;
+    color: var(--neutral-cream);
+    font-size: 2rem;
+    cursor: pointer;
+    line-height: 1;
+    transition: color var(--transition-fast);
+  }
+
+  .close-btn:hover {
+    color: #FFFFFF;
+  }
+
+  .cart-items-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .empty-cart-message {
+    margin: auto;
+    text-align: center;
+    color: var(--neutral-cream);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .btn-explore {
+    background: rgba(232, 25, 108, 0.15);
+    border: 1px solid var(--primary);
+    color: #FFFFFF;
+    padding: 0.5rem 1.2rem;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+
+  .cart-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.8rem;
+  }
+
+  .ci-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .ci-name {
+    font-weight: 700;
+    font-size: 0.92rem;
+    color: #FFFFFF;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .ci-price {
+    font-size: 0.8rem;
+    color: var(--accent-light);
+    font-weight: 600;
+  }
+
+  .ci-qty-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .ci-btn-qty {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 1px solid var(--border-color);
+    background: var(--bg-primary);
+    color: #FFFFFF;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ci-qty-number {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    min-width: 16px;
+    text-align: center;
+  }
+
+  .ci-remove {
+    background: none;
+    border: none;
+    color: #FF6B6B;
+    cursor: pointer;
+    padding: 4px;
+    font-size: 1.1rem;
+  }
+
+  .cart-footer {
+    padding: 1.5rem;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background: rgba(30, 6, 16, 0.6);
+  }
+
+  .cart-total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--neutral-cream);
+  }
+
+  .cart-total-amount {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--accent-light);
+  }
+
+  .btn-checkout {
+    background: var(--gradient-brand);
+    color: #FFFFFF;
+    text-align: center;
+    padding: 1rem;
+    border-radius: var(--border-radius-md);
+    font-weight: 800;
+    font-size: 1rem;
+    box-shadow: 0 4px 15px rgba(232, 25, 108, 0.35);
+    transition: transform var(--transition-fast);
+  }
+
+  .btn-checkout:hover {
+    transform: translateY(-2px);
+  }
+
+  /* Responsive Mobile */
   @media (max-width: 480px) {
-    .btn {
-      width: 100%;
+    .floating-cart {
+      bottom: 1.25rem;
+      right: 1.25rem;
+      width: 56px;
+      height: 56px;
     }
     .cart-drawer-content {
       max-width: 100%;
-    }
-    .cart-items-container {
-      padding: 1rem;
-    }
-    .cart-footer {
-      padding: 1rem;
-    }
-    .cart-item {
-      padding: 1rem;
-      margin-bottom: 1rem;
-    }
-    .total-row {
-      font-size: 1.15rem;
-    }
-    #checkout-whatsapp-btn {
-      padding: 0.85rem;
-      font-size: 0.95rem;
     }
   }
 </style>
 
 <script>
-  // DOM Elements
-  const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
-  const floatingCartBtn = document.getElementById('floating-cart-btn');
-  const closeCartBtn = document.getElementById('close-cart-btn');
-  const cartDrawer = document.getElementById('cart-drawer');
-  const cartOverlay = document.querySelector('.cart-drawer-overlay');
-  const cartItemsContainer = document.getElementById('cart-items-container');
-  const cartTotalEl = document.getElementById('cart-total');
-  const goToCheckoutBtn = document.getElementById('go-to-checkout-btn');
-  const cartCountEl = document.querySelector('.cart-count');
-
-  // Carousel DOM Elements
-  const carouselTrack = document.getElementById('carousel-track');
-  const carouselPrevBtn = document.getElementById('carousel-prev-btn');
-  const carouselNextBtn = document.getElementById('carousel-next-btn');
-  const carouselViewport = document.getElementById('carousel-viewport');
-
-  // Decorations Carousel DOM Elements
-  const decTrack = document.getElementById('dec-track');
-  const decPrevBtn = document.getElementById('dec-prev-btn');
-  const decNextBtn = document.getElementById('dec-next-btn');
-
   let cart = [];
 
-  // 1. Cakes Carousel Autoplay, Filtering and Controls
-  let carouselIndex = 0;
-  let autoplayInterval;
-  let currentFilter = 'all';
+  const floatingCartBtn = document.getElementById('floating-cart-btn');
+  const floatingCartCount = document.getElementById('floating-cart-count');
+  const cartDrawer = document.getElementById('cart-drawer');
+  const closeCartBtn = document.getElementById('close-cart-btn');
+  const cartOverlay = document.getElementById('cart-drawer-overlay');
+  const cartItemsContainer = document.getElementById('cart-items-container');
+  const cartTotalDisplay = document.getElementById('cart-total-display');
+  const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
 
-  // Subcategory filter click logic
-  const subcategoryPills = document.querySelectorAll('.subcategory-pill');
-  subcategoryPills.forEach(pill => {
-    pill.addEventListener('click', () => {
-      stopAutoplay();
-      subcategoryPills.forEach(p => p.classList.remove('active'));
-      pill.classList.add('active');
-      
-      currentFilter = pill.getAttribute('data-filter') || 'all';
-      carouselIndex = 0; // Reset index
-      
-      filterCarouselSlides();
-      updateCarousel();
-    });
-  });
-
-  function filterCarouselSlides() {
-    if (!carouselTrack) return;
-    const slides = carouselTrack.querySelectorAll('.carousel-slide');
-    slides.forEach(slide => {
-      const type = slide.getAttribute('data-filter-type');
-      if (currentFilter === 'all' || type === currentFilter) {
-        (slide as HTMLElement).style.display = 'flex';
-      } else {
-        (slide as HTMLElement).style.display = 'none';
-      }
-    });
-  }
-
-  function getVisibleSlides() {
-    if (!carouselTrack) return [];
-    return Array.from(carouselTrack.querySelectorAll('.carousel-slide')).filter(
-      slide => (slide as HTMLElement).style.display !== 'none'
-    );
-  }
-
-  function updateCarousel() {
-    if (!carouselTrack) return;
-    const visibleSlides = getVisibleSlides();
-    if (visibleSlides.length === 0) return;
-
-    // Determine how many items are visible (1 on mobile, 2 on tablet, 3 on desktop)
-    let itemsVisible = 1;
-    if (window.innerWidth >= 992) {
-      itemsVisible = 3;
-    } else if (window.innerWidth >= 600) {
-      itemsVisible = 2;
+  const loadCart = () => {
+    try {
+      cart = JSON.parse(localStorage.getItem('el_lider_cart') || '[]');
+    } catch {
+      cart = [];
     }
+  };
 
-    const maxIndex = Math.max(0, visibleSlides.length - itemsVisible);
-    if (carouselIndex > maxIndex) carouselIndex = 0;
-    if (carouselIndex < 0) carouselIndex = maxIndex;
+  const saveCart = () => {
+    localStorage.setItem('el_lider_cart', JSON.stringify(cart));
+    updateCartUI();
+  };
 
-    const slideWidth = (visibleSlides[0] as HTMLElement).getBoundingClientRect().width;
-    
-    // Calculate gap dynamically from CSS
-    const trackStyle = window.getComputedStyle(carouselTrack);
-    const gap = parseFloat(trackStyle.gap) || 24;
-    const offset = -carouselIndex * (slideWidth + gap);
-    
-    carouselTrack.style.transform = `translateX(${offset}px)`;
-  }
-
-  function startAutoplay() {
-    if (autoplayInterval) clearInterval(autoplayInterval);
-    autoplayInterval = setInterval(() => {
-      const visibleSlides = getVisibleSlides();
-      let itemsVisible = 1;
-      if (window.innerWidth >= 992) itemsVisible = 3;
-      else if (window.innerWidth >= 600) itemsVisible = 2;
-
-      const maxIndex = Math.max(0, visibleSlides.length - itemsVisible);
-      
-      if (carouselIndex >= maxIndex) {
-        carouselIndex = 0;
-      } else {
-        carouselIndex++;
-      }
-      updateCarousel();
-    }, 4000);
-  }
-
-  function stopAutoplay() {
-    if (autoplayInterval) {
-      clearInterval(autoplayInterval);
-      autoplayInterval = null;
-    }
-  }
-
-  // Stop autoplay on click anywhere in the carousel area
-  const carouselWrapper = document.querySelector('.carousel-outer-wrapper');
-  carouselWrapper?.addEventListener('click', stopAutoplay);
-  carouselWrapper?.addEventListener('touchstart', stopAutoplay);
-
-  if (carouselPrevBtn && carouselNextBtn) {
-    carouselPrevBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      stopAutoplay();
-      carouselIndex--;
-      updateCarousel();
-    });
-
-    carouselNextBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      stopAutoplay();
-      carouselIndex++;
-      updateCarousel();
-    });
-
-    // Initial setup
-    window.addEventListener('resize', () => {
-      filterCarouselSlides();
-      updateCarousel();
-    });
-    
-    filterCarouselSlides();
-    updateCarousel();
-    startAutoplay();
-  }
-
-  // Decorations Carousel Navigation
-  let decIndex = 0;
-  if (decPrevBtn && decNextBtn && decTrack) {
-    const decSlides = decTrack.children;
-    const maxDecIndex = decSlides.length - 1;
-
-    const updateDecCarousel = () => {
-      if (decIndex < 0) decIndex = maxDecIndex;
-      if (decIndex > maxDecIndex) decIndex = 0;
-      decTrack.style.transform = `translateX(-${decIndex * 100}%)`;
-    };
-
-    decPrevBtn.addEventListener('click', () => {
-      decIndex--;
-      updateDecCarousel();
-    });
-
-    decNextBtn.addEventListener('click', () => {
-      decIndex++;
-      updateDecCarousel();
-    });
-  }
-
-  // 2. Open/Close Cart Drawer
   const openCart = () => {
     cartDrawer?.classList.add('open');
-    document.body.style.overflow = 'hidden'; // Prevent scrolling background
+    document.body.style.overflow = 'hidden';
   };
 
   const closeCart = () => {
@@ -2306,19 +1075,88 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
   closeCartBtn?.addEventListener('click', closeCart);
   cartOverlay?.addEventListener('click', closeCart);
 
-  // 3. Add to Cart Handler
-  addToCartButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      const id = button.getAttribute('data-id');
-      const name = button.getAttribute('data-name');
-      const price = parseFloat(button.getAttribute('data-price') || '0');
-      const customizable = button.getAttribute('data-customizable') === 'true';
-      const category = button.getAttribute('data-category') || '';
+  const updateCartUI = () => {
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+    if (floatingCartCount) floatingCartCount.textContent = totalItems.toString();
 
-      // Fetch the product image from DOM
-      const card = button.closest('.product-card') || button.closest('.buffet-card');
-      const img = card ? card.querySelector('img') : null;
-      const imageSrc = img ? img.getAttribute('src') : 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=800&auto=format&fit=crop';
+    if (!cartItemsContainer || !cartTotalDisplay) return;
+
+    if (cart.length === 0) {
+      cartItemsContainer.innerHTML = `
+        <div class="empty-cart-message">
+          <p>Tu pedido está vacío</p>
+          <a href="#catalogo" id="explore-btn" class="btn-explore">Explorar Carta</a>
+        </div>
+      `;
+      cartTotalDisplay.textContent = '$0 CUP';
+      const exploreBtn = document.getElementById('explore-btn');
+      exploreBtn?.addEventListener('click', closeCart);
+      return;
+    }
+
+    let total = 0;
+    let html = '';
+
+    cart.forEach((item, index) => {
+      const subtotal = item.price * item.quantity;
+      total += subtotal;
+
+      html += `
+        <div class="cart-item" data-index="${index}">
+          <div class="ci-info">
+            <p class="ci-name">${item.name}</p>
+            <p class="ci-price">$${item.price} CUP c/u</p>
+          </div>
+          <div class="ci-qty-controls">
+            <button class="ci-btn-qty ci-minus" data-index="${index}">-</button>
+            <span class="ci-qty-number">${item.quantity}</span>
+            <button class="ci-btn-qty ci-plus" data-index="${index}">+</button>
+            <button class="ci-remove" data-index="${index}" title="Eliminar">&times;</button>
+          </div>
+        </div>
+      `;
+    });
+
+    cartItemsContainer.innerHTML = html;
+    cartTotalDisplay.textContent = `$${total} CUP`;
+
+    // Bind event listeners
+    cartItemsContainer.querySelectorAll('.ci-minus').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const idx = parseInt((e.currentTarget as HTMLElement).getAttribute('data-index') || '0');
+        if (cart[idx].quantity > 1) {
+          cart[idx].quantity--;
+        } else {
+          cart.splice(idx, 1);
+        }
+        saveCart();
+      });
+    });
+
+    cartItemsContainer.querySelectorAll('.ci-plus').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const idx = parseInt((e.currentTarget as HTMLElement).getAttribute('data-index') || '0');
+        cart[idx].quantity++;
+        saveCart();
+      });
+    });
+
+    cartItemsContainer.querySelectorAll('.ci-remove').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const idx = parseInt((e.currentTarget as HTMLElement).getAttribute('data-index') || '0');
+        cart.splice(idx, 1);
+        saveCart();
+      });
+    });
+  };
+
+  addToCartButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.getAttribute('data-id') || '';
+      const name = btn.getAttribute('data-name') || '';
+      const price = parseFloat(btn.getAttribute('data-price') || '0');
+      const category = btn.getAttribute('data-category') || '';
+      const customizable = btn.getAttribute('data-customizable') === 'true';
 
       const isCake = category === 'cakes' || category === 'minicakes';
 
@@ -2329,18 +1167,16 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
           name,
           price,
           quantity: 1,
-          customizable,
+          customizable: true,
           category,
-          imageSrc,
           dough: 'trigo',
-          note: '',
-          ediblePrint: false,
-          fileName: ''
+          size: id === 'cake-redondo' ? '20' : (id === 'cake-bandeja' ? 'media' : ''),
+          doubleHeight: false
         });
       } else {
-        const existingItem = cart.find(item => item.id === id);
-        if (existingItem) {
-          existingItem.quantity += 1;
+        const existing = cart.find(item => item.id === id);
+        if (existing) {
+          existing.quantity++;
         } else {
           cart.push({
             uniqueId: (Date.now() + Math.random()).toString(),
@@ -2348,264 +1184,17 @@ const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.catego
             name,
             price,
             quantity: 1,
-            customizable,
-            category,
-            imageSrc,
-            note: '',
-            ediblePrint: false,
-            fileName: ''
+            customizable: false,
+            category
           });
         }
       }
 
-      updateCart();
+      saveCart();
       openCart();
     });
   });
 
-  // 4. Update Cart State & UI
-  function updateCart() {
-    // Save to LocalStorage
-    localStorage.setItem('el_lider_cart', JSON.stringify(cart));
-    
-    // Update Badge Count
-    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-    if (cartCountEl) cartCountEl.textContent = totalItems.toString();
-
-    // Render Items
-    renderCartItems();
-
-    // Calculate Prices
-    calculateTotal();
-  }
-
-  const getProductIcon = (item) => {
-    const nameLower = item.name.toLowerCase();
-    const idLower = item.id.toLowerCase();
-    
-    if (idLower.includes('minicake') || nameLower.includes('minicake') || idLower.includes('cupcake') || nameLower.includes('cupcake')) {
-      return { icon: '🧁', color: '#FBCFE8', label: 'Mini Cake / Cupcake' };
-    }
-    if (idLower.includes('bandeja') || nameLower.includes('bandeja')) {
-      return { icon: '🍰', color: '#EEDBCE', label: 'Bandeja' };
-    }
-    if (item.category === 'reposteria' || item.category === 'salados') {
-      return { icon: '🍪', color: '#A7F3D0', label: 'Buffet/Postre' };
-    }
-    return { icon: '🎂', color: '#FEF08A', label: 'Cake Simple' };
-  };
-
-  function renderCartItems() {
-    if (!cartItemsContainer) return;
-
-    if (cart.length === 0) {
-      cartItemsContainer.innerHTML = `
-        <div class="empty-cart-message">
-          <p>Tu carrito está vacío</p>
-          <button id="explore-btn-inline" class="btn btn-outline btn-sm" style="color:var(--primary-color); border-color:var(--primary-color)">Explorar la Carta</button>
-        </div>
-      `;
-      
-      document.getElementById('explore-btn-inline')?.addEventListener('click', () => {
-        closeCart();
-        window.location.hash = '#catalogo';
-      });
-      return;
-    }
-
-    let html = '';
-    cart.forEach((item, index) => {
-      const metaInfo = getProductIcon(item);
-      const unitPrice = item.price;
-      const totalPrice = unitPrice * item.quantity;
-      const isCake = item.category === 'cakes' || item.category === 'minicakes';
-
-      html += `
-        <div class="cart-item" data-index="${index}">
-          <!-- Fila principal: ícono + info -->
-          <div class="ci-main">
-            <div class="ci-left">
-              <!-- Badge de categoría -->
-              <div class="ci-icon" style="background:${metaInfo.color};" title="${metaInfo.label}">
-                <span class="ci-emoji">${metaInfo.icon}</span>
-              </div>
-
-              <!-- Columna central: nombre + precio unitario -->
-              <div class="ci-body">
-                <p class="ci-name">${item.name}</p>
-                <p class="ci-unit-price">$${unitPrice} CUP c/u</p>
-              </div>
-            </div>
-
-            <!-- Precio total + botón eliminar -->
-            <div class="ci-right">
-              <span class="ci-total">$${totalPrice} CUP</span>
-              <button
-                class="ci-remove"
-                data-index="${index}"
-                title="Eliminar del carrito"
-                aria-label="Eliminar ${item.name}"
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="18" y1="6" x2="6" y2="18"></line>
-                  <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
-              </button>
-            </div>
-          </div>
-
-          <!-- Fila secundaria: selector de cantidad o duplicar -->
-          ${isCake ? `
-            <div class="ci-duplicate-row">
-              <button 
-                class="duplicate-cake-btn premium-dup-btn" 
-                data-index="${index}"
-                style="
-                  display: flex;
-                  align-items: center;
-                  gap: 0.5rem;
-                  background: linear-gradient(135deg, #E8196C 0%, #FF6B35 100%);
-                  color: #FFFFFF;
-                  border: none;
-                  padding: 0.6rem 1.25rem;
-                  font-size: 0.85rem;
-                  font-weight: 800;
-                  border-radius: 50px;
-                  cursor: pointer;
-                  box-shadow: 0 4px 15px rgba(232,25,108,0.3);
-                  transition: transform 0.2s ease, box-shadow 0.2s ease;
-                "
-                onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 6px 20px rgba(232,25,108,0.45)';"
-                onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 15px rgba(232,25,108,0.3)';"
-              >
-                <span>➕ Duplicar Cake</span>
-              </button>
-            </div>
-          ` : `
-            <div class="ci-qty-row">
-              <span class="ci-qty-label">Cantidad:</span>
-              <div class="ci-qty-control">
-                <button
-                  class="ci-qty-btn minus"
-                  data-index="${index}"
-                  ${item.quantity <= 1 ? 'disabled' : ''}
-                  aria-label="Reducir cantidad"
-                >−</button>
-                <span class="ci-qty-val">${item.quantity}</span>
-                <button
-                  class="ci-qty-btn plus"
-                  data-index="${index}"
-                  aria-label="Aumentar cantidad"
-                >+</button>
-              </div>
-              <span class="ci-qty-hint">¡Añade otro! 🧁</span>
-            </div>
-          `}
-        </div>
-      `;
-    });
-
-    cartItemsContainer.innerHTML = html;
-
-    // Attach Event Listeners to Dynamically Rendered Cart Elements
-    attachCartEvents();
-  }
-
-  function attachCartEvents() {
-    // Duplicate button
-    document.querySelectorAll('.duplicate-cake-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const el = (e.currentTarget as HTMLElement);
-        const index = parseInt(el.getAttribute('data-index') || '0');
-        const originalItem = cart[index];
-        const clonedItem = {
-          ...originalItem,
-          uniqueId: (Date.now() + Math.random()).toString()
-        };
-        cart.push(clonedItem);
-        updateCart();
-      });
-    });
-
-    // Quantity Plus
-    document.querySelectorAll('.ci-qty-btn.plus').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const el = (e.currentTarget as HTMLElement);
-        const index = parseInt(el.getAttribute('data-index') || '0');
-        cart[index].quantity += 1;
-        updateCart();
-      });
-    });
-
-    // Quantity Minus
-    document.querySelectorAll('.ci-qty-btn.minus').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const el = (e.currentTarget as HTMLElement);
-        const index = parseInt(el.getAttribute('data-index') || '0');
-        if (cart[index].quantity > 1) {
-          cart[index].quantity -= 1;
-          updateCart();
-        }
-      });
-    });
-
-    // Remove Item — con animación de salida
-    document.querySelectorAll('.ci-remove').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const el = (e.currentTarget as HTMLElement);
-        const index = parseInt(el.getAttribute('data-index') || '0');
-        const cartItemEl = el.closest('.cart-item') as HTMLElement;
-        if (cartItemEl) {
-          cartItemEl.classList.add('ci-removing');
-          setTimeout(() => {
-            cart.splice(index, 1);
-            updateCart();
-          }, 280);
-        } else {
-          cart.splice(index, 1);
-          updateCart();
-        }
-      });
-    });
-  }
-
-  function calculateTotal() {
-    let subtotal = 0;
-    let addonsTotal = 0;
-
-    cart.forEach(item => {
-      subtotal += item.price * item.quantity;
-      if (item.ediblePrint) {
-        addonsTotal += 650 * item.quantity;
-      }
-    });
-
-    const total = subtotal + addonsTotal;
-
-    if (cartTotalEl) cartTotalEl.textContent = `$${total} CUP`;
-  }
-
-  // 5. Redirection to Checkout Page
-  goToCheckoutBtn?.addEventListener('click', () => {
-    if (cart.length === 0) {
-      alert('Tu carrito está vacío. Agrega algunos dulces antes de realizar tu encargo.');
-      return;
-    }
-    // Redirect to the dedicated checkout page
-    window.location.href = '/pedido';
-  });
-
-  // Initialize cart from localStorage if exists
-  const savedCart = localStorage.getItem('el_lider_cart');
-  if (savedCart) {
-    try {
-      cart = JSON.parse(savedCart);
-      cart.forEach(item => {
-        item.uniqueId = item.uniqueId || (Date.now() + Math.random()).toString();
-      });
-      updateCart();
-    } catch (e) {
-      cart = [];
-    }
-  }
+  loadCart();
+  updateCartUI();
 </script>

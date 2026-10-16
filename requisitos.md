@@ -24,6 +24,16 @@ En este archivo se lleva el control del estado de las características planifica
 - [x] **MVP Simplificado** (2026-10-16): header sin nav links (solo logo + pill `Mi Pedido`), eliminación total de `#personalizador` (Canvas 2D + CSS + ~450 líneas JS), checkout con Nombre + WhatsApp + ticket `EL-YYYYMMDD-###`, y envío automático vía Baileys `POST https://ia.carmayn8n.cloud/api/wa/send` con respaldo `wa.me`.
 - [x] `AGENTS.md` actualizado al flujo MVP (sin Canvas, con flujo de pedido Baileys documentado).
 
+- [x] **Reconstrucción Radical y Destilación Impeccable (5 Secciones)** (2026-10-16):
+  1. Header removido para inmersión total del Hero.
+  2. Hero minimalista con flecha interactiva hacia `#catalogo` sin botones redundantes.
+  3. Ofertas de Cakes en Grid directo de 4 categorías (Mini Cakes, Redondos, Bandeja, Varios Pisos).
+  4. Buffet y Postres en Grid de acompañamiento rápido.
+  5. Galería fotográfica estática de Decoraciones Temáticas.
+  6. Flujo de Encargo en 3 pasos iconográficos.
+  7. Footer simplificado con contacto oficial `+53 5139 4921` y cero menciones de mensajería.
+  8. Botón flotante `#floating-cart-btn` siempre accesible para abrir el drawer del carrito.
+  9. Enrutamiento Baileys configurado al bot `5352122630@s.whatsapp.net` y soporte cliente a `+53 5139 4921`.
 - [x] Desplegar a producción con `npx vercel --prod` y verificar el live site (2026-10-16: desplegado con token personal a `https://dulceria-el-lider.vercel.app`, verificado que ya tiene ticket, WhatsApp y sin personalizador).
 
 ## Características Pendientes

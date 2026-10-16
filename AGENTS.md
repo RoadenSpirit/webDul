@@ -25,16 +25,24 @@ Este proyecto se ejecuta en el VPS (`carmay-dev`). La información de servicios,
 - Use **Dulcería** (e.g., "Dulcería El Líder"). Never use "repostería" or "repostería artesanal".
 
 ## UI Constraints
-- **Mobile Cart Drawer**: Must take 100% width (`max-width: 100%`) on mobile with independent product scroll while header and checkout stay fixed.
-- **Header**: No nav links. Only logo + `Mi Pedido` pill (`#nav-order-link`) with count badge.
-- **No Canvas customizer**: `#personalizador` section was removed for the MVP. Do not reintroduce Canvas code.
+- **Header**: Completamente removido para máxima inmersión del Hero.
+- **Hero**: Solo logo + imagen de fondo + textos + flecha animada hacia `#catalogo`. Sin botones redundantes.
+- **Landing Page (5 Secciones)**:
+  1. Hero minimalista con flecha scroll.
+  2. Ofertas de Cakes (Grid directo de 4 categorías).
+  3. Buffet y Postres (Grid de acompañamiento).
+  4. Decoraciones Temáticas (Galería fotográfica estática).
+  5. Flujo de Encargo (3 pasos iconográficos).
+- **Mobile Cart**: Botón flotante `#floating-cart-btn` persistente en esquina inferior derecha con contador badge. Drawer con ancho 100% en móviles.
+- **Sin Mensajería**: Eliminada toda mención a mensajería/motos en la web; la entrega se coordina directamente por WhatsApp.
 - **Color Palette**:
   - Main palette is Fuchsia → Orange → Cream (defined in `src/styles/global.css`).
   - Red and gold are reserved exclusively for the logo.
 
 ## Order Flow (MVP)
-- `src/pages/pedido.astro` collects Nombre + WhatsApp + Fecha/Hora, generates ticket `EL-YYYYMMDD-###`, and POSTs the order to Baileys `https://ia.carmayn8n.cloud/api/wa/send` (`{chatId, message}`, header `x-api-key`) to shop `5350000000@s.whatsapp.net`, with `wa.me` fallback.
-- Baileys API key is embedded in client JS (accepted MVP tradeoff, CORS explicitly allows it). If abused, move sending to an n8n webhook proxy and rotate the key.
+- **Contacto visible al cliente**: `+53 5139 4921` (dueña/atención en footer y fallback de WhatsApp).
+- **Endpoint Baileys Bot**: `https://ia.carmayn8n.cloud/api/wa/send` enviando a `5352122630@s.whatsapp.net` (`x-api-key`).
+- `src/pages/pedido.astro` genera ticket `EL-YYYYMMDD-###`, toma Nombre + WhatsApp del cliente, y notifica a Baileys con fallback `wa.me/5351394921`.
 
 ## System Entrypoints
 - `src/pages/index.astro` - Landing page and catalog.

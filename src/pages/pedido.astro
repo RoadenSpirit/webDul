@@ -6,17 +6,11 @@ import Layout from '../layouts/Layout.astro';
   <div class="min-h-screen bg-gradient-to-b from-[var(--bg-primary)] via-[var(--bg-secondary)] to-[var(--bg-primary)] py-8 sm:py-12 text-[var(--text-primary)]">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="mb-8 sm:mb-10">
-        <a href="/" class="inline-flex items-center text-sm font-semibold text-[var(--accent-light)] hover:text-white transition-colors mb-5 gap-1">← Volver a la Dulcería</a>
-
-        <!-- Badge de mensajería -->
-        <div class="inline-flex items-center gap-2 bg-gradient-to-r from-[rgba(255,107,53,0.2)] to-[rgba(232,25,108,0.15)] border border-[rgba(255,140,66,0.4)] rounded-full px-4 py-1.5 mb-4">
-          <span class="text-base">🛵</span>
-          <span class="text-xs font-bold text-[var(--accent-light)] uppercase tracking-wide">Mensajería a domicilio disponible en toda Camagüey</span>
-        </div>
+        <a href="/" class="inline-flex items-center text-sm font-semibold text-[var(--accent-light)] hover:text-white transition-colors mb-5 gap-1">← Volver al Catálogo</a>
 
         <h1 style="font-family: var(--font-display); font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 700; color: #FFFFFF; margin-bottom: 0.5rem; line-height: 1.2;">🧁 ¡Casi listo! Personaliza tu pedido</h1>
         <p class="text-[var(--neutral-cream)] text-base sm:text-lg leading-relaxed" style="max-width: 560px;">
-          Define los detalles de tu cake soñado y te lo llevamos hasta tu puerta. Nuestro servicio de mensajería cubre <strong style="color: #FF8C42;">toda la provincia de Camagüey</strong>.
+          Define los detalles de tu cake y coordinamos la entrega directamente por WhatsApp.
         </p>
       </div>
 
@@ -35,14 +29,14 @@ import Layout from '../layouts/Layout.astro';
 
             <!-- Bloque 2: Detalles de Entrega -->
             <div class="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-6 sm:p-8 shadow-md hover:shadow-lg transition-shadow space-y-6">
-              <h3 class="text-lg sm:text-xl font-bold text-[var(--accent-light)] border-b border-[var(--border-color)] pb-4 flex items-center gap-2">📦 2. ¿Cómo prefieres recibirlo?</h3>
+              <h3 class="text-lg sm:text-xl font-bold text-[var(--accent-light)] border-b border-[var(--border-color)] pb-4 flex items-center gap-2">📦 2. Datos de Contacto y Fecha</h3>
 
-              <!-- Banner mensajería -->
+              <!-- Banner de entrega coordinada -->
               <div class="flex items-start gap-3 bg-gradient-to-r from-[rgba(255,107,53,0.15)] to-[rgba(232,25,108,0.1)] border border-[rgba(255,140,66,0.35)] rounded-xl p-4">
-                <span class="text-2xl">🛵</span>
+                <span class="text-2xl">🤝</span>
                 <div>
-                  <p class="font-bold text-[var(--accent-light)] text-sm">Entrega a domicilio disponible</p>
-                  <p class="text-[var(--neutral-cream)] text-xs leading-relaxed mt-0.5">Llevamos tu pedido hasta donde estés en toda la provincia de Camagüey. Coordinaremos el costo de envío al confirmar por WhatsApp.</p>
+                  <p class="font-bold text-[var(--accent-light)] text-sm">Entrega coordinada directamente</p>
+                  <p class="text-[var(--neutral-cream)] text-xs leading-relaxed mt-0.5">Acordaremos los detalles de recogida o entrega directamente a través de WhatsApp al confirmar tu encargo.</p>
                 </div>
               </div>
 
@@ -1039,12 +1033,11 @@ import Layout from '../layouts/Layout.astro';
   };
 
   // ---- MVP: Ticket + envío automático vía Baileys API ----
-  // NOTA SEGURIDAD (MVP): la API key queda visible en el bundle estático.
-  // Si hay abuso, mover el envío a un proxy backend (n8n webhook) y rotar la key.
   const BAILEYS_URL = 'https://ia.carmayn8n.cloud/api/wa/send';
   const BAILEYS_API_KEY = 'REDACTED_BAILEYS_KEY';
-  const SHOP_PHONE = '5350000000';
-  const SHOP_CHAT_ID = `${SHOP_PHONE}@s.whatsapp.net`;
+  const BOT_PHONE = '5352122630';
+  const CLIENT_SUPPORT_PHONE = '5351394921';
+  const SHOP_CHAT_ID = `${BOT_PHONE}@s.whatsapp.net`;
 
   const generateTicketId = () => {
     const d = new Date();
@@ -1211,9 +1204,9 @@ import Layout from '../layouts/Layout.astro';
       }
     }
 
-    // 2) Respaldo: abrir el chat del cliente con el pedido pre-rellenado
+    // 2) Respaldo: abrir el chat de WhatsApp de atención al cliente
     const encodedMessage = encodeURIComponent(message);
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+    const whatsappUrl = `https://wa.me/${CLIENT_SUPPORT_PHONE}?text=${encodedMessage}`;
     window.open(whatsappUrl, '_blank');
 
     // 3) Rotar ticket para el próximo pedido
