@@ -24,8 +24,9 @@ En este archivo se lleva el control del estado de las características planifica
 - [x] **MVP Simplificado** (2026-10-16): header sin nav links (solo logo + pill `Mi Pedido`), eliminación total de `#personalizador` (Canvas 2D + CSS + ~450 líneas JS), checkout con Nombre + WhatsApp + ticket `EL-YYYYMMDD-###`, y envío automático vía Baileys `POST https://ia.carmayn8n.cloud/api/wa/send` con respaldo `wa.me`.
 - [x] `AGENTS.md` actualizado al flujo MVP (sin Canvas, con flujo de pedido Baileys documentado).
 
+- [x] Desplegar a producción con `npx vercel --prod` y verificar el live site (2026-10-16: desplegado con token personal a `https://dulceria-el-lider.vercel.app`, verificado que ya tiene ticket, WhatsApp y sin personalizador).
+
 ## Características Pendientes
 - [ ] Validar visualmente el MVP simplificado en todos los viewports (desktop y móvil).
 - [ ] Mover el envío de Baileys a un proxy backend (webhook n8n) si la API key embebida sufre abuso, y rotarla.
-- [ ] Desplegar a producción con `npx vercel --prod` y verificar el envío Baileys desde la URL pública.
 
