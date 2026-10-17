@@ -4,11 +4,13 @@ import '../styles/global.css';
 interface Props {
   title: string;
   description?: string;
+  hideFooter?: boolean;
 }
 
 const { 
   title, 
-  description = "Dulcería El Líder — Cakes artesanales y dulces finos por encargo en Camagüey, Cuba. Calidad gourmet para celebraciones únicas. ¡Pide hoy!" 
+  description = "Dulcería El Líder — Cakes artesanales y dulces finos por encargo en Camagüey, Cuba. Calidad gourmet para celebraciones únicas. ¡Pide hoy!",
+  hideFooter = false
 } = Astro.props;
 ---
 
@@ -39,7 +41,8 @@ const {
       <slot />
     </main>
 
-    <!-- Footer Minimalista y Limpio -->
+    <!-- Footer Minimalista y Limpio (oculto en /admin) -->
+    {!hideFooter && (
     <footer id="contacto" class="main-footer">
       <div class="footer-inner">
 
@@ -75,6 +78,7 @@ const {
         <p>&copy; {new Date().getFullYear()} Dulcería El Líder · Camagüey, Cuba. Todos los derechos reservados.</p>
       </div>
     </footer>
+    )}
   </body>
 </html>
 

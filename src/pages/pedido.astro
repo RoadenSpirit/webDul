@@ -697,11 +697,19 @@ import Layout from '../layouts/Layout.astro';
       hasDouble: true,
       doublePrice: 2700 // harina doble = 6500, capuchino doble = 9700
     },
-    'cake-20-maicena': {
+    'cake-20': {
       basePrice: 3900,
       doughs: [{ id: 'maicena', label: 'Masa de Maicena ($3900 CUP)', price: 3900 }],
       hasDouble: true,
       doublePrice: 2800 // altura 15cm = 6700
+    },
+    'cupcake': {
+      basePrice: 160,
+      doughs: [
+        { id: 'vainilla', label: 'Sabor Vainilla ($160 CUP)', price: 160 },
+        { id: 'chocolate', label: 'Sabor Chocolate ($165 CUP)', price: 165 }
+      ],
+      hasDouble: false
     },
     'cake-25': {
       basePrice: 6500,

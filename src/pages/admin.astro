@@ -5,7 +5,7 @@ import catalogData from '../../data/catalog.json';
 const initialCatalog = catalogData;
 ---
 
-<Layout title="Panel Administrativo — Dulcería El Líder">
+<Layout title="Panel Administrativo — Dulcería El Líder" hideFooter={true}>
   <!-- 1. Pantalla de Login -->
   <div id="admin-login-screen" class="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center p-4">
     <div class="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-8 max-w-md w-full shadow-2xl text-center space-y-6">
@@ -210,8 +210,8 @@ const initialCatalog = catalogData;
   const modalNewOptionPrice = document.getElementById('modal-new-option-price');
   const modalAddOptBtn = document.getElementById('modal-add-opt-btn');
 
-  // Load from Storage or Initial (migrando a v2 oficial sin relleno inventado)
-  const CATALOG_VERSION = 'v2_oficial_dulcera';
+  // Load from Storage or Initial (migrando a v3 con nombres simplificados y precio base editable)
+  const CATALOG_VERSION = 'v3_nombres_simples_editable';
   const loadCatalog = () => {
     try {
       const savedVersion = localStorage.getItem('el_lider_catalog_version');
@@ -398,11 +398,21 @@ const initialCatalog = catalogData;
 
       html += `
         <tr class="hover:bg-white/[0.02] transition-colors">
-          <!-- Columna 1: Cake -->
+          <!-- Columna 1: Cake + Precio Base Editable -->
           <td class="py-4 px-6 align-top">
             <div class="font-black text-white text-base">${cake.name}</div>
-            <div class="flex items-center gap-2 mt-1">
-              <span class="text-xs text-[var(--accent-light)] font-black">Base: $${cake.base_price} CUP</span>
+            <div class="flex items-center gap-2 mt-2">
+              <span class="text-xs text-white/60 font-bold">Precio Base:</span>
+              <div class="inline-flex items-center gap-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-lg px-2 py-1 focus-within:border-[var(--primary)] transition-colors">
+                <span class="text-xs font-black text-[var(--accent-light)]">$</span>
+                <input 
+                  type="number" 
+                  class="base-price-input w-20 bg-transparent text-xs font-black text-[var(--accent-light)] outline-none text-right" 
+                  data-cake-id="${cake.id}" 
+                  value="${cake.base_price}" 
+                />
+                <span class="text-[10px] font-bold text-white/60">CUP</span>
+              </div>
               <span class="text-[10px] text-white/50 uppercase tracking-wider bg-white/5 px-2 py-0.5 rounded">${cake.category}</span>
             </div>
           </td>
@@ -430,6 +440,20 @@ const initialCatalog = catalogData;
     });
 
     tableBody.innerHTML = html;
+
+    // Handlers de edición directa del Precio Base
+    tableBody.querySelectorAll('.base-price-input').forEach(inp => {
+      inp.addEventListener('change', (e) => {
+        const target = e.target;
+        const cakeId = target.getAttribute('data-cake-id');
+        const newPrice = parseInt(target.value || '0');
+        const cake = (catalog.products || []).find(p => p.id === cakeId);
+        if (cake && newPrice > 0) {
+          cake.base_price = newPrice;
+          persistLocal();
+        }
+      });
+    });
 
     // Handlers de botones de píldora (Editar con Lápiz)
     tableBody.querySelectorAll('.edit-pill-btn').forEach(btn => {
