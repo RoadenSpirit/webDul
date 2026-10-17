@@ -162,7 +162,7 @@ const initialCatalog = catalogData;
 
         <!-- 2. Valores de la Opción con Precios Directos -->
         <div class="space-y-2">
-          <div class="flex items-center justify-between">
+          <div class="flex items-center justify-between" id="modal-values-header">
             <label class="block text-xs font-bold text-[var(--text-secondary)]">Valores y Precio Directo para este Producto</label>
             <span class="text-[10px] text-[var(--neutral-cream)]/70">Marca las que aplican y define su precio</span>
           </div>
@@ -172,7 +172,7 @@ const initialCatalog = catalogData;
           </div>
 
           <!-- Añadir nuevo valor a esta opción -->
-          <div class="pt-3 border-t border-[var(--border-color)]/40 space-y-1.5">
+          <div id="modal-add-value-section" class="pt-3 border-t border-[var(--border-color)]/40 space-y-1.5">
             <span class="text-[10px] font-bold uppercase tracking-wider text-[var(--accent-light)]">Añadir Nuevo Valor a esta Opción:</span>
             <div class="flex gap-2">
               <input type="text" id="modal-new-value-name" placeholder="Nombre valor (ej: Chocolate Blanco...)" class="flex-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl px-3 py-2 text-xs text-white outline-none focus:border-[var(--primary)]" />
@@ -306,7 +306,7 @@ const initialCatalog = catalogData;
   const newProdForm = document.getElementById('new-product-form');
 
   // Versioning
-  const CATALOG_VERSION = 'v1_opciones_unicas';
+  const CATALOG_VERSION = 'v3_altura_booleana_directa';
 
   const loadCatalog = () => {
     try {
@@ -804,6 +804,77 @@ const initialCatalog = catalogData;
   // Renderizar Valores y Precios en el Modal (Siempre Editables)
   const renderModalValues = (optId) => {
     if (!modalValuesList || !optId) return;
+    const optObj = (catalog.options || []).find(o => o.id === optId);
+    const isBooleanOpt = optId === 'altura' || optObj?.is_boolean === true;
+    const addValueSection = document.getElementById('modal-add-value-section');
+    const valuesHeader = document.getElementById('modal-values-header');
+
+    if (isBooleanOpt) {
+      if (addValueSection) addValueSection.classList.add('hidden');
+      if (valuesHeader) {
+        valuesHeader.innerHTML = `
+          <label class="block text-xs font-bold text-[var(--accent-light)]">Opción Booleana Directa (Sin medidas)</label>
+          <span class="text-[10px] text-[var(--neutral-cream)]/70">Actívala y fija el precio para masa doble</span>
+        `;
+      }
+
+      // Asegurar que exista el valor booleano único 'altura-doble'
+      if (!catalog.option_values) catalog.option_values = [];
+      let boolVal = catalog.option_values.find(v => v.id === 'altura-doble');
+      if (!boolVal) {
+        boolVal = { id: 'altura-doble', option_id: optId, name: 'Masa Doble', is_base: false };
+        catalog.option_values.push(boolVal);
+      }
+
+      const product = (catalog.products || []).find(p => p.id === editingProductId);
+      const baseP = product ? product.base_price : 0;
+      const currentPO = (catalog.product_options || []).find(
+        po => po.product_id === editingProductId && po.option_id === optId && po.option_value_id === 'altura-doble'
+      );
+      const isChecked = !!currentPO;
+      const currentPrice = currentPO ? currentPO.direct_price : baseP;
+
+      modalValuesList.innerHTML = `
+        <div class="flex items-center justify-between gap-3 p-3.5 rounded-xl bg-[var(--bg-primary)] border border-[var(--primary)]/40 shadow-inner">
+          <label class="flex items-center gap-2.5 cursor-pointer select-none">
+            <input type="checkbox" class="modal-val-toggle w-4 h-4 rounded text-[var(--primary)] cursor-pointer" data-val-id="altura-doble" ${isChecked ? 'checked' : ''} />
+            <div>
+              <span class="text-sm font-black text-white block">Habilitar Masa Doble</span>
+              <span class="text-[10px] text-[var(--neutral-cream)]/70">Valor booleano directo para este cake</span>
+            </div>
+          </label>
+          <div class="flex items-center gap-2">
+            <span class="text-xs text-[var(--accent-light)] font-bold">Precio Doble:</span>
+            <input 
+              type="number" 
+              class="modal-val-price w-28 px-3 py-2 bg-[var(--bg-card)] border border-[var(--border-color)] rounded-lg text-right text-sm font-black text-[var(--accent-light)] outline-none focus:border-[var(--primary)]" 
+              data-val-id="altura-doble" 
+              value="${currentPrice}" 
+              placeholder="Precio CUP" 
+            />
+            <span class="text-xs text-white/70 font-bold">CUP</span>
+          </div>
+        </div>
+      `;
+
+      modalValuesList.querySelectorAll('.modal-val-price').forEach(inp => {
+        inp.addEventListener('input', (e) => {
+          const valId = (e.target).getAttribute('data-val-id');
+          const chk = modalValuesList.querySelector(`.modal-val-toggle[data-val-id="${valId}"]`);
+          if (chk && !chk.checked) chk.checked = true;
+        });
+      });
+      return;
+    }
+
+    if (addValueSection) addValueSection.classList.remove('hidden');
+    if (valuesHeader) {
+      valuesHeader.innerHTML = `
+        <label class="block text-xs font-bold text-[var(--text-secondary)]">Valores y Precio Directo para este Producto</label>
+        <span class="text-[10px] text-[var(--neutral-cream)]/70">Marca las que aplican y define su precio</span>
+      `;
+    }
+
     const vals = (catalog.option_values || []).filter(v => v.option_id === optId);
     const product = (catalog.products || []).find(p => p.id === editingProductId);
     const baseP = product ? product.base_price : 0;

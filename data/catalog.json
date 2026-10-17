@@ -124,15 +124,18 @@
   "options": [
     {
       "id": "masa",
-      "name": "Tipo de Masa"
+      "name": "Tipo de Masa",
+      "is_boolean": false
     },
     {
       "id": "altura",
-      "name": "Altura"
+      "name": "Altura Doble",
+      "is_boolean": true
     },
     {
       "id": "sabor",
-      "name": "Sabor"
+      "name": "Sabor",
+      "is_boolean": false
     }
   ],
   "option_values": [
@@ -155,15 +158,9 @@
       "is_base": false
     },
     {
-      "id": "altura-estandar",
-      "option_id": "altura",
-      "name": "Estándar (8 cm)",
-      "is_base": true
-    },
-    {
       "id": "altura-doble",
       "option_id": "altura",
-      "name": "Doble (15 cm)",
+      "name": "Masa Doble",
       "is_base": false
     },
     {
@@ -184,147 +181,190 @@
       "product_id": "minicake-15",
       "option_id": "masa",
       "option_value_id": "masa-harina",
+      "option_name": "Tipo de Masa",
+      "option_value_name": "Harina",
       "direct_price": 2500,
+      "is_enabled": true,
       "is_base": true
     },
     {
       "product_id": "cake-20",
       "option_id": "masa",
       "option_value_id": "masa-maicena",
+      "option_name": "Tipo de Masa",
+      "option_value_name": "Maicena",
       "direct_price": 3900,
-      "is_base": true
-    },
-    {
-      "product_id": "cake-20",
-      "option_id": "altura",
-      "option_value_id": "altura-estandar",
-      "direct_price": 3900,
+      "is_enabled": true,
       "is_base": true
     },
     {
       "product_id": "cake-20",
       "option_id": "altura",
       "option_value_id": "altura-doble",
+      "option_name": "Altura Doble",
+      "option_value_name": "Masa Doble",
       "direct_price": 6700,
+      "is_enabled": true,
       "is_base": false
     },
     {
       "product_id": "cake-22",
       "option_id": "masa",
       "option_value_id": "masa-harina",
+      "option_name": "Tipo de Masa",
+      "option_value_name": "Harina",
       "direct_price": 3800,
+      "is_enabled": true,
       "is_base": true
     },
     {
       "product_id": "cake-22",
       "option_id": "masa",
       "option_value_id": "masa-capuchino",
+      "option_name": "Tipo de Masa",
+      "option_value_name": "Capuchino",
       "direct_price": 6900,
+      "is_enabled": true,
       "is_base": false
-    },
-    {
-      "product_id": "cake-22",
-      "option_id": "altura",
-      "option_value_id": "altura-estandar",
-      "direct_price": 3800,
-      "is_base": true
     },
     {
       "product_id": "cake-22",
       "option_id": "altura",
       "option_value_id": "altura-doble",
+      "option_name": "Altura Doble",
+      "option_value_name": "Masa Doble",
       "direct_price": 6500,
+      "is_enabled": true,
       "is_base": false
     },
     {
       "product_id": "cake-25",
       "option_id": "masa",
       "option_value_id": "masa-harina",
+      "option_name": "Tipo de Masa",
+      "option_value_name": "Harina",
       "direct_price": 6500,
+      "is_enabled": true,
       "is_base": true
     },
     {
       "product_id": "cake-25",
       "option_id": "masa",
       "option_value_id": "masa-capuchino",
+      "option_name": "Tipo de Masa",
+      "option_value_name": "Capuchino",
       "direct_price": 12500,
+      "is_enabled": true,
       "is_base": false
     },
     {
       "product_id": "cake-30",
       "option_id": "masa",
       "option_value_id": "masa-harina",
+      "option_name": "Tipo de Masa",
+      "option_value_name": "Harina",
       "direct_price": 14000,
+      "is_enabled": true,
       "is_base": true
     },
     {
       "product_id": "cake-36",
       "option_id": "masa",
       "option_value_id": "masa-harina",
+      "option_name": "Tipo de Masa",
+      "option_value_name": "Harina",
       "direct_price": 18000,
+      "is_enabled": true,
       "is_base": true
     },
     {
       "product_id": "medio-cake-bandeja",
       "option_id": "masa",
       "option_value_id": "masa-harina",
+      "option_name": "Tipo de Masa",
+      "option_value_name": "Harina",
       "direct_price": 6700,
+      "is_enabled": true,
       "is_base": true
     },
     {
       "product_id": "cake-bandeja",
       "option_id": "masa",
       "option_value_id": "masa-harina",
+      "option_name": "Tipo de Masa",
+      "option_value_name": "Harina",
       "direct_price": 13500,
+      "is_enabled": true,
       "is_base": true
     },
     {
       "product_id": "cake-bandeja",
       "option_id": "masa",
       "option_value_id": "masa-maicena",
+      "option_name": "Tipo de Masa",
+      "option_value_name": "Maicena",
       "direct_price": 14000,
+      "is_enabled": true,
       "is_base": false
     },
     {
       "product_id": "cake-bandeja",
       "option_id": "masa",
       "option_value_id": "masa-capuchino",
+      "option_name": "Tipo de Masa",
+      "option_value_name": "Capuchino",
       "direct_price": 20000,
+      "is_enabled": true,
       "is_base": false
     },
     {
       "product_id": "cake-2pisos-bandeja",
       "option_id": "masa",
       "option_value_id": "masa-harina",
+      "option_name": "Tipo de Masa",
+      "option_value_name": "Harina",
       "direct_price": 17000,
+      "is_enabled": true,
       "is_base": true
     },
     {
       "product_id": "cake-2pisos-redondo",
       "option_id": "masa",
       "option_value_id": "masa-harina",
+      "option_name": "Tipo de Masa",
+      "option_value_name": "Harina",
       "direct_price": 18000,
+      "is_enabled": true,
       "is_base": true
     },
     {
       "product_id": "cake-2pisos-redondo",
       "option_id": "altura",
       "option_value_id": "altura-doble",
+      "option_name": "Altura Doble",
+      "option_value_name": "Masa Doble",
       "direct_price": 20000,
+      "is_enabled": true,
       "is_base": false
     },
     {
       "product_id": "cupcake",
       "option_id": "sabor",
       "option_value_id": "sabor-vainilla",
+      "option_name": "Sabor",
+      "option_value_name": "Vainilla",
       "direct_price": 160,
+      "is_enabled": true,
       "is_base": true
     },
     {
       "product_id": "cupcake",
       "option_id": "sabor",
       "option_value_id": "sabor-chocolate",
+      "option_name": "Sabor",
+      "option_value_name": "Chocolate",
       "direct_price": 165,
+      "is_enabled": true,
       "is_base": false
     }
   ],
@@ -347,5 +387,5 @@
     }
   ],
   "ediblePrintPrice": 900,
-  "catalog_version": "v2_combos_cerrados"
+  "catalog_version": "v3_altura_booleana_directa"
 }

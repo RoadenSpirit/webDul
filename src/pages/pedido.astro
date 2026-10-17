@@ -1,5 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import catalogData from '../../data/catalog.json';
+
+const initialCatalog = catalogData;
 ---
 
 <Layout title="Completar Encargo">
@@ -577,7 +580,7 @@ import Layout from '../layouts/Layout.astro';
   }
 </style>
 
-<script>
+<script define:vars={{ initialCatalog }}>
   let cart = [];
   const uploadedImages = {};
 
@@ -768,10 +771,14 @@ import Layout from '../layouts/Layout.astro';
   };
 
   // Cargar catálogo dinámico con opciones asignadas desde localStorage o initial
-  let activeCatalog = null;
+  const CATALOG_VERSION = 'v3_altura_booleana_directa';
+  let activeCatalog = initialCatalog;
   try {
+    const savedVer = localStorage.getItem('el_lider_catalog_version');
     const saved = localStorage.getItem('el_lider_admin_catalog');
-    if (saved) activeCatalog = JSON.parse(saved);
+    if (saved && savedVer === CATALOG_VERSION) {
+      activeCatalog = JSON.parse(saved);
+    }
   } catch (e) {}
 
   const calculateItemUnitPrice = (item) => {
