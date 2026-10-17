@@ -69,6 +69,7 @@ const decorations = [
             <div class="cake-image-wrap carousel-container" data-images={JSON.stringify(product.images || [product.image])}>
               <img src={product.image} alt={product.name} class="cake-image carousel-img active-img" loading="lazy" />
               <img src={product.image} alt="" class="cake-image carousel-img next-img" aria-hidden="true" />
+              <div class="glass-shine-layer" aria-hidden="true"></div>
               <span class="card-badge">{product.id.includes('minicake') ? 'Mini Cake' : 'Cake'}</span>
             </div>
             <div class="cake-content">
@@ -132,6 +133,7 @@ const decorations = [
             <div class="buffet-image-wrap carousel-container" data-images={JSON.stringify(product.images || [product.image])}>
               <img src={product.image} alt={product.name} class="buffet-image carousel-img active-img" loading="lazy" />
               <img src={product.image} alt="" class="buffet-image carousel-img next-img" aria-hidden="true" />
+              <div class="glass-shine-layer" aria-hidden="true"></div>
             </div>
             <div class="buffet-content">
               <h3 class="buffet-name">{product.name}</h3>
@@ -504,6 +506,7 @@ const decorations = [
     width: 100%;
     height: 220px;
     overflow: hidden;
+    background: #1A0A10;
   }
 
   .carousel-img {
@@ -512,7 +515,9 @@ const decorations = [
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: opacity 1000ms ease-in-out, transform 1000ms ease-in-out;
+    /* Transición limpia y fluida */
+    transition: opacity 700ms cubic-bezier(0.4, 0, 0.2, 1);
+    transform: none !important;
   }
 
   .carousel-img.active-img {
@@ -525,19 +530,56 @@ const decorations = [
     z-index: 1;
   }
 
+  /* 1. Fadeout puro de la imagen antigua */
   .carousel-img.fade-out {
     opacity: 0;
-    transform: scale(1.04);
+    z-index: 2;
   }
 
+  /* 2. Fadein puro de la imagen nueva */
   .carousel-img.fade-in {
     opacity: 1;
-    transform: scale(1);
     z-index: 3;
   }
 
+  /* 3. Efecto Brillo Glass Premium (sin vibración / sin pulsación) */
+  .glass-shine-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 5;
+    background: linear-gradient(
+      115deg,
+      transparent 0%,
+      transparent 35%,
+      rgba(255, 255, 255, 0.45) 50%,
+      rgba(255, 255, 255, 0.15) 55%,
+      transparent 70%
+    );
+    opacity: 0;
+    transform: translateX(-120%);
+  }
+
+  .glass-shine-layer.shine-active {
+    animation: glassShineSweep 1000ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+
+  @keyframes glassShineSweep {
+    0% {
+      opacity: 0;
+      transform: translateX(-120%);
+    }
+    30% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(120%);
+    }
+  }
+
   .cake-card:hover .carousel-img.active-img {
-    transform: scale(1.05);
+    /* Hover estático limpio sin descalibrar el carrusel */
   }
 
   .card-badge {
@@ -726,6 +768,7 @@ const decorations = [
     width: 100%;
     height: 160px;
     overflow: hidden;
+    background: #1A0A10;
   }
 
   .buffet-image {
@@ -1429,16 +1472,31 @@ const decorations = [
       currentIndex = (currentIndex + 1) % images.length;
       const nextSrc = images[currentIndex];
 
-      // Pre-cargar la siguiente imagen
+      // Pre-cargar la imagen nueva en el fondo
       nextImg.src = nextSrc;
-      nextImg.classList.add('fade-in');
+      nextImg.classList.remove('fade-in');
+      nextImg.style.opacity = '1';
+      nextImg.style.zIndex = '1';
+
+      // 1. Fadeout suave de la imagen antigua (sin escalar/pulsar)
       activeImg.classList.add('fade-out');
 
+      // 2. Al completarse el fadeout, la nueva toma el mando y destella el brillo glass
       setTimeout(() => {
         activeImg.src = nextSrc;
         activeImg.classList.remove('fade-out');
-        nextImg.classList.remove('fade-in');
-      }, 1000);
+        nextImg.style.opacity = '0';
+        nextImg.style.zIndex = '1';
+
+        // 3. Disparo del efecto brillo glass
+        const glassLayer = container.querySelector('.glass-shine-layer');
+        if (glassLayer) {
+          glassLayer.classList.remove('shine-active');
+          // Forzar reflujo DOM
+          void (glassLayer as HTMLElement).offsetWidth;
+          glassLayer.classList.add('shine-active');
+        }
+      }, 700);
     };
 
     // Pausar si no es visible en pantalla
