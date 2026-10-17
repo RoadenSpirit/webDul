@@ -109,8 +109,9 @@ const initialCatalog = catalogData;
           <table class="w-full text-left border-collapse min-w-[760px]">
             <thead>
               <tr class="bg-[var(--bg-secondary)] border-b border-[var(--border-color)] text-[11px] font-black uppercase tracking-wider text-[var(--accent-light)]">
+                <th class="py-4 px-3 w-1/12 text-center">#</th>
                 <th class="py-4 px-6 w-5/12">Producto &amp; Precio Base</th>
-                <th class="py-4 px-6 w-5/12">Opciones Asignadas (Valores y Precios)</th>
+                <th class="py-4 px-6 w-4/12">Opciones Asignadas (Valores y Precios)</th>
                 <th class="py-4 px-6 w-2/12 text-right">Acciones</th>
               </tr>
             </thead>
@@ -306,15 +307,130 @@ const initialCatalog = catalogData;
     }
   };
 
-  const clearChanged = () => {
-    hasPendingChanges = false;
-    if (saveChangesBtn) {
-      saveChangesBtn.classList.add('hidden');
-      saveChangesBtn.classList.remove('inline-flex');
-    }
-  };
+   const clearChanged = () => {
+     hasPendingChanges = false;
+     if (saveChangesBtn) {
+       saveChangesBtn.classList.add('hidden');
+       saveChangesBtn.classList.remove('inline-flex');
+     }
+   };
 
-  // Auth Handler
+   // Toast and Confirm System
+   const showToast = (message, type = 'info') => {
+     // Remove any existing toast
+     const existingToast = document.querySelector('.toast-container');
+     if (existingToast) {
+       existingToast.remove();
+     }
+
+     const toast = document.createElement('div');
+     toast.className = `toast-container fixed bottom-4 right-4 z-50 flex items-center w-max rounded-xl border border-[var(--border-color)] px-4 py-3 text-xs font-medium transition-opacity duration-300`;
+     toast.setAttribute('role', 'alert');
+     
+     let bgColor = 'bg-[var(--bg-secondary)]/90';
+     let textColor = 'text-[var(--text-primary)]';
+     let borderColor = 'border-[var(--border-color)]';
+     
+     if (type === 'success') {
+       bgColor = 'bg-[var(--primary)]/90';
+       textColor = 'text-white';
+       borderColor = 'border-[var(--primary)]/30';
+     } else if (type === 'error') {
+       bgColor = 'bg-red-600/90';
+       textColor = 'text-white';
+       borderColor = 'border-red-500/30';
+     } else if (type === 'warning') {
+       bgColor = 'bg-amber-600/90';
+       textColor = 'text-white';
+       borderColor = 'border-amber-500/30';
+     }
+
+     toast.innerHTML = `
+       <span class="mr-2">${type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️'}</span>
+       <span class="${textColor}">${message}</span>
+     `;
+     
+     toast.style.cssText = `${bgColor}; ${textColor}; ${borderColor};`;
+     
+     document.body.appendChild(toast);
+     
+     // Auto remove after 3 seconds
+     setTimeout(() => {
+       toast.style.opacity = '0';
+       toast.addEventListener('transitionend', () => {
+         if (toast.parentNode) {
+           toast.parentNode.removeChild(toast);
+         }
+       });
+     }, 3000);
+   };
+
+   const askConfirm = (message) => {
+     return new Promise((resolve) => {
+       // Remove any existing confirm modal
+       const existingModal = document.getElementById('confirm-modal');
+       if (existingModal) {
+         existingModal.remove();
+       }
+
+       const modalBackdrop = document.createElement('div');
+       modalBackdrop.className = 'fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm';
+       modalBackdrop.id = 'confirm-modal-backdrop';
+
+       const modalContent = document.createElement('div');
+       modalContent.className = 'bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl w-full max-w-md p-6 shadow-2xl';
+       modalContent.id = 'confirm-modal';
+
+       modalContent.innerHTML = `
+         <div class="mb-4 flex items-center justify-between">
+           <h3 class="text-lg font-black text-white">Confirmar acción</h3>
+           <button id="confirm-close-btn" class="text-2xl text-white/50 hover:text-white leading-none cursor-pointer">&times;</button>
+         </div>
+         <p class="text-[var(--text-primary)] mb-6">${message}</p>
+         <div class="flex justify-end space-x-3">
+           <button id="confirm-cancel-btn" class="px-4 py-2 bg-white/10 hover:bg-white/20 text-xs font-bold rounded-xl text-[var(--text-secondary)] cursor-pointer">
+             Cancelar
+           </button>
+           <button id="confirm-ok-btn" class="px-5 py-2 bg-[var(--gradient-brand)] text-xs font-bold rounded-xl text-white shadow-lg hover:opacity-95 cursor-pointer">
+             Aceptar
+           </button>
+         </div>
+       `;
+
+       const modalRoot = document.createElement('div');
+       modalRoot.appendChild(modalBackdrop);
+       modalRoot.appendChild(modalContent);
+       document.body.appendChild(modalRoot);
+
+       const backdrop = document.getElementById('confirm-modal-backdrop');
+       const modal = document.getElementById('confirm-modal');
+       const closeBtn = document.getElementById('confirm-close-btn');
+       const cancelBtn = document.getElementById('confirm-cancel-btn');
+       const okBtn = document.getElementById('confirm-ok-btn');
+
+       const closeModal = () => {
+         if (modalRoot.parentNode) {
+           modalRoot.parentNode.removeChild(modalRoot);
+         }
+         resolve(false);
+       };
+
+       backdrop.addEventListener('click', closeModal);
+       closeBtn.addEventListener('click', closeModal);
+       cancelBtn.addEventListener('click', closeModal);
+       okBtn.addEventListener('click', () => {
+         if (modalRoot.parentNode) {
+           modalRoot.parentNode.removeChild(modalRoot);
+         }
+         resolve(true);
+       });
+
+       // Focus on cancel button by default
+       cancelBtn.focus();
+     });
+   };
+
+   // Auth Handler
   loginForm?.addEventListener('submit', (e) => {
     e.preventDefault();
     const user = (document.getElementById('admin-user')).value.trim();
@@ -349,12 +465,13 @@ const initialCatalog = catalogData;
     renderProductsTable();
   };
 
-  resetDefaultsBtn?.addEventListener('click', () => {
-    if (confirm('¿Restaurar todos los productos, opciones y precios oficiales iniciales?')) {
+  resetDefaultsBtn?.addEventListener('click', async () => {
+    const ok = await askConfirm('¿Restaurar todos los productos, opciones y precios oficiales iniciales?');
+    if (ok) {
       catalog = JSON.parse(JSON.stringify(initialCatalog));
       persistLocal();
       renderProductsTable();
-      alert('✓ Precios oficiales restaurados');
+      showToast('✓ Precios oficiales restaurados', 'success');
     }
   });
 
@@ -375,14 +492,14 @@ const initialCatalog = catalogData;
       const data = await res.json();
       if (data.ok) {
         clearChanged();
-        alert('💾 ¡Cambios guardados con éxito en la base de datos de la VPS!');
+        showToast('💾 ¡Cambios guardados con éxito en la base de datos de la VPS!', 'success');
       } else {
         throw new Error(data.error || 'Fallo al guardar');
       }
     } catch (e) {
       console.warn('Sync server offline, guardado en almacenamiento local activo:', e);
       clearChanged();
-      alert('💾 Cambios guardados con éxito en almacenamiento local.');
+      showToast('💾 Cambios guardados con éxito en almacenamiento local.', 'info');
     } finally {
       saveChangesBtn.disabled = false;
       saveChangesBtn.innerHTML = `
@@ -396,6 +513,7 @@ const initialCatalog = catalogData;
   const renderProductsTable = () => {
     if (!tableBody) return;
     let html = '';
+    let rowIndex = 1;
 
     const products = catalog.products || [];
 
@@ -454,76 +572,93 @@ const initialCatalog = catalogData;
                 </svg>
               </button>
             </div>
-          `;
-        });
+        `;
+        rowIndex++;
+     });
         pillsHtml += `</div>`;
       }
 
-      html += `
-        <tr class="hover:bg-white/[0.02] transition-colors">
-          <!-- Columna 1: Nombre editable + Precio Base editable + Tipo -->
-          <td class="py-4 px-6 align-top">
-            <div class="space-y-2">
-              <input 
-                type="text" 
-                class="prod-name-input w-full bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-lg px-2.5 py-1 text-sm font-black text-white outline-none focus:border-[var(--primary)] transition-colors" 
-                data-product-id="${product.id}" 
-                value="${product.name}" 
-                title="Haz clic para renombrar este producto"
-              />
-              <div class="flex items-center gap-2 flex-wrap">
-                <span class="text-xs text-white/60 font-bold">Precio Base:</span>
-                <div class="inline-flex items-center gap-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-lg px-2 py-0.5 focus-within:border-[var(--primary)] transition-colors">
-                  <span class="text-xs font-black text-[var(--accent-light)]">$</span>
-                  <input 
-                    type="number" 
-                    class="base-price-input w-20 bg-transparent text-xs font-black text-[var(--accent-light)] outline-none text-right" 
-                    data-product-id="${product.id}" 
-                    value="${product.base_price}" 
-                    title="Modifica el precio base directamente"
-                  />
-                  <span class="text-[10px] font-bold text-white/60">CUP</span>
-                </div>
+       const isEven = rowIndex % 2 === 0;
+       const rowClass = `hover:bg-white/[0.02] transition-colors ${isEven ? 'bg-[var(--bg-secondary)]/50' : ''}`;
 
-                <select 
-                  class="prod-type-select bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-lg px-2 py-0.5 text-[10px] font-bold uppercase text-[var(--neutral-cream)] outline-none" 
-                  data-product-id="${product.id}"
-                >
-                  <option value="cakes" ${product.type === 'cakes' ? 'selected' : ''}>Cakes</option>
-                  <option value="buffet" ${product.type === 'buffet' ? 'selected' : ''}>Buffet</option>
-                </select>
+       html += `
+         <tr class="${rowClass}">
+           <!-- Columna 0: Número -->
+           <td class="py-4 px-2 text-center font-mono text-xs text-[var(--neutral-cream)]/70">${rowIndex.toString().padStart(2, '0')}</td>
+           
+           <!-- Columna 1: Nombre editable + Precio Base editable + Tipo -->
+           <td class="py-4 px-6 align-top">
+             <div class="space-y-2">
+               <input 
+                 type="text" 
+                 class="prod-name-input w-full bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-lg px-2.5 py-1 text-sm font-black text-white outline-none focus:border-[var(--primary)] transition-colors" 
+                 data-product-id="${product.id}" 
+                 value="${product.name}" 
+                 title="Haz clic para renombrar este producto"
+               />
+               <div class="flex items-center gap-2 flex-wrap">
+                 <span class="text-xs text-white/60 font-bold">Precio Base:</span>
+                 <div class="inline-flex items-center gap-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-lg px-2 py-0.5 focus-within:border-[var(--primary)] transition-colors">
+                   <span class="text-xs font-black text-[var(--accent-light)]">$</span>
+                   <input 
+                     type="number" 
+                     class="base-price-input w-20 bg-transparent text-xs font-black text-[var(--accent-light)] outline-none text-right" 
+                     data-product-id="${product.id}" 
+                     value="${product.base_price}" 
+                     title="Modifica el precio base directamente"
+                   />
+                   <span class="text-[10px] font-bold text-white/60">CUP</span>
+                 </div>
 
-                <button 
-                  class="delete-prod-btn text-[10px] text-red-400/70 hover:text-red-400 font-bold px-1.5 py-0.5 hover:bg-red-500/10 rounded transition-colors cursor-pointer ml-auto" 
-                  data-product-id="${product.id}"
-                  title="Eliminar producto"
-                >
-                  Eliminar
-                </button>
-              </div>
-            </div>
-          </td>
+                 <select 
+                   class="prod-type-select bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-lg px-2 py-0.5 text-[10px] font-bold uppercase text-[var(--neutral-cream)] outline-none" 
+                   data-product-id="${product.id}"
+                 >
+                   <option value="cakes" ${product.type === 'cakes' ? 'selected' : ''}>Cakes</option>
+                   <option value="buffet" ${product.type === 'buffet' ? 'selected' : ''}>Buffet</option>
+                 </select>
 
-          <!-- Columna 2: Píldoras con lápiz ✏️ -->
-          <td class="py-4 px-6 align-middle">
-            ${pillsHtml}
-          </td>
+                 <button 
+                   class="delete-prod-btn text-[10px] text-red-400/70 hover:text-red-400 font-bold px-1.5 py-0.5 hover:bg-red-500/10 rounded transition-colors cursor-pointer" 
+                   data-product-id="${product.id}"
+                   title="Eliminar producto"
+                 >
+                   Eliminar
+                 </button>
+               </div>
+             </div>
+           </td>
 
-          <!-- Columna 3: Botón + Asignar Opción -->
-          <td class="py-4 px-6 text-right align-middle">
-            <button 
-              class="add-opt-btn inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/10 hover:bg-white/20 text-xs font-extrabold rounded-xl transition-all cursor-pointer text-white shadow-sm"
-              data-product-id="${product.id}"
-            >
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3">
-                <line x1="12" y1="5" x2="12" y2="19"></line>
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-              </svg>
-              <span>+ Opción</span>
-            </button>
-          </td>
-        </tr>
-      `;
+           <!-- Columna 2: Píldoras con lápiz ✏️ -->
+           <td class="py-4 px-6 align-middle">
+             ${pillsHtml}
+           </td>
+
+           <!-- Columna 3: Botones de Acción -->
+           <td class="py-4 px-6 text-right align-middle">
+             <div class="space-y-2">
+               <button 
+                 class="add-opt-btn inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/10 hover:bg-white/20 text-xs font-extrabold rounded-xl transition-all cursor-pointer text-white shadow-sm"
+                 data-product-id="${product.id}"
+               >
+                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3">
+                   <line x1="12" y1="5" x2="12" y2="19"></line>
+                   <line x1="5" y1="12" x2="19" y2="12"></line>
+                 </svg>
+                 <span>Opción</span>
+               </button>
+               
+               <button 
+                 class="delete-prod-btn mt-2 w-full text-[10px] text-red-400/70 hover:text-red-400 font-bold px-1.5 py-0.5 hover:bg-red-500/10 rounded transition-colors cursor-pointer"
+                 data-product-id="${product.id}"
+                 title="Eliminar producto"
+               >
+                 Eliminar
+               </button>
+             </div>
+           </td>
+         </tr>
+       `;
     });
 
     tableBody.innerHTML = html;
@@ -570,14 +705,21 @@ const initialCatalog = catalogData;
 
     // Handlers de eliminar producto
     tableBody.querySelectorAll('.delete-prod-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
+      btn.addEventListener('click', async () => {
         const productId = btn.getAttribute('data-product-id');
         const product = (catalog.products || []).find(p => p.id === productId);
-        if (product && confirm(`¿Eliminar definitivamente "${product.name}" del catálogo?`)) {
-          catalog.products = (catalog.products || []).filter(p => p.id !== productId);
-          catalog.product_options = (catalog.product_options || []).filter(v => v.product_id !== productId);
-          persistLocal();
-          renderProductsTable();
+        if (product) {
+          const ok = await askConfirm(`¿Eliminar definitivamente "${product.name}" del catálogo?`);
+          if (ok) {
+            catalog.products = (catalog.products || []).filter(p => p.id !== productId);
+            catalog.product_options = (catalog.product_options || []).filter(v => v.product_id !== productId);
+            if (catalog.product_combinations) {
+              catalog.product_combinations = catalog.product_combinations.filter(c => c.product_id !== productId);
+            }
+            persistLocal();
+            renderProductsTable();
+            showToast(`Producto "${product.name}" eliminado`, 'success');
+          }
         }
       });
     });
@@ -720,9 +862,9 @@ const initialCatalog = catalogData;
       if (modalNewOptName) modalNewOptName.value = '';
       persistLocal();
       renderModalOptionSelect(id);
-      alert(`✓ Opción "${name}" creada con éxito. Ya puedes añadirle valores.`);
+      showToast(`✓ Opción "${name}" creada con éxito`, 'success');
     } else {
-      alert('Ya existe una opción con ese nombre.');
+      showToast('Ya existe una opción con ese nombre.', 'warning');
     }
   });
 
@@ -736,7 +878,7 @@ const initialCatalog = catalogData;
     const price = priceRaw ? parseInt(priceRaw) : defaultP;
 
     if (!optId || !valName) {
-      alert('Por favor ingresa el nombre del nuevo valor');
+      showToast('Por favor ingresa el nombre del nuevo valor', 'warning');
       return;
     }
 
@@ -813,15 +955,17 @@ const initialCatalog = catalogData;
   });
 
   // Quitar Opción Completa de este Producto
-  modalRemoveOptBtn?.addEventListener('click', () => {
+  modalRemoveOptBtn?.addEventListener('click', async () => {
     if (!editingProductId || !editingOptionId) return;
-    if (confirm('¿Quitar esta opción y todos sus valores de este producto?')) {
+    const ok = await askConfirm('¿Quitar esta opción y todos sus valores de este producto?');
+    if (ok) {
       catalog.product_options = (catalog.product_options || []).filter(
         po => !(po.product_id === editingProductId && po.option_id === editingOptionId)
       );
       persistLocal();
       renderProductsTable();
       closeModal();
+      showToast('Opción eliminada del producto', 'info');
     }
   });
 
@@ -846,7 +990,7 @@ const initialCatalog = catalogData;
     const image = (document.getElementById('np-image')).value.trim() || 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=800&auto=format&fit=crop';
 
     if (!name || basePrice < 0) {
-      alert('Ingresa el nombre y un precio base válido.');
+      showToast('Ingresa el nombre y un precio base válido.', 'warning');
       return;
     }
 
@@ -854,7 +998,7 @@ const initialCatalog = catalogData;
     if (!catalog.products) catalog.products = [];
 
     if (catalog.products.find(p => p.id === id)) {
-      alert('Ya existe un producto con un identificador similar. Usa un nombre distintivo.');
+      showToast('Ya existe un producto con un identificador similar.', 'warning');
       return;
     }
 
@@ -872,7 +1016,7 @@ const initialCatalog = catalogData;
     persistLocal();
     renderProductsTable();
     closeNewProdModal();
-    alert(`✓ Producto "${name}" creado con éxito.`);
+    showToast(`✓ Producto "${name}" creado con éxito.`, 'success');
   });
 
   // Inicialización

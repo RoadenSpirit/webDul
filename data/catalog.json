@@ -197,6 +197,13 @@
     {
       "product_id": "cake-20",
       "option_id": "altura",
+      "option_value_id": "altura-estandar",
+      "direct_price": 3900,
+      "is_base": true
+    },
+    {
+      "product_id": "cake-20",
+      "option_id": "altura",
       "option_value_id": "altura-doble",
       "direct_price": 6700,
       "is_base": false
@@ -214,6 +221,13 @@
       "option_value_id": "masa-capuchino",
       "direct_price": 6900,
       "is_base": false
+    },
+    {
+      "product_id": "cake-22",
+      "option_id": "altura",
+      "option_value_id": "altura-estandar",
+      "direct_price": 3800,
+      "is_base": true
     },
     {
       "product_id": "cake-22",
@@ -314,6 +328,24 @@
       "is_base": false
     }
   ],
+  "product_combinations": [
+    {
+      "product_id": "cake-22",
+      "option_values": {
+        "masa": "masa-capuchino",
+        "altura": "altura-doble"
+      },
+      "direct_price": 9700
+    },
+    {
+      "product_id": "cake-22",
+      "option_values": {
+        "masa": "masa-harina",
+        "altura": "altura-doble"
+      },
+      "direct_price": 6500
+    }
+  ],
   "ediblePrintPrice": 900,
-  "catalog_version": "v1_opciones_unicas"
+  "catalog_version": "v2_combos_cerrados"
 }

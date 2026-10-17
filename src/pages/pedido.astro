@@ -83,8 +83,8 @@ import Layout from '../layouts/Layout.astro';
           </div>
 
           <div class="space-y-4">
-            <div class="bg-[var(--bg-secondary)] border border-[var(--border-color)] text-[var(--text-secondary)] text-xs p-3 rounded-xl leading-relaxed">
-              ⚠️ La decoración final y precio de cakes personalizados se acordará por WhatsApp. Decoraciones complejas pueden variar el precio.
+            <div class="bg-[var(--bg-secondary)] border border-[var(--border-color)] text-[var(--text-secondary)] text-xs p-3 rounded-xl leading-relaxed space-y-1">
+              <p>⚠️ <strong>Nota importante:</strong> Las temáticas y decoraciones complejas se cobran adicional al valor del cake y se concertarán por WhatsApp.</p>
             </div>
             <button type="button" id="confirm-whatsapp-checkout-btn" class="w-full py-4 bg-[#25D366] hover:bg-[#20ba59] active:scale-[0.98] text-white font-bold text-base rounded-xl transition-all shadow-md flex items-center justify-center gap-2.5">
               <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
@@ -777,38 +777,46 @@ import Layout from '../layouts/Layout.astro';
   const calculateItemUnitPrice = (item) => {
     let unit = item.price || 0;
 
-    // Nueva estructura: buscar en product_options
-    if (activeCatalog && activeCatalog.product_options) {
-      if (item.options && Object.keys(item.options).length > 0) {
-        // Construir key de combinación
-        const optEntries = Object.entries(item.options);
-        const combinations = activeCatalog.product_options.filter(
-          po => po.product_id === item.id && po.is_enabled
+    // 1. Prioridad: Buscar en product_combinations explícitos (ej: capuchino + doble = 9700)
+    if (activeCatalog && activeCatalog.product_combinations && item.options) {
+      const combos = activeCatalog.product_combinations.filter(c => c.product_id === item.id);
+      for (const combo of combos) {
+        const matchesAll = Object.entries(combo.option_values).every(
+          ([optId, valId]) => item.options[optId] === valId
         );
-        
-        // Buscar la combinación exacta
-        let foundCombo = null;
-        for (const combo of combinations) {
-          const comboKey = `${combo.option_id}:${combo.option_value_id}`;
-          const itemKey = `${optEntries.find(([optId]) => optId === combo.option_id)?.[1]}`;
-          if (itemKey === combo.option_value_id) {
-            foundCombo = combo;
-            break;
-          }
-        }
-
-        if (foundCombo) {
-          unit = foundCombo.direct_price;
-        } else {
-          // Si no hay combinación exacta, tomar el valor base
-          const baseOption = combinations.find(po => po.is_base);
-          if (baseOption) {
-            unit = baseOption.direct_price;
-          }
+        if (matchesAll) {
+          unit = combo.direct_price;
+          if (item.ediblePrint) unit += (activeCatalog?.ediblePrintPrice || 900);
+          return unit;
         }
       }
+    }
+
+    // 2. Si no hay combo multi-opción, buscar en product_options individuales
+    if (activeCatalog && activeCatalog.product_options && item.options) {
+      const optEntries = Object.entries(item.options);
+      const prodOpts = activeCatalog.product_options.filter(
+        po => po.product_id === item.id && po.is_enabled
+      );
+
+      // Si el cliente seleccionó alguna opción no-base, tomar su precio directo
+      let foundDirectPrice = null;
+      for (const [optId, valId] of optEntries) {
+        const match = prodOpts.find(po => po.option_id === optId && po.option_value_id === valId);
+        if (match && !match.is_base) {
+          foundDirectPrice = match.direct_price;
+          break;
+        }
+      }
+
+      if (foundDirectPrice !== null) {
+        unit = foundDirectPrice;
+      } else {
+        const baseOpt = prodOpts.find(po => po.is_base);
+        if (baseOpt) unit = baseOpt.direct_price;
+      }
     } else {
-      // Fallback a reglas antiguas
+      // Fallback a reglas históricas
       const rule = RULES[item.id];
       if (rule) {
         const selectedDough = rule.doughs?.find(d => d.id === item.dough) || rule.doughs?.[0];
@@ -1229,7 +1237,7 @@ import Layout from '../layouts/Layout.astro';
 
     message += '━━━━━━━━━━━━━━━━━━━━━━━━━\n';
     message += `💵 *TOTAL ESTIMADO: $${total} CUP*\n\n`;
-    message += `⚠️ _La decoración y cotización final se concertarán en este chat._\n`;
+    message += `⚠️ _Las temáticas y decoraciones personalizadas se cobran adicional al valor del cake y se concertarán en este chat._\n`;
     message += `📍 Por favor, confírmenme disponibilidad para agendar. ¡Gracias!`;
 
     // 1) Notificación automática a la dulcería vía Baileys
