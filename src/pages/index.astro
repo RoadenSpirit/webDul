@@ -1296,6 +1296,29 @@ const decorations = [
     });
   });
 
+  // Sincronizar catálogo dinámico si el administrador guardó cambios en /admin
+  try {
+    const saved = localStorage.getItem('el_lider_admin_catalog');
+    if (saved) {
+      const cat = JSON.parse(saved);
+      if (cat.products && Array.isArray(cat.products)) {
+        cat.products.forEach((p: any) => {
+          // Actualizar cards de cakes y buffet con nombre y precio base
+          document.querySelectorAll(`[data-id="${p.id}"]`).forEach(card => {
+            const nameEl = card.querySelector('.cake-name, .buffet-name');
+            if (nameEl) nameEl.textContent = p.name;
+            const priceEl = card.querySelector('.price-amount, .buffet-price');
+            if (priceEl) priceEl.innerHTML = `$${p.base_price} <small class="currency">CUP</small>`;
+            card.querySelectorAll('.add-to-cart-btn, .buy-now-btn').forEach(b => {
+              b.setAttribute('data-name', p.name);
+              b.setAttribute('data-price', p.base_price.toString());
+            });
+          });
+        });
+      }
+    }
+  } catch (e) {}
+
   addToCartButtons.forEach(btn => {
     btn.addEventListener('click', () => {
       const id = btn.getAttribute('data-id') || '';

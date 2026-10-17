@@ -641,17 +641,25 @@ import Layout from '../layouts/Layout.astro';
   const getItemFullTitle = (item) => {
     let name = item.name;
     let parts = [];
-    const rule = RULES[item.id];
 
-    if (item.doubleHeight && rule && rule.hasDouble) {
-      parts.push('Doble');
-    }
-
-    // Dough details (only for cakes with options)
-    if (item.dough && item.dough !== 'trigo') {
-      const dObj = rule?.doughs?.find(d => d.id === item.dough);
-      const dName = dObj ? dObj.label.split('(')[0].trim() : item.dough;
-      parts.push(`Masa: ${dName}`);
+    if (activeCatalog && activeCatalog.variations && item.attributes) {
+      Object.keys(item.attributes).forEach(attrId => {
+        const optId = item.attributes[attrId];
+        const vObj = activeCatalog.variations.find(v => v.product_id === item.id && v.option_id === optId);
+        if (vObj && vObj.is_base !== 1) {
+          parts.push(`${vObj.attribute_name}: ${vObj.option_name}`);
+        }
+      });
+    } else {
+      const rule = RULES[item.id];
+      if (item.doubleHeight && rule && rule.hasDouble) {
+        parts.push('Doble');
+      }
+      if (item.dough && item.dough !== 'trigo') {
+        const dObj = rule?.doughs?.find(d => d.id === item.dough);
+        const dName = dObj ? dObj.label.split('(')[0].trim() : item.dough;
+        parts.push(`Masa: ${dName}`);
+      }
     }
 
     if (item.ediblePrint) {
@@ -844,45 +852,56 @@ import Layout from '../layouts/Layout.astro';
     let html = '';
     customizableCakes.forEach((item, idx) => {
       const globalIdx = cart.indexOf(item);
-      const rule = RULES[item.id];
+      let dynamicAttributesHtml = '';
 
-      let doubleOptionHtml = '';
-      let doughSelectorHtml = '';
+      // Obtener atributos asignados dinámicamente desde el catálogo activo
+      if (activeCatalog && activeCatalog.variations) {
+        const prodVars = activeCatalog.variations.filter(v => v.product_id === item.id && v.is_enabled);
+        
+        // Agrupar por atributo
+        const attrGroups = {};
+        prodVars.forEach(v => {
+          if (!attrGroups[v.attribute_id]) {
+            attrGroups[v.attribute_id] = {
+              attrId: v.attribute_id,
+              attrName: v.attribute_name,
+              options: []
+            };
+          }
+          attrGroups[v.attribute_id].options.push(v);
+        });
 
-      if (rule && rule.doughs && rule.doughs.length > 1) {
-        doughSelectorHtml = `
-          <div class="flex flex-col gap-2">
-            <label for="cake-dough-${globalIdx}" class="block text-sm font-bold text-[var(--text-primary)]">🌾 Selección de Masa:</label>
-            <select class="dough-select-field w-full px-4 py-3 bg-[var(--bg-primary)] border-2 border-[var(--border-color)] rounded-xl text-sm text-[var(--text-primary)] focus:border-[var(--accent-color)] focus:ring-4 focus:ring-[var(--accent-color)]/10 transition-all outline-none cursor-pointer appearance-none" data-index="${globalIdx}" id="cake-dough-${globalIdx}">
-              ${rule.doughs.map(d => `<option value="${d.id}" ${item.dough === d.id ? 'selected' : ''}>${d.label}</option>`).join('')}
-            </select>
-          </div>
-        `;
-      } else if (rule && rule.doughs && rule.doughs.length === 1) {
-        doughSelectorHtml = `
-          <div class="bg-[var(--bg-primary)]/80 border border-[var(--border-color)]/60 rounded-xl px-4 py-2.5 text-xs text-[var(--neutral-cream)] flex items-center justify-between">
-            <span class="font-bold">Masa única:</span>
-            <span class="text-[var(--accent-light)] font-bold">${rule.doughs[0].label}</span>
-          </div>
-        `;
-      }
+        // Renderizar selector para cada atributo asignado
+        Object.keys(attrGroups).forEach(attrId => {
+          const group = attrGroups[attrId];
+          const currentSelected = item.attributes ? item.attributes[attrId] : (group.options[0]?.option_id);
 
-      if (rule && rule.hasDouble) {
-        doubleOptionHtml = `
-          <label class="inline-flex items-center gap-3 w-full bg-[var(--bg-primary)] border-2 border-[var(--border-color)] hover:border-[var(--accent-color)] p-3 rounded-xl cursor-pointer transition-colors mt-2">
-            <input 
-              type="checkbox" 
-              class="double-height-checkbox-field w-4 h-4 text-[var(--accent-color)] border-[var(--border-color)] rounded focus:ring-[var(--accent-color)] cursor-pointer" 
-              data-index="${globalIdx}" 
-              id="cake-double-${globalIdx}"
-              ${item.doubleHeight ? 'checked' : ''}
-            />
-            <span class="text-sm font-bold text-[var(--text-primary)] flex-grow flex items-center justify-between">
-              <span>Cake Doble / Doble Altura</span>
-              <span class="text-xs text-[var(--accent-light)] font-black">+${rule.doublePrice} CUP</span>
-            </span>
-          </label>
-        `;
+          dynamicAttributesHtml += `
+            <div class="flex flex-col gap-2">
+              <label for="attr-${attrId}-${globalIdx}" class="block text-sm font-bold text-[var(--text-primary)]">✨ ${group.attrName}:</label>
+              <select class="dynamic-attr-field w-full px-4 py-3 bg-[var(--bg-primary)] border-2 border-[var(--border-color)] rounded-xl text-sm text-[var(--text-primary)] focus:border-[var(--accent-color)] focus:ring-4 focus:ring-[var(--accent-color)]/10 transition-all outline-none cursor-pointer appearance-none font-bold" data-index="${globalIdx}" data-attr-id="${attrId}" id="attr-${attrId}-${globalIdx}">
+                ${group.options.map(opt => `
+                  <option value="${opt.option_id}" ${currentSelected === opt.option_id ? 'selected' : ''}>
+                    ${opt.option_name} ($${opt.direct_price} CUP)
+                  </option>
+                `).join('')}
+              </select>
+            </div>
+          `;
+        });
+      } else {
+        // Fallback a reglas fijas si no hubiese catálogo activo
+        const rule = RULES[item.id];
+        if (rule && rule.doughs && rule.doughs.length > 0) {
+          dynamicAttributesHtml += `
+            <div class="flex flex-col gap-2">
+              <label for="cake-dough-${globalIdx}" class="block text-sm font-bold text-[var(--text-primary)]">🌾 Selección de Masa / Sabor:</label>
+              <select class="dough-select-field w-full px-4 py-3 bg-[var(--bg-primary)] border-2 border-[var(--border-color)] rounded-xl text-sm text-[var(--text-primary)] focus:border-[var(--accent-color)] focus:ring-4 focus:ring-[var(--accent-color)]/10 transition-all outline-none cursor-pointer appearance-none font-bold" data-index="${globalIdx}" id="cake-dough-${globalIdx}">
+                ${rule.doughs.map(d => `<option value="${d.id}" ${item.dough === d.id ? 'selected' : ''}>${d.label}</option>`).join('')}
+              </select>
+            </div>
+          `;
+        }
       }
 
       html += `
@@ -892,9 +911,7 @@ import Layout from '../layouts/Layout.astro';
             <h4 class="text-lg sm:text-xl font-black text-white mt-0.5">${item.name}</h4>
           </div>
           
-          ${sizeSelectorHtml}
-          ${doubleOptionHtml}
-          ${doughSelectorHtml}
+          ${dynamicAttributesHtml}
 
           <div class="flex flex-col gap-2">
             <label for="cake-theme-${globalIdx}" class="block text-sm font-bold text-[var(--text-primary)]">✍️ Temática / Decoración y Colores:</label>
@@ -956,7 +973,25 @@ import Layout from '../layouts/Layout.astro';
   };
 
   const attachCustomizerEvents = () => {
-    // Dough selects
+    // Dynamic attribute selects
+    document.querySelectorAll('.dynamic-attr-field').forEach(select => {
+      select.addEventListener('change', (e) => {
+        const target = e.target as HTMLSelectElement;
+        const idx = parseInt(target.getAttribute('data-index') || '0');
+        const attrId = target.getAttribute('data-attr-id') || '';
+        
+        if (!cart[idx].attributes) cart[idx].attributes = {};
+        cart[idx].attributes[attrId] = target.value;
+        
+        // Mantener compatibilidad si es masa
+        if (attrId === 'masa') {
+          cart[idx].dough = target.value;
+        }
+        updateTotals();
+      });
+    });
+
+    // Dough selects fallback
     document.querySelectorAll('.dough-select-field').forEach(select => {
       select.addEventListener('change', (e) => {
         const target = e.target as HTMLSelectElement;
