@@ -5,7 +5,7 @@ import catalogData from '../../data/catalog.json';
 const initialCatalog = catalogData;
 ---
 
-.Layout title="Panel Administrativo — Dulcería El Líder" hideFooter={true}>
+<Layout title="Panel Administrativo — Dulcería El Líder" hideFooter={true}>
   <!-- 1. Pantalla de Login -->
   <div id="admin-login-screen" class="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center p-4">
     <div class="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-8 max-w-md w-full shadow-2xl text-center space-y-6">
@@ -138,7 +138,17 @@ const initialCatalog = catalogData;
 
         <!-- 1. Selección o Creación de Opción -->
         <div class="space-y-2">
-          <label class="block text-xs font-bold text-[var(--text-secondary)]">Opción a Asignar</label>
+          <div class="flex items-center justify-between">
+            <label class="block text-xs font-bold text-[var(--text-secondary)]">Opción a Asignar</label>
+            <button 
+              type="button" 
+              id="delete-entire-option-btn" 
+              class="text-[11px] text-red-400 hover:text-red-300 font-bold px-2 py-0.5 bg-red-950/40 border border-red-500/20 rounded cursor-pointer" 
+              title="Eliminar esta opción de todo el catálogo global"
+            >
+              🗑️ Borrar Opción del Catálogo Global
+            </button>
+          </div>
           <select id="modal-option-select" class="w-full bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-[var(--primary)]">
             <!-- Opciones dinámicas -->
           </select>
@@ -817,16 +827,28 @@ const initialCatalog = catalogData;
               <input type="checkbox" class="modal-val-toggle w-4 h-4 rounded text-[var(--primary)] cursor-pointer" data-val-id="${val.id}" ${isChecked ? 'checked' : ''} />
               <span class="text-xs font-bold text-white">${val.name}</span>
             </label>
-            <div class="flex items-center gap-1.5">
+            <div class="flex items-center gap-2">
               <span class="text-[10px] text-white/50">Precio Directo:</span>
               <input 
                 type="number" 
-                class="modal-val-price w-28 px-2.5 py-1.5 bg-[var(--bg-card)] border border-[var(--border-color)] rounded-lg text-right text-xs font-black text-[var(--accent-light)] outline-none focus:border-[var(--primary)]" 
+                class="modal-val-price w-24 px-2.5 py-1.5 bg-[var(--bg-card)] border border-[var(--border-color)] rounded-lg text-right text-xs font-black text-[var(--accent-light)] outline-none focus:border-[var(--primary)]" 
                 data-val-id="${val.id}" 
                 value="${currentPrice}" 
                 placeholder="Precio CUP" 
               />
               <span class="text-xs text-white/70 font-bold">CUP</span>
+              <button 
+                type="button" 
+                class="delete-val-global-btn p-1.5 text-red-400/60 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors cursor-pointer" 
+                data-val-id="${val.id}" 
+                data-val-name="${val.name}"
+                title="Eliminar este valor permanentemente de esta opción en todo el catálogo"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5">
+                  <polyline points="3 6 5 6 21 6"></polyline>
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                </svg>
+              </button>
             </div>
           </div>
         `;
@@ -845,7 +867,71 @@ const initialCatalog = catalogData;
         }
       });
     });
+
+    // Eliminar valor permanentemente del catálogo global
+    modalValuesList.querySelectorAll('.delete-val-global-btn').forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        const valId = btn.getAttribute('data-val-id');
+        const valName = btn.getAttribute('data-val-name') || valId;
+        
+        const ok = await askConfirm(
+          `¿Eliminar el valor "${valName}" definitivamente de esta opción en TODO el catálogo? Desaparecerá de todos los productos.`,
+          'Eliminar Valor Global'
+        );
+        if (ok) {
+          // 1. Quitar de option_values
+          catalog.option_values = (catalog.option_values || []).filter(v => v.id !== valId);
+          // 2. Quitar de product_options en todos los productos
+          catalog.product_options = (catalog.product_options || []).filter(po => po.option_value_id !== valId);
+          // 3. Quitar de product_combinations que lo usen
+          if (catalog.product_combinations) {
+            catalog.product_combinations = catalog.product_combinations.filter(combo => {
+              return !Object.values(combo.option_values || {}).includes(valId);
+            });
+          }
+          persistLocal();
+          renderModalValues(modalOptionSelect?.value);
+          renderProductsTable();
+          showToast(`Valor "${valName}" eliminado del catálogo`, 'info');
+        }
+      });
+    });
   };
+
+  // Botón para borrar la Opción completa de todo el catálogo global
+  const deleteEntireOptionBtn = document.getElementById('delete-entire-option-btn');
+  deleteEntireOptionBtn?.addEventListener('click', async () => {
+    const optId = modalOptionSelect?.value;
+    if (!optId) return;
+    const optObj = (catalog.options || []).find(o => o.id === optId);
+    const optName = optObj ? optObj.name : optId;
+
+    const ok = await askConfirm(
+      `¿Eliminar la opción "${optName}" DEFINITIVAMENTE de todo el catálogo? Se borrarán todos sus valores y se desvinculará de todos los productos.`,
+      'Eliminar Opción Completa'
+    );
+
+    if (ok) {
+      // 1. Borrar de options
+      catalog.options = (catalog.options || []).filter(o => o.id !== optId);
+      // 2. Borrar todos sus option_values
+      catalog.option_values = (catalog.option_values || []).filter(v => v.option_id !== optId);
+      // 3. Borrar de product_options
+      catalog.product_options = (catalog.product_options || []).filter(po => po.option_id !== optId);
+      // 4. Limpiar combinaciones que hagan referencia a esta opción
+      if (catalog.product_combinations) {
+        catalog.product_combinations = catalog.product_combinations.filter(combo => {
+          return !combo.option_values || !combo.option_values[optId];
+        });
+      }
+
+      persistLocal();
+      closeModal();
+      renderProductsTable();
+      showToast(`Opción "${optName}" eliminada por completo`, 'info');
+    }
+  });
 
   // Crear Nueva Opción desde el Modal
   modalCreateOptBtn?.addEventListener('click', () => {
