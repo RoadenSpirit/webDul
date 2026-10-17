@@ -5,7 +5,12 @@
       "name": "MiniCake de 15 cm",
       "type": "cakes",
       "base_price": 2500,
-      "image": "https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=800&auto=format&fit=crop",
+      "image": "/images/products/cakes/redondo-1.webp",
+      "images": [
+        "/images/products/cakes/redondo-1.webp",
+        "/images/products/cakes/redondo-2.webp",
+        "/images/products/cakes/redondo-3.webp"
+      ],
       "description": "MiniCake de 15 cm de diámetro."
     },
     {
@@ -13,7 +18,12 @@
       "name": "Cake de 20 cm",
       "type": "cakes",
       "base_price": 3900,
-      "image": "https://images.unsplash.com/photo-1535141192574-5d4897c13636?q=80&w=800&auto=format&fit=crop",
+      "image": "/images/products/cakes/redondo-4.webp",
+      "images": [
+        "/images/products/cakes/redondo-4.webp",
+        "/images/products/cakes/redondo-5.webp",
+        "/images/products/cakes/redondo-6.webp"
+      ],
       "description": "Cake redondo de 20 cm."
     },
     {
@@ -21,7 +31,12 @@
       "name": "Cake de 22 cm",
       "type": "cakes",
       "base_price": 3800,
-      "image": "https://images.unsplash.com/photo-1535141192574-5d4897c13636?q=80&w=800&auto=format&fit=crop",
+      "image": "/images/products/cakes/redondo-7.webp",
+      "images": [
+        "/images/products/cakes/redondo-7.webp",
+        "/images/products/cakes/redondo-8.webp",
+        "/images/products/cakes/redondo-9.webp"
+      ],
       "description": "Cake redondo de 22 cm."
     },
     {
@@ -29,7 +44,12 @@
       "name": "Cake redondo de 25 cm",
       "type": "cakes",
       "base_price": 6500,
-      "image": "https://images.unsplash.com/photo-1535141192574-5d4897c13636?q=80&w=800&auto=format&fit=crop",
+      "image": "/images/products/cakes/redondo-10.webp",
+      "images": [
+        "/images/products/cakes/redondo-10.webp",
+        "/images/products/cakes/redondo-11.webp",
+        "/images/products/cakes/redondo-12.webp"
+      ],
       "description": "Cake redondo de 25 cm."
     },
     {
@@ -37,7 +57,12 @@
       "name": "Cake redondo de 30 cm",
       "type": "cakes",
       "base_price": 14000,
-      "image": "https://images.unsplash.com/photo-1535141192574-5d4897c13636?q=80&w=800&auto=format&fit=crop",
+      "image": "/images/products/cakes/redondo-13.webp",
+      "images": [
+        "/images/products/cakes/redondo-13.webp",
+        "/images/products/cakes/redondo-14.webp",
+        "/images/products/cakes/redondo-1.webp"
+      ],
       "description": "Cake redondo de 30 cm."
     },
     {
@@ -45,7 +70,12 @@
       "name": "Cake redondo de 36 cm",
       "type": "cakes",
       "base_price": 18000,
-      "image": "https://images.unsplash.com/photo-1535141192574-5d4897c13636?q=80&w=800&auto=format&fit=crop",
+      "image": "/images/products/cakes/redondo-6.webp",
+      "images": [
+        "/images/products/cakes/redondo-6.webp",
+        "/images/products/cakes/redondo-7.webp",
+        "/images/products/cakes/redondo-8.webp"
+      ],
       "description": "Cake redondo de 36 cm."
     },
     {
@@ -53,7 +83,12 @@
       "name": "Medio Cake de bandeja",
       "type": "cakes",
       "base_price": 6700,
-      "image": "https://images.unsplash.com/photo-1621303837174-89787a7d4729?q=80&w=800&auto=format&fit=crop",
+      "image": "/images/products/cakes/bandeja-1.webp",
+      "images": [
+        "/images/products/cakes/bandeja-1.webp",
+        "/images/products/cakes/bandeja-2.webp",
+        "/images/products/cakes/bandeja-3.webp"
+      ],
       "description": "Media bandeja rectangular."
     },
     {
@@ -61,7 +96,14 @@
       "name": "Cake de bandeja",
       "type": "cakes",
       "base_price": 13500,
-      "image": "https://images.unsplash.com/photo-1621303837174-89787a7d4729?q=80&w=800&auto=format&fit=crop",
+      "image": "/images/products/cakes/bandeja-4.webp",
+      "images": [
+        "/images/products/cakes/bandeja-4.webp",
+        "/images/products/cakes/bandeja-5.webp",
+        "/images/products/cakes/bandeja-6.webp",
+        "/images/products/cakes/bandeja-7.webp",
+        "/images/products/cakes/bandeja-8.webp"
+      ],
       "description": "Bandeja completa rectangular."
     },
     {
@@ -69,7 +111,13 @@
       "name": "Cake de 2 pisos de bandeja",
       "type": "cakes",
       "base_price": 17000,
-      "image": "https://images.unsplash.com/photo-1535254973040-607b474cb50d?q=80&w=800&auto=format&fit=crop",
+      "image": "/images/products/cakes/dos-pisos-1.webp",
+      "images": [
+        "/images/products/cakes/dos-pisos-1.webp",
+        "/images/products/cakes/dos-pisos-2.webp",
+        "/images/products/cakes/dos-pisos-3.webp",
+        "/images/products/cakes/dos-pisos-4.webp"
+      ],
       "description": "Cake de 2 pisos montado en bandeja."
     },
     {
@@ -77,7 +125,14 @@
       "name": "Cake de 2 pisos redondo",
       "type": "cakes",
       "base_price": 18000,
-      "image": "https://images.unsplash.com/photo-1535254973040-607b474cb50d?q=80&w=800&auto=format&fit=crop",
+      "image": "/images/products/cakes/dos-pisos-5.webp",
+      "images": [
+        "/images/products/cakes/dos-pisos-5.webp",
+        "/images/products/cakes/dos-pisos-6.webp",
+        "/images/products/cakes/dos-pisos-7.webp",
+        "/images/products/cakes/dos-pisos-8.webp",
+        "/images/products/cakes/dos-pisos-9.webp"
+      ],
       "description": "Cake de 2 pisos circular (18000 - 20000)."
     },
     {
@@ -85,7 +140,10 @@
       "name": "Marquesitas (bandeja de 30)",
       "type": "buffet",
       "base_price": 6000,
-      "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=800&auto=format&fit=crop",
+      "image": "/images/products/buffet/marquesitas-1.webp",
+      "images": [
+        "/images/products/buffet/marquesitas-1.webp"
+      ],
       "description": "Bandeja de 30 unidades de marquesitas."
     },
     {
@@ -93,7 +151,10 @@
       "name": "Minidonas cubiertas de chocolate",
       "type": "buffet",
       "base_price": 55,
-      "image": "https://images.unsplash.com/photo-1551024601-bec78aea704b?q=80&w=800&auto=format&fit=crop",
+      "image": "/images/products/buffet/donitas-1.webp",
+      "images": [
+        "/images/products/buffet/donitas-1.webp"
+      ],
       "description": "Minidona cubierta de chocolate (unidad)."
     },
     {
@@ -101,7 +162,10 @@
       "name": "Cupcake",
       "type": "buffet",
       "base_price": 160,
-      "image": "https://images.unsplash.com/photo-1576618148400-f54bed99fcfd?q=80&w=800&auto=format&fit=crop",
+      "image": "/images/products/buffet/cupcakes-1.webp",
+      "images": [
+        "/images/products/buffet/cupcakes-1.webp"
+      ],
       "description": "Cupcake artesanal decorado (vainilla 160 / chocolate 165)."
     },
     {
@@ -109,7 +173,11 @@
       "name": "Cangrejitos, empanadillas, croqueticas",
       "type": "buffet",
       "base_price": 40,
-      "image": "https://images.unsplash.com/photo-1608897013039-887f21d8c804?q=80&w=800&auto=format&fit=crop",
+      "image": "/images/products/buffet/cangrejitos-1.webp",
+      "images": [
+        "/images/products/buffet/cangrejitos-1.webp",
+        "/images/products/buffet/empanadillas-1.webp"
+      ],
       "description": "Cangrejitos, empanadillas o croqueticas (unidad)."
     },
     {
@@ -117,7 +185,10 @@
       "name": "Pan con pasta",
       "type": "buffet",
       "base_price": 55,
-      "image": "https://images.unsplash.com/photo-1509722747041-616f39b57569?q=80&w=800&auto=format&fit=crop",
+      "image": "/images/products/buffet/panes-1.webp",
+      "images": [
+        "/images/products/buffet/panes-1.webp"
+      ],
       "description": "Bocadito de pan con pasta (unidad)."
     }
   ],

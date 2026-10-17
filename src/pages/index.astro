@@ -2,8 +2,8 @@
 import Layout from '../layouts/Layout.astro';
 import { PRODUCTS } from '../data/products';
 
-const cakes = PRODUCTS.filter(p => p.category === 'cakes' || p.category === 'minicakes');
-const buffetItems = PRODUCTS.filter(p => p.category === 'reposteria' || p.category === 'salados');
+const cakes = PRODUCTS.filter(p => p.type === 'cakes');
+const buffetItems = PRODUCTS.filter(p => p.type === 'buffet');
 
 // Galería curada de decoraciones artesanales
 const decorations = [
@@ -66,9 +66,10 @@ const decorations = [
       <div class="cakes-grid">
         {cakes.map(product => (
           <article class="cake-card" data-id={product.id}>
-            <div class="cake-image-wrap">
-              <img src={product.image} alt={product.name} class="cake-image" loading="lazy" />
-              <span class="card-badge">{product.category === 'minicakes' ? 'Mini Cake' : 'Cake'}</span>
+            <div class="cake-image-wrap carousel-container" data-images={JSON.stringify(product.images || [product.image])}>
+              <img src={product.image} alt={product.name} class="cake-image carousel-img active-img" loading="lazy" />
+              <img src={product.image} alt="" class="cake-image carousel-img next-img" aria-hidden="true" />
+              <span class="card-badge">{product.id.includes('minicake') ? 'Mini Cake' : 'Cake'}</span>
             </div>
             <div class="cake-content">
               <h3 class="cake-name">{product.name}</h3>
@@ -76,16 +77,16 @@ const decorations = [
               <div class="cake-footer">
                 <div class="price-wrap">
                   <span class="price-label">Desde</span>
-                  <span class="price-amount">${product.price} <small class="currency">CUP</small></span>
+                  <span class="price-amount">${product.base_price} <small class="currency">CUP</small></span>
                 </div>
                 <div class="card-action-btns">
                   <button 
                     class="btn-icon-cart add-to-cart-btn" 
                     data-id={product.id}
                     data-name={product.name}
-                    data-price={product.price}
-                    data-category={product.category}
-                    data-customizable={product.customizable ? "true" : "false"}
+                    data-price={product.base_price}
+                    data-type={product.type}
+                    data-customizable="true"
                     title="Añadir al carrito"
                     aria-label={`Añadir ${product.name} al carrito`}
                   >
@@ -100,9 +101,9 @@ const decorations = [
                     class="btn-buy-now buy-now-btn" 
                     data-id={product.id}
                     data-name={product.name}
-                    data-price={product.price}
-                    data-category={product.category}
-                    data-customizable={product.customizable ? "true" : "false"}
+                    data-price={product.base_price}
+                    data-type={product.type}
+                    data-customizable="true"
                   >
                     Comprar Ahora
                   </button>
@@ -128,22 +129,23 @@ const decorations = [
       <div class="buffet-grid">
         {buffetItems.map(product => (
           <article class="buffet-card">
-            <div class="buffet-image-wrap">
-              <img src={product.image} alt={product.name} class="buffet-image" loading="lazy" />
+            <div class="buffet-image-wrap carousel-container" data-images={JSON.stringify(product.images || [product.image])}>
+              <img src={product.image} alt={product.name} class="buffet-image carousel-img active-img" loading="lazy" />
+              <img src={product.image} alt="" class="buffet-image carousel-img next-img" aria-hidden="true" />
             </div>
             <div class="buffet-content">
               <h3 class="buffet-name">{product.name}</h3>
               <p class="buffet-desc">{product.description}</p>
               <div class="buffet-footer">
-                <span class="buffet-price">${product.price} <small class="currency">CUP</small></span>
+                <span class="buffet-price">${product.base_price} <small class="currency">CUP</small></span>
                 <div class="card-action-btns">
                   <button 
                     class="btn-icon-cart-buffet add-to-cart-btn" 
                     data-id={product.id}
                     data-name={product.name}
-                    data-price={product.price}
-                    data-category={product.category}
-                    data-customizable={product.customizable ? "true" : "false"}
+                    data-price={product.base_price}
+                    data-type={product.type}
+                    data-customizable="false"
                     title="Añadir al carrito"
                     aria-label={`Añadir ${product.name} al carrito`}
                   >
@@ -158,9 +160,9 @@ const decorations = [
                     class="btn-buy-now-buffet buy-now-btn" 
                     data-id={product.id}
                     data-name={product.name}
-                    data-price={product.price}
-                    data-category={product.category}
-                    data-customizable={product.customizable ? "true" : "false"}
+                    data-price={product.base_price}
+                    data-type={product.type}
+                    data-customizable="false"
                   >
                     Comprar
                   </button>
@@ -504,14 +506,37 @@ const decorations = [
     overflow: hidden;
   }
 
-  .cake-image {
+  .carousel-img {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.4s ease;
+    transition: opacity 1000ms ease-in-out, transform 1000ms ease-in-out;
   }
 
-  .cake-card:hover .cake-image {
+  .carousel-img.active-img {
+    opacity: 1;
+    z-index: 2;
+  }
+
+  .carousel-img.next-img {
+    opacity: 0;
+    z-index: 1;
+  }
+
+  .carousel-img.fade-out {
+    opacity: 0;
+    transform: scale(1.04);
+  }
+
+  .carousel-img.fade-in {
+    opacity: 1;
+    transform: scale(1);
+    z-index: 3;
+  }
+
+  .cake-card:hover .carousel-img.active-img {
     transform: scale(1.05);
   }
 
@@ -697,6 +722,7 @@ const decorations = [
   }
 
   .buffet-image-wrap {
+    position: relative;
     width: 100%;
     height: 160px;
     overflow: hidden;
@@ -1279,9 +1305,9 @@ const decorations = [
       const id = btn.getAttribute('data-id') || '';
       const name = btn.getAttribute('data-name') || '';
       const price = parseFloat(btn.getAttribute('data-price') || '0');
-      const category = btn.getAttribute('data-category') || '';
+      const type = btn.getAttribute('data-type') || 'cakes';
 
-      const isCake = category === 'cakes' || category === 'minicakes';
+      const isCake = type === 'cakes';
 
       cart = [{
         uniqueId: (Date.now() + Math.random()).toString(),
@@ -1290,7 +1316,8 @@ const decorations = [
         price,
         quantity: 1,
         customizable: isCake,
-        category,
+        type,
+        category: isCake ? 'cakes' : 'buffet',
         dough: isCake ? 'trigo' : '',
         size: id === 'cake-redondo' ? '20' : (id === 'cake-bandeja' ? 'media' : ''),
         doubleHeight: false
@@ -1329,10 +1356,10 @@ const decorations = [
       const id = btn.getAttribute('data-id') || '';
       const name = btn.getAttribute('data-name') || '';
       const price = parseFloat(btn.getAttribute('data-price') || '0');
-      const category = btn.getAttribute('data-category') || '';
+      const type = btn.getAttribute('data-type') || 'cakes';
       const customizable = btn.getAttribute('data-customizable') === 'true';
 
-      const isCake = category === 'cakes' || category === 'minicakes';
+      const isCake = type === 'cakes';
 
       if (isCake) {
         cart.push({
@@ -1342,7 +1369,8 @@ const decorations = [
           price,
           quantity: 1,
           customizable: true,
-          category,
+          type,
+          category: 'cakes',
           dough: 'trigo',
           size: id === 'cake-redondo' ? '20' : (id === 'cake-bandeja' ? 'media' : ''),
           doubleHeight: false
@@ -1359,7 +1387,8 @@ const decorations = [
             price,
             quantity: 1,
             customizable: false,
-            category
+            type,
+            category: 'buffet'
           });
         }
       }
@@ -1371,4 +1400,68 @@ const decorations = [
 
   loadCart();
   updateCartUI();
+
+  // ============================================================
+  // CARRUSEL ROTATIVO FADE IN / FADE OUT (8 SEGUNDOS)
+  // ============================================================
+  const carousels = document.querySelectorAll('.carousel-container');
+
+  carousels.forEach((container, containerIdx) => {
+    let images = [];
+    try {
+      images = JSON.parse(container.getAttribute('data-images') || '[]');
+    } catch (e) {
+      images = [];
+    }
+
+    if (!Array.isArray(images) || images.length <= 1) return;
+
+    let currentIndex = 0;
+    const activeImg = container.querySelector('.active-img') as HTMLImageElement | null;
+    const nextImg = container.querySelector('.next-img') as HTMLImageElement | null;
+
+    if (!activeImg || !nextImg) return;
+
+    // Desfase escalonado para no sobrecargar el renderizado simultáneo
+    const initialDelay = 8000 + (containerIdx * 350);
+
+    const rotate = () => {
+      currentIndex = (currentIndex + 1) % images.length;
+      const nextSrc = images[currentIndex];
+
+      // Pre-cargar la siguiente imagen
+      nextImg.src = nextSrc;
+      nextImg.classList.add('fade-in');
+      activeImg.classList.add('fade-out');
+
+      setTimeout(() => {
+        activeImg.src = nextSrc;
+        activeImg.classList.remove('fade-out');
+        nextImg.classList.remove('fade-in');
+      }, 1000);
+    };
+
+    // Pausar si no es visible en pantalla
+    let intervalId: any = null;
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          if (!intervalId) {
+            intervalId = setInterval(rotate, 8000);
+          }
+        } else {
+          if (intervalId) {
+            clearInterval(intervalId);
+            intervalId = null;
+          }
+        }
+      });
+    }, { threshold: 0.1 });
+
+    observer.observe(container);
+
+    setTimeout(() => {
+      if (!intervalId) intervalId = setInterval(rotate, 8000);
+    }, initialDelay);
+  });
 </script>

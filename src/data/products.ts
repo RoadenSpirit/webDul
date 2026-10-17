@@ -5,6 +5,7 @@ export interface Product {
   base_price: number;
   description: string;
   image: string;
+  images: string[];
 }
 
 export const PRODUCTS: Product[] = [
@@ -15,7 +16,12 @@ export const PRODUCTS: Product[] = [
     type: 'cakes',
     base_price: 2500,
     description: 'MiniCake de 15 cm de diámetro.',
-    image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=800&auto=format&fit=crop'
+    image: '/images/products/cakes/redondo-1.webp',
+    images: [
+      '/images/products/cakes/redondo-1.webp',
+      '/images/products/cakes/redondo-2.webp',
+      '/images/products/cakes/redondo-3.webp'
+    ]
   },
   
   // 2. Cakes Redondos
@@ -25,7 +31,12 @@ export const PRODUCTS: Product[] = [
     type: 'cakes',
     base_price: 3900,
     description: 'Cake redondo de 20 cm.',
-    image: 'https://images.unsplash.com/photo-1535141192574-5d4897c13636?q=80&w=800&auto=format&fit=crop'
+    image: '/images/products/cakes/redondo-4.webp',
+    images: [
+      '/images/products/cakes/redondo-4.webp',
+      '/images/products/cakes/redondo-5.webp',
+      '/images/products/cakes/redondo-6.webp'
+    ]
   },
   {
     id: 'cake-22',
@@ -33,7 +44,12 @@ export const PRODUCTS: Product[] = [
     type: 'cakes',
     base_price: 3800,
     description: 'Cake redondo de 22 cm.',
-    image: 'https://images.unsplash.com/photo-1535141192574-5d4897c13636?q=80&w=800&auto=format&fit=crop'
+    image: '/images/products/cakes/redondo-7.webp',
+    images: [
+      '/images/products/cakes/redondo-7.webp',
+      '/images/products/cakes/redondo-8.webp',
+      '/images/products/cakes/redondo-9.webp'
+    ]
   },
   {
     id: 'cake-25',
@@ -41,7 +57,12 @@ export const PRODUCTS: Product[] = [
     type: 'cakes',
     base_price: 6500,
     description: 'Cake redondo de 25 cm.',
-    image: 'https://images.unsplash.com/photo-1535141192574-5d4897c13636?q=80&w=800&auto=format&fit=crop'
+    image: '/images/products/cakes/redondo-10.webp',
+    images: [
+      '/images/products/cakes/redondo-10.webp',
+      '/images/products/cakes/redondo-11.webp',
+      '/images/products/cakes/redondo-12.webp'
+    ]
   },
   {
     id: 'cake-30',
@@ -49,7 +70,12 @@ export const PRODUCTS: Product[] = [
     type: 'cakes',
     base_price: 14000,
     description: 'Cake redondo de 30 cm.',
-    image: 'https://images.unsplash.com/photo-1535141192574-5d4897c13636?q=80&w=800&auto=format&fit=crop'
+    image: '/images/products/cakes/redondo-13.webp',
+    images: [
+      '/images/products/cakes/redondo-13.webp',
+      '/images/products/cakes/redondo-14.webp',
+      '/images/products/cakes/redondo-1.webp'
+    ]
   },
   {
     id: 'cake-36',
@@ -57,7 +83,12 @@ export const PRODUCTS: Product[] = [
     type: 'cakes',
     base_price: 18000,
     description: 'Cake redondo de 36 cm.',
-    image: 'https://images.unsplash.com/photo-1535141192574-5d4897c13636?q=80&w=800&auto=format&fit=crop'
+    image: '/images/products/cakes/redondo-6.webp',
+    images: [
+      '/images/products/cakes/redondo-6.webp',
+      '/images/products/cakes/redondo-7.webp',
+      '/images/products/cakes/redondo-8.webp'
+    ]
   },
 
   // 3. Cakes de Bandeja
@@ -67,7 +98,12 @@ export const PRODUCTS: Product[] = [
     type: 'cakes',
     base_price: 6700,
     description: 'Media bandeja rectangular.',
-    image: 'https://images.unsplash.com/photo-1621303837174-89787a7d4729?q=80&w=800&auto=format&fit=crop'
+    image: '/images/products/cakes/bandeja-1.webp',
+    images: [
+      '/images/products/cakes/bandeja-1.webp',
+      '/images/products/cakes/bandeja-2.webp',
+      '/images/products/cakes/bandeja-3.webp'
+    ]
   },
   {
     id: 'cake-bandeja',
@@ -75,7 +111,14 @@ export const PRODUCTS: Product[] = [
     type: 'cakes',
     base_price: 13500,
     description: 'Bandeja completa rectangular.',
-    image: 'https://images.unsplash.com/photo-1621303837174-89787a7d4729?q=80&w=800&auto=format&fit=crop'
+    image: '/images/products/cakes/bandeja-4.webp',
+    images: [
+      '/images/products/cakes/bandeja-4.webp',
+      '/images/products/cakes/bandeja-5.webp',
+      '/images/products/cakes/bandeja-6.webp',
+      '/images/products/cakes/bandeja-7.webp',
+      '/images/products/cakes/bandeja-8.webp'
+    ]
   },
 
   // 4. Cakes de 2 Pisos
@@ -85,7 +128,13 @@ export const PRODUCTS: Product[] = [
     type: 'cakes',
     base_price: 17000,
     description: 'Cake de 2 pisos montado en bandeja.',
-    image: 'https://images.unsplash.com/photo-1535254973040-607b474cb50d?q=80&w=800&auto=format&fit=crop'
+    image: '/images/products/cakes/dos-pisos-1.webp',
+    images: [
+      '/images/products/cakes/dos-pisos-1.webp',
+      '/images/products/cakes/dos-pisos-2.webp',
+      '/images/products/cakes/dos-pisos-3.webp',
+      '/images/products/cakes/dos-pisos-4.webp'
+    ]
   },
   {
     id: 'cake-2pisos-redondo',
@@ -93,7 +142,14 @@ export const PRODUCTS: Product[] = [
     type: 'cakes',
     base_price: 18000,
     description: 'Cake de 2 pisos circular (18000 - 20000).',
-    image: 'https://images.unsplash.com/photo-1535254973040-607b474cb50d?q=80&w=800&auto=format&fit=crop'
+    image: '/images/products/cakes/dos-pisos-5.webp',
+    images: [
+      '/images/products/cakes/dos-pisos-5.webp',
+      '/images/products/cakes/dos-pisos-6.webp',
+      '/images/products/cakes/dos-pisos-7.webp',
+      '/images/products/cakes/dos-pisos-8.webp',
+      '/images/products/cakes/dos-pisos-9.webp'
+    ]
   },
   
   // Buffet & Postres
@@ -103,7 +159,10 @@ export const PRODUCTS: Product[] = [
     type: 'buffet',
     base_price: 6000,
     description: 'Bandeja de 30 unidades de marquesitas.',
-    image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=800&auto=format&fit=crop'
+    image: '/images/products/buffet/marquesitas-1.webp',
+    images: [
+      '/images/products/buffet/marquesitas-1.webp'
+    ]
   },
   {
     id: 'minidonas-chocolate',
@@ -111,7 +170,10 @@ export const PRODUCTS: Product[] = [
     type: 'buffet',
     base_price: 55,
     description: 'Minidona cubierta de chocolate (unidad).',
-    image: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?q=80&w=800&auto=format&fit=crop'
+    image: '/images/products/buffet/donitas-1.webp',
+    images: [
+      '/images/products/buffet/donitas-1.webp'
+    ]
   },
   {
     id: 'cupcake',
@@ -119,7 +181,10 @@ export const PRODUCTS: Product[] = [
     type: 'buffet',
     base_price: 160,
     description: 'Cupcake artesanal decorado (vainilla 160 / chocolate 165).',
-    image: 'https://images.unsplash.com/photo-1576618148400-f54bed99fcfd?q=80&w=800&auto=format&fit=crop'
+    image: '/images/products/buffet/cupcakes-1.webp',
+    images: [
+      '/images/products/buffet/cupcakes-1.webp'
+    ]
   },
   {
     id: 'cangrejitos-empanadillas-croquetitas',
@@ -127,7 +192,11 @@ export const PRODUCTS: Product[] = [
     type: 'buffet',
     base_price: 40,
     description: 'Cangrejitos, empanadillas o croqueticas (unidad).',
-    image: 'https://images.unsplash.com/photo-1608897013039-887f21d8c804?q=80&w=800&auto=format&fit=crop'
+    image: '/images/products/buffet/cangrejitos-1.webp',
+    images: [
+      '/images/products/buffet/cangrejitos-1.webp',
+      '/images/products/buffet/empanadillas-1.webp'
+    ]
   },
   {
     id: 'pan-con-pasta',
@@ -135,6 +204,9 @@ export const PRODUCTS: Product[] = [
     type: 'buffet',
     base_price: 55,
     description: 'Bocadito de pan con pasta (unidad).',
-    image: 'https://images.unsplash.com/photo-1509722747041-616f39b57569?q=80&w=800&auto=format&fit=crop'
+    image: '/images/products/buffet/panes-1.webp',
+    images: [
+      '/images/products/buffet/panes-1.webp'
+    ]
   }
 ];
