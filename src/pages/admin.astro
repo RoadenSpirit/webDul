@@ -5,7 +5,7 @@ import catalogData from '../../data/catalog.json';
 const initialCatalog = catalogData;
 ---
 
-<Layout title="Panel Administrativo — Dulcería El Líder" hideFooter={true}>
+.Layout title="Panel Administrativo — Dulcería El Líder" hideFooter={true}>
   <!-- 1. Pantalla de Login -->
   <div id="admin-login-screen" class="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center p-4">
     <div class="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-8 max-w-md w-full shadow-2xl text-center space-y-6">
@@ -14,7 +14,7 @@ const initialCatalog = catalogData;
       </div>
       <div>
         <h1 class="text-2xl font-black text-white font-[var(--font-display)]">Acceso Administrativo</h1>
-        <p class="text-xs text-[var(--neutral-cream)] mt-1">Gestión Total de Productos, Atributos y Precios</p>
+        <p class="text-xs text-[var(--neutral-cream)] mt-1">Gestión Total de Productos y Opciones</p>
       </div>
 
       <form id="login-form" class="space-y-4 text-left">
@@ -44,7 +44,7 @@ const initialCatalog = catalogData;
           <img src="/logo-correcto.png" alt="Logo" class="w-10 h-10 rounded-full border border-white/20" />
           <div>
             <h2 class="text-base sm:text-lg font-black font-[var(--font-display)]">Dulcería El Líder · Panel Total</h2>
-            <span class="text-[11px] text-[var(--accent-light)] font-semibold">Edición completa de catálogo y atributos</span>
+            <span class="text-[11px] text-[var(--accent-light)] font-semibold">Edición completa de productos y opciones</span>
           </div>
         </div>
 
@@ -55,7 +55,6 @@ const initialCatalog = catalogData;
             class="hidden items-center gap-2.5 px-5 py-2.5 bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-400 hover:to-green-500 text-white font-extrabold text-sm rounded-xl shadow-xl transition-all animate-pulse cursor-pointer border border-emerald-300/40"
             title="Guardar todos los cambios realizados en el catálogo"
           >
-            <!-- SVG de Disquete grande y llamativo -->
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
               <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
               <polyline points="17 21 17 13 7 13 7 21"></polyline>
@@ -91,9 +90,9 @@ const initialCatalog = catalogData;
       <!-- Banner Informativo -->
       <div class="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-5 flex items-center justify-between gap-4 flex-wrap">
         <div>
-          <h3 class="font-bold text-white text-base">🎂 Matriz Completa de Productos &amp; Atributos</h3>
+          <h3 class="font-bold text-white text-base">🎂 Matriz Completa de Productos &amp; Opciones</h3>
           <p class="text-xs text-[var(--neutral-cream)]/80 mt-0.5">
-            Puedes editar en cualquier momento el nombre, categoría, precio base o hacer clic en cualquier lápiz ✏️ para editar precios directos de atributos.
+            Puedes editar en cualquier momento el nombre, tipo, precio base o hacer clic en cualquier lápiz ✏️ para editar opciones.
           </p>
         </div>
         <div class="flex items-center gap-2">
@@ -111,11 +110,11 @@ const initialCatalog = catalogData;
             <thead>
               <tr class="bg-[var(--bg-secondary)] border-b border-[var(--border-color)] text-[11px] font-black uppercase tracking-wider text-[var(--accent-light)]">
                 <th class="py-4 px-6 w-5/12">Producto &amp; Precio Base</th>
-                <th class="py-4 px-6 w-5/12">Atributos Asignados (Opciones y Precios)</th>
+                <th class="py-4 px-6 w-5/12">Opciones Asignadas (Valores y Precios)</th>
                 <th class="py-4 px-6 w-2/12 text-right">Acciones</th>
               </tr>
             </thead>
-            <tbody id="cakes-table-body" class="divide-y divide-[var(--border-color)]/50 text-sm">
+            <tbody id="products-table-body" class="divide-y divide-[var(--border-color)]/50 text-sm">
               <!-- Renderizado dinámicamente por JS -->
             </tbody>
           </table>
@@ -124,58 +123,58 @@ const initialCatalog = catalogData;
 
     </div>
 
-    <!-- MODAL 1: ASIGNAR / EDITAR ATRIBUTO PARA UN CAKE -->
-    <div id="attribute-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm hidden">
+    <!-- MODAL 1: ASIGNAR / EDITAR OPCIÓN PARA UN PRODUCTO -->
+    <div id="option-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm hidden">
       <div class="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl max-w-xl w-full p-6 shadow-2xl space-y-5">
         
         <div class="flex items-center justify-between border-b border-[var(--border-color)] pb-3">
           <div>
-            <span class="text-xs font-bold uppercase tracking-wider text-[var(--accent-light)]" id="modal-cake-title">Cake</span>
-            <h3 class="text-lg font-black text-white" id="modal-header-title">Configurar Atributo</h3>
+            <span class="text-xs font-bold uppercase tracking-wider text-[var(--accent-light)]" id="modal-product-title">Producto</span>
+            <h3 class="text-lg font-black text-white" id="modal-header-title">Configurar Opción</h3>
           </div>
           <button id="close-modal-btn" class="text-2xl text-white/50 hover:text-white leading-none cursor-pointer">&times;</button>
         </div>
 
-        <!-- 1. Selección o Creación de Atributo -->
+        <!-- 1. Selección o Creación de Opción -->
         <div class="space-y-2">
-          <label class="block text-xs font-bold text-[var(--text-secondary)]">Atributo a Asignar</label>
-          <select id="modal-attribute-select" class="w-full bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-[var(--primary)]">
-            <!-- Opciones dinámicas de atributos -->
+          <label class="block text-xs font-bold text-[var(--text-secondary)]">Opción a Asignar</label>
+          <select id="modal-option-select" class="w-full bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-[var(--primary)]">
+            <!-- Opciones dinámicas -->
           </select>
           
-          <!-- Crear nuevo atributo al vuelo -->
+          <!-- Crear nueva opción al vuelo -->
           <div class="pt-2 flex gap-2 items-center">
-            <input type="text" id="modal-new-attribute-name" placeholder="Crear nuevo atributo (ej: Relleno, Cobertura...)" class="flex-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl px-3 py-2 text-xs text-white outline-none focus:border-[var(--primary)]" />
-            <button id="modal-create-attr-btn" class="px-3.5 py-2 bg-white/10 hover:bg-white/20 text-xs font-bold rounded-xl transition-colors cursor-pointer whitespace-nowrap">+ Crear Atributo</button>
+            <input type="text" id="modal-new-option-name" placeholder="Crear nueva opción (ej: Relleno, Cobertura...)" class="flex-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl px-3 py-2 text-xs text-white outline-none focus:border-[var(--primary)]" />
+            <button id="modal-create-opt-btn" class="px-3.5 py-2 bg-white/10 hover:bg-white/20 text-xs font-bold rounded-xl transition-colors cursor-pointer whitespace-nowrap">+ Crear Opción</button>
           </div>
         </div>
 
-        <!-- 2. Opciones del Atributo con Precios Directos (Totalmente Editables Siempre) -->
+        <!-- 2. Valores de la Opción con Precios Directos -->
         <div class="space-y-2">
           <div class="flex items-center justify-between">
-            <label class="block text-xs font-bold text-[var(--text-secondary)]">Opciones y Precio Directo para este Producto</label>
+            <label class="block text-xs font-bold text-[var(--text-secondary)]">Valores y Precio Directo para este Producto</label>
             <span class="text-[10px] text-[var(--neutral-cream)]/70">Marca las que aplican y define su precio</span>
           </div>
           
-          <div id="modal-options-list" class="space-y-2 max-h-[35vh] overflow-y-auto pr-1">
+          <div id="modal-values-list" class="space-y-2 max-h-[35vh] overflow-y-auto pr-1">
             <!-- Inyectado dinámicamente -->
           </div>
 
-          <!-- Añadir nueva opción a este atributo con su precio directo -->
+          <!-- Añadir nuevo valor a esta opción -->
           <div class="pt-3 border-t border-[var(--border-color)]/40 space-y-1.5">
-            <span class="text-[10px] font-bold uppercase tracking-wider text-[var(--accent-light)]">Añadir Nueva Opción a este Atributo:</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider text-[var(--accent-light)]">Añadir Nuevo Valor a esta Opción:</span>
             <div class="flex gap-2">
-              <input type="text" id="modal-new-option-name" placeholder="Nombre opción (ej: Chocolate Blanco...)" class="flex-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl px-3 py-2 text-xs text-white outline-none focus:border-[var(--primary)]" />
-              <input type="number" id="modal-new-option-price" placeholder="Precio CUP" class="w-28 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl px-3 py-2 text-xs text-white outline-none text-right font-bold text-[var(--accent-light)]" />
-              <button id="modal-add-opt-btn" class="px-3.5 py-2 bg-[var(--primary)] hover:opacity-90 text-xs font-bold rounded-xl text-white transition-opacity cursor-pointer whitespace-nowrap">+ Añadir Opción</button>
+              <input type="text" id="modal-new-value-name" placeholder="Nombre valor (ej: Chocolate Blanco...)" class="flex-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl px-3 py-2 text-xs text-white outline-none focus:border-[var(--primary)]" />
+              <input type="number" id="modal-new-value-price" placeholder="Precio CUP" class="w-28 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl px-3 py-2 text-xs text-white outline-none text-right font-bold text-[var(--accent-light)]" />
+              <button id="modal-add-val-btn" class="px-3.5 py-2 bg-[var(--primary)] hover:opacity-90 text-xs font-bold rounded-xl text-white transition-opacity cursor-pointer whitespace-nowrap">+ Añadir Valor</button>
             </div>
           </div>
         </div>
 
         <!-- Botones Modal -->
         <div class="flex items-center justify-between pt-3 border-t border-[var(--border-color)]">
-          <button id="modal-remove-attr-btn" class="text-xs text-red-400 hover:text-red-300 font-bold cursor-pointer hidden">
-            🗑️ Quitar Atributo de este Producto
+          <button id="modal-remove-opt-btn" class="text-xs text-red-400 hover:text-red-300 font-bold cursor-pointer hidden">
+            🗑️ Quitar Opción de este Producto
           </button>
           <div class="flex gap-2 ml-auto">
             <button id="modal-cancel-btn" class="px-4 py-2 bg-white/10 hover:bg-white/20 text-xs font-bold rounded-xl text-white cursor-pointer">Cancelar</button>
@@ -203,12 +202,10 @@ const initialCatalog = catalogData;
 
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block text-xs font-bold text-[var(--text-secondary)] mb-1">Categoría</label>
-              <select id="np-category" class="w-full px-3 py-2 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl text-xs text-white outline-none focus:border-[var(--primary)]">
+              <label class="block text-xs font-bold text-[var(--text-secondary)] mb-1">Tipo</label>
+              <select id="np-type" class="w-full px-3 py-2 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl text-xs text-white outline-none focus:border-[var(--primary)]">
                 <option value="cakes">Cakes</option>
-                <option value="minicakes">Mini Cakes</option>
-                <option value="reposteria">Repostería / Buffet dulce</option>
-                <option value="salados">Salados</option>
+                <option value="buffet">Buffet</option>
               </select>
             </div>
             <div>
@@ -237,8 +234,8 @@ const initialCatalog = catalogData;
 <script define:vars={{ initialCatalog }}>
   let catalog = initialCatalog;
   let hasPendingChanges = false;
-  let editingCakeId = null;
-  let editingAttributeId = null;
+  let editingProductId = null;
+  let editingOptionId = null;
 
   // DOM Elements
   const loginScreen = document.getElementById('admin-login-screen');
@@ -249,25 +246,25 @@ const initialCatalog = catalogData;
   const resetDefaultsBtn = document.getElementById('reset-defaults-btn');
   const saveChangesBtn = document.getElementById('save-changes-btn');
 
-  const tableBody = document.getElementById('cakes-table-body');
+  const tableBody = document.getElementById('products-table-body');
 
-  // Modal Atributos
-  const modal = document.getElementById('attribute-modal');
-  const modalCakeTitle = document.getElementById('modal-cake-title');
+  // Modal Opciones
+  const modal = document.getElementById('option-modal');
+  const modalProductTitle = document.getElementById('modal-product-title');
   const modalHeaderTitle = document.getElementById('modal-header-title');
   const closeModalBtn = document.getElementById('close-modal-btn');
   const modalCancelBtn = document.getElementById('modal-cancel-btn');
   const modalSaveBtn = document.getElementById('modal-save-btn');
-  const modalRemoveAttrBtn = document.getElementById('modal-remove-attr-btn');
+  const modalRemoveOptBtn = document.getElementById('modal-remove-opt-btn');
 
-  const modalAttrSelect = document.getElementById('modal-attribute-select');
-  const modalNewAttrName = document.getElementById('modal-new-attribute-name');
-  const modalCreateAttrBtn = document.getElementById('modal-create-attr-btn');
+  const modalOptionSelect = document.getElementById('modal-option-select');
+  const modalNewOptName = document.getElementById('modal-new-option-name');
+  const modalCreateOptBtn = document.getElementById('modal-create-opt-btn');
 
-  const modalOptionsList = document.getElementById('modal-options-list');
-  const modalNewOptionName = document.getElementById('modal-new-option-name');
-  const modalNewOptionPrice = document.getElementById('modal-new-option-price');
-  const modalAddOptBtn = document.getElementById('modal-add-opt-btn');
+  const modalValuesList = document.getElementById('modal-values-list');
+  const modalNewValueName = document.getElementById('modal-new-value-name');
+  const modalNewValuePrice = document.getElementById('modal-new-value-price');
+  const modalAddValBtn = document.getElementById('modal-add-val-btn');
 
   // Modal Nuevo Producto
   const newProdOpenBtn = document.getElementById('new-product-open-btn');
@@ -277,7 +274,7 @@ const initialCatalog = catalogData;
   const newProdForm = document.getElementById('new-product-form');
 
   // Versioning
-  const CATALOG_VERSION = 'v4_edicion_total_y_precios_libres';
+  const CATALOG_VERSION = 'v1_opciones_unicas';
 
   const loadCatalog = () => {
     try {
@@ -349,14 +346,14 @@ const initialCatalog = catalogData;
     loginScreen?.classList.add('hidden');
     dashboard?.classList.remove('hidden');
     loadCatalog();
-    renderCakesTable();
+    renderProductsTable();
   };
 
   resetDefaultsBtn?.addEventListener('click', () => {
-    if (confirm('¿Restaurar todos los productos, atributos y precios oficiales iniciales?')) {
+    if (confirm('¿Restaurar todos los productos, opciones y precios oficiales iniciales?')) {
       catalog = JSON.parse(JSON.stringify(initialCatalog));
       persistLocal();
-      renderCakesTable();
+      renderProductsTable();
       alert('✓ Precios oficiales restaurados');
     }
   });
@@ -385,7 +382,7 @@ const initialCatalog = catalogData;
     } catch (e) {
       console.warn('Sync server offline, guardado en almacenamiento local activo:', e);
       clearChanged();
-      alert('💾 Cambios guardados con éxito.');
+      alert('💾 Cambios guardados con éxito en almacenamiento local.');
     } finally {
       saveChangesBtn.disabled = false;
       saveChangesBtn.innerHTML = `
@@ -396,52 +393,60 @@ const initialCatalog = catalogData;
   });
 
   // RENDERIZAR TABLA DE PRODUCTOS
-  const renderCakesTable = () => {
+  const renderProductsTable = () => {
     if (!tableBody) return;
     let html = '';
 
-    const cakes = catalog.products || [];
+    const products = catalog.products || [];
 
-    cakes.forEach(cake => {
-      // Filtrar variaciones asignadas
-      const cakeVars = (catalog.variations || []).filter(v => v.product_id === cake.id && v.is_enabled);
+    products.forEach(product => {
+      // Filtrar valores asignados
+      const prodValues = (catalog.product_options || []).filter(v => v.product_id === product.id && v.is_enabled);
       
-      // Agrupar por atributo
-      const attrGroups = {};
-      cakeVars.forEach(v => {
-        if (!attrGroups[v.attribute_id]) {
-          attrGroups[v.attribute_id] = {
-            attrId: v.attribute_id,
-            attrName: v.attribute_name,
-            options: []
+      // Agrupar por opción
+      const optGroups = {};
+      prodValues.forEach(v => {
+        const opt = (catalog.options || []).find(o => o.id === v.option_id);
+        const val = (catalog.option_values || []).find(ov => ov.id === v.option_value_id);
+        if (!opt) return;
+        
+        if (!optGroups[opt.id]) {
+          optGroups[opt.id] = {
+            optId: opt.id,
+            optName: opt.name,
+            values: []
           };
         }
-        attrGroups[v.attribute_id].options.push(v);
+        optGroups[opt.id].values.push({
+          valueId: v.option_value_id,
+          valueName: val?.name || v.option_value_id,
+          directPrice: v.direct_price,
+          isBase: v.is_base
+        });
       });
 
       // Píldoras desplegables con Lápiz SVG ✏️
       let pillsHtml = '';
-      const groupKeys = Object.keys(attrGroups);
+      const groupKeys = Object.keys(optGroups);
 
       if (groupKeys.length === 0) {
-        pillsHtml = `<span class="text-xs text-white/40 italic">Solo versión base (sin opciones adicionales)</span>`;
+        pillsHtml = `<span class="text-xs text-white/40 italic">Sin opciones adicionales (solo precio base)</span>`;
       } else {
         pillsHtml = `<div class="flex flex-wrap gap-2">`;
-        groupKeys.forEach(attrId => {
-          const group = attrGroups[attrId];
-          const optsText = group.options.map(o => `${o.option_name}: $${o.direct_price}`).join(' · ');
+        groupKeys.forEach(optId => {
+          const group = optGroups[optId];
+          const valsText = group.values.map(v => `${v.valueName}: $${v.directPrice}`).join(' · ');
 
           pillsHtml += `
             <div class="inline-flex items-center gap-1.5 bg-[var(--bg-primary)] border border-[var(--border-color)] px-3 py-1.5 rounded-full text-xs shadow-sm group hover:border-[var(--primary)] transition-all">
-              <span class="font-extrabold text-[var(--accent-light)]">${group.attrName}:</span>
-              <span class="text-white font-medium max-w-[280px] truncate" title="${optsText}">${optsText}</span>
+              <span class="font-extrabold text-[var(--accent-light)]">${group.optName}:</span>
+              <span class="text-white font-medium max-w-[280px] truncate" title="${valsText}">${valsText}</span>
               
-              <!-- SVG de lápiz ✏️ para editar atributo -->
               <button 
                 class="edit-pill-btn ml-1 p-1 hover:bg-white/10 rounded-full text-[var(--neutral-cream)] hover:text-white transition-colors cursor-pointer" 
-                data-cake-id="${cake.id}" 
-                data-attr-id="${group.attrId}"
-                title="Editar opciones y precios de ${group.attrName}"
+                data-product-id="${product.id}" 
+                data-opt-id="${group.optId}"
+                title="Editar valores de ${group.optName}"
               >
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5">
                   <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
@@ -456,14 +461,14 @@ const initialCatalog = catalogData;
 
       html += `
         <tr class="hover:bg-white/[0.02] transition-colors">
-          <!-- Columna 1: Nombre editable + Precio Base editable + Categoría -->
+          <!-- Columna 1: Nombre editable + Precio Base editable + Tipo -->
           <td class="py-4 px-6 align-top">
             <div class="space-y-2">
               <input 
                 type="text" 
                 class="prod-name-input w-full bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-lg px-2.5 py-1 text-sm font-black text-white outline-none focus:border-[var(--primary)] transition-colors" 
-                data-cake-id="${cake.id}" 
-                value="${cake.name}" 
+                data-product-id="${product.id}" 
+                value="${product.name}" 
                 title="Haz clic para renombrar este producto"
               />
               <div class="flex items-center gap-2 flex-wrap">
@@ -473,26 +478,24 @@ const initialCatalog = catalogData;
                   <input 
                     type="number" 
                     class="base-price-input w-20 bg-transparent text-xs font-black text-[var(--accent-light)] outline-none text-right" 
-                    data-cake-id="${cake.id}" 
-                    value="${cake.base_price}" 
+                    data-product-id="${product.id}" 
+                    value="${product.base_price}" 
                     title="Modifica el precio base directamente"
                   />
                   <span class="text-[10px] font-bold text-white/60">CUP</span>
                 </div>
 
                 <select 
-                  class="prod-category-select bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-lg px-2 py-0.5 text-[10px] font-bold uppercase text-[var(--neutral-cream)] outline-none" 
-                  data-cake-id="${cake.id}"
+                  class="prod-type-select bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-lg px-2 py-0.5 text-[10px] font-bold uppercase text-[var(--neutral-cream)] outline-none" 
+                  data-product-id="${product.id}"
                 >
-                  <option value="cakes" ${cake.category === 'cakes' ? 'selected' : ''}>Cakes</option>
-                  <option value="minicakes" ${cake.category === 'minicakes' ? 'selected' : ''}>MiniCakes</option>
-                  <option value="reposteria" ${cake.category === 'reposteria' ? 'selected' : ''}>Repostería</option>
-                  <option value="salados" ${cake.category === 'salados' ? 'selected' : ''}>Salados</option>
+                  <option value="cakes" ${product.type === 'cakes' ? 'selected' : ''}>Cakes</option>
+                  <option value="buffet" ${product.type === 'buffet' ? 'selected' : ''}>Buffet</option>
                 </select>
 
                 <button 
                   class="delete-prod-btn text-[10px] text-red-400/70 hover:text-red-400 font-bold px-1.5 py-0.5 hover:bg-red-500/10 rounded transition-colors cursor-pointer ml-auto" 
-                  data-cake-id="${cake.id}"
+                  data-product-id="${product.id}"
                   title="Eliminar producto"
                 >
                   Eliminar
@@ -506,17 +509,17 @@ const initialCatalog = catalogData;
             ${pillsHtml}
           </td>
 
-          <!-- Columna 3: Botón + Asignar Atributo -->
+          <!-- Columna 3: Botón + Asignar Opción -->
           <td class="py-4 px-6 text-right align-middle">
             <button 
-              class="add-attr-btn inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/10 hover:bg-white/20 text-xs font-extrabold rounded-xl transition-all cursor-pointer text-white shadow-sm"
-              data-cake-id="${cake.id}"
+              class="add-opt-btn inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/10 hover:bg-white/20 text-xs font-extrabold rounded-xl transition-all cursor-pointer text-white shadow-sm"
+              data-product-id="${product.id}"
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3">
                 <line x1="12" y1="5" x2="12" y2="19"></line>
                 <line x1="5" y1="12" x2="19" y2="12"></line>
               </svg>
-              <span>+ Atributo</span>
+              <span>+ Opción</span>
             </button>
           </td>
         </tr>
@@ -529,10 +532,10 @@ const initialCatalog = catalogData;
     tableBody.querySelectorAll('.prod-name-input').forEach(inp => {
       inp.addEventListener('change', (e) => {
         const target = e.target;
-        const cakeId = target.getAttribute('data-cake-id');
-        const cake = (catalog.products || []).find(p => p.id === cakeId);
-        if (cake && target.value.trim()) {
-          cake.name = target.value.trim();
+        const productId = target.getAttribute('data-product-id');
+        const product = (catalog.products || []).find(p => p.id === productId);
+        if (product && target.value.trim()) {
+          product.name = target.value.trim();
           persistLocal();
         }
       });
@@ -542,24 +545,24 @@ const initialCatalog = catalogData;
     tableBody.querySelectorAll('.base-price-input').forEach(inp => {
       inp.addEventListener('change', (e) => {
         const target = e.target;
-        const cakeId = target.getAttribute('data-cake-id');
+        const productId = target.getAttribute('data-product-id');
         const newPrice = parseInt(target.value || '0');
-        const cake = (catalog.products || []).find(p => p.id === cakeId);
-        if (cake && newPrice >= 0) {
-          cake.base_price = newPrice;
+        const product = (catalog.products || []).find(p => p.id === productId);
+        if (product && newPrice >= 0) {
+          product.base_price = newPrice;
           persistLocal();
         }
       });
     });
 
-    // Handlers de cambio de categoría
-    tableBody.querySelectorAll('.prod-category-select').forEach(sel => {
+    // Handlers de cambio de tipo
+    tableBody.querySelectorAll('.prod-type-select').forEach(sel => {
       sel.addEventListener('change', (e) => {
         const target = e.target;
-        const cakeId = target.getAttribute('data-cake-id');
-        const cake = (catalog.products || []).find(p => p.id === cakeId);
-        if (cake) {
-          cake.category = target.value;
+        const productId = target.getAttribute('data-product-id');
+        const product = (catalog.products || []).find(p => p.id === productId);
+        if (product) {
+          product.type = target.value;
           persistLocal();
         }
       });
@@ -568,13 +571,13 @@ const initialCatalog = catalogData;
     // Handlers de eliminar producto
     tableBody.querySelectorAll('.delete-prod-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        const cakeId = btn.getAttribute('data-cake-id');
-        const cake = (catalog.products || []).find(p => p.id === cakeId);
-        if (cake && confirm(`¿Eliminar definitivamente "${cake.name}" del catálogo?`)) {
-          catalog.products = (catalog.products || []).filter(p => p.id !== cakeId);
-          catalog.variations = (catalog.variations || []).filter(v => v.product_id !== cakeId);
+        const productId = btn.getAttribute('data-product-id');
+        const product = (catalog.products || []).find(p => p.id === productId);
+        if (product && confirm(`¿Eliminar definitivamente "${product.name}" del catálogo?`)) {
+          catalog.products = (catalog.products || []).filter(p => p.id !== productId);
+          catalog.product_options = (catalog.product_options || []).filter(v => v.product_id !== productId);
           persistLocal();
-          renderCakesTable();
+          renderProductsTable();
         }
       });
     });
@@ -582,102 +585,104 @@ const initialCatalog = catalogData;
     // Handlers de botones de píldora (Editar con Lápiz)
     tableBody.querySelectorAll('.edit-pill-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        const cakeId = btn.getAttribute('data-cake-id');
-        const attrId = btn.getAttribute('data-attr-id');
-        openAttributeModal(cakeId, attrId);
+        const productId = btn.getAttribute('data-product-id');
+        const optId = btn.getAttribute('data-opt-id');
+        openOptionModal(productId, optId);
       });
     });
 
-    // Handlers de botón (+ Asignar Atributo)
-    tableBody.querySelectorAll('.add-attr-btn').forEach(btn => {
+    // Handlers de botón (+ Asignar Opción)
+    tableBody.querySelectorAll('.add-opt-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        const cakeId = btn.getAttribute('data-cake-id');
-        openAttributeModal(cakeId, null);
+        const productId = btn.getAttribute('data-product-id');
+        openOptionModal(productId, null);
       });
     });
   };
 
-  // Abrir Modal de Atributos
-  const openAttributeModal = (cakeId, attrId) => {
-    editingCakeId = cakeId;
-    editingAttributeId = attrId;
+  // Abrir Modal de Opciones
+  const openOptionModal = (productId, optId) => {
+    editingProductId = productId;
+    editingOptionId = optId;
 
-    const cake = (catalog.products || []).find(p => p.id === cakeId);
-    if (!cake) return;
+    const product = (catalog.products || []).find(p => p.id === productId);
+    if (!product) return;
 
-    if (modalCakeTitle) modalCakeTitle.textContent = cake.name;
-    if (modalHeaderTitle) modalHeaderTitle.textContent = attrId ? 'Editar Opciones de Atributo' : 'Asignar Nuevo Atributo';
+    if (modalProductTitle) modalProductTitle.textContent = product.name;
+    if (modalHeaderTitle) modalHeaderTitle.textContent = optId ? 'Editar Opción' : 'Asignar Nueva Opción';
     
-    if (modalRemoveAttrBtn) {
-      if (attrId) {
-        modalRemoveAttrBtn.classList.remove('hidden');
+    if (modalRemoveOptBtn) {
+      if (optId) {
+        modalRemoveOptBtn.classList.remove('hidden');
       } else {
-        modalRemoveAttrBtn.classList.add('hidden');
+        modalRemoveOptBtn.classList.add('hidden');
       }
     }
 
-    renderModalAttrSelect(attrId);
+    renderModalOptionSelect(optId);
     modal?.classList.remove('hidden');
   };
 
   const closeModal = () => {
     modal?.classList.add('hidden');
-    editingCakeId = null;
-    editingAttributeId = null;
+    editingProductId = null;
+    editingOptionId = null;
   };
 
   closeModalBtn?.addEventListener('click', closeModal);
   modalCancelBtn?.addEventListener('click', closeModal);
 
-  // Poblar Select de Atributos en Modal
-  const renderModalAttrSelect = (selectedAttrId) => {
-    if (!modalAttrSelect) return;
-    const attrs = catalog.attributes || [];
+  // Poblar Select de Opciones en Modal
+  const renderModalOptionSelect = (selectedOptId) => {
+    if (!modalOptionSelect) return;
+    const options = catalog.options || [];
     let html = '';
 
-    attrs.forEach(a => {
-      html += `<option value="${a.id}" ${a.id === selectedAttrId ? 'selected' : ''}>${a.name}</option>`;
+    options.forEach(o => {
+      html += `<option value="${o.id}" ${o.id === selectedOptId ? 'selected' : ''}>${o.name}</option>`;
     });
-    modalAttrSelect.innerHTML = html;
+    modalOptionSelect.innerHTML = html;
 
-    const activeAttrId = selectedAttrId || (attrs[0] ? attrs[0].id : null);
-    renderModalOptions(activeAttrId);
+    const activeOptId = selectedOptId || (options[0] ? options[0].id : null);
+    renderModalValues(activeOptId);
 
-    modalAttrSelect.onchange = () => {
-      renderModalOptions(modalAttrSelect.value);
+    modalOptionSelect.onchange = () => {
+      renderModalValues(modalOptionSelect.value);
     };
   };
 
-  // Renderizar Opciones y Precios en el Modal (Siempre Editables)
-  const renderModalOptions = (attrId) => {
-    if (!modalOptionsList || !attrId) return;
-    const opts = (catalog.options || []).filter(o => o.attribute_id === attrId);
-    const cake = (catalog.products || []).find(p => p.id === editingCakeId);
-    const baseP = cake ? cake.base_price : 0;
+  // Renderizar Valores y Precios en el Modal (Siempre Editables)
+  const renderModalValues = (optId) => {
+    if (!modalValuesList || !optId) return;
+    const vals = (catalog.option_values || []).filter(v => v.option_id === optId);
+    const product = (catalog.products || []).find(p => p.id === editingProductId);
+    const baseP = product ? product.base_price : 0;
 
     let html = '';
 
-    if (opts.length === 0) {
-      html = `<p class="text-xs text-white/50 py-3 text-center">Este atributo aún no tiene opciones creadas. Crea una abajo.</p>`;
+    if (vals.length === 0) {
+      html = `<p class="text-xs text-white/50 py-3 text-center">Esta opción aún no tiene valores creados. Crea uno abajo.</p>`;
     } else {
-      opts.forEach(opt => {
-        // Buscar si ya está asignada a este cake
-        const currentVar = (catalog.variations || []).find(v => v.product_id === editingCakeId && v.option_id === opt.id && v.is_enabled);
-        const isChecked = !!currentVar;
-        const currentPrice = currentVar ? currentVar.direct_price : baseP;
+      vals.forEach(val => {
+        // Buscar si ya está asignado a este producto
+        const currentPO = (catalog.product_options || []).find(
+          po => po.product_id === editingProductId && po.option_id === optId && po.option_value_id === val.id
+        );
+        const isChecked = !!currentPO;
+        const currentPrice = currentPO ? currentPO.direct_price : baseP;
 
         html += `
           <div class="flex items-center justify-between gap-3 p-2.5 rounded-xl bg-[var(--bg-primary)]/90 border border-white/5">
             <label class="flex items-center gap-2.5 cursor-pointer select-none">
-              <input type="checkbox" class="modal-opt-toggle w-4 h-4 rounded text-[var(--primary)] cursor-pointer" data-opt-id="${opt.id}" ${isChecked ? 'checked' : ''} />
-              <span class="text-xs font-bold text-white">${opt.name}</span>
+              <input type="checkbox" class="modal-val-toggle w-4 h-4 rounded text-[var(--primary)] cursor-pointer" data-val-id="${val.id}" ${isChecked ? 'checked' : ''} />
+              <span class="text-xs font-bold text-white">${val.name}</span>
             </label>
             <div class="flex items-center gap-1.5">
               <span class="text-[10px] text-white/50">Precio Directo:</span>
               <input 
                 type="number" 
-                class="modal-opt-price w-28 px-2.5 py-1.5 bg-[var(--bg-card)] border border-[var(--border-color)] rounded-lg text-right text-xs font-black text-[var(--accent-light)] outline-none focus:border-[var(--primary)]" 
-                data-opt-id="${opt.id}" 
+                class="modal-val-price w-28 px-2.5 py-1.5 bg-[var(--bg-card)] border border-[var(--border-color)] rounded-lg text-right text-xs font-black text-[var(--accent-light)] outline-none focus:border-[var(--primary)]" 
+                data-val-id="${val.id}" 
                 value="${currentPrice}" 
                 placeholder="Precio CUP" 
               />
@@ -688,13 +693,13 @@ const initialCatalog = catalogData;
       });
     }
 
-    modalOptionsList.innerHTML = html;
+    modalValuesList.innerHTML = html;
 
     // Al editar cualquier precio, marcar automáticamente el checkbox correspondiente
-    modalOptionsList.querySelectorAll('.modal-opt-price').forEach(inp => {
+    modalValuesList.querySelectorAll('.modal-val-price').forEach(inp => {
       inp.addEventListener('input', (e) => {
-        const optId = (e.target).getAttribute('data-opt-id');
-        const chk = modalOptionsList.querySelector(`.modal-opt-toggle[data-opt-id="${optId}"]`);
+        const valId = (e.target).getAttribute('data-val-id');
+        const chk = modalValuesList.querySelector(`.modal-val-toggle[data-val-id="${valId}"]`);
         if (chk && !chk.checked) {
           chk.checked = true;
         }
@@ -702,115 +707,120 @@ const initialCatalog = catalogData;
     });
   };
 
-  // Crear Nuevo Atributo desde el Modal
-  modalCreateAttrBtn?.addEventListener('click', () => {
-    const name = modalNewAttrName?.value.trim();
+  // Crear Nueva Opción desde el Modal
+  modalCreateOptBtn?.addEventListener('click', () => {
+    const name = modalNewOptName?.value.trim();
     if (!name) return;
 
     const id = name.toLowerCase().replace(/[^a-z0-9]/g, '-');
-    if (!catalog.attributes) catalog.attributes = [];
+    if (!catalog.options) catalog.options = [];
 
-    if (!catalog.attributes.find(a => a.id === id)) {
-      catalog.attributes.push({ id, name });
-      if (modalNewAttrName) modalNewAttrName.value = '';
+    if (!catalog.options.find(o => o.id === id)) {
+      catalog.options.push({ id, name });
+      if (modalNewOptName) modalNewOptName.value = '';
       persistLocal();
-      renderModalAttrSelect(id);
-      alert(`✓ Atributo "${name}" creado con éxito. Ya puedes añadirle opciones.`);
+      renderModalOptionSelect(id);
+      alert(`✓ Opción "${name}" creada con éxito. Ya puedes añadirle valores.`);
     } else {
-      alert('Ya existe un atributo con ese nombre.');
+      alert('Ya existe una opción con ese nombre.');
     }
   });
 
-  // Añadir Nueva Opción al Atributo Activo desde el Modal con su Precio Directo
-  modalAddOptBtn?.addEventListener('click', () => {
-    const attrId = modalAttrSelect?.value;
-    const optName = modalNewOptionName?.value.trim();
-    const priceRaw = modalNewOptionPrice?.value.trim();
-    const cake = (catalog.products || []).find(p => p.id === editingCakeId);
-    const defaultP = cake ? cake.base_price : 0;
+  // Añadir Nuevo Valor a la Opción Activa desde el Modal con su Precio Directo
+  modalAddValBtn?.addEventListener('click', () => {
+    const optId = modalOptionSelect?.value;
+    const valName = modalNewValueName?.value.trim();
+    const priceRaw = modalNewValuePrice?.value.trim();
+    const product = (catalog.products || []).find(p => p.id === editingProductId);
+    const defaultP = product ? product.base_price : 0;
     const price = priceRaw ? parseInt(priceRaw) : defaultP;
 
-    if (!attrId || !optName) {
-      alert('Por favor ingresa el nombre de la nueva opción');
+    if (!optId || !valName) {
+      alert('Por favor ingresa el nombre del nuevo valor');
       return;
     }
 
-    const optId = `${attrId}-${optName.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
-    if (!catalog.options) catalog.options = [];
+    const valId = `${optId}-${valName.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
+    if (!catalog.option_values) catalog.option_values = [];
 
     // Registrar en catálogo si no existe
-    if (!catalog.options.find(o => o.id === optId)) {
-      catalog.options.push({ id: optId, attribute_id: attrId, name: optName, is_base: 0 });
+    if (!catalog.option_values.find(v => v.id === valId)) {
+      catalog.option_values.push({ id: valId, option_id: optId, name: valName, is_base: false });
     }
 
-    // Y asignarla inmediatamente activa a este cake con el precio indicado
-    if (!catalog.variations) catalog.variations = [];
-    const attrObj = (catalog.attributes || []).find(a => a.id === attrId);
+    // Y asignarla inmediatamente activa a este producto con el precio indicado
+    if (!catalog.product_options) catalog.product_options = [];
+    const optObj = (catalog.options || []).find(o => o.id === optId);
     
     // Remover duplicados si ya existiera
-    catalog.variations = catalog.variations.filter(v => !(v.product_id === editingCakeId && v.option_id === optId));
+    catalog.product_options = catalog.product_options.filter(po => !(po.product_id === editingProductId && po.option_id === optId && po.option_value_id === valId));
     
-    catalog.variations.push({
-      product_id: editingCakeId,
-      attribute_id: attrId,
-      attribute_name: attrObj ? attrObj.name : attrId,
+    catalog.product_options.push({
+      product_id: editingProductId,
       option_id: optId,
-      option_name: optName,
+      option_value_id: valId,
+      option_name: optObj ? optObj.name : optId,
+      option_value_name: valName,
       direct_price: price,
-      is_enabled: 1
+      is_enabled: true,
+      is_base: false
     });
 
-    if (modalNewOptionName) modalNewOptionName.value = '';
-    if (modalNewOptionPrice) modalNewOptionPrice.value = '';
+    if (modalNewValueName) modalNewValueName.value = '';
+    if (modalNewValuePrice) modalNewValuePrice.value = '';
 
     persistLocal();
-    renderModalOptions(attrId);
+    renderModalValues(optId);
   });
 
-  // Guardar Cambios del Modal (Aplicar al Cake)
+  // Guardar Cambios del Modal (Aplicar al Producto)
   modalSaveBtn?.addEventListener('click', () => {
-    if (!editingCakeId || !modalAttrSelect) return;
-    const attrId = modalAttrSelect.value;
-    const attrObj = (catalog.attributes || []).find(a => a.id === attrId);
-    const attrName = attrObj ? attrObj.name : attrId;
+    if (!editingProductId || !modalOptionSelect) return;
+    const optId = modalOptionSelect.value;
+    const optObj = (catalog.options || []).find(o => o.id === optId);
+    const optName = optObj ? optObj.name : optId;
 
-    if (!catalog.variations) catalog.variations = [];
+    if (!catalog.product_options) catalog.product_options = [];
 
-    // Limpiar variaciones previas de este atributo para este cake
-    catalog.variations = catalog.variations.filter(v => !(v.product_id === editingCakeId && v.attribute_id === attrId));
+    // Limpiar valores previos de esta opción para este producto
+    catalog.product_options = catalog.product_options.filter(po => !(po.product_id === editingProductId && po.option_id === optId));
 
-    // Guardar todas las que estén marcadas con su precio directo
-    modalOptionsList?.querySelectorAll('.modal-opt-toggle').forEach(chk => {
+    // Guardar todos los que estén marcados con su precio directo
+    modalValuesList?.querySelectorAll('.modal-val-toggle').forEach(chk => {
       if (chk.checked) {
-        const optId = chk.getAttribute('data-opt-id');
-        const optObj = (catalog.options || []).find(o => o.id === optId);
-        const priceInput = modalOptionsList.querySelector(`.modal-opt-price[data-opt-id="${optId}"]`);
+        const valId = chk.getAttribute('data-val-id');
+        const valObj = (catalog.option_values || []).find(v => v.id === valId);
+        const priceInput = modalValuesList.querySelector(`.modal-val-price[data-val-id="${valId}"]`);
         const directPrice = parseInt(priceInput?.value || '0');
+        const isBase = valObj?.is_base || false;
 
-        catalog.variations.push({
-          product_id: editingCakeId,
-          attribute_id: attrId,
-          attribute_name: attrName,
+        catalog.product_options.push({
+          product_id: editingProductId,
           option_id: optId,
-          option_name: optObj ? optObj.name : optId,
+          option_value_id: valId,
+          option_name: optName,
+          option_value_name: valObj ? valObj.name : valId,
           direct_price: directPrice,
-          is_enabled: 1
+          is_enabled: true,
+          is_base: isBase
         });
       }
     });
 
     persistLocal();
-    renderCakesTable();
+    renderProductsTable();
     closeModal();
   });
 
-  // Quitar Atributo Completo de este Cake
-  modalRemoveAttrBtn?.addEventListener('click', () => {
-    if (!editingCakeId || !editingAttributeId) return;
-    if (confirm('¿Quitar este atributo y todas sus opciones de este cake?')) {
-      catalog.variations = (catalog.variations || []).filter(v => !(v.product_id === editingCakeId && v.attribute_id === editingAttributeId));
+  // Quitar Opción Completa de este Producto
+  modalRemoveOptBtn?.addEventListener('click', () => {
+    if (!editingProductId || !editingOptionId) return;
+    if (confirm('¿Quitar esta opción y todos sus valores de este producto?')) {
+      catalog.product_options = (catalog.product_options || []).filter(
+        po => !(po.product_id === editingProductId && po.option_id === editingOptionId)
+      );
       persistLocal();
-      renderCakesTable();
+      renderProductsTable();
       closeModal();
     }
   });
@@ -831,7 +841,7 @@ const initialCatalog = catalogData;
   newProdForm?.addEventListener('submit', (e) => {
     e.preventDefault();
     const name = (document.getElementById('np-name')).value.trim();
-    const category = (document.getElementById('np-category')).value;
+    const type = (document.getElementById('np-type')).value;
     const basePrice = parseInt((document.getElementById('np-price')).value || '0');
     const image = (document.getElementById('np-image')).value.trim() || 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=800&auto=format&fit=crop';
 
@@ -851,18 +861,40 @@ const initialCatalog = catalogData;
     catalog.products.push({
       id,
       name,
-      category,
+      type,
       base_price: basePrice,
       image,
-      description: name,
-      sort_order: catalog.products.length + 1
+      description: ''
     });
 
+    if (!catalog.product_options) catalog.product_options = [];
+
     persistLocal();
-    renderCakesTable();
+    renderProductsTable();
     closeNewProdModal();
-    alert(`✓ Producto "${name}" creado con éxito. Ahora puedes asignarle atributos con "+ Atributo".`);
+    alert(`✓ Producto "${name}" creado con éxito.`);
   });
 
+  // Inicialización
   checkAuth();
 </script>
+
+<style>
+  :root {
+    --bg-primary: #1A0A10;
+    --bg-secondary: #2A1520;
+    --bg-card: #241018;
+    --primary: #E8196C;
+    --accent: #FF6B35;
+    --accent-light: #FFB088;
+    --text-primary: #FFFFFF;
+    --text-secondary: #E8D5E0;
+    --text-light: #C4A8B8;
+    --neutral-cream: #F5E6D3;
+    --border-color: rgba(232, 25, 108, 0.2);
+    --gradient-brand: linear-gradient(135deg, #E8196C, #FF6B35);
+    --font-sans: 'Inter', system-ui, sans-serif;
+    --font-display: 'Playfair Display', Georgia, serif;
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+</style>

@@ -629,10 +629,10 @@ import Layout from '../layouts/Layout.astro';
   // Sort cart: cakes first, then buffet items
   const sortCart = () => {
     cart.sort((a, b) => {
-      const isCakeA = a.category === 'cakes' || a.category === 'minicakes' || a.customizable;
-      const isCakeB = b.category === 'cakes' || b.category === 'minicakes' || b.customizable;
-      if (isCakeA && !isCakeB) return -1;
-      if (!isCakeA && isCakeB) return 1;
+      const typeA = a.type || 'cakes';
+      const typeB = b.type || 'cakes';
+      if (typeA === 'cakes' && typeB === 'buffet') return -1;
+      if (typeA === 'buffet' && typeB === 'cakes') return 1;
       return (b.price || 0) - (a.price || 0);
     });
   };
@@ -642,23 +642,27 @@ import Layout from '../layouts/Layout.astro';
     let name = item.name;
     let parts = [];
 
-    if (activeCatalog && activeCatalog.variations && item.attributes) {
-      Object.keys(item.attributes).forEach(attrId => {
-        const optId = item.attributes[attrId];
-        const vObj = activeCatalog.variations.find(v => v.product_id === item.id && v.option_id === optId);
-        if (vObj && vObj.is_base !== 1) {
-          parts.push(`${vObj.attribute_name}: ${vObj.option_name}`);
+    if (activeCatalog && activeCatalog.product_options && item.options) {
+      // Nueva estructura: options es un map de option_id -> option_value_id
+      Object.keys(item.options).forEach(optId => {
+        const valId = item.options[optId];
+        const poObj = activeCatalog.product_options.find(
+          po => po.product_id === item.id && po.option_id === optId && po.option_value_id === valId
+        );
+        if (poObj && !poObj.is_base) {
+          parts.push(`${poObj.option_name}: ${poObj.option_value_name}`);
         }
       });
     } else {
-      const rule = RULES[item.id];
-      if (item.doubleHeight && rule && rule.hasDouble) {
-        parts.push('Doble');
-      }
-      if (item.dough && item.dough !== 'trigo') {
-        const dObj = rule?.doughs?.find(d => d.id === item.dough);
-        const dName = dObj ? dObj.label.split('(')[0].trim() : item.dough;
-        parts.push(`Masa: ${dName}`);
+      // Fallback para compatibilidad con estructura anterior
+      if (item.attributes) {
+        Object.keys(item.attributes).forEach(attrId => {
+          const optId = item.attributes[attrId];
+          const vObj = activeCatalog?.variations?.find(v => v.product_id === item.id && v.option_id === optId);
+          if (vObj && vObj.is_base !== 1) {
+            parts.push(`${vObj.attribute_name}: ${vObj.option_name}`);
+          }
+        });
       }
     }
 
@@ -763,7 +767,7 @@ import Layout from '../layouts/Layout.astro';
     }
   };
 
-  // Cargar catálogo dinámico con atributos asignados desde localStorage o initial
+  // Cargar catálogo dinámico con opciones asignadas desde localStorage o initial
   let activeCatalog = null;
   try {
     const saved = localStorage.getItem('el_lider_admin_catalog');
@@ -773,25 +777,38 @@ import Layout from '../layouts/Layout.astro';
   const calculateItemUnitPrice = (item) => {
     let unit = item.price || 0;
 
-    // Buscar variaciones asignadas a este producto
-    if (activeCatalog && activeCatalog.variations) {
-      const vars = activeCatalog.variations.filter(v => v.product_id === item.id && v.is_enabled);
-      
-      // Si el usuario seleccionó una opción específica de masa/variación
-      if (item.dough) {
-        const foundVar = vars.find(v => v.option_id === item.dough || v.option_id.includes(item.dough));
-        if (foundVar) {
-          unit = foundVar.direct_price;
+    // Nueva estructura: buscar en product_options
+    if (activeCatalog && activeCatalog.product_options) {
+      if (item.options && Object.keys(item.options).length > 0) {
+        // Construir key de combinación
+        const optEntries = Object.entries(item.options);
+        const combinations = activeCatalog.product_options.filter(
+          po => po.product_id === item.id && po.is_enabled
+        );
+        
+        // Buscar la combinación exacta
+        let foundCombo = null;
+        for (const combo of combinations) {
+          const comboKey = `${combo.option_id}:${combo.option_value_id}`;
+          const itemKey = `${optEntries.find(([optId]) => optId === combo.option_id)?.[1]}`;
+          if (itemKey === combo.option_value_id) {
+            foundCombo = combo;
+            break;
+          }
         }
-      }
-      
-      if (item.doubleHeight) {
-        const doubleVar = vars.find(v => v.option_id === 'altura-doble');
-        if (doubleVar) {
-          unit = doubleVar.direct_price;
+
+        if (foundCombo) {
+          unit = foundCombo.direct_price;
+        } else {
+          // Si no hay combinación exacta, tomar el valor base
+          const baseOption = combinations.find(po => po.is_base);
+          if (baseOption) {
+            unit = baseOption.direct_price;
+          }
         }
       }
     } else {
+      // Fallback a reglas antiguas
       const rule = RULES[item.id];
       if (rule) {
         const selectedDough = rule.doughs?.find(d => d.id === item.dough) || rule.doughs?.[0];
@@ -854,35 +871,35 @@ import Layout from '../layouts/Layout.astro';
       const globalIdx = cart.indexOf(item);
       let dynamicAttributesHtml = '';
 
-      // Obtener atributos asignados dinámicamente desde el catálogo activo
-      if (activeCatalog && activeCatalog.variations) {
-        const prodVars = activeCatalog.variations.filter(v => v.product_id === item.id && v.is_enabled);
+      // Obtener opciones asignadas dinámicamente desde el catálogo activo
+      if (activeCatalog && activeCatalog.product_options) {
+        const prodOpts = activeCatalog.product_options.filter(po => po.product_id === item.id && po.is_enabled);
         
-        // Agrupar por atributo
-        const attrGroups = {};
-        prodVars.forEach(v => {
-          if (!attrGroups[v.attribute_id]) {
-            attrGroups[v.attribute_id] = {
-              attrId: v.attribute_id,
-              attrName: v.attribute_name,
-              options: []
+        // Agrupar por opción
+        const optGroups = {};
+        prodOpts.forEach(po => {
+          if (!optGroups[po.option_id]) {
+            optGroups[po.option_id] = {
+              optId: po.option_id,
+              optName: po.option_name,
+              values: []
             };
           }
-          attrGroups[v.attribute_id].options.push(v);
+          optGroups[po.option_id].values.push(po);
         });
 
-        // Renderizar selector para cada atributo asignado
-        Object.keys(attrGroups).forEach(attrId => {
-          const group = attrGroups[attrId];
-          const currentSelected = item.attributes ? item.attributes[attrId] : (group.options[0]?.option_id);
+        // Renderizar selector para cada opción asignada
+        Object.keys(optGroups).forEach(optId => {
+          const group = optGroups[optId];
+          const currentSelected = item.options ? item.options[optId] : (group.values[0]?.option_value_id);
 
           dynamicAttributesHtml += `
             <div class="flex flex-col gap-2">
-              <label for="attr-${attrId}-${globalIdx}" class="block text-sm font-bold text-[var(--text-primary)]">✨ ${group.attrName}:</label>
-              <select class="dynamic-attr-field w-full px-4 py-3 bg-[var(--bg-primary)] border-2 border-[var(--border-color)] rounded-xl text-sm text-[var(--text-primary)] focus:border-[var(--accent-color)] focus:ring-4 focus:ring-[var(--accent-color)]/10 transition-all outline-none cursor-pointer appearance-none font-bold" data-index="${globalIdx}" data-attr-id="${attrId}" id="attr-${attrId}-${globalIdx}">
-                ${group.options.map(opt => `
-                  <option value="${opt.option_id}" ${currentSelected === opt.option_id ? 'selected' : ''}>
-                    ${opt.option_name} ($${opt.direct_price} CUP)
+              <label for="opt-${optId}-${globalIdx}" class="block text-sm font-bold text-[var(--text-primary)]">✨ ${group.optName}:</label>
+              <select class="dynamic-attr-field w-full px-4 py-3 bg-[var(--bg-primary)] border-2 border-[var(--border-color)] rounded-xl text-sm text-[var(--text-primary)] focus:border-[var(--accent-color)] focus:ring-4 focus:ring-[var(--accent-color)]/10 transition-all outline-none cursor-pointer appearance-none font-bold" data-index="${globalIdx}" data-opt-id="${optId}" id="opt-${optId}-${globalIdx}">
+                ${group.values.map(po => `
+                  <option value="${po.option_value_id}" ${currentSelected === po.option_value_id ? 'selected' : ''}>
+                    ${po.option_value_name} ($${po.direct_price} CUP)
                   </option>
                 `).join('')}
               </select>
@@ -973,18 +990,18 @@ import Layout from '../layouts/Layout.astro';
   };
 
   const attachCustomizerEvents = () => {
-    // Dynamic attribute selects
+    // Dynamic option selects
     document.querySelectorAll('.dynamic-attr-field').forEach(select => {
       select.addEventListener('change', (e) => {
         const target = e.target as HTMLSelectElement;
         const idx = parseInt(target.getAttribute('data-index') || '0');
-        const attrId = target.getAttribute('data-attr-id') || '';
+        const optId = target.getAttribute('data-opt-id') || '';
         
-        if (!cart[idx].attributes) cart[idx].attributes = {};
-        cart[idx].attributes[attrId] = target.value;
+        if (!cart[idx].options) cart[idx].options = {};
+        cart[idx].options[optId] = target.value;
         
-        // Mantener compatibilidad si es masa
-        if (attrId === 'masa') {
+        // Mantener compatibilidad con masa
+        if (optId === 'masa') {
           cart[idx].dough = target.value;
         }
         updateTotals();
@@ -1125,12 +1142,14 @@ import Layout from '../layouts/Layout.astro';
     renderSummaryItems();
   };
 
-  // ---- MVP: Envío automático vía Baileys API ----
+  // ---- MVP: Envío automático vía Baileys (NÚMERO DE PRUEBAS) ----
   const BAILEYS_URL = 'https://ia.carmayn8n.cloud/api/wa/send';
   const BAILEYS_API_KEY = 'REDACTED_BAILEYS_KEY';
-  const BOT_PHONE = '5352122630';
+  // Número de pruebas del desarrollador
+  const TEST_PHONE = '5350000000';
+  // Número oficial de la dulcería (fallback)
   const CLIENT_SUPPORT_PHONE = '5351394921';
-  const SHOP_CHAT_ID = `${BOT_PHONE}@s.whatsapp.net`;
+  const SHOP_CHAT_ID = `${TEST_PHONE}@s.whatsapp.net`;
 
   const normalizePhone = (raw) => {
     let digits = (raw || '').replace(/\D/g, '');
