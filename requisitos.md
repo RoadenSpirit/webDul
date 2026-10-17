@@ -48,8 +48,18 @@ En este archivo se lleva el control del estado de las características planifica
   4. Diseño de 2 columnas: lista de productos y matriz interactiva de atributos (switches on/off, precio obligatorio y creador de atributos).
   5. Catálogo (`src/data/products.ts`) y checkout (`src/pages/pedido.astro`) conectados con reglas de precios exactas e impresiones a +$900 CUP.
   6. Desplegado y verificado en producción: `https://dulceria-el-lider.vercel.app/admin`.
+- [x] **Reestructuración Completa del Modelo de Datos (v1_opciones_unicas)** (2026-10-17):
+  1. Eliminación de categoría "Capuchino Doble" - ahora es combinación de Masa=Capuchino + Altura=Doble.
+  2. Cambio de terminología: "Atributos" → "Opciones", "Variaciones" → "Product Options".
+  3. Nuevo modelo de datos: products, options, option_values, product_options (con precios directos cerrados).
+  4. Distinción Cakes vs Buffet: tipos de producto unificados, sin categorías inventadas.
+  5. Notificación de pruebas dirigida a número del desarrollador `5350000000` (5350000000@s.whatsapp.net).
+  6. Campos obligatorios en checkout: Nombre, WhatsApp, Fecha requerida.
+  7. Cálculo de precios por combinación: cada opción tiene su precio directo, sin sumas ambiguas.
+  8. Panel `/admin` reconstruido con terminología correcta, botones con lápiz ✏️ y disquete 💾.
 
 ## Características Pendientes
-- [ ] Validar visualmente el MVP simplificado en todos los viewports (desktop y móvil).
 - [ ] Mover el envío de Baileys a un proxy backend (webhook n8n) si la API key embebida sufre abuso, y rotarla.
+- [ ] Verificar que la estructura del catálogo en el frontend funcione correctamente al agregar opciones nuevas desde `/admin`.
+- [ ] Considerar migrar el sync-server para usar better-sqlite3 o sql.js nativo en el VPS para persistencia real.
 
