@@ -229,6 +229,27 @@ const initialCatalog = catalogData;
       </div>
     </div>
 
+    <!-- MODAL 3: CONFIRMACIÓN PERSONALIZADA (REEMPLAZA CONFIRM) -->
+    <div id="custom-confirm-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm hidden">
+      <div class="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
+        <div class="flex items-center justify-between border-b border-[var(--border-color)] pb-3">
+          <h3 class="text-lg font-black text-white" id="custom-confirm-title">Confirmar Acción</h3>
+          <button id="custom-confirm-close-btn" class="text-2xl text-white/50 hover:text-white leading-none cursor-pointer">&times;</button>
+        </div>
+        <p class="text-sm text-[var(--text-secondary)] leading-relaxed" id="custom-confirm-message">
+          ¿Estás seguro de realizar esta acción?
+        </p>
+        <div class="flex justify-end gap-2 pt-2 border-t border-[var(--border-color)]">
+          <button type="button" id="custom-confirm-cancel-btn" class="px-4 py-2 bg-white/10 hover:bg-white/20 text-xs font-bold rounded-xl text-white cursor-pointer">
+            Cancelar
+          </button>
+          <button type="button" id="custom-confirm-ok-btn" class="px-5 py-2 bg-red-600 hover:bg-red-500 text-xs font-bold rounded-xl text-white shadow-lg cursor-pointer">
+            Sí, continuar
+          </button>
+        </div>
+      </div>
+    </div>
+
   </div>
 </Layout>
 
@@ -365,68 +386,45 @@ const initialCatalog = catalogData;
      }, 3000);
    };
 
-   const askConfirm = (message) => {
+   const askConfirm = (message, title = 'Confirmar Acción') => {
      return new Promise((resolve) => {
-       // Remove any existing confirm modal
-       const existingModal = document.getElementById('confirm-modal');
-       if (existingModal) {
-         existingModal.remove();
+       const confirmModal = document.getElementById('custom-confirm-modal');
+       const confirmTitle = document.getElementById('custom-confirm-title');
+       const confirmMsg = document.getElementById('custom-confirm-message');
+       const okBtn = document.getElementById('custom-confirm-ok-btn');
+       const cancelBtn = document.getElementById('custom-confirm-cancel-btn');
+       const closeBtn = document.getElementById('custom-confirm-close-btn');
+
+       if (!confirmModal || !okBtn || !cancelBtn) {
+         resolve(window.confirm(message));
+         return;
        }
 
-       const modalBackdrop = document.createElement('div');
-       modalBackdrop.className = 'fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm';
-       modalBackdrop.id = 'confirm-modal-backdrop';
+       if (confirmTitle) confirmTitle.textContent = title;
+       if (confirmMsg) confirmMsg.textContent = message;
 
-       const modalContent = document.createElement('div');
-       modalContent.className = 'bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl w-full max-w-md p-6 shadow-2xl';
-       modalContent.id = 'confirm-modal';
+       confirmModal.classList.remove('hidden');
 
-       modalContent.innerHTML = `
-         <div class="mb-4 flex items-center justify-between">
-           <h3 class="text-lg font-black text-white">Confirmar acción</h3>
-           <button id="confirm-close-btn" class="text-2xl text-white/50 hover:text-white leading-none cursor-pointer">&times;</button>
-         </div>
-         <p class="text-[var(--text-primary)] mb-6">${message}</p>
-         <div class="flex justify-end space-x-3">
-           <button id="confirm-cancel-btn" class="px-4 py-2 bg-white/10 hover:bg-white/20 text-xs font-bold rounded-xl text-[var(--text-secondary)] cursor-pointer">
-             Cancelar
-           </button>
-           <button id="confirm-ok-btn" class="px-5 py-2 bg-[var(--gradient-brand)] text-xs font-bold rounded-xl text-white shadow-lg hover:opacity-95 cursor-pointer">
-             Aceptar
-           </button>
-         </div>
-       `;
+       const cleanup = () => {
+         confirmModal.classList.add('hidden');
+         okBtn.removeEventListener('click', onOk);
+         cancelBtn.removeEventListener('click', onCancel);
+         closeBtn?.removeEventListener('click', onCancel);
+       };
 
-       const modalRoot = document.createElement('div');
-       modalRoot.appendChild(modalBackdrop);
-       modalRoot.appendChild(modalContent);
-       document.body.appendChild(modalRoot);
+       const onOk = () => {
+         cleanup();
+         resolve(true);
+       };
 
-       const backdrop = document.getElementById('confirm-modal-backdrop');
-       const modal = document.getElementById('confirm-modal');
-       const closeBtn = document.getElementById('confirm-close-btn');
-       const cancelBtn = document.getElementById('confirm-cancel-btn');
-       const okBtn = document.getElementById('confirm-ok-btn');
-
-       const closeModal = () => {
-         if (modalRoot.parentNode) {
-           modalRoot.parentNode.removeChild(modalRoot);
-         }
+       const onCancel = () => {
+         cleanup();
          resolve(false);
        };
 
-       backdrop.addEventListener('click', closeModal);
-       closeBtn.addEventListener('click', closeModal);
-       cancelBtn.addEventListener('click', closeModal);
-       okBtn.addEventListener('click', () => {
-         if (modalRoot.parentNode) {
-           modalRoot.parentNode.removeChild(modalRoot);
-         }
-         resolve(true);
-       });
-
-       // Focus on cancel button by default
-       cancelBtn.focus();
+       okBtn.addEventListener('click', onOk);
+       cancelBtn.addEventListener('click', onCancel);
+       closeBtn?.addEventListener('click', onCancel);
      });
    };
 
@@ -572,93 +570,93 @@ const initialCatalog = catalogData;
                 </svg>
               </button>
             </div>
-        `;
-        rowIndex++;
-     });
+          `;
+        });
         pillsHtml += `</div>`;
       }
 
-       const isEven = rowIndex % 2 === 0;
-       const rowClass = `hover:bg-white/[0.02] transition-colors ${isEven ? 'bg-[var(--bg-secondary)]/50' : ''}`;
+      const isEven = rowIndex % 2 === 0;
+      const rowClass = `hover:bg-white/[0.02] transition-colors ${isEven ? 'bg-[var(--bg-secondary)]/50' : ''}`;
 
-       html += `
-         <tr class="${rowClass}">
-           <!-- Columna 0: Número -->
-           <td class="py-4 px-2 text-center font-mono text-xs text-[var(--neutral-cream)]/70">${rowIndex.toString().padStart(2, '0')}</td>
-           
-           <!-- Columna 1: Nombre editable + Precio Base editable + Tipo -->
-           <td class="py-4 px-6 align-top">
-             <div class="space-y-2">
-               <input 
-                 type="text" 
-                 class="prod-name-input w-full bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-lg px-2.5 py-1 text-sm font-black text-white outline-none focus:border-[var(--primary)] transition-colors" 
-                 data-product-id="${product.id}" 
-                 value="${product.name}" 
-                 title="Haz clic para renombrar este producto"
-               />
-               <div class="flex items-center gap-2 flex-wrap">
-                 <span class="text-xs text-white/60 font-bold">Precio Base:</span>
-                 <div class="inline-flex items-center gap-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-lg px-2 py-0.5 focus-within:border-[var(--primary)] transition-colors">
-                   <span class="text-xs font-black text-[var(--accent-light)]">$</span>
-                   <input 
-                     type="number" 
-                     class="base-price-input w-20 bg-transparent text-xs font-black text-[var(--accent-light)] outline-none text-right" 
-                     data-product-id="${product.id}" 
-                     value="${product.base_price}" 
-                     title="Modifica el precio base directamente"
-                   />
-                   <span class="text-[10px] font-bold text-white/60">CUP</span>
-                 </div>
+      html += `
+        <tr class="${rowClass}">
+          <!-- Columna 0: Número Secuencial -->
+          <td class="py-4 px-3 text-center align-top">
+            <span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-[var(--primary)]/20 border border-[var(--primary)]/40 text-xs font-mono font-bold text-white shadow-sm">
+              ${rowIndex.toString().padStart(2, '0')}
+            </span>
+          </td>
+          
+          <!-- Columna 1: Nombre editable + Precio Base editable + Tipo (SIN BOTÓN ELIMINAR DUPLICADO) -->
+          <td class="py-4 px-6 align-top">
+            <div class="space-y-2">
+              <input 
+                type="text" 
+                class="prod-name-input w-full bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-lg px-2.5 py-1 text-sm font-black text-white outline-none focus:border-[var(--primary)] transition-colors" 
+                data-product-id="${product.id}" 
+                value="${product.name}" 
+                title="Haz clic para renombrar este producto"
+              />
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="text-xs text-white/60 font-bold">Precio Base:</span>
+                <div class="inline-flex items-center gap-1 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-lg px-2 py-0.5 focus-within:border-[var(--primary)] transition-colors">
+                  <span class="text-xs font-black text-[var(--accent-light)]">$</span>
+                  <input 
+                    type="number" 
+                    class="base-price-input w-20 bg-transparent text-xs font-black text-[var(--accent-light)] outline-none text-right" 
+                    data-product-id="${product.id}" 
+                    value="${product.base_price}" 
+                    title="Modifica el precio base directamente"
+                  />
+                  <span class="text-[10px] font-bold text-white/60">CUP</span>
+                </div>
 
-                 <select 
-                   class="prod-type-select bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-lg px-2 py-0.5 text-[10px] font-bold uppercase text-[var(--neutral-cream)] outline-none" 
-                   data-product-id="${product.id}"
-                 >
-                   <option value="cakes" ${product.type === 'cakes' ? 'selected' : ''}>Cakes</option>
-                   <option value="buffet" ${product.type === 'buffet' ? 'selected' : ''}>Buffet</option>
-                 </select>
+                <select 
+                  class="prod-type-select bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-lg px-2 py-0.5 text-[10px] font-bold uppercase text-[var(--neutral-cream)] outline-none" 
+                  data-product-id="${product.id}"
+                >
+                  <option value="cakes" ${product.type === 'cakes' ? 'selected' : ''}>Cakes</option>
+                  <option value="buffet" ${product.type === 'buffet' ? 'selected' : ''}>Buffet</option>
+                </select>
+              </div>
+            </div>
+          </td>
 
-                 <button 
-                   class="delete-prod-btn text-[10px] text-red-400/70 hover:text-red-400 font-bold px-1.5 py-0.5 hover:bg-red-500/10 rounded transition-colors cursor-pointer" 
-                   data-product-id="${product.id}"
-                   title="Eliminar producto"
-                 >
-                   Eliminar
-                 </button>
-               </div>
-             </div>
-           </td>
+          <!-- Columna 2: Píldoras con lápiz ✏️ -->
+          <td class="py-4 px-6 align-middle">
+            ${pillsHtml}
+          </td>
 
-           <!-- Columna 2: Píldoras con lápiz ✏️ -->
-           <td class="py-4 px-6 align-middle">
-             ${pillsHtml}
-           </td>
-
-           <!-- Columna 3: Botones de Acción -->
-           <td class="py-4 px-6 text-right align-middle">
-             <div class="space-y-2">
-               <button 
-                 class="add-opt-btn inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/10 hover:bg-white/20 text-xs font-extrabold rounded-xl transition-all cursor-pointer text-white shadow-sm"
-                 data-product-id="${product.id}"
-               >
-                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3">
-                   <line x1="12" y1="5" x2="12" y2="19"></line>
-                   <line x1="5" y1="12" x2="19" y2="12"></line>
-                 </svg>
-                 <span>Opción</span>
-               </button>
-               
-               <button 
-                 class="delete-prod-btn mt-2 w-full text-[10px] text-red-400/70 hover:text-red-400 font-bold px-1.5 py-0.5 hover:bg-red-500/10 rounded transition-colors cursor-pointer"
-                 data-product-id="${product.id}"
-                 title="Eliminar producto"
-               >
-                 Eliminar
-               </button>
-             </div>
-           </td>
-         </tr>
-       `;
+          <!-- Columna 3: Botones de Acción (Opción + Eliminar debajo) -->
+          <td class="py-4 px-6 text-right align-middle">
+            <div class="flex flex-col items-end gap-2">
+              <button 
+                class="add-opt-btn inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/10 hover:bg-white/20 text-xs font-extrabold rounded-xl transition-all cursor-pointer text-white shadow-sm"
+                data-product-id="${product.id}"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3">
+                  <line x1="12" y1="5" x2="12" y2="19"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+                <span>Opción</span>
+              </button>
+              
+              <button 
+                class="delete-prod-btn inline-flex items-center gap-1 text-[11px] text-red-400 hover:text-red-300 font-bold px-2.5 py-1 bg-red-950/30 hover:bg-red-900/40 border border-red-500/20 rounded-lg transition-colors cursor-pointer"
+                data-product-id="${product.id}"
+                title="Eliminar este producto"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3">
+                  <polyline points="3 6 5 6 21 6"></polyline>
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                </svg>
+                <span>Eliminar</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      `;
+      rowIndex++;
     });
 
     tableBody.innerHTML = html;
