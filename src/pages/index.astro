@@ -523,13 +523,24 @@ const decorations = [
   }
 
   .carousel-img.brightness-pulse {
-    animation: lightPulse 350ms ease-out;
+    animation: lightPulse 450ms ease-in-out;
   }
 
   @keyframes lightPulse {
     0% { filter: brightness(1); transform: scale(1); }
-    50% { filter: brightness(1.3) contrast(1.05); transform: scale(1.1); }
+    50% { filter: brightness(1.15) contrast(1.05); transform: scale(1.08); }
     100% { filter: brightness(1); transform: scale(1); }
+  }
+
+  .carousel-img.fade-out {
+    opacity: 0;
+    transition: opacity 600ms ease-in-out;
+  }
+
+  .carousel-img.fade-in {
+    opacity: 1;
+    z-index: 3;
+    transition: opacity 600ms ease-in-out;
   }
 
   .carousel-img.fade-out {
@@ -1437,10 +1448,23 @@ const decorations = [
   // ============================================================
   // CARRUSEL ROTATIVO FADE IN / FADE OUT (8 SEGUNDOS)
   // ============================================================
+  // ============================================================
+  // CARRUSEL ROTATIVO FADE IN / FADE OUT (8 SEGUNDOS)
+  // ============================================================
   const carousels = document.querySelectorAll('.carousel-container');
+  const carouselContainers: HTMLElement[] = Array.from(carousels);
 
-  carousels.forEach((container, containerIdx) => {
-    let images = [];
+  // Iniciar carruseles con desfase escalonado
+  carouselContainers.forEach((container, idx) => {
+    const initialDelay = 8000 + (idx * 350);
+    setTimeout(() => {
+      setupCarousel(container);
+    }, initialDelay);
+  });
+
+  // Configurar un carrusel individual
+  function setupCarousel(container: HTMLElement) {
+    let images: string[] = [];
     try {
       images = JSON.parse(container.getAttribute('data-images') || '[]');
     } catch (e) {
@@ -1455,10 +1479,35 @@ const decorations = [
 
     if (!activeImg || !nextImg) return;
 
-    // Desfase escalonado para no sobrecargar el renderizado simultáneo
-    const initialDelay = 8000 + (containerIdx * 350);
+    // Configurar observador de visibilidad
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          startCarousel();
+        } else {
+          stopCarousel();
+        }
+      });
+    }, { threshold: 0.1 });
 
-    const rotate = () => {
+    observer.observe(container);
+
+    let intervalId: number | null = null;
+
+    function startCarousel() {
+      if (!intervalId) {
+        intervalId = window.setInterval(rotate, 8000);
+      }
+    }
+
+    function stopCarousel() {
+      if (intervalId) {
+        clearInterval(intervalId);
+        intervalId = null;
+      }
+    }
+
+    function rotate() {
       currentIndex = (currentIndex + 1) % images.length;
       const nextSrc = images[currentIndex];
 
@@ -1466,13 +1515,16 @@ const decorations = [
       nextImg.src = nextSrc;
       nextImg.classList.remove('fade-in');
 
+      // PASO 1: Pulsación de brillo (350ms)
       activeImg.classList.add('brightness-pulse');
 
+      // PASO 2: Fadeout de la antigua y fadein de la nueva (500ms)
       setTimeout(() => {
         activeImg.classList.remove('brightness-pulse');
         activeImg.classList.add('fade-out');
         nextImg.classList.add('fade-in');
 
+        // PASO 3: Restaurar estado limpio
         setTimeout(() => {
           activeImg.style.transition = 'none';
           nextImg.style.transition = 'none';
@@ -1484,29 +1536,22 @@ const decorations = [
           nextImg.style.transition = '';
         }, 520);
       }, 350);
-    };
+    }
 
-    // Pausar si no es visible en pantalla
-    let intervalId: any = null;
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          if (!intervalId) {
-            intervalId = setInterval(rotate, 8000);
-          }
-        } else {
-          if (intervalId) {
-            clearInterval(intervalId);
-            intervalId = null;
-          }
-        }
-      });
-    }, { threshold: 0.1 });
+    // Iniciar si ya está visible
+    if (isElementInViewport(container)) {
+      startCarousel();
+    }
+  }
 
-    observer.observe(container);
-
-    setTimeout(() => {
-      if (!intervalId) intervalId = setInterval(rotate, 8000);
-    }, initialDelay);
-  });
+  // Verificar si un elemento está en la ventana visible
+  function isElementInViewport(el: HTMLElement): boolean {
+    const rect = el.getBoundingClientRect();
+    return (
+      rect.top >= 0 &&
+      rect.left >= 0 &&
+      rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+      rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+  }
 </script>
