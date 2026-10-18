@@ -528,7 +528,7 @@ const decorations = [
 
   @keyframes lightPulse {
     0% { filter: brightness(1); transform: scale(1); }
-    50% { filter: brightness(1.15) contrast(1.05); transform: scale(1.08); }
+    50% { filter: brightness(1.15) contrast(1.05); transform: scale(1.05); }
     100% { filter: brightness(1); transform: scale(1); }
   }
 
@@ -1449,17 +1449,14 @@ const decorations = [
   // CARRUSEL ROTATIVO FADE IN / FADE OUT (8 SEGUNDOS)
   // ============================================================
   // ============================================================
-  // CARRUSEL ROTATIVO FADE IN / FADE OUT (1 SEGUNDO ALEATORIO)
+  // CARRUSEL ROTATIVO PROGRESIVO (2 SEGUNDOS, 1 A LA VEZ)
   // ============================================================
   const carousels = document.querySelectorAll('.carousel-container');
   const carouselContainers: HTMLElement[] = Array.from(carousels);
 
-  // Mezclar el orden de los carruseles para aleatoriedad
-  const shuffledContainers = [...carouselContainers].sort(() => Math.random() - 0.5);
-
-  // Iniciar carruseles con desfase aleatorio
-  shuffledContainers.forEach((container, idx) => {
-    const initialDelay = Math.random() * 1000; // 0-1 segundo
+  // Iniciar carruseles en orden secuencial
+  carouselContainers.forEach((container, idx) => {
+    const initialDelay = idx * 2000; // 2 segundos entre cada carrusel
     setTimeout(() => {
       setupCarousel(container);
     }, initialDelay);
@@ -1496,12 +1493,12 @@ const decorations = [
     observer.observe(container);
 
     let intervalId: number | null = null;
+    let isAnimating = false;
 
     function startCarousel() {
       if (!intervalId) {
-        // Cambiar cada 1 segundo con aleatoriedad
-        const randomInterval = 1000 + (Math.random() * 500); // 1-1.5 segundos
-        intervalId = window.setInterval(rotate, randomInterval);
+        // Cambiar cada 2 segundos (sin aleatoriedad)
+        intervalId = window.setInterval(rotate, 2000);
       }
     }
 
@@ -1513,6 +1510,9 @@ const decorations = [
     }
 
     function rotate() {
+      if (isAnimating) return; // Evitar solapamiento de animaciones
+      isAnimating = true;
+
       currentIndex = (currentIndex + 1) % images.length;
       const nextSrc = images[currentIndex];
 
@@ -1520,7 +1520,7 @@ const decorations = [
       nextImg.src = nextSrc;
       nextImg.classList.remove('fade-in');
 
-      // PASO 1: Pulsación de brillo (450ms)
+      // PASO 1: Pulsación de brillo (450ms) con escala 1.05
       activeImg.classList.add('brightness-pulse');
 
       // PASO 2: Fadeout de la antigua y fadein de la nueva (600ms)
@@ -1539,6 +1539,7 @@ const decorations = [
           void activeImg.offsetWidth;
           activeImg.style.transition = '';
           nextImg.style.transition = '';
+          isAnimating = false; // Permitir siguiente animación
         }, 600);
       }, 450);
     }
