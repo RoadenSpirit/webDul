@@ -517,50 +517,32 @@ const decorations = [
   .carousel-img.active-img {
     opacity: 1;
     z-index: 2;
-    transform: scale(1);
-    transition: opacity 600ms ease-in-out;
+    transition: opacity 500ms ease-in-out;
   }
 
   .carousel-img.next-img {
     opacity: 0;
     z-index: 1;
-    transform: scale(1);
-    transition: opacity 600ms ease-in-out;
+    transition: opacity 500ms ease-in-out;
   }
 
-  /* 1. Pulsación de despedida en la imagen antigua */
-  .carousel-img.pulsing {
-    animation: pulseDischarge 450ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  .carousel-img.brightness-pulse {
+    animation: lightPulse 350ms ease-out;
   }
 
-  @keyframes pulseDischarge {
-    0% {
-      transform: scale(1);
-    }
-    45% {
-      transform: scale(1.06);
-    }
-    100% {
-      transform: scale(1.02);
-    }
+  @keyframes lightPulse {
+    0% { filter: brightness(1); }
+    50% { filter: brightness(1.3) contrast(1.05); }
+    100% { filter: brightness(1); }
   }
 
-  /* 2. Fadeout de la imagen antigua */
   .carousel-img.fade-out {
     opacity: 0;
-    transition: opacity 600ms ease-in-out;
   }
 
-  /* 3. Fadein puro y estático de la nueva imagen */
   .carousel-img.fade-in {
     opacity: 1;
     z-index: 3;
-    transition: opacity 600ms ease-in-out;
-  }
-
-  .cake-card:hover .carousel-img.active-img {
-    transform: scale(1.04);
-    transition: transform 300ms ease;
   }
 
   .card-badge {
@@ -1456,21 +1438,24 @@ const decorations = [
       nextImg.src = nextSrc;
       nextImg.classList.remove('fade-in');
 
-      // PASO 1: Generar la pulsación en la imagen antigua (450ms)
-      activeImg.classList.add('pulsing');
+      activeImg.classList.add('brightness-pulse');
 
-      // PASO 2: Inmediatamente tras la pulsación, ejecutar fadeout de la antigua y fadein de la nueva
       setTimeout(() => {
+        activeImg.classList.remove('brightness-pulse');
         activeImg.classList.add('fade-out');
         nextImg.classList.add('fade-in');
 
-        // PASO 3: Restaurar estado limpio para el próximo ciclo
         setTimeout(() => {
+          activeImg.style.transition = 'none';
+          nextImg.style.transition = 'none';
           activeImg.src = nextSrc;
-          activeImg.classList.remove('pulsing', 'fade-out');
+          activeImg.classList.remove('fade-out');
           nextImg.classList.remove('fade-in');
-        }, 600);
-      }, 450);
+          void activeImg.offsetWidth;
+          activeImg.style.transition = '';
+          nextImg.style.transition = '';
+        }, 520);
+      }, 350);
     };
 
     // Pausar si no es visible en pantalla
