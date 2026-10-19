@@ -59,6 +59,7 @@ En este archivo se lleva el control del estado de las características planifica
   8. Panel `/admin` reconstruido con terminología correcta, botones con lápiz ✏️ y disquete 💾.
 
 ## Características Completadas
+- [x] Optimización de navegación: Prefetch en segundo plano de `/pedido` y micro-interacción con feedback inmediato de carga al pulsar "Comprar Ahora".
 - [x] Fix: Flujo Comprar Ahora inicializando opciones base dinámicas para que /pedido cargue el producto exacto seleccionado.
 - [x] Fix: Precarga de imágenes y erradicación del flash final en la animación del carrusel con cross-fade continuo y una sola card a la vez.
 - [x] Suite de pruebas automatizadas con verificación del flujo de checkout y carrusel (`tests/certify-flow.mjs`).

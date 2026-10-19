@@ -1347,6 +1347,11 @@ const decorations = [
   const buyNowButtons = document.querySelectorAll('.buy-now-btn');
   buyNowButtons.forEach(btn => {
     btn.addEventListener('click', () => {
+      // Feedback visual inmediato
+      btn.style.opacity = '0.85';
+      btn.style.pointerEvents = 'none';
+      btn.innerHTML = `<span style="display:inline-block;animation:spin 0.8s linear infinite;margin-right:6px;">⏳</span> Abriendo...`;
+
       const id = btn.getAttribute('data-id') || '';
       const name = btn.getAttribute('data-name') || '';
       const price = parseFloat(btn.getAttribute('data-price') || '0');
