@@ -95,6 +95,16 @@ if (!heightCheckbox) {
 }
 console.log('✓ [Certificación 4] Doble Altura renderizado correctamente como Checkbox Booleano opcional');
 
+if (!customizerText.includes('Precio total: $6500 CUP')) {
+  console.error('❌ ERROR: Doble Altura en Cake de 22 cm debe mostrar Precio total: $6500 CUP');
+  process.exit(1);
+}
+if (customizerText.includes('+$2700') || customizerText.includes('+$2800')) {
+  console.error('❌ ERROR: Se detectó suma aditiva (+diff) en Doble Altura');
+  process.exit(1);
+}
+console.log('✓ [Certificación 4.1] Precio total único ($6500 CUP) verificado en Doble Altura');
+
 if (!doughSelect) {
   console.error('❌ ERROR: No se encontró el selector de Tipo de Masa');
   process.exit(1);

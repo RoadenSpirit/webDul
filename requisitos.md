@@ -73,6 +73,9 @@ En este archivo se lleva el control del estado de las características planifica
 - [x] Fix Crítico de Usabilidad en Personalización: Altura Doble modelada estrictamente como checkbox booleano opcional (desmarcado por defecto), y Masa con Harina por defecto.
 - [x] Regla Inviolable de Masa Base: Al asignar la opción "Tipo de Masa" a cualquier producto, "Harina" queda automáticamente preasignada y fijada al precio base del producto (ej: Cake 20cm Harina $3900 base, con Maicena $3900 como alternativa).
 - [x] Selectores de Opciones Claros con Flecha: Título con formato "Elige [nombre de opción]" e icono de flecha descendente (chevron) en cada selector para indicar interactividad inmediata.
+- [x] Precios Únicos y Cerrados en Doble Masa: Eliminación de precios aditivos (+diff CUP) para mostrar estrictamente el precio final total del producto configurado (ej: Cake 22cm Doble Masa $6500 CUP).
+- [x] Erradicación de Emojis Genéricos por SVGs Inline: Reemplazo completo de emojis por iconos vectoriales SVG limpios y consistentes en checkout y badges.
+- [x] Máximo Contraste en Botón de Pedido: Botón `#confirm-whatsapp-checkout-btn` optimizado con verde esmeralda y tipografía de alto contraste legible bajo norma WCAG AA.
 - [x] Restauración del botón "Comprar Ahora" al volver atrás mediante evento `pageshow`.
 - [x] Fix: Precarga de imágenes y erradicación del flash final en la animación del carrusel con cross-fade continuo y una sola card a la vez.
 - [x] Suite de pruebas automatizadas con verificación del flujo de checkout y carrusel (`tests/certify-flow.mjs`).

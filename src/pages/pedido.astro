@@ -11,7 +11,7 @@ const initialCatalog = catalogData;
       <div class="mb-8 sm:mb-10">
         <a href="/" class="inline-flex items-center text-sm font-semibold text-[var(--accent-light)] hover:text-white transition-colors mb-5 gap-1">← Volver al Catálogo</a>
 
-        <h1 style="font-family: var(--font-display); font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 700; color: #FFFFFF; margin-bottom: 0.5rem; line-height: 1.2;">🧁 ¡Casi listo! Personaliza tu pedido</h1>
+        <h1 style="font-family: var(--font-display); font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 700; color: #FFFFFF; margin-bottom: 0.5rem; line-height: 1.2;">¡Casi listo! Personaliza tu pedido</h1>
         <p class="text-[var(--neutral-cream)] text-base sm:text-lg leading-relaxed" style="max-width: 560px;">
           Define los detalles de tu cake y coordinamos la entrega directamente por WhatsApp.
         </p>
@@ -24,7 +24,12 @@ const initialCatalog = catalogData;
             
             <!-- Bloque 1: Personalización de los Cakes -->
             <div class="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-6 sm:p-8 shadow-md hover:shadow-lg transition-shadow space-y-6" id="cakes-customization-section">
-              <h3 class="text-lg sm:text-xl font-bold text-[var(--accent-light)] border-b border-[var(--border-color)] pb-4 flex items-center gap-2">🎨 1. Personalización de tus Cakes</h3>
+              <h3 class="text-lg sm:text-xl font-bold text-[var(--accent-light)] border-b border-[var(--border-color)] pb-4 flex items-center gap-2">
+                <svg class="w-5 h-5 text-[var(--accent-light)]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                </svg>
+                1. Personalización de tus Cakes
+              </h3>
               <div id="cakes-customizers-container" class="space-y-6">
                 <!-- Se inyecta dinámicamente con JS para cada cake del carrito -->
               </div>
@@ -32,11 +37,20 @@ const initialCatalog = catalogData;
 
             <!-- Bloque 2: Detalles de Entrega -->
             <div class="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-6 sm:p-8 shadow-md hover:shadow-lg transition-shadow space-y-6">
-              <h3 class="text-lg sm:text-xl font-bold text-[var(--accent-light)] border-b border-[var(--border-color)] pb-4 flex items-center gap-2">📦 2. Datos de Contacto y Fecha</h3>
+              <h3 class="text-lg sm:text-xl font-bold text-[var(--accent-light)] border-b border-[var(--border-color)] pb-4 flex items-center gap-2">
+                <svg class="w-5 h-5 text-[var(--accent-light)]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                2. Datos de Contacto y Fecha
+              </h3>
 
               <!-- Banner de entrega coordinada -->
               <div class="flex items-start gap-3 bg-gradient-to-r from-[rgba(255,107,53,0.15)] to-[rgba(232,25,108,0.1)] border border-[rgba(255,140,66,0.35)] rounded-xl p-4">
-                <span class="text-2xl">🤝</span>
+                <div class="p-1 rounded-lg bg-[var(--accent-color)]/20 text-[var(--accent-light)]">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                </div>
                 <div>
                   <p class="font-bold text-[var(--accent-light)] text-sm">Entrega coordinada directamente</p>
                   <p class="text-[var(--neutral-cream)] text-xs leading-relaxed mt-0.5">Acordaremos los detalles de recogida o entrega directamente a través de WhatsApp al confirmar tu encargo.</p>
@@ -72,7 +86,12 @@ const initialCatalog = catalogData;
       <!-- Columna Derecha: Resumen de Pedido -->
       <div class="lg:col-span-1">
         <div class="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-6 sm:p-8 shadow-sm space-y-6 sticky top-8">
-          <h3 class="text-lg sm:text-xl font-bold text-[var(--accent-color)] border-b border-[var(--border-color)] pb-4 flex items-center gap-2">🛒 Resumen del Encargo</h3>
+          <h3 class="text-lg sm:text-xl font-bold text-[var(--accent-color)] border-b border-[var(--border-color)] pb-4 flex items-center gap-2">
+            <svg class="w-5 h-5 text-[var(--accent-color)]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            Resumen del Encargo
+          </h3>
           
           <div id="summary-items-list" class="space-y-4 max-h-[350px] overflow-y-auto pr-1">
             <!-- Inyectado dinámicamente por JS -->
@@ -87,14 +106,19 @@ const initialCatalog = catalogData;
 
           <div class="space-y-4">
             <div class="bg-[var(--bg-secondary)] border border-[var(--border-color)] text-[var(--text-secondary)] text-xs p-3 rounded-xl leading-relaxed space-y-1">
-              <p>⚠️ <strong>Nota importante:</strong> Las temáticas y decoraciones complejas se cobran adicional al valor del cake y se concertarán por WhatsApp.</p>
+              <p class="flex items-start gap-1.5">
+                <svg class="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+                <span><strong>Nota importante:</strong> Las temáticas y decoraciones complejas se cobran adicional al valor del cake y se concertarán por WhatsApp.</span>
+              </p>
             </div>
-            <button type="button" id="confirm-whatsapp-checkout-btn" class="w-full py-4 bg-[#25D366] hover:bg-[#20ba59] active:scale-[0.98] text-white font-bold text-base rounded-xl transition-all shadow-md flex items-center justify-center gap-2.5">
-              <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
-                <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.717-1.456L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.413 9.863-9.864.001-2.641-1.03-5.124-2.904-6.999-1.874-1.874-4.36-2.903-7.004-2.904-5.443 0-9.87 4.414-9.874 9.865-.001 1.761.464 3.483 1.347 5.008l-.995 3.637 3.737-.994zm11.367-7.854c-.327-.164-1.938-.956-2.239-1.065-.301-.109-.52-.164-.738.164-.219.329-.848 1.065-1.039 1.284-.191.218-.382.245-.71.082-1.077-.538-1.802-.956-2.518-2.188-.192-.329-.192-.544-.029-.708.147-.147.327-.382.492-.573.164-.191.219-.328.328-.546.109-.219.055-.41-.027-.573-.082-.164-.738-1.777-1.011-2.433-.267-.643-.541-.556-.738-.567l-.629-.009c-.218 0-.574.082-.875.41-.301.328-1.148 1.12-1.148 2.73s1.175 3.169 1.339 3.388c.164.219 2.313 3.532 5.6 4.951.782.338 1.393.54 1.869.691.786.25 1.5.215 2.066.13.63-.095 1.938-.792 2.213-1.558.275-.766.275-1.42.191-1.558-.082-.137-.301-.219-.628-.382z"/>
-              </svg>
-              Confirmar Pedido vía WhatsApp
-            </button>
+  <button type="button" id="confirm-whatsapp-checkout-btn" class="w-full py-4 bg-[#1EB853] hover:bg-[#1A9F4A] active:scale-[0.98] text-[#072412] font-black text-base rounded-xl transition-all shadow-md flex items-center justify-center gap-2.5">
+    <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm4.59-12.42L10 14.17l-2.59-2.58L6 13l4 4 8-8z"/>
+    </svg>
+    Confirmar Pedido
+  </button>
             <p id="order-status" class="text-xs text-center font-semibold text-[var(--text-secondary)] leading-relaxed" role="status"></p>
           </div>
         </div>
@@ -692,22 +716,42 @@ const initialCatalog = catalogData;
     return name;
   };
 
-  // Icon classification based on product type
+  // Icon classification based on product type with SVG markup
   const getProductIcon = (item) => {
     const id = item.id;
     if (id === 'minicake' || id.includes('cupcake')) {
-      return { icon: '🧁', color: '#E8196C', label: 'Mini Cake / Cupcake' };
+      return { 
+        svg: `<svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" /></svg>`, 
+        color: '#E8196C', 
+        label: 'Mini Cake / Cupcake' 
+      };
     }
     if (id === 'cake-bandeja') {
-      return { icon: '🍰', color: '#FF6B35', label: 'Bandeja' };
+      return { 
+        svg: `<svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16" /></svg>`, 
+        color: '#FF6B35', 
+        label: 'Bandeja' 
+      };
     }
-    if (id === 'cake-varios-pisos') {
-      return { icon: '🏢', color: '#FFA07A', label: 'Varios Pisos' };
+    if (id === 'cake-varios-pisos' || id.includes('2pisos')) {
+      return { 
+        svg: `<svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>`, 
+        color: '#FFA07A', 
+        label: 'Varios Pisos' 
+      };
     }
     if (id === 'cake-redondo' || id.includes('cake-') || id === 'minicake-15' || id.includes('medio-cake')) {
-      return { icon: '🎂', color: '#FF8C42', label: 'Cake por Encargo' };
+      return { 
+        svg: `<svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.701 2.701 0 00-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" /></svg>`, 
+        color: '#FF8C42', 
+        label: 'Cake por Encargo' 
+      };
     }
-    return { icon: '🍪', color: '#F5E6C8', label: 'Buffet/Postre' };
+    return { 
+      svg: `<svg class="w-4 h-4 text-[#2D2A26]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke-linecap="round" stroke-linejoin="round"/><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 16h.01M16 12h.01M12 8h.01" /></svg>`, 
+      color: '#F5E6C8', 
+      label: 'Buffet/Postre' 
+    };
   };
 
   const RULES = {
@@ -867,7 +911,7 @@ const initialCatalog = catalogData;
       html += `
         <div class="flex flex-col gap-2 bg-[var(--bg-primary)] border border-[var(--border-color)] p-4 rounded-xl shadow-sm text-center">
           <div class="flex items-center justify-center gap-2">
-            <span class="inline-flex items-center justify-center w-7 h-7 rounded-full text-sm font-bold" style="background-color: ${metaInfo.color};" title="${metaInfo.label}">${metaInfo.icon}</span>
+            <span class="inline-flex items-center justify-center w-7 h-7 rounded-full font-bold shadow-sm" style="background-color: ${metaInfo.color};" title="${metaInfo.label}">${metaInfo.svg}</span>
             <span class="text-xs uppercase tracking-wider font-extrabold text-[var(--accent-light)]">${metaInfo.label}</span>
           </div>
           <h4 class="text-lg sm:text-xl font-black text-white leading-snug px-2">${fullTitle}</h4>
@@ -940,8 +984,13 @@ const initialCatalog = catalogData;
                     ${isChecked ? 'checked' : ''}
                   />
                   <span class="text-sm font-bold text-[var(--text-primary)] flex-grow flex items-center justify-between">
-                    <span>✨ ¿Deseas Doble Altura? (Masa Doble)</span>
-                    <span class="text-xs text-[var(--accent-light)] font-black">${diffPrice > 0 ? `+$${diffPrice} CUP` : `(Especial)`}</span>
+                    <span class="flex items-center gap-1.5">
+                      <svg class="w-4 h-4 text-[var(--accent-light)] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 11l7-7 7 7M5 19l7-7 7 7" />
+                      </svg>
+                      ¿Deseas Doble Altura? (Masa Doble)
+                    </span>
+                    <span class="text-xs text-[var(--accent-light)] font-black">Precio total: $${doubleOption.direct_price} CUP</span>
                   </span>
                 </label>
               </div>
@@ -953,13 +1002,16 @@ const initialCatalog = catalogData;
 
             dynamicAttributesHtml += `
               <div class="flex flex-col gap-2">
-                <label for="opt-${optId}-${globalIdx}" class="block text-sm font-bold text-[var(--text-primary)]">🌾 Elige ${group.optName}:</label>
+                <label for="opt-${optId}-${globalIdx}" class="flex items-center gap-1.5 text-sm font-bold text-[var(--text-primary)]">
+                  <svg class="w-4 h-4 text-[var(--accent-light)] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                  </svg>
+                  Elige ${group.optName}:
+                </label>
                 <div class="relative w-full">
                   <select class="dynamic-attr-field w-full px-4 py-3 pr-10 bg-[var(--bg-primary)] border-2 border-[var(--border-color)] rounded-xl text-sm text-[var(--text-primary)] focus:border-[var(--accent-color)] focus:ring-4 focus:ring-[var(--accent-color)]/10 transition-all outline-none cursor-pointer appearance-none font-bold shadow-sm" data-index="${globalIdx}" data-opt-id="${optId}" id="opt-${optId}-${globalIdx}">
                     ${group.values.map(po => {
-                      const baseItemPrice = group.values.find(b => b.is_base)?.direct_price || item.price;
-                      const diff = po.direct_price - baseItemPrice;
-                      const priceSuffix = (!po.is_base && diff > 0) ? ` (+$${diff} CUP)` : '';
+                      const priceSuffix = (!po.is_base) ? ` ($${po.direct_price} CUP)` : '';
                       return `
                         <option value="${po.option_value_id}" ${currentSelected === po.option_value_id ? 'selected' : ''}>
                           ${po.option_value_name}${priceSuffix}
@@ -983,7 +1035,12 @@ const initialCatalog = catalogData;
         if (rule && rule.doughs && rule.doughs.length > 0) {
           dynamicAttributesHtml += `
             <div class="flex flex-col gap-2">
-              <label for="cake-dough-${globalIdx}" class="block text-sm font-bold text-[var(--text-primary)]">🌾 Elige Selección de Masa / Sabor:</label>
+              <label for="cake-dough-${globalIdx}" class="flex items-center gap-1.5 text-sm font-bold text-[var(--text-primary)]">
+                <svg class="w-4 h-4 text-[var(--accent-light)] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+                Elige Selección de Masa / Sabor:
+              </label>
               <div class="relative w-full">
                 <select class="dough-select-field w-full px-4 py-3 pr-10 bg-[var(--bg-primary)] border-2 border-[var(--border-color)] rounded-xl text-sm text-[var(--text-primary)] focus:border-[var(--accent-color)] focus:ring-4 focus:ring-[var(--accent-color)]/10 transition-all outline-none cursor-pointer appearance-none font-bold shadow-sm" data-index="${globalIdx}" id="cake-dough-${globalIdx}">
                   ${rule.doughs.map(d => `<option value="${d.id}" ${item.dough === d.id ? 'selected' : ''}>${d.label}</option>`).join('')}
@@ -1009,10 +1066,15 @@ const initialCatalog = catalogData;
           ${dynamicAttributesHtml}
 
           <div class="flex flex-col gap-2">
-            <label for="cake-theme-${globalIdx}" class="block text-sm font-bold text-[var(--text-primary)]">✍️ Temática / Decoración y Colores:</label>
+            <label for="cake-theme-${globalIdx}" class="flex items-center gap-1.5 text-sm font-bold text-[var(--text-primary)]">
+              <svg class="w-4 h-4 text-[var(--accent-light)] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+              </svg>
+              Temática / Decoración y Colores:
+            </label>
             <textarea 
               class="cake-note-field w-full px-4 py-3 bg-[var(--bg-primary)] border-2 border-[var(--border-color)] rounded-xl text-sm text-[var(--text-primary)] focus:border-[var(--accent-color)] focus:ring-4 focus:ring-[var(--accent-color)]/10 transition-all outline-none placeholder:text-[var(--text-light)]" 
-              id="cake-theme-${globalIdx}"
+              id="cake-theme-${globalIdx}" 
               data-index="${globalIdx}" 
               rows="2" 
               placeholder="Ej: Cobertura azul con detalles en crema blanca. Texto: 'Felicidades Mamá'. Temática de flores..."
@@ -1020,7 +1082,12 @@ const initialCatalog = catalogData;
           </div>
 
           <div class="flex flex-col gap-2">
-            <label class="block text-sm font-bold text-[var(--text-primary)]">🖼️ Foto de Referencia para Decoración (Opcional):</label>
+            <label class="flex items-center gap-1.5 text-sm font-bold text-[var(--text-primary)]">
+              <svg class="w-4 h-4 text-[var(--accent-light)] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              Foto de Referencia para Decoración (Opcional):
+            </label>
             <div class="relative w-full border-2 border-dashed border-[var(--accent-color)] rounded-xl p-4 text-center cursor-pointer bg-[var(--bg-primary)] hover:bg-[var(--accent-color)]/5 transition-colors">
               <span class="text-xs font-semibold text-[var(--text-primary)]" id="ref-photo-label-${globalIdx}">
                 ${item.refPhotoName ? `✓ ${item.refPhotoName}` : 'Haga clic para subir imagen de referencia'}

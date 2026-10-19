@@ -81,5 +81,16 @@ if (customizerText.includes('(Base estándar)') || customizerText.includes('est�
 }
 console.log('✓ [Pedido] Título "Elige Tipo de Masa:" y opciones limpias verificadas');
 
+// Verificar que Doble Altura muestra su precio total único y NO un incremento aditivo
+if (customizerText.includes('¿Deseas Doble Altura?')) {
+  if (!customizerText.includes('Precio total: $6700 CUP')) {
+    throw new Error(`❌ ERROR: Doble Altura en Cake de 20 cm debe indicar "Precio total: $6700 CUP", recibido: ${customizerText}`);
+  }
+  if (customizerText.includes('+$2800') || customizerText.includes('+$2700')) {
+    throw new Error(`❌ ERROR: Se detectó un incremento relativo aditivo en lugar de precio total único`);
+  }
+  console.log('✓ [Pedido] Doble Altura muestra estrictamente el Precio Total Único ($6700 CUP)');
+}
+
 console.log('\n🏆 ¡CERTIFICACIÓN 100% EXITOSA: Todo producto con Tipo de Masa tiene Harina preasignada como base con precio fijado al precio base y sin etiquetas autogeneradas!');
 process.exit(0);
