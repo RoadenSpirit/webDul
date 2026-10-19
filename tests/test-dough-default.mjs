@@ -73,10 +73,13 @@ const customizerText = window.document.getElementById('cakes-customizers-contain
 if (!customizerText.includes('Harina')) {
   throw new Error(`❌ ERROR: El selector no muestra Harina`);
 }
+if (!customizerText.includes('Elige Tipo de Masa:')) {
+  throw new Error(`❌ ERROR: El selector no incluye el título con formato 'Elige Tipo de Masa:'`);
+}
 if (customizerText.includes('(Base estándar)') || customizerText.includes('estándar') || customizerText.includes('estandar')) {
   throw new Error(`❌ ERROR: El selector contiene subtítulos autogenerados como "(Base estándar)" que el usuario prohibió explícitamente`);
 }
-console.log('✓ [Pedido] Harina preseleccionada limpiamente sin subtítulos ni etiquetas autogeneradas');
+console.log('✓ [Pedido] Título "Elige Tipo de Masa:" y opciones limpias verificadas');
 
 console.log('\n🏆 ¡CERTIFICACIÓN 100% EXITOSA: Todo producto con Tipo de Masa tiene Harina preasignada como base con precio fijado al precio base y sin etiquetas autogeneradas!');
 process.exit(0);

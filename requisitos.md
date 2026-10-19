@@ -72,6 +72,7 @@ En este archivo se lleva el control del estado de las características planifica
 - [x] Formato premium del contacto: Chip flotante de WhatsApp con icono oficial, número destacado y badge "Online/Disponible ahora".
 - [x] Fix Crítico de Usabilidad en Personalización: Altura Doble modelada estrictamente como checkbox booleano opcional (desmarcado por defecto), y Masa con Harina por defecto.
 - [x] Regla Inviolable de Masa Base: Al asignar la opción "Tipo de Masa" a cualquier producto, "Harina" queda automáticamente preasignada y fijada al precio base del producto (ej: Cake 20cm Harina $3900 base, con Maicena $3900 como alternativa).
+- [x] Selectores de Opciones Claros con Flecha: Título con formato "Elige [nombre de opción]" e icono de flecha descendente (chevron) en cada selector para indicar interactividad inmediata.
 - [x] Restauración del botón "Comprar Ahora" al volver atrás mediante evento `pageshow`.
 - [x] Fix: Precarga de imágenes y erradicación del flash final en la animación del carrusel con cross-fade continuo y una sola card a la vez.
 - [x] Suite de pruebas automatizadas con verificación del flujo de checkout y carrusel (`tests/certify-flow.mjs`).
