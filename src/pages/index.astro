@@ -269,7 +269,7 @@ const decorations = [
      ============================================================ */
   .hero-section {
     position: relative;
-    width: 100vw;
+    width: 100%;
     min-height: 100vh;
     height: 100vh;
     display: flex;
@@ -1319,7 +1319,7 @@ const decorations = [
     });
 
     cartItemsContainer.querySelectorAll('.ci-plus').forEach(btn => {
-      btn.addEventrition('click', (e) => {
+      btn.addEventListener('click', (e) => {
         const idx = parseInt((e.currentTarget as HTMLElement).getAttribute('data-index') || '0');
         cart[idx].quantity++;
         saveCart();
