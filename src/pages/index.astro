@@ -1083,57 +1083,66 @@ const decorations = [
     font-size: 0.85rem;
   }
 
-  .cart-item {
-    background: rgba(255, 255, 255, 0.02);
-    border: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-    padding: 0.85rem 0.5rem;
-    display: flex;
+  /* ============================================================
+     LISTA ESTRUCTURADA DE PEDIDO (GRID DE 4 COLUMNAS CON LÍNEAS)
+     ============================================================ */
+  .cart-item-row {
+    display: grid;
+    grid-template-columns: 46px 1fr auto auto;
     align-items: center;
-    gap: 0.85rem;
+    gap: 0.75rem;
+    padding: 0.75rem 0.4rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: transparent;
     transition: background var(--transition-fast);
   }
 
-  .cart-item:hover {
-    background: rgba(255, 255, 255, 0.04);
+  .cart-item-row:hover {
+    background: rgba(255, 255, 255, 0.03);
   }
 
-  .ci-thumb-wrap {
-    width: 50px;
-    height: 50px;
-    border-radius: 8px;
+  /* Columna 1: Miniatura Enmarcada */
+  .ci-col-thumb {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ci-thumb-box {
+    width: 44px;
+    height: 44px;
+    border-radius: 6px;
     overflow: hidden;
-    flex-shrink: 0;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    background: #1A050B;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: #18040a;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .ci-thumb {
+  .ci-thumb-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
 
-  .ci-thumb-fallback {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.4rem;
+  .ci-thumb-box-fallback {
+    font-size: 1.3rem;
   }
 
-  .ci-info {
-    flex: 1;
+  /* Columna 2: Detalle del Producto */
+  .ci-col-details {
     min-width: 0;
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    gap: 0.2rem;
   }
 
-  .ci-name {
+  .ci-item-title {
     font-family: var(--font-body);
+    font-size: 0.88rem;
     font-weight: 700;
-    font-size: 0.9rem;
     color: #FFFFFF;
     white-space: nowrap;
     overflow: hidden;
@@ -1142,56 +1151,32 @@ const decorations = [
     margin: 0;
   }
 
-  .ci-meta {
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-    font-size: 0.78rem;
+  .ci-item-unit-tag {
+    font-size: 0.75rem;
+    color: var(--neutral-cream);
+    opacity: 0.75;
     line-height: 1;
   }
 
-  .ci-unit-price {
-    color: var(--neutral-cream);
-    opacity: 0.75;
-  }
-
-  .ci-multiply, .ci-equals {
-    color: var(--neutral-cream);
-    opacity: 0.4;
-    font-size: 0.7rem;
-  }
-
-  .ci-unit-qty {
-    color: #FFFFFF;
-    font-weight: 700;
-  }
-
-  .ci-subtotal {
-    color: var(--accent-light);
-    font-weight: 800;
-  }
-
-  .ci-controls {
+  /* Columna 3: Selector Numérico Estructurado con líneas divisorias */
+  .ci-col-qty {
     display: flex;
     align-items: center;
-    gap: 0.6rem;
-    flex-shrink: 0;
   }
 
-  .ci-qty-capsule {
+  .ci-stepper-box {
     display: inline-flex;
     align-items: center;
-    background: rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 6px;
-    padding: 2px;
-    height: 28px;
+    background: rgba(0, 0, 0, 0.45);
+    overflow: hidden;
+    height: 26px;
   }
 
-  .ci-btn-qty {
+  .ci-step-btn {
     width: 24px;
-    height: 24px;
-    border-radius: 4px;
+    height: 100%;
     border: none;
     background: transparent;
     color: var(--neutral-cream);
@@ -1202,34 +1187,60 @@ const decorations = [
     transition: all var(--transition-fast);
   }
 
-  .ci-btn-qty:hover {
+  .ci-step-btn.ci-minus {
+    border-right: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  .ci-step-btn.ci-plus {
+    border-left: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  .ci-step-btn:hover {
     background: var(--primary);
     color: #FFFFFF;
   }
 
-  .ci-qty-number {
-    font-size: 0.85rem;
+  .ci-step-value {
+    min-width: 22px;
+    padding: 0 4px;
+    font-size: 0.8rem;
     font-weight: 800;
     color: #FFFFFF;
-    min-width: 20px;
     text-align: center;
-    padding: 0 2px;
   }
 
-  .ci-remove {
+  /* Columna 4: Subtotal y Papelera Alineados */
+  .ci-col-total {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-left: 0.5rem;
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .ci-subtotal-val {
+    font-size: 0.88rem;
+    font-weight: 800;
+    color: var(--accent-light);
+    white-space: nowrap;
+    min-width: 65px;
+    text-align: right;
+  }
+
+  .ci-trash-btn {
     background: transparent;
     border: none;
-    color: rgba(255, 255, 255, 0.35);
+    color: rgba(255, 255, 255, 0.4);
     cursor: pointer;
-    padding: 6px;
-    border-radius: 6px;
+    padding: 5px;
+    border-radius: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all var(--transition-fast);
   }
 
-  .ci-remove:hover {
+  .ci-trash-btn:hover {
     color: #FF5A5A;
     background: rgba(255, 90, 90, 0.15);
   }
@@ -1403,43 +1414,49 @@ const decorations = [
       }
 
       html += `
-        <div class="cart-item" data-index="${index}">
-          ${itemImg ? `
-            <div class="ci-thumb-wrap">
-              <img src="${itemImg}" alt="${item.name}" class="ci-thumb" loading="lazy" />
-            </div>
-          ` : `
-            <div class="ci-thumb-wrap ci-thumb-fallback">
-              <span>${isCake ? '🎂' : '🧁'}</span>
-            </div>
-          `}
-          <div class="ci-info">
-            <h4 class="ci-name" title="${item.name}">${item.name}</h4>
-            <div class="ci-meta">
-              <span class="ci-unit-price">$${item.price.toLocaleString()}</span>
-              <span class="ci-multiply">×</span>
-              <span class="ci-unit-qty">${item.quantity}</span>
-              <span class="ci-equals">=</span>
-              <span class="ci-subtotal">$${subtotal.toLocaleString()} CUP</span>
-            </div>
+        <div class="cart-item-row" data-index="${index}">
+          <!-- Columna 1: Miniatura Enmarcada -->
+          <div class="ci-col-thumb">
+            ${itemImg ? `
+              <div class="ci-thumb-box">
+                <img src="${itemImg}" alt="${item.name}" class="ci-thumb-img" loading="lazy" />
+              </div>
+            ` : `
+              <div class="ci-thumb-box ci-thumb-box-fallback">
+                <span>${isCake ? '🎂' : '🧁'}</span>
+              </div>
+            `}
           </div>
-          <div class="ci-controls">
-            <div class="ci-qty-capsule">
-              <button class="ci-btn-qty ci-minus" data-index="${index}" aria-label="Disminuir" title="Restar uno">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+
+          <!-- Columna 2: Detalle del Producto -->
+          <div class="ci-col-details">
+            <h4 class="ci-item-title" title="${item.name}">${item.name}</h4>
+            <div class="ci-item-unit-tag">$${item.price.toLocaleString()} CUP c/u</div>
+          </div>
+
+          <!-- Columna 3: Selector Numérico Estructurado con líneas divisorias -->
+          <div class="ci-col-qty">
+            <div class="ci-stepper-box">
+              <button class="ci-step-btn ci-minus" data-index="${index}" aria-label="Restar uno" title="Restar uno">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                   <line x1="5" y1="12" x2="19" y2="12"></line>
                 </svg>
               </button>
-              <span class="ci-qty-number">${item.quantity}</span>
-              <button class="ci-btn-qty ci-plus" data-index="${index}" aria-label="Aumentar" title="Sumar uno">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <div class="ci-step-value">${item.quantity}</div>
+              <button class="ci-step-btn ci-plus" data-index="${index}" aria-label="Sumar uno" title="Sumar uno">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                   <line x1="12" y1="5" x2="12" y2="19"></line>
                   <line x1="5" y1="12" x2="19" y2="12"></line>
                 </svg>
               </button>
             </div>
-            <button class="ci-remove" data-index="${index}" title="Eliminar del pedido" aria-label="Eliminar del pedido">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          </div>
+
+          <!-- Columna 4: Subtotal y Papelera Alineados -->
+          <div class="ci-col-total">
+            <div class="ci-subtotal-val">$${subtotal.toLocaleString()}</div>
+            <button class="ci-trash-btn ci-remove" data-index="${index}" title="Eliminar del pedido" aria-label="Eliminar del pedido">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M3 6h18"></path>
                 <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
                 <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
