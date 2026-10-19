@@ -62,7 +62,7 @@ En este archivo se lleva el control del estado de las características planifica
 - [x] Optimización de navegación: Prefetch en segundo plano de `/pedido` y micro-interacción con feedback inmediato de carga al pulsar "Comprar Ahora".
 - [x] Fix: Flujo Comprar Ahora inicializando opciones base dinámicas para que /pedido cargue el producto exacto seleccionado.
 - [x] Rediseño del carrito: Botón "← Seguir comprando" funcional, items con miniaturas y selector de cantidad tipo cápsula.
-- [x] Reestructuración estilizada del carrito: Cards compactas, alineación horizontal de controles, miniatura 48px y subtotal por producto sin sobredimensión.
+- [x] Reestructuración estilizada del carrito: Estilo de lista de ordenación con miniaturas, iconos vectoriales SVG para sumar (+), restar (-) y eliminar papelera (trash), junto a línea compacta de subtotal.
 - [x] Restauración del botón "Comprar Ahora" al volver atrás mediante evento `pageshow`.
 - [x] Fix: Precarga de imágenes y erradicación del flash final en la animación del carrusel con cross-fade continuo y una sola card a la vez.
 - [x] Suite de pruebas automatizadas con verificación del flujo de checkout y carrusel (`tests/certify-flow.mjs`).
