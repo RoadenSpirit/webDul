@@ -784,7 +784,7 @@ const initialCatalog = catalogData;
   };
 
   // Cargar catálogo dinámico con opciones asignadas desde localStorage o initial
-  const CATALOG_VERSION = 'v3_altura_booleana_directa';
+  const CATALOG_VERSION = 'v4_masa_harina_sin_subtitulos';
   let activeCatalog = initialCatalog;
   try {
     const savedVer = localStorage.getItem('el_lider_catalog_version');
@@ -955,11 +955,16 @@ const initialCatalog = catalogData;
               <div class="flex flex-col gap-2">
                 <label for="opt-${optId}-${globalIdx}" class="block text-sm font-bold text-[var(--text-primary)]">🌾 ${group.optName}:</label>
                 <select class="dynamic-attr-field w-full px-4 py-3 bg-[var(--bg-primary)] border-2 border-[var(--border-color)] rounded-xl text-sm text-[var(--text-primary)] focus:border-[var(--accent-color)] focus:ring-4 focus:ring-[var(--accent-color)]/10 transition-all outline-none cursor-pointer appearance-none font-bold shadow-sm" data-index="${globalIdx}" data-opt-id="${optId}" id="opt-${optId}-${globalIdx}">
-                  ${group.values.map(po => `
-                    <option value="${po.option_value_id}" ${currentSelected === po.option_value_id ? 'selected' : ''}>
-                      ${po.option_value_name} ${po.is_base ? '(Base estándar)' : `(+$${po.direct_price - (group.values.find(b => b.is_base)?.direct_price || item.price)} CUP)`}
-                    </option>
-                  `).join('')}
+                  ${group.values.map(po => {
+                    const baseItemPrice = group.values.find(b => b.is_base)?.direct_price || item.price;
+                    const diff = po.direct_price - baseItemPrice;
+                    const priceSuffix = (!po.is_base && diff > 0) ? ` (+$${diff} CUP)` : '';
+                    return `
+                      <option value="${po.option_value_id}" ${currentSelected === po.option_value_id ? 'selected' : ''}>
+                        ${po.option_value_name}${priceSuffix}
+                      </option>
+                    `;
+                  }).join('')}
                 </select>
               </div>
             `;

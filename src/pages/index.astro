@@ -1663,11 +1663,14 @@ const pillars = [
   });
 
   // Helper para obtener las opciones por defecto de un producto según el catálogo
+  const CATALOG_VERSION = 'v4_masa_harina_sin_subtitulos';
+
   const getDefaultOptionsForProduct = (productId) => {
     let activeCat = initialCatalog;
     try {
+      const savedVer = localStorage.getItem('el_lider_catalog_version');
       const saved = localStorage.getItem('el_lider_admin_catalog');
-      if (saved) activeCat = JSON.parse(saved);
+      if (saved && savedVer === CATALOG_VERSION) activeCat = JSON.parse(saved);
     } catch (e) {}
 
     const options = {};
@@ -1737,8 +1740,9 @@ const pillars = [
 
   // Sincronizar catálogo dinámico si el administrador guardó cambios en /admin
   try {
+    const savedVer = localStorage.getItem('el_lider_catalog_version');
     const saved = localStorage.getItem('el_lider_admin_catalog');
-    if (saved) {
+    if (saved && savedVer === CATALOG_VERSION) {
       const cat = JSON.parse(saved);
       if (cat.products && Array.isArray(cat.products)) {
         cat.products.forEach((p) => {

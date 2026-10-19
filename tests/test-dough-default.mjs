@@ -45,7 +45,7 @@ window.localStorage.setItem('el_lider_cart', JSON.stringify([
     options: { masa: 'masa-harina' }
   }
 ]));
-window.localStorage.setItem('el_lider_catalog_version', 'v3_altura_booleana_directa');
+window.localStorage.setItem('el_lider_catalog_version', 'v4_masa_harina_sin_subtitulos');
 
 // Cargar script inline de pedido
 const scriptPedidoMatch = htmlPedido.match(/<script>([\s\S]*?)<\/script>/);
@@ -70,10 +70,13 @@ if (!summaryText.includes('$3900 CUP')) {
 console.log('✓ [Pedido] Precio base $3900 CUP confirmado en el resumen');
 
 const customizerText = window.document.getElementById('cakes-customizers-container')?.textContent || '';
-if (!customizerText.includes('Harina (Base estándar)')) {
-  throw new Error(`❌ ERROR: El selector no muestra Harina como base estándar`);
+if (!customizerText.includes('Harina')) {
+  throw new Error(`❌ ERROR: El selector no muestra Harina`);
 }
-console.log('✓ [Pedido] Harina (Base estándar) preseleccionada por defecto');
+if (customizerText.includes('(Base estándar)') || customizerText.includes('estándar') || customizerText.includes('estandar')) {
+  throw new Error(`❌ ERROR: El selector contiene subtítulos autogenerados como "(Base estándar)" que el usuario prohibió explícitamente`);
+}
+console.log('✓ [Pedido] Harina preseleccionada limpiamente sin subtítulos ni etiquetas autogeneradas');
 
-console.log('\n🏆 ¡CERTIFICACIÓN 100% EXITOSA: Todo producto con Tipo de Masa tiene Harina preasignada como base con precio fijado al precio base!');
+console.log('\n🏆 ¡CERTIFICACIÓN 100% EXITOSA: Todo producto con Tipo de Masa tiene Harina preasignada como base con precio fijado al precio base y sin etiquetas autogeneradas!');
 process.exit(0);

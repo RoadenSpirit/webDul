@@ -39,7 +39,7 @@ const { window: winPedido } = domPedido;
 
 // Inyectar el storage que dejó la landing
 winPedido.localStorage.setItem('el_lider_cart', savedCartJson);
-winPedido.localStorage.setItem('el_lider_catalog_version', 'v3_altura_booleana_directa');
+winPedido.localStorage.setItem('el_lider_catalog_version', 'v4_masa_harina_sin_subtitulos');
 
 // Extraer el script inline de pedido
 const scriptPedidoMatch = pedidoHtml.match(/<script>([\s\S]*?)<\/script>/);
@@ -99,7 +99,11 @@ if (!doughSelect) {
   console.error('❌ ERROR: No se encontró el selector de Tipo de Masa');
   process.exit(1);
 }
-console.log('✓ [Certificación 5] Selector de Masa (Harina por defecto) presente');
+if (customizerText.includes('(Base estándar)') || customizerText.includes('estándar') || customizerText.includes('estandar')) {
+  console.error('❌ ERROR: Se detectó sufijo de estándar no deseado');
+  process.exit(1);
+}
+console.log('✓ [Certificación 5] Selector de Masa (Harina limpia sin subtítulos) presente');
 
 console.log('\n🏆 ¡CERTIFICACIÓN COMPLETA E2E SUPERADA AL 100%! La sección de pedido se genera fielmente con los datos del producto seleccionado.');
 process.exit(0);
