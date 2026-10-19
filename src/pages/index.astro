@@ -1334,14 +1334,9 @@ const decorations = [
     const options = {};
     if (activeCat && activeCat.product_options) {
       const prodOpts = activeCat.product_options.filter((po) => po.product_id === productId && po.is_enabled);
+      // Solo preseleccionar opciones marcadas como is_base (las no-base como Altura Doble quedan desmarcadas)
       prodOpts.forEach((po) => {
         if (po.is_base && !options[po.option_id]) {
-          options[po.option_id] = po.option_value_id;
-        }
-      });
-      // Fallback si no hay is_base marcado
-      prodOpts.forEach((po) => {
-        if (!options[po.option_id]) {
           options[po.option_id] = po.option_value_id;
         }
       });

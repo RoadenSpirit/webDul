@@ -618,11 +618,6 @@ const initialCatalog = catalogData;
                 item.options[po.option_id] = po.option_value_id;
               }
             });
-            prodOpts.forEach(po => {
-              if (!item.options[po.option_id]) {
-                item.options[po.option_id] = po.option_value_id;
-              }
-            });
           }
         }
       }
@@ -700,8 +695,8 @@ const initialCatalog = catalogData;
     if (id === 'cake-varios-pisos') {
       return { icon: '🏢', color: '#FFA07A', label: 'Varios Pisos' };
     }
-    if (id === 'cake-redondo') {
-      return { icon: '🎂', color: '#FF8C42', label: 'Cake Redondo' };
+    if (id === 'cake-redondo' || id.includes('cake-') || id === 'minicake-15' || id.includes('medio-cake')) {
+      return { icon: '🎂', color: '#FF8C42', label: 'Cake por Encargo' };
     }
     return { icon: '🍪', color: '#F5E6C8', label: 'Buffet/Postre' };
   };
@@ -1017,7 +1012,7 @@ const initialCatalog = catalogData;
     // Dynamic option selects
     document.querySelectorAll('.dynamic-attr-field').forEach(select => {
       select.addEventListener('change', (e) => {
-        const target = e.target as HTMLSelectElement;
+        const target = e.target;
         const idx = parseInt(target.getAttribute('data-index') || '0');
         const optId = target.getAttribute('data-opt-id') || '';
         
@@ -1035,7 +1030,7 @@ const initialCatalog = catalogData;
     // Dough selects fallback
     document.querySelectorAll('.dough-select-field').forEach(select => {
       select.addEventListener('change', (e) => {
-        const target = e.target as HTMLSelectElement;
+        const target = e.target;
         const idx = parseInt(target.getAttribute('data-index') || '0');
         
         cart[idx].dough = target.value;
@@ -1046,7 +1041,7 @@ const initialCatalog = catalogData;
     // Size selects
     document.querySelectorAll('.size-select-field').forEach(select => {
       select.addEventListener('change', (e) => {
-        const target = e.target as HTMLSelectElement;
+        const target = e.target;
         const idx = parseInt(target.getAttribute('data-index') || '0');
         
         cart[idx].size = target.value;
@@ -1057,7 +1052,7 @@ const initialCatalog = catalogData;
     // Double height check
     document.querySelectorAll('.double-height-checkbox-field').forEach(checkbox => {
       checkbox.addEventListener('change', (e) => {
-        const target = e.target as HTMLInputElement;
+        const target = e.target;
         const idx = parseInt(target.getAttribute('data-index') || '0');
         
         cart[idx].doubleHeight = target.checked;
@@ -1068,7 +1063,7 @@ const initialCatalog = catalogData;
     // Notes/Theme textarea
     document.querySelectorAll('.cake-note-field').forEach(textarea => {
       textarea.addEventListener('input', (e) => {
-        const target = e.target as HTMLTextAreaElement;
+        const target = e.target;
         const idx = parseInt(target.getAttribute('data-index') || '0');
         cart[idx].note = target.value;
         saveCartToStorage();
@@ -1078,7 +1073,7 @@ const initialCatalog = catalogData;
     // Print check
     document.querySelectorAll('.edible-print-checkbox-field').forEach(checkbox => {
       checkbox.addEventListener('change', (e) => {
-        const target = e.target as HTMLInputElement;
+        const target = e.target;
         const idx = parseInt(target.getAttribute('data-index') || '0');
         const uploadWrapper = document.getElementById(`print-upload-wrapper-${idx}`);
         
@@ -1093,53 +1088,52 @@ const initialCatalog = catalogData;
     // File upload preview
     document.querySelectorAll('.customizer-upload-input').forEach(input => {
       input.addEventListener('change', (e) => {
-        const target = e.target as HTMLInputElement;
+        const target = e.target;
         const idx = parseInt(target.getAttribute('data-index') || '0');
         const file = target.files?.[0];
-        
         if (file) {
           const reader = new FileReader();
           reader.onload = (event) => {
-            const dataUrl = event.target?.result as string;
-            const item = cart[idx];
-            item.fileName = file.name;
-            uploadedImages[item.id] = dataUrl;
-            
-            const label = document.getElementById(`upload-label-${idx}`);
-            const preview = document.getElementById(`preview-${idx}`);
-            
-            if (label) label.textContent = `✓ ${file.name}`;
-            if (preview) preview.innerHTML = `<img src="${dataUrl}" alt="Preview" />`;
-            
+            const dataUrl = event.target?.result;
+            uploadedImages[cart[idx].id] = dataUrl;
+            cart[idx].customPhotoData = dataUrl;
+            cart[idx].customPhotoName = file.name;
             saveCartToStorage();
+            
+            const previewContainer = document.getElementById(`preview-${idx}`);
+            if (previewContainer) {
+              previewContainer.innerHTML = `<img src="${dataUrl}" alt="preview" class="w-12 h-12 object-cover rounded-lg border border-[var(--border-color)]"/>`;
+            }
           };
           reader.readAsDataURL(file);
         }
       });
     });
 
-    // Reference Photo upload preview
+    // Reference photo upload for general decorations
     document.querySelectorAll('.decorations-ref-upload-input').forEach(input => {
       input.addEventListener('change', (e) => {
-        const target = e.target as HTMLInputElement;
+        const target = e.target;
         const idx = parseInt(target.getAttribute('data-index') || '0');
         const file = target.files?.[0];
-        
         if (file) {
           const reader = new FileReader();
           reader.onload = (event) => {
-            const dataUrl = event.target?.result as string;
-            const item = cart[idx];
-            item.refPhotoName = file.name;
-            uploadedImages['ref-' + item.id] = dataUrl;
-            
-            const label = document.getElementById(`ref-photo-label-${idx}`);
-            const preview = document.getElementById(`ref-preview-${idx}`);
-            
-            if (label) label.textContent = `✓ ${file.name}`;
-            if (preview) preview.innerHTML = `<img src="${dataUrl}" alt="Preview" style="width: 50px; height: 50px; object-fit: cover; border-radius: var(--border-radius-sm); border: 1px solid var(--border-color); margin-top: 0.5rem;"/>`;
-            
+            const dataUrl = event.target?.result;
+            uploadedImages['ref-' + cart[idx].id] = dataUrl;
+            cart[idx].refPhotoData = dataUrl;
+            cart[idx].refPhotoName = file.name;
             saveCartToStorage();
+
+            const refLabel = document.getElementById(`ref-photo-label-${idx}`);
+            if (refLabel) {
+              refLabel.textContent = `✓ ${file.name}`;
+            }
+
+            const previewContainer = document.getElementById(`ref-preview-${idx}`);
+            if (previewContainer) {
+              previewContainer.innerHTML = `<img src="${dataUrl}" alt="preview" class="w-12 h-12 object-cover rounded-lg border border-[var(--border-color)] mt-2"/>`;
+            }
           };
           reader.readAsDataURL(file);
         }
@@ -1184,10 +1178,10 @@ const initialCatalog = catalogData;
 
   // WhatsApp checkout final message composition
   confirmWhatsappCheckoutBtn?.addEventListener('click', async () => {
-    const customerNameInput = document.getElementById('customer-name') as HTMLInputElement | null;
-    const customerPhoneInput = document.getElementById('customer-phone') as HTMLInputElement | null;
-    const deliveryDateInput = document.getElementById('delivery-date') as HTMLInputElement | null;
-    const deliveryTimeInput = document.getElementById('delivery-time') as HTMLInputElement | null;
+    const customerNameInput = document.getElementById('customer-name');
+    const customerPhoneInput = document.getElementById('customer-phone');
+    const deliveryDateInput = document.getElementById('delivery-date');
+    const deliveryTimeInput = document.getElementById('delivery-time');
     const orderStatus = document.getElementById('order-status');
 
     const customerName = customerNameInput?.value.trim();
@@ -1259,7 +1253,7 @@ const initialCatalog = catalogData;
     // 1) Notificación automática a la dulcería vía Baileys
     setStatus('⏳ Enviando su pedido a la dulcería…');
     if (confirmWhatsappCheckoutBtn) {
-      (confirmWhatsappCheckoutBtn as HTMLButtonElement).disabled = true;
+      confirmWhatsappCheckoutBtn.disabled = true;
     }
     try {
       const res = await fetch(BAILEYS_URL, {
@@ -1277,7 +1271,7 @@ const initialCatalog = catalogData;
       setStatus('⚠️ No se pudo avisar automáticamente. Se abrirá WhatsApp para completar su pedido.', false);
     } finally {
       if (confirmWhatsappCheckoutBtn) {
-        (confirmWhatsappCheckoutBtn as HTMLButtonElement).disabled = false;
+        confirmWhatsappCheckoutBtn.disabled = false;
       }
     }
 
