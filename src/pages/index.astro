@@ -1220,9 +1220,8 @@ const decorations = [
   }
 </style>
 
-<script client:load>
-/// <reference types="astro/client" />
-  let cart = [];
+<script>
+  let cart: any[] = [];
 
   const floatingCartBtn = document.getElementById('floating-cart-btn');
   const floatingCartCount = document.getElementById('floating-cart-count');
@@ -1482,6 +1481,7 @@ const decorations = [
 
     function startCarousel() {
       if (timeoutId === null) {
+        timeoutId = 1; // flag activo
         scheduleNext();
       }
     }
@@ -1497,7 +1497,6 @@ const decorations = [
       const delay = 2000 + Math.random() * 2000; // 2-4 seconds
       timeoutId = window.setTimeout(() => {
         rotate();
-        scheduleNext();
       }, delay);
     }
 
@@ -1522,16 +1521,14 @@ const decorations = [
 
         // Step 3: after fade, swap and reset
         setTimeout(() => {
-          // Swap src attributes
-          const tempSrc = activeImg.src;
-          activeImg.src = nextImg.src;
-          nextImg.src = tempSrc;
-
-          // Reset transition classes
+          activeImg.src = nextSrc;
           activeImg.classList.remove('fade-out');
           nextImg.classList.remove('fade-in');
 
           isAnimating = false;
+          if (timeoutId !== null) {
+            scheduleNext();
+          }
         }, 600); // fade duration
       }, 450); // pulse duration
     }
