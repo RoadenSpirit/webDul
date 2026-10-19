@@ -69,7 +69,6 @@ const decorations = [
             <div class="cake-image-wrap carousel-container" data-images={JSON.stringify(product.images || [product.image])}>
               <img src={product.image} alt={product.name} class="cake-image carousel-img active-img" loading="lazy" />
               <img src={product.image} alt="" class="cake-image carousel-img next-img" aria-hidden="true" />
-              <span class="card-badge">{product.id.includes('minicake') ? 'Mini Cake' : 'Cake'}</span>
             </div>
             <div class="cake-content">
               <div class="cake-head">
@@ -552,19 +551,7 @@ const decorations = [
     z-index: 3;
   }
 
-  .card-badge {
-    position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
-    background: rgba(30, 6, 16, 0.85);
-    backdrop-filter: blur(8px);
-    color: #FFFFFF;
-    font-size: 0.75rem;
-    font-weight: 700;
-    padding: 0.2rem 0.55rem;
-    border-radius: 50px;
-    letter-spacing: 0.5px;
-  }
+
 
   .cake-content {
     padding: 0.6rem 0.65rem 0.65rem;
