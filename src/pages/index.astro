@@ -1201,7 +1201,7 @@ const decorations = [
 </style>
 
 <script define:vars={{ initialCatalog }}>
-  let cart: any[] = [];
+  let cart = [];
 
   const floatingCartBtn = document.getElementById('floating-cart-btn');
   const floatingCartCount = document.getElementById('floating-cart-count');
@@ -1287,7 +1287,7 @@ const decorations = [
     // Bind event listeners
     cartItemsContainer.querySelectorAll('.ci-minus').forEach(btn => {
       btn.addEventListener('click', (e) => {
-        const idx = parseInt((e.currentTarget as HTMLElement).getAttribute('data-index') || '0');
+        const idx = parseInt(e.currentTarget.getAttribute('data-index') || '0');
         if (cart[idx].quantity > 1) {
           cart[idx].quantity--;
         } else {
@@ -1299,7 +1299,7 @@ const decorations = [
 
     cartItemsContainer.querySelectorAll('.ci-plus').forEach(btn => {
       btn.addEventListener('click', (e) => {
-        const idx = parseInt((e.currentTarget as HTMLElement).getAttribute('data-index') || '0');
+        const idx = parseInt(e.currentTarget.getAttribute('data-index') || '0');
         cart[idx].quantity++;
         saveCart();
       });
@@ -1307,7 +1307,7 @@ const decorations = [
 
     cartItemsContainer.querySelectorAll('.ci-remove').forEach(btn => {
       btn.addEventListener('click', (e) => {
-        const idx = parseInt((e.currentTarget as HTMLElement).getAttribute('data-index') || '0');
+        const idx = parseInt(e.currentTarget.getAttribute('data-index') || '0');
         cart.splice(idx, 1);
         saveCart();
       });
@@ -1324,23 +1324,23 @@ const decorations = [
   });
 
   // Helper para obtener las opciones por defecto de un producto según el catálogo
-  const getDefaultOptionsForProduct = (productId: string) => {
+  const getDefaultOptionsForProduct = (productId) => {
     let activeCat = initialCatalog;
     try {
       const saved = localStorage.getItem('el_lider_admin_catalog');
       if (saved) activeCat = JSON.parse(saved);
     } catch (e) {}
 
-    const options: Record<string, string> = {};
+    const options = {};
     if (activeCat && activeCat.product_options) {
-      const prodOpts = activeCat.product_options.filter((po: any) => po.product_id === productId && po.is_enabled);
-      prodOpts.forEach((po: any) => {
+      const prodOpts = activeCat.product_options.filter((po) => po.product_id === productId && po.is_enabled);
+      prodOpts.forEach((po) => {
         if (po.is_base && !options[po.option_id]) {
           options[po.option_id] = po.option_value_id;
         }
       });
       // Fallback si no hay is_base marcado
-      prodOpts.forEach((po: any) => {
+      prodOpts.forEach((po) => {
         if (!options[po.option_id]) {
           options[po.option_id] = po.option_value_id;
         }
@@ -1386,7 +1386,7 @@ const decorations = [
     if (saved) {
       const cat = JSON.parse(saved);
       if (cat.products && Array.isArray(cat.products)) {
-        cat.products.forEach((p: any) => {
+        cat.products.forEach((p) => {
           // Actualizar cards de cakes y buffet con nombre y precio base
           document.querySelectorAll(`[data-id="${p.id}"]`).forEach(card => {
             const nameEl = card.querySelector('.cake-name, .buffet-name');
@@ -1458,20 +1458,11 @@ const decorations = [
   // ============================================================
   // ORQUESTADOR GLOBAL: UNA SOLA IMAGEN A LA VEZ
   // ============================================================
-  interface ActiveCarousel {
-    container: HTMLElement;
-    images: string[];
-    currentIndex: number;
-    activeImg: HTMLImageElement;
-    nextImg: HTMLImageElement;
-    isVisible: boolean;
-  }
-
   const rawCarousels = document.querySelectorAll('.carousel-container');
-  const carouselRegistry: ActiveCarousel[] = [];
+  const carouselRegistry = [];
 
   rawCarousels.forEach(container => {
-    let images: string[] = [];
+    let images = [];
     try {
       images = JSON.parse(container.getAttribute('data-images') || '[]');
     } catch {
@@ -1479,12 +1470,12 @@ const decorations = [
     }
     if (!Array.isArray(images) || images.length <= 1) return;
 
-    const activeImg = container.querySelector('.active-img') as HTMLImageElement | null;
-    const nextImg = container.querySelector('.next-img') as HTMLImageElement | null;
+    const activeImg = container.querySelector('.active-img');
+    const nextImg = container.querySelector('.next-img');
     if (!activeImg || !nextImg) return;
 
-    const item: ActiveCarousel = {
-      container: container as HTMLElement,
+    const item = {
+      container: container,
       images,
       currentIndex: 0,
       activeImg,
@@ -1529,7 +1520,7 @@ const decorations = [
     }
 
     // Elegir uno aleatoriamente que no sea el mismo que acaba de cambiar
-    let chosen: ActiveCarousel;
+    let chosen;
     if (visibleCandidates.length === 1) {
       chosen = visibleCandidates[0];
     } else {
