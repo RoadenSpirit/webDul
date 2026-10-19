@@ -512,13 +512,13 @@ const decorations = [
   .carousel-img.active-img {
     opacity: 1;
     z-index: 2;
-    transition: opacity 500ms ease-in-out;
+    transition: opacity 700ms ease-in-out;
   }
 
   .carousel-img.next-img {
     opacity: 0;
     z-index: 1;
-    transition: opacity 500ms ease-in-out;
+    transition: opacity 700ms ease-in-out;
   }
 
   .carousel-img.brightness-pulse {
@@ -533,22 +533,13 @@ const decorations = [
 
   .carousel-img.fade-out {
     opacity: 0;
-    transition: opacity 600ms ease-in-out;
+    transition: opacity 700ms ease-in-out;
   }
 
   .carousel-img.fade-in {
     opacity: 1;
     z-index: 3;
-    transition: opacity 600ms ease-in-out;
-  }
-
-  .carousel-img.fade-out {
-    opacity: 0;
-  }
-
-  .carousel-img.fade-in {
-    opacity: 1;
-    z-index: 3;
+    transition: opacity 700ms ease-in-out;
   }
 
 
@@ -1350,7 +1341,7 @@ const decorations = [
         type,
         category: isCake ? 'cakes' : 'buffet',
         dough: isCake ? 'trigo' : '',
-        size: id === 'cake-redondo' ? '20' : (id === 'cake-bandeja' ? 'media' : ''),
+        size: '',
         doubleHeight: false
       }];
 
@@ -1515,6 +1506,7 @@ const decorations = [
     chosen.currentIndex = (chosen.currentIndex + 1) % chosen.images.length;
     const nextSrc = chosen.images[chosen.currentIndex];
 
+    chosen.nextImg.style.opacity = '';
     chosen.nextImg.src = nextSrc;
 
     // 1. Destello de brillo óptico suave (450ms)
@@ -1525,17 +1517,19 @@ const decorations = [
       chosen.activeImg.classList.add('fade-out');
       chosen.nextImg.classList.add('fade-in');
 
-      // 2. Transición cruzada suave (600ms)
+      // 2. Transición cruzada suave (700ms)
       setTimeout(() => {
+        // La imagen entrante pasa a ser la activa
         chosen.activeImg.src = nextSrc;
         chosen.activeImg.classList.remove('fade-out');
         chosen.nextImg.classList.remove('fade-in');
+        chosen.nextImg.style.opacity = '0';
 
         isGlobalAnimating = false;
 
-        // 3. REGLA ESTRICTA: 3 segundos exactos de catálogo estático antes de que otra card cambie
+        // 3. Catálogo estático antes del siguiente cambio
         setTimeout(runGlobalOrchestrator, 3000);
-      }, 600);
+      }, 700);
     }, 450);
   }
 
