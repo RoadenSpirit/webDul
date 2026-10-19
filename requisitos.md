@@ -66,6 +66,7 @@ En este archivo se lleva el control del estado de las características planifica
 - [x] Lista estructurada del carrito con cuadrícula geométrica (Grid 4 columnas), líneas divisorias nítidas, caja de cantidad compartimentada con bordes verticales y celda de subtotal/papelera delimitada.
 - [x] Sección de Decoraciones: Transformación a 3 pilares de gran formato (Infantiles/Temáticas, Diseños Clásicos, Eventos Sociales/15 Años) con animación de escritura pastelera e imagen oficial de 15 años.
 - [x] Limpieza y estilización en Decoraciones: Eliminación de párrafos descriptivos sobre las fotos y rediseño de alta pastelería para el título de la sección (gradiente fucsia/naranja, brillo y divisor multicolor neón).
+- [x] Erradicación de hover en elementos estáticos: Eliminación de pseudo-clases `:hover` en elementos no clicables (logo del Hero, tarjetas informativas de pasos y contenedor de cards).
 - [x] Restauración del botón "Comprar Ahora" al volver atrás mediante evento `pageshow`.
 - [x] Fix: Precarga de imágenes y erradicación del flash final en la animación del carrusel con cross-fade continuo y una sola card a la vez.
 - [x] Suite de pruebas automatizadas con verificación del flujo de checkout y carrusel (`tests/certify-flow.mjs`).
