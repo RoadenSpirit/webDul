@@ -1086,163 +1086,163 @@ const decorations = [
   /* ============================================================
      LISTA ESTRUCTURADA DE PEDIDO (GRID DE 4 COLUMNAS CON LÍNEAS)
      ============================================================ */
-  .cart-item-row {
-    display: grid;
-    grid-template-columns: 46px 1fr auto auto;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.75rem 0.4rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    background: transparent;
-    transition: background var(--transition-fast);
+  :global(.cart-item-row) {
+    display: grid !important;
+    grid-template-columns: 46px 1fr auto auto !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
+    padding: 0.75rem 0.4rem !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    background: transparent !important;
+    transition: background var(--transition-fast) !important;
   }
 
-  .cart-item-row:hover {
-    background: rgba(255, 255, 255, 0.03);
+  :global(.cart-item-row:hover) {
+    background: rgba(255, 255, 255, 0.03) !important;
   }
 
   /* Columna 1: Miniatura Enmarcada */
-  .ci-col-thumb {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  :global(.ci-col-thumb) {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
 
-  .ci-thumb-box {
-    width: 44px;
-    height: 44px;
-    border-radius: 6px;
-    overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    background: #18040a;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  :global(.ci-thumb-box) {
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: 6px !important;
+    overflow: hidden !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    background: #18040a !important;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
 
-  .ci-thumb-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  :global(.ci-thumb-img) {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
   }
 
-  .ci-thumb-box-fallback {
-    font-size: 1.3rem;
+  :global(.ci-thumb-box-fallback) {
+    font-size: 1.3rem !important;
   }
 
   /* Columna 2: Detalle del Producto */
-  .ci-col-details {
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
+  :global(.ci-col-details) {
+    min-width: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.2rem !important;
   }
 
-  .ci-item-title {
-    font-family: var(--font-body);
-    font-size: 0.88rem;
-    font-weight: 700;
-    color: #FFFFFF;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    line-height: 1.2;
-    margin: 0;
+  :global(.ci-item-title) {
+    font-family: var(--font-body) !important;
+    font-size: 0.88rem !important;
+    font-weight: 700 !important;
+    color: #FFFFFF !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    line-height: 1.2 !important;
+    margin: 0 !important;
   }
 
-  .ci-item-unit-tag {
-    font-size: 0.75rem;
-    color: var(--neutral-cream);
-    opacity: 0.75;
-    line-height: 1;
+  :global(.ci-item-unit-tag) {
+    font-size: 0.75rem !important;
+    color: var(--neutral-cream) !important;
+    opacity: 0.75 !important;
+    line-height: 1 !important;
   }
 
   /* Columna 3: Selector Numérico Estructurado con líneas divisorias */
-  .ci-col-qty {
-    display: flex;
-    align-items: center;
+  :global(.ci-col-qty) {
+    display: flex !important;
+    align-items: center !important;
   }
 
-  .ci-stepper-box {
-    display: inline-flex;
-    align-items: center;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 6px;
-    background: rgba(0, 0, 0, 0.45);
-    overflow: hidden;
-    height: 26px;
+  :global(.ci-stepper-box) {
+    display: inline-flex !important;
+    align-items: center !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: 6px !important;
+    background: rgba(0, 0, 0, 0.45) !important;
+    overflow: hidden !important;
+    height: 26px !important;
   }
 
-  .ci-step-btn {
-    width: 24px;
-    height: 100%;
-    border: none;
-    background: transparent;
-    color: var(--neutral-cream);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all var(--transition-fast);
+  :global(.ci-step-btn) {
+    width: 24px !important;
+    height: 100% !important;
+    border: none !important;
+    background: transparent !important;
+    color: var(--neutral-cream) !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all var(--transition-fast) !important;
   }
 
-  .ci-step-btn.ci-minus {
-    border-right: 1px solid rgba(255, 255, 255, 0.15);
+  :global(.ci-step-btn.ci-minus) {
+    border-right: 1px solid rgba(255, 255, 255, 0.15) !important;
   }
 
-  .ci-step-btn.ci-plus {
-    border-left: 1px solid rgba(255, 255, 255, 0.15);
+  :global(.ci-step-btn.ci-plus) {
+    border-left: 1px solid rgba(255, 255, 255, 0.15) !important;
   }
 
-  .ci-step-btn:hover {
-    background: var(--primary);
-    color: #FFFFFF;
+  :global(.ci-step-btn:hover) {
+    background: var(--primary) !important;
+    color: #FFFFFF !important;
   }
 
-  .ci-step-value {
-    min-width: 22px;
-    padding: 0 4px;
-    font-size: 0.8rem;
-    font-weight: 800;
-    color: #FFFFFF;
-    text-align: center;
+  :global(.ci-step-value) {
+    min-width: 22px !important;
+    padding: 0 4px !important;
+    font-size: 0.8rem !important;
+    font-weight: 800 !important;
+    color: #FFFFFF !important;
+    text-align: center !important;
   }
 
   /* Columna 4: Subtotal y Papelera Alineados */
-  .ci-col-total {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding-left: 0.5rem;
-    border-left: 1px solid rgba(255, 255, 255, 0.1);
+  :global(.ci-col-total) {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    padding-left: 0.5rem !important;
+    border-left: 1px solid rgba(255, 255, 255, 0.1) !important;
   }
 
-  .ci-subtotal-val {
-    font-size: 0.88rem;
-    font-weight: 800;
-    color: var(--accent-light);
-    white-space: nowrap;
-    min-width: 65px;
-    text-align: right;
+  :global(.ci-subtotal-val) {
+    font-size: 0.88rem !important;
+    font-weight: 800 !important;
+    color: var(--accent-light) !important;
+    white-space: nowrap !important;
+    min-width: 65px !important;
+    text-align: right !important;
   }
 
-  .ci-trash-btn {
-    background: transparent;
-    border: none;
-    color: rgba(255, 255, 255, 0.4);
-    cursor: pointer;
-    padding: 5px;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all var(--transition-fast);
+  :global(.ci-trash-btn) {
+    background: transparent !important;
+    border: none !important;
+    color: rgba(255, 255, 255, 0.4) !important;
+    cursor: pointer !important;
+    padding: 5px !important;
+    border-radius: 4px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all var(--transition-fast) !important;
   }
 
-  .ci-trash-btn:hover {
-    color: #FF5A5A;
-    background: rgba(255, 90, 90, 0.15);
+  :global(.ci-trash-btn:hover) {
+    color: #FF5A5A !important;
+    background: rgba(255, 90, 90, 0.15) !important;
   }
 
   .cart-footer {
