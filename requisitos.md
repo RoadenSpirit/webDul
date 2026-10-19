@@ -58,10 +58,12 @@ En este archivo se lleva el control del estado de las características planifica
   7. Cálculo de precios por combinación: cada opción tiene su precio directo, sin sumas ambiguas.
   8. Panel `/admin` reconstruido con terminología correcta, botones con lápiz ✏️ y disquete 💾.
 
+## Características Completadas
+- [x] Fix: Flujo Comprar Ahora inicializando opciones base dinámicas para que /pedido cargue el producto exacto seleccionado.
+- [x] Fix: Precarga de imágenes y erradicación del flash final en la animación del carrusel con cross-fade continuo y una sola card a la vez.
+- [x] Suite de pruebas automatizadas con verificación del flujo de checkout y carrusel (`tests/certify-flow.mjs`).
+
 ## Características Pendientes
-- [ ] Fix: Flujo Comprar Ahora inicializando opciones base dinámicas para que /pedido cargue el producto exacto seleccionado.
-- [ ] Fix: Precarga de imágenes y erradicación del flash final en la animación del carrusel con cross-fade continuo y una sola card a la vez.
-- [ ] Suite de pruebas automatizadas con verificación del flujo de checkout y carrusel.
 - [ ] Mover el envío de Baileys a un proxy backend (webhook n8n) si la API key embebida sufre abuso, y rotarla.
 - [ ] Verificar que la estructura del catálogo en el frontend funcione correctamente al agregar opciones nuevas desde `/admin`.
 - [ ] Considerar migrar el sync-server para usar better-sqlite3 o sql.js nativo en el VPS para persistencia real.
