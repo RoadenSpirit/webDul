@@ -181,6 +181,7 @@ const pillars = [
         <span class="section-badge">Alta Pastelería</span>
         <h2 class="section-title">Nuestras Decoraciones</h2>
         <div class="section-divider"></div>
+        <p class="section-subtitle">Decoraciones de Alto Nivel para Cada Celebración: Desde Cumpleaños hasta Bodas, Cada Detalle es una Obra de Arte.</p>
       </div>
 
       <div class="pillars-showcase-grid">
@@ -192,18 +193,15 @@ const pillars = [
             </div>
 
             <div class="pillar-glass-panel">
-              <div class="pillar-icing-wrapper">
-                <span class="pillar-icing-badge">{`0${index + 1}`}</span>
-                <!-- Título decorativo con efecto de escritura pastelera -->
-                <h3 
-                  class="pillar-handwriting-title" 
-                  data-full-text={item.title}
-                  style={`--icing-accent: ${item.accentColor};`}
-                >
-                  <span class="typewriter-text">{item.title}</span>
-                  <span class="icing-cursor"></span>
-                </h3>
-              </div>
+              <!-- Título decorativo con efecto de escritura pastelera -->
+              <h3 
+                class="pillar-handwriting-title" 
+                data-full-text={item.title}
+                style={`--icing-accent: ${item.accentColor};`}
+              >
+                <span class="typewriter-text">{item.title}</span>
+                <span class="icing-cursor"></span>
+              </h3>
             </div>
           </article>
         ))}
@@ -869,6 +867,18 @@ const pillars = [
     box-shadow: 0 0 12px rgba(232, 25, 108, 0.5);
   }
 
+  .decor-pillars-section .section-subtitle {
+    font-family: var(--font-sans);
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text-on-light-soft);
+    text-align: center;
+    max-width: 720px;
+    margin: 0.8rem auto 0;
+    line-height: 1.5;
+    opacity: 0.9;
+  }
+
   .pillars-showcase-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -886,13 +896,7 @@ const pillars = [
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
     background: #200810;
-  }
-
-  .pillar-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 16px 40px rgba(232, 25, 108, 0.25);
   }
 
   .pillar-image-container {
@@ -908,11 +912,6 @@ const pillars = [
     height: 100%;
     object-fit: cover;
     object-position: center 35%;
-    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .pillar-card:hover .pillar-photo {
-    transform: scale(1.06);
   }
 
   .pillar-vignette {
@@ -934,26 +933,6 @@ const pillars = [
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-  }
-
-  .pillar-icing-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 0.65rem;
-    position: relative;
-  }
-
-  .pillar-icing-badge {
-    font-size: 0.75rem;
-    font-weight: 800;
-    letter-spacing: 1px;
-    padding: 0.25rem 0.55rem;
-    border-radius: 6px;
-    background: rgba(0, 0, 0, 0.45);
-    color: #FFFFFF;
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    flex-shrink: 0;
-    backdrop-filter: blur(6px);
   }
 
   /* Subtítulos llamativos estilo manga pastelera / glaseado */
@@ -998,30 +977,15 @@ const pillars = [
     color: #4DEEEA;
     text-shadow: 0 0 16px rgba(77, 238, 234, 0.5), 0 2px 8px rgba(0, 0, 0, 0.9);
   }
-  .theme-cyan .pillar-icing-badge {
-    border-color: rgba(77, 238, 234, 0.5);
-    color: #4DEEEA;
-    box-shadow: 0 0 10px rgba(77, 238, 234, 0.25);
-  }
 
   .theme-cream .pillar-handwriting-title {
     color: #FFE494;
     text-shadow: 0 0 16px rgba(255, 228, 148, 0.5), 0 2px 8px rgba(0, 0, 0, 0.9);
   }
-  .theme-cream .pillar-icing-badge {
-    border-color: rgba(255, 228, 148, 0.5);
-    color: #FFE494;
-    box-shadow: 0 0 10px rgba(255, 228, 148, 0.25);
-  }
 
   .theme-fuchsia .pillar-handwriting-title {
     color: #FF53A5;
     text-shadow: 0 0 16px rgba(255, 83, 165, 0.6), 0 2px 8px rgba(0, 0, 0, 0.9);
-  }
-  .theme-fuchsia .pillar-icing-badge {
-    border-color: rgba(255, 83, 165, 0.5);
-    color: #FF53A5;
-    box-shadow: 0 0 10px rgba(255, 83, 165, 0.25);
   }
 
   @media (max-width: 900px) {
