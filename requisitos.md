@@ -67,6 +67,10 @@ En este archivo se lleva el control del estado de las características planifica
 - [x] Sección de Decoraciones: Transformación a 3 pilares de gran formato (Infantiles/Temáticas, Diseños Clásicos, Eventos Sociales/15 Años) con animación de escritura pastelera e imagen oficial de 15 años.
 - [x] Limpieza y estilización en Decoraciones: Eliminación de párrafos descriptivos sobre las fotos y rediseño de alta pastelería para el título de la sección (gradiente fucsia/naranja, brillo y divisor multicolor neón).
 - [x] Erradicación de hover en elementos estáticos: Eliminación de pseudo-clases `:hover` en elementos no clicables (logo del Hero, tarjetas informativas de pasos y contenedor de cards).
+- [x] Animación ágil de carrusel: Intervalo de rotación configurado a 1.5 segundos con transición de 500ms.
+- [x] Atenuación de sombras en decoraciones: Viñeta transparente en el 55% superior y gradiente suave del 40%-75% en la base para máxima visibilidad de los pasteles.
+- [x] Formato premium del contacto: Chip flotante de WhatsApp con icono oficial, número destacado y badge "Online/Disponible ahora".
+- [x] Fix Crítico de Usabilidad en Personalización: Altura Doble modelada estrictamente como checkbox booleano opcional (desmarcado por defecto), y Masa con Harina por defecto.
 - [x] Restauración del botón "Comprar Ahora" al volver atrás mediante evento `pageshow`.
 - [x] Fix: Precarga de imágenes y erradicación del flash final en la animación del carrusel con cross-fade continuo y una sola card a la vez.
 - [x] Suite de pruebas automatizadas con verificación del flujo de checkout y carrusel (`tests/certify-flow.mjs`).

@@ -620,6 +620,10 @@ const initialCatalog = catalogData;
             });
           }
         }
+        // Altura doble es estrictamente booleana y opcional: si no fue activada explícitamente, se remueve de options
+        if (item.options && item.options['altura'] && item.doubleHeight !== true) {
+          delete item.options['altura'];
+        }
       }
     });
 
@@ -907,23 +911,54 @@ const initialCatalog = catalogData;
           optGroups[po.option_id].values.push(po);
         });
 
-        // Renderizar selector para cada opción asignada
+        // Renderizar opciones: Altura se renderiza como Checkbox booleano opcional; otras (como Masa) como select con Harina por defecto
         Object.keys(optGroups).forEach(optId => {
           const group = optGroups[optId];
-          const currentSelected = item.options ? item.options[optId] : (group.values[0]?.option_value_id);
+          const isHeightOption = optId === 'altura' || optId.includes('doble') || optId.includes('altura');
 
-          dynamicAttributesHtml += `
-            <div class="flex flex-col gap-2">
-              <label for="opt-${optId}-${globalIdx}" class="block text-sm font-bold text-[var(--text-primary)]">✨ ${group.optName}:</label>
-              <select class="dynamic-attr-field w-full px-4 py-3 bg-[var(--bg-primary)] border-2 border-[var(--border-color)] rounded-xl text-sm text-[var(--text-primary)] focus:border-[var(--accent-color)] focus:ring-4 focus:ring-[var(--accent-color)]/10 transition-all outline-none cursor-pointer appearance-none font-bold" data-index="${globalIdx}" data-opt-id="${optId}" id="opt-${optId}-${globalIdx}">
-                ${group.values.map(po => `
-                  <option value="${po.option_value_id}" ${currentSelected === po.option_value_id ? 'selected' : ''}>
-                    ${po.option_value_name} ($${po.direct_price} CUP)
-                  </option>
-                `).join('')}
-              </select>
-            </div>
-          `;
+          if (isHeightOption) {
+            // Checkbox booleano para Altura / Masa Doble (Desmarcado por defecto)
+            const doubleOption = group.values.find(po => !po.is_base) || group.values[0];
+            const isChecked = item.options && item.options[optId] === doubleOption.option_value_id;
+            const diffPrice = doubleOption.direct_price - (group.values.find(po => po.is_base)?.direct_price || item.price);
+
+            dynamicAttributesHtml += `
+              <div class="flex flex-col gap-2 pt-1">
+                <label class="inline-flex items-center gap-3 w-full bg-[var(--bg-primary)] border-2 border-[var(--border-color)] hover:border-[var(--accent-color)] p-3.5 rounded-xl cursor-pointer transition-colors shadow-sm">
+                  <input 
+                    type="checkbox" 
+                    class="dynamic-attr-checkbox w-4 h-4 text-[var(--accent-color)] border-[var(--border-color)] rounded focus:ring-[var(--accent-color)] cursor-pointer" 
+                    data-index="${globalIdx}" 
+                    data-opt-id="${optId}" 
+                    data-val-id="${doubleOption.option_value_id}"
+                    id="opt-check-${optId}-${globalIdx}"
+                    ${isChecked ? 'checked' : ''}
+                  />
+                  <span class="text-sm font-bold text-[var(--text-primary)] flex-grow flex items-center justify-between">
+                    <span>✨ ¿Deseas Doble Altura? (Masa Doble)</span>
+                    <span class="text-xs text-[var(--accent-light)] font-black">${diffPrice > 0 ? `+$${diffPrice} CUP` : `(Especial)`}</span>
+                  </span>
+                </label>
+              </div>
+            `;
+          } else {
+            // Opciones de Masa u otras (Harina preseleccionada por defecto)
+            const baseValue = group.values.find(po => po.is_base)?.option_value_id || group.values[0]?.option_value_id;
+            const currentSelected = (item.options && item.options[optId]) ? item.options[optId] : baseValue;
+
+            dynamicAttributesHtml += `
+              <div class="flex flex-col gap-2">
+                <label for="opt-${optId}-${globalIdx}" class="block text-sm font-bold text-[var(--text-primary)]">🌾 ${group.optName}:</label>
+                <select class="dynamic-attr-field w-full px-4 py-3 bg-[var(--bg-primary)] border-2 border-[var(--border-color)] rounded-xl text-sm text-[var(--text-primary)] focus:border-[var(--accent-color)] focus:ring-4 focus:ring-[var(--accent-color)]/10 transition-all outline-none cursor-pointer appearance-none font-bold shadow-sm" data-index="${globalIdx}" data-opt-id="${optId}" id="opt-${optId}-${globalIdx}">
+                  ${group.values.map(po => `
+                    <option value="${po.option_value_id}" ${currentSelected === po.option_value_id ? 'selected' : ''}>
+                      ${po.option_value_name} ${po.is_base ? '(Base estándar)' : `(+$${po.direct_price - (group.values.find(b => b.is_base)?.direct_price || item.price)} CUP)`}
+                    </option>
+                  `).join('')}
+                </select>
+              </div>
+            `;
+          }
         });
       } else {
         // Fallback a reglas fijas si no hubiese catálogo activo
@@ -1009,7 +1044,7 @@ const initialCatalog = catalogData;
   };
 
   const attachCustomizerEvents = () => {
-    // Dynamic option selects
+    // Dynamic option selects (Masa y otros desplegables)
     document.querySelectorAll('.dynamic-attr-field').forEach(select => {
       select.addEventListener('change', (e) => {
         const target = e.target;
@@ -1022,6 +1057,26 @@ const initialCatalog = catalogData;
         // Mantener compatibilidad con masa
         if (optId === 'masa') {
           cart[idx].dough = target.value;
+        }
+        updateTotals();
+      });
+    });
+
+    // Dynamic attribute checkboxes (Altura Doble booleana)
+    document.querySelectorAll('.dynamic-attr-checkbox').forEach(checkbox => {
+      checkbox.addEventListener('change', (e) => {
+        const target = e.target;
+        const idx = parseInt(target.getAttribute('data-index') || '0');
+        const optId = target.getAttribute('data-opt-id') || '';
+        const valId = target.getAttribute('data-val-id') || '';
+        
+        if (!cart[idx].options) cart[idx].options = {};
+        if (target.checked) {
+          cart[idx].options[optId] = valId;
+          cart[idx].doubleHeight = true;
+        } else {
+          delete cart[idx].options[optId];
+          cart[idx].doubleHeight = false;
         }
         updateTotals();
       });

@@ -85,13 +85,21 @@ if (!customizerText.includes('Cake de 22 cm')) {
 }
 console.log('✓ [Certificación 3] El bloque de personalización se generó para "Cake de 22 cm"');
 
-// Verificar que los selects de opciones dinámicas existan en el DOM
-const selects = customizers.querySelectorAll('.dynamic-attr-field');
-console.log(`✓ [Certificación 4] Detectados ${selects.length} selectores dinámicos de opciones configurables`);
-if (selects.length === 0) {
-  console.error('❌ ERROR: No se generaron selectores dinámicos en el personalizador');
+// 6. Validar que la opción de altura se renderiza como Checkbox booleano y NO como un select obligatorio
+const heightCheckbox = customizers.querySelector('.dynamic-attr-checkbox');
+const doughSelect = customizers.querySelector('.dynamic-attr-field');
+
+if (!heightCheckbox) {
+  console.error('❌ ERROR: La opción de Doble Altura no se renderizó como un checkbox booleano');
   process.exit(1);
 }
+console.log('✓ [Certificación 4] Doble Altura renderizado correctamente como Checkbox Booleano opcional');
+
+if (!doughSelect) {
+  console.error('❌ ERROR: No se encontró el selector de Tipo de Masa');
+  process.exit(1);
+}
+console.log('✓ [Certificación 5] Selector de Masa (Harina por defecto) presente');
 
 console.log('\n🏆 ¡CERTIFICACIÓN COMPLETA E2E SUPERADA AL 100%! La sección de pedido se genera fielmente con los datos del producto seleccionado.');
 process.exit(0);

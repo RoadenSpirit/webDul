@@ -69,8 +69,16 @@ const {
 
         <!-- Contacto directo por WhatsApp -->
         <div class="footer-contact">
-          <span class="footer-contact-label">📱 Atención directa por WhatsApp:</span>
-          <a href="https://wa.me/5351394921" target="_blank" rel="noopener noreferrer" class="footer-phone">+53 5139 4921</a>
+          <span class="footer-contact-label">Atención y Pedidos por WhatsApp:</span>
+          <a href="https://wa.me/5351394921" target="_blank" rel="noopener noreferrer" class="footer-wa-chip">
+            <span class="wa-chip-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12.031 2C6.495 2 2 6.502 2 12.046c0 1.956.562 3.824 1.625 5.438L2.062 22l4.674-1.523a10.01 10.01 0 0 0 5.295 1.508c5.536 0 10.031-4.502 10.031-10.046C22.062 6.502 17.567 2 12.031 2zm0 18.25c-1.688 0-3.328-.469-4.75-1.344l-.344-.203-3.14.938.938-3.047-.234-.375c-.969-1.531-1.484-3.328-1.484-5.172 0-4.594 3.734-8.328 8.328-8.328 4.594 0 8.328 3.734 8.328 8.328 0 4.594-3.734 8.328-8.328 8.328zm4.563-6.234c-.25-.125-1.469-.734-1.688-.828-.234-.094-.406-.141-.578.141s-.672.828-.828 1c-.156.172-.313.188-.563.063-.25-.125-1.063-.391-2.031-1.25-.75-.672-1.266-1.5-1.422-1.75-.156-.25-.016-.391.109-.516.109-.109.25-.281.375-.422.125-.141.172-.25.25-.422.078-.172.031-.328-.016-.453-.063-.125-.578-1.406-.797-1.922-.219-.516-.438-.438-.609-.438h-.516c-.172 0-.453.063-.688.328s-.906.875-.906 2.141c0 1.266.922 2.484 1.047 2.656.125.172 1.813 2.781 4.391 3.891.609.266 1.094.422 1.469.547.625.203 1.188.172 1.641.109.5-.078 1.469-.609 1.672-1.203.203-.594.203-1.094.141-1.203-.063-.094-.219-.156-.469-.281z"/>
+              </svg>
+            </span>
+            <span class="wa-chip-phone">+53 5139 4921</span>
+            <span class="wa-chip-status">Online</span>
+          </a>
         </div>
 
       </div>
@@ -194,34 +202,61 @@ const {
   /* Contacto */
   .footer-contact {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 0.6rem;
-    font-size: 1rem;
-    flex-wrap: wrap;
-    justify-content: center;
-    background: rgba(232, 25, 108, 0.12);
-    border: 1px solid rgba(255, 107, 53, 0.3);
-    padding: 0.75rem 1.5rem;
-    border-radius: 50px;
+    gap: 0.5rem;
   }
 
   .footer-contact-label {
-    color: rgba(255, 248, 240, 0.9);
+    color: var(--neutral-cream);
     font-weight: 600;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+    opacity: 0.9;
   }
 
-  .footer-phone {
+  .footer-wa-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: rgba(37, 211, 102, 0.12);
+    border: 1.5px solid rgba(37, 211, 102, 0.4);
+    padding: 0.45rem 1.1rem;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: all var(--transition-fast);
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.15);
+  }
+
+  .footer-wa-chip:hover {
+    background: rgba(37, 211, 102, 0.22);
+    border-color: #25D366;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3);
+  }
+
+  .wa-chip-icon {
+    color: #25D366;
+    display: flex;
+    align-items: center;
+  }
+
+  .wa-chip-phone {
+    font-family: var(--font-sans);
     font-weight: 800;
-    font-size: 1.15rem;
-    color: var(--accent-light);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    transition: color var(--transition-fast);
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+    color: #FFFFFF;
   }
 
-  .footer-phone:hover {
-    color: var(--accent-pale);
+  .wa-chip-status {
+    font-size: 0.65rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: #25D366;
+    color: #0B2512;
+    padding: 0.15rem 0.45rem;
+    border-radius: 50px;
   }
 
   .footer-bottom {
