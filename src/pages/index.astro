@@ -1464,7 +1464,7 @@ const decorations = [
     if (!activeImg || !nextImg) return;
 
     let currentIndex = 0;
-    let timeoutId = null;
+    let timerId: any = null;
     let isAnimating = false;
 
     const observer = new IntersectionObserver((entries) => {
@@ -1475,27 +1475,27 @@ const decorations = [
           stopCarousel();
         }
       });
-    }, { threshold: 0.1 });
+    }, { threshold: 0.05 });
 
     observer.observe(container);
 
     function startCarousel() {
-      if (timeoutId === null) {
-        timeoutId = 1; // flag activo
+      if (!timerId) {
         scheduleNext();
       }
     }
 
     function stopCarousel() {
-      if (timeoutId !== null) {
-        clearTimeout(timeoutId);
-        timeoutId = null;
+      if (timerId) {
+        clearTimeout(timerId);
+        timerId = null;
       }
     }
 
     function scheduleNext() {
-      const delay = 2000 + Math.random() * 2000; // 2-4 seconds
-      timeoutId = window.setTimeout(() => {
+      // Tiempo entre 2.5s y 4.5s de reposo estático
+      const delay = 2500 + Math.random() * 2000;
+      timerId = setTimeout(() => {
         rotate();
       }, delay);
     }
@@ -1507,45 +1507,32 @@ const decorations = [
       currentIndex = (currentIndex + 1) % images.length;
       const nextSrc = images[currentIndex];
 
-      // Preload next image in the hidden slot
+      // Pre-cargar la imagen entrante en el slot trasero
       nextImg.src = nextSrc;
 
-      // Step 1: brightness pulse with scale 1.05 (using existing CSS animation)
+      // 1. Destello de brillo óptico (450ms)
       activeImg.classList.add('brightness-pulse');
 
-      // Step 2: after pulse, fade out old and fade in new
+      // 2. Al terminar el brillo, desvanecimiento cruzado (600ms)
       setTimeout(() => {
         activeImg.classList.remove('brightness-pulse');
         activeImg.classList.add('fade-out');
         nextImg.classList.add('fade-in');
 
-        // Step 3: after fade, swap and reset
+        // 3. Completar transición y asentar
         setTimeout(() => {
           activeImg.src = nextSrc;
           activeImg.classList.remove('fade-out');
           nextImg.classList.remove('fade-in');
 
           isAnimating = false;
-          if (timeoutId !== null) {
+          if (timerId) {
             scheduleNext();
           }
-        }, 600); // fade duration
-      }, 450); // pulse duration
+        }, 600);
+      }, 450);
     }
 
-    // Initial check if already visible
-    if (isElementInViewport(container)) {
-      startCarousel();
-    }
+    startCarousel();
   });
-
-  function isElementInViewport(el) {
-    const rect = el.getBoundingClientRect();
-    return (
-      rect.top >= 0 &&
-      rect.left >= 0 &&
-      rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-      rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-    );
-  }
 </script>
