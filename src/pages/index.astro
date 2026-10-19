@@ -1445,94 +1445,113 @@ const decorations = [
   loadCart();
   updateCartUI();
 
-  // Carousel implementation per requirements
-  const carousels = document.querySelectorAll('.carousel-container');
+  // ============================================================
+  // ORQUESTADOR GLOBAL: UNA SOLA IMAGEN A LA VEZ
+  // ============================================================
+  interface ActiveCarousel {
+    container: HTMLElement;
+    images: string[];
+    currentIndex: number;
+    activeImg: HTMLImageElement;
+    nextImg: HTMLImageElement;
+    isVisible: boolean;
+  }
 
-  carousels.forEach(container => {
-    let images = [];
+  const rawCarousels = document.querySelectorAll('.carousel-container');
+  const carouselRegistry: ActiveCarousel[] = [];
+
+  rawCarousels.forEach(container => {
+    let images: string[] = [];
     try {
       images = JSON.parse(container.getAttribute('data-images') || '[]');
     } catch {
       images = [];
     }
-
     if (!Array.isArray(images) || images.length <= 1) return;
 
-    const activeImg = container.querySelector('.active-img');
-    const nextImg = container.querySelector('.next-img');
-
+    const activeImg = container.querySelector('.active-img') as HTMLImageElement | null;
+    const nextImg = container.querySelector('.next-img') as HTMLImageElement | null;
     if (!activeImg || !nextImg) return;
 
-    let currentIndex = 0;
-    let timerId: any = null;
-    let isAnimating = false;
+    const item: ActiveCarousel = {
+      container: container as HTMLElement,
+      images,
+      currentIndex: 0,
+      activeImg,
+      nextImg,
+      isVisible: false
+    };
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          startCarousel();
-        } else {
-          stopCarousel();
-        }
-      });
-    }, { threshold: 0.05 });
-
-    observer.observe(container);
-
-    function startCarousel() {
-      if (!timerId) {
-        scheduleNext();
-      }
-    }
-
-    function stopCarousel() {
-      if (timerId) {
-        clearTimeout(timerId);
-        timerId = null;
-      }
-    }
-
-    function scheduleNext() {
-      // Tiempo entre 2.5s y 4.5s de reposo estático
-      const delay = 2500 + Math.random() * 2000;
-      timerId = setTimeout(() => {
-        rotate();
-      }, delay);
-    }
-
-    function rotate() {
-      if (isAnimating) return;
-      isAnimating = true;
-
-      currentIndex = (currentIndex + 1) % images.length;
-      const nextSrc = images[currentIndex];
-
-      // Pre-cargar la imagen entrante en el slot trasero
-      nextImg.src = nextSrc;
-
-      // 1. Destello de brillo óptico (450ms)
-      activeImg.classList.add('brightness-pulse');
-
-      // 2. Al terminar el brillo, desvanecimiento cruzado (600ms)
-      setTimeout(() => {
-        activeImg.classList.remove('brightness-pulse');
-        activeImg.classList.add('fade-out');
-        nextImg.classList.add('fade-in');
-
-        // 3. Completar transición y asentar
-        setTimeout(() => {
-          activeImg.src = nextSrc;
-          activeImg.classList.remove('fade-out');
-          nextImg.classList.remove('fade-in');
-
-          isAnimating = false;
-          if (timerId) {
-            scheduleNext();
-          }
-        }, 600);
-      }, 450);
-    }
-
-    startCarousel();
+    carouselRegistry.push(item);
   });
+
+  // Un solo observer para saber cuáles están visibles en el viewport
+  const visibilityObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const match = carouselRegistry.find(c => c.container === entry.target);
+      if (match) {
+        match.isVisible = entry.isIntersecting;
+      }
+    });
+  }, { threshold: 0.1 });
+
+  carouselRegistry.forEach(c => visibilityObserver.observe(c.container));
+
+  // COLA GLOBAL: Un solo bucle central
+  let isGlobalAnimating = false;
+  let lastAnimatedIndex = -1;
+
+  function runGlobalOrchestrator() {
+    if (isGlobalAnimating) return;
+
+    // Solo candidatos visibles en pantalla
+    const visibleCandidates = carouselRegistry.filter(c => c.isVisible);
+
+    if (visibleCandidates.length === 0) {
+      setTimeout(runGlobalOrchestrator, 1000);
+      return;
+    }
+
+    // Elegir uno aleatoriamente que no sea el mismo que acaba de cambiar
+    let chosen: ActiveCarousel;
+    if (visibleCandidates.length === 1) {
+      chosen = visibleCandidates[0];
+    } else {
+      const filtered = visibleCandidates.filter((_, idx) => idx !== lastAnimatedIndex);
+      chosen = filtered[Math.floor(Math.random() * filtered.length)];
+      lastAnimatedIndex = visibleCandidates.indexOf(chosen);
+    }
+
+    isGlobalAnimating = true;
+
+    // Ejecutar la animación en esa única card
+    chosen.currentIndex = (chosen.currentIndex + 1) % chosen.images.length;
+    const nextSrc = chosen.images[chosen.currentIndex];
+
+    chosen.nextImg.src = nextSrc;
+
+    // 1. Destello de brillo óptico suave (450ms)
+    chosen.activeImg.classList.add('brightness-pulse');
+
+    setTimeout(() => {
+      chosen.activeImg.classList.remove('brightness-pulse');
+      chosen.activeImg.classList.add('fade-out');
+      chosen.nextImg.classList.add('fade-in');
+
+      // 2. Transición cruzada suave (600ms)
+      setTimeout(() => {
+        chosen.activeImg.src = nextSrc;
+        chosen.activeImg.classList.remove('fade-out');
+        chosen.nextImg.classList.remove('fade-in');
+
+        isGlobalAnimating = false;
+
+        // 3. REGLA ESTRICTA: 3 segundos exactos de catálogo estático antes de que otra card cambie
+        setTimeout(runGlobalOrchestrator, 3000);
+      }, 600);
+    }, 450);
+  }
+
+  // Arrancar el orquestador central tras 2 segundos iniciales de reposo total
+  setTimeout(runGlobalOrchestrator, 2000);
 </script>
