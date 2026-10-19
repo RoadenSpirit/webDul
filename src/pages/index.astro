@@ -181,7 +181,6 @@ const pillars = [
         <span class="section-badge">Alta Pastelería</span>
         <h2 class="section-title">Nuestras Decoraciones</h2>
         <div class="section-divider"></div>
-        <p class="section-desc">Tres estilos maestros elaborados a mano para convertir cada celebración en una obra de arte.</p>
       </div>
 
       <div class="pillars-showcase-grid">
@@ -205,7 +204,6 @@ const pillars = [
                   <span class="icing-cursor"></span>
                 </h3>
               </div>
-              <p class="pillar-description">{item.desc}</p>
             </div>
           </article>
         ))}
@@ -838,6 +836,39 @@ const pillars = [
     overflow: hidden;
   }
 
+  /* Encabezado Artístico y Vibrante para Decoraciones */
+  .decor-pillars-section .section-header {
+    margin-bottom: 2.25rem;
+  }
+
+  .decor-pillars-section .section-badge {
+    background: linear-gradient(135deg, rgba(232, 25, 108, 0.25), rgba(255, 107, 53, 0.25));
+    border: 1px solid rgba(232, 25, 108, 0.5);
+    color: #E8196C;
+    box-shadow: 0 0 15px rgba(232, 25, 108, 0.2);
+  }
+
+  .decor-pillars-section .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    font-weight: 800;
+    line-height: 1.15;
+    background: linear-gradient(135deg, #E8196C 0%, #FF6B35 50%, #FFA07A 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 3px 12px rgba(232, 25, 108, 0.35));
+    letter-spacing: -0.5px;
+    margin: 0;
+  }
+
+  .decor-pillars-section .section-divider {
+    width: 70px;
+    height: 4px;
+    background: linear-gradient(90deg, #4DEEEA, #E8196C, #FF6B35, #FFE494);
+    border-radius: 4px;
+    box-shadow: 0 0 12px rgba(232, 25, 108, 0.5);
+  }
+
   .pillars-showcase-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -899,43 +930,43 @@ const pillars = [
   .pillar-glass-panel {
     position: relative;
     z-index: 2;
-    padding: 1.75rem 1.4rem;
+    padding: 1.5rem 1.4rem 1.75rem;
     display: flex;
     flex-direction: column;
-    gap: 0.6rem;
+    justify-content: flex-end;
   }
 
   .pillar-icing-wrapper {
     display: flex;
-    align-items: flex-start;
-    gap: 0.6rem;
+    align-items: center;
+    gap: 0.65rem;
     position: relative;
   }
 
   .pillar-icing-badge {
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     font-weight: 800;
     letter-spacing: 1px;
-    padding: 0.2rem 0.5rem;
-    border-radius: 4px;
-    background: rgba(255, 255, 255, 0.12);
+    padding: 0.25rem 0.55rem;
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.45);
     color: #FFFFFF;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.25);
     flex-shrink: 0;
-    margin-top: 0.25rem;
+    backdrop-filter: blur(6px);
   }
 
   /* Subtítulos llamativos estilo manga pastelera / glaseado */
   .pillar-handwriting-title {
     font-family: var(--font-display);
-    font-size: 1.35rem;
-    font-weight: 700;
-    line-height: 1.25;
+    font-size: 1.4rem;
+    font-weight: 800;
+    line-height: 1.2;
     color: var(--icing-accent);
     margin: 0;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.85);
     display: inline;
-    letter-spacing: 0.3px;
+    letter-spacing: 0.2px;
   }
 
   .typewriter-text {
@@ -962,41 +993,35 @@ const pillars = [
     50% { opacity: 0; }
   }
 
-  .pillar-description {
-    font-size: 0.88rem;
-    color: var(--neutral-cream);
-    line-height: 1.5;
-    margin: 0;
-    opacity: 0.92;
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
-  }
-
   /* Temas de Color Exclusivos por Pilar */
   .theme-cyan .pillar-handwriting-title {
     color: #4DEEEA;
-    text-shadow: 0 0 15px rgba(77, 238, 234, 0.35), 0 2px 8px rgba(0, 0, 0, 0.8);
+    text-shadow: 0 0 16px rgba(77, 238, 234, 0.5), 0 2px 8px rgba(0, 0, 0, 0.9);
   }
   .theme-cyan .pillar-icing-badge {
-    border-color: rgba(77, 238, 234, 0.4);
+    border-color: rgba(77, 238, 234, 0.5);
     color: #4DEEEA;
+    box-shadow: 0 0 10px rgba(77, 238, 234, 0.25);
   }
 
   .theme-cream .pillar-handwriting-title {
     color: #FFE494;
-    text-shadow: 0 0 15px rgba(255, 228, 148, 0.35), 0 2px 8px rgba(0, 0, 0, 0.8);
+    text-shadow: 0 0 16px rgba(255, 228, 148, 0.5), 0 2px 8px rgba(0, 0, 0, 0.9);
   }
   .theme-cream .pillar-icing-badge {
-    border-color: rgba(255, 228, 148, 0.4);
+    border-color: rgba(255, 228, 148, 0.5);
     color: #FFE494;
+    box-shadow: 0 0 10px rgba(255, 228, 148, 0.25);
   }
 
   .theme-fuchsia .pillar-handwriting-title {
     color: #FF53A5;
-    text-shadow: 0 0 15px rgba(255, 83, 165, 0.45), 0 2px 8px rgba(0, 0, 0, 0.8);
+    text-shadow: 0 0 16px rgba(255, 83, 165, 0.6), 0 2px 8px rgba(0, 0, 0, 0.9);
   }
   .theme-fuchsia .pillar-icing-badge {
-    border-color: rgba(255, 83, 165, 0.4);
+    border-color: rgba(255, 83, 165, 0.5);
     color: #FF53A5;
+    box-shadow: 0 0 10px rgba(255, 83, 165, 0.25);
   }
 
   @media (max-width: 900px) {

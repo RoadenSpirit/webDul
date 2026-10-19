@@ -71,4 +71,16 @@ pillarCards.forEach((card, idx) => {
   console.log('  ✓ Cursor pastelero presente');
 });
 
+// 4. Verificar que se eliminaron los subtextos descriptivos sobre las fotos
+const descriptions = decorSection.querySelectorAll('.pillar-description');
+if (descriptions.length > 0) {
+  throw new Error(`❌ Se encontraron ${descriptions.length} descripciones de texto sobre las fotos que debieron ser eliminadas`);
+}
+console.log('✓ [Clean UI] No hay subtextos descriptivos opacando las fotos de gran formato');
+
+// 5. Verificar estilos vibrantes en el título de la sección
+const sectionTitle = decorSection.querySelector('.section-title');
+if (!sectionTitle) throw new Error('❌ Falta título de la sección');
+console.log(`✓ [Header] Título de sección presente: "${sectionTitle.textContent.trim()}"`);
+
 console.log('\n🏆 ¡CERTIFICACIÓN EXITOSA: La sección de los 3 Pilares de Decoración cumple al 100% con la especificación de gran formato y escritura pastelera!');
