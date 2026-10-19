@@ -20,8 +20,10 @@
     "tailwindcss": "^3.4.19"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.10",
     "@types/sql.js": "^1.4.11",
     "puppeteer": "^24.43.1",
+    "typescript": "^5.9.3",
     "vercel": "^54.21.0"
   }
 }
