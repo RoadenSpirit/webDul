@@ -613,8 +613,13 @@ const initialCatalog = catalogData;
           item.options = {};
           if (activeCatalog && activeCatalog.product_options) {
             const prodOpts = activeCatalog.product_options.filter(po => po.product_id === item.id && po.is_enabled);
+            // Regla mandatoria: Si tiene Tipo de Masa, forzar siempre Harina como base
+            const masaHarina = prodOpts.find(po => po.option_id === 'masa' && po.option_value_id === 'masa-harina');
+            if (masaHarina) {
+              item.options['masa'] = 'masa-harina';
+            }
             prodOpts.forEach(po => {
-              if (po.is_base && !item.options[po.option_id]) {
+              if (po.is_base && po.option_id !== 'altura' && !item.options[po.option_id]) {
                 item.options[po.option_id] = po.option_value_id;
               }
             });

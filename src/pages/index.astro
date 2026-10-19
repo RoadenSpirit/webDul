@@ -1673,9 +1673,14 @@ const pillars = [
     const options = {};
     if (activeCat && activeCat.product_options) {
       const prodOpts = activeCat.product_options.filter((po) => po.product_id === productId && po.is_enabled);
-      // Solo preseleccionar opciones marcadas como is_base (las no-base como Altura Doble quedan desmarcadas)
+      // Prioridad 1: Si hay opción de masa, siempre forzar Harina como base si existe
+      const masaHarina = prodOpts.find(po => po.option_id === 'masa' && po.option_value_id === 'masa-harina');
+      if (masaHarina) {
+        options['masa'] = 'masa-harina';
+      }
+      // Prioridad 2: Preseleccionar opciones marcadas como is_base (excepto altura que es booleana opcional)
       prodOpts.forEach((po) => {
-        if (po.is_base && !options[po.option_id]) {
+        if (po.is_base && po.option_id !== 'altura' && !options[po.option_id]) {
           options[po.option_id] = po.option_value_id;
         }
       });

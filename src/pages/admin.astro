@@ -879,6 +879,33 @@ const initialCatalog = catalogData;
     const product = (catalog.products || []).find(p => p.id === editingProductId);
     const baseP = product ? product.base_price : 0;
 
+    // Regla de Negocio: Si la opción es 'masa', Harina SIEMPRE debe estar garantizada como opción base al precio base del producto
+    if (optId === 'masa') {
+      if (!catalog.option_values) catalog.option_values = [];
+      let harinaVal = catalog.option_values.find(v => v.id === 'masa-harina');
+      if (!harinaVal) {
+        harinaVal = { id: 'masa-harina', option_id: 'masa', name: 'Harina', is_base: true };
+        catalog.option_values.unshift(harinaVal);
+      }
+      // Si el producto no tiene aún asignada Harina en product_options, preasignarla automáticamente
+      if (!catalog.product_options) catalog.product_options = [];
+      const hasHarina = catalog.product_options.find(
+        po => po.product_id === editingProductId && po.option_id === 'masa' && po.option_value_id === 'masa-harina'
+      );
+      if (!hasHarina) {
+        catalog.product_options.unshift({
+          product_id: editingProductId,
+          option_id: 'masa',
+          option_value_id: 'masa-harina',
+          option_name: 'Tipo de Masa',
+          option_value_name: 'Harina',
+          direct_price: baseP,
+          is_enabled: true,
+          is_base: true
+        });
+      }
+    }
+
     let html = '';
 
     if (vals.length === 0) {

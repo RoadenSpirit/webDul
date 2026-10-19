@@ -261,12 +261,22 @@
     {
       "product_id": "cake-20",
       "option_id": "masa",
+      "option_value_id": "masa-harina",
+      "option_name": "Tipo de Masa",
+      "option_value_name": "Harina",
+      "direct_price": 3900,
+      "is_enabled": true,
+      "is_base": true
+    },
+    {
+      "product_id": "cake-20",
+      "option_id": "masa",
       "option_value_id": "masa-maicena",
       "option_name": "Tipo de Masa",
       "option_value_name": "Maicena",
       "direct_price": 3900,
       "is_enabled": true,
-      "is_base": true
+      "is_base": false
     },
     {
       "product_id": "cake-20",
