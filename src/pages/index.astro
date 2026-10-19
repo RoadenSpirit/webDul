@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { PRODUCTS } from '../data/products';
+import initialCatalog from '../../data/catalog.json';
 
 const cakes = PRODUCTS.filter(p => p.type === 'cakes');
 const buffetItems = PRODUCTS.filter(p => p.type === 'buffet');
@@ -507,18 +508,19 @@ const decorations = [
     width: 100%;
     height: 100%;
     object-fit: cover;
+    will-change: opacity;
   }
 
   .carousel-img.active-img {
     opacity: 1;
     z-index: 2;
-    transition: opacity 700ms ease-in-out;
+    transition: opacity 800ms ease-in-out;
   }
 
   .carousel-img.next-img {
     opacity: 0;
-    z-index: 1;
-    transition: opacity 700ms ease-in-out;
+    z-index: 3;
+    transition: opacity 800ms ease-in-out;
   }
 
   .carousel-img.brightness-pulse {
@@ -533,13 +535,13 @@ const decorations = [
 
   .carousel-img.fade-out {
     opacity: 0;
-    transition: opacity 700ms ease-in-out;
+    transition: opacity 800ms ease-in-out;
   }
 
   .carousel-img.fade-in {
     opacity: 1;
     z-index: 3;
-    transition: opacity 700ms ease-in-out;
+    transition: opacity 800ms ease-in-out;
   }
 
 
@@ -1198,7 +1200,7 @@ const decorations = [
   }
 </style>
 
-<script>
+<script define:vars={{ initialCatalog }}>
   let cart: any[] = [];
 
   const floatingCartBtn = document.getElementById('floating-cart-btn');
@@ -1321,6 +1323,32 @@ const decorations = [
     }
   });
 
+  // Helper para obtener las opciones por defecto de un producto según el catálogo
+  const getDefaultOptionsForProduct = (productId: string) => {
+    let activeCat = initialCatalog;
+    try {
+      const saved = localStorage.getItem('el_lider_admin_catalog');
+      if (saved) activeCat = JSON.parse(saved);
+    } catch (e) {}
+
+    const options: Record<string, string> = {};
+    if (activeCat && activeCat.product_options) {
+      const prodOpts = activeCat.product_options.filter((po: any) => po.product_id === productId && po.is_enabled);
+      prodOpts.forEach((po: any) => {
+        if (po.is_base && !options[po.option_id]) {
+          options[po.option_id] = po.option_value_id;
+        }
+      });
+      // Fallback si no hay is_base marcado
+      prodOpts.forEach((po: any) => {
+        if (!options[po.option_id]) {
+          options[po.option_id] = po.option_value_id;
+        }
+      });
+    }
+    return options;
+  };
+
   const buyNowButtons = document.querySelectorAll('.buy-now-btn');
   buyNowButtons.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -1330,6 +1358,7 @@ const decorations = [
       const type = btn.getAttribute('data-type') || 'cakes';
 
       const isCake = type === 'cakes';
+      const defaultOptions = isCake ? getDefaultOptionsForProduct(id) : {};
 
       cart = [{
         uniqueId: (Date.now() + Math.random()).toString(),
@@ -1340,7 +1369,8 @@ const decorations = [
         customizable: isCake,
         type,
         category: isCake ? 'cakes' : 'buffet',
-        dough: isCake ? 'trigo' : '',
+        dough: 'trigo',
+        options: defaultOptions,
         size: '',
         doubleHeight: false
       }];
@@ -1384,6 +1414,7 @@ const decorations = [
       const isCake = type === 'cakes';
 
       if (isCake) {
+        const defaultOptions = getDefaultOptionsForProduct(id);
         cart.push({
           uniqueId: (Date.now() + Math.random()).toString(),
           id,
@@ -1394,6 +1425,7 @@ const decorations = [
           type,
           category: 'cakes',
           dough: 'trigo',
+          options: defaultOptions,
           size: id === 'cake-redondo' ? '20' : (id === 'cake-bandeja' ? 'media' : ''),
           doubleHeight: false
         });
@@ -1461,6 +1493,12 @@ const decorations = [
     };
 
     carouselRegistry.push(item);
+
+    // Precargar de inmediato en memoria del navegador todas las imágenes del carrusel
+    images.forEach(src => {
+      const imgPreload = new Image();
+      imgPreload.src = src;
+    });
   });
 
   // Un solo observer para saber cuáles están visibles en el viewport
@@ -1506,31 +1544,60 @@ const decorations = [
     chosen.currentIndex = (chosen.currentIndex + 1) % chosen.images.length;
     const nextSrc = chosen.images[chosen.currentIndex];
 
-    chosen.nextImg.style.opacity = '';
-    chosen.nextImg.src = nextSrc;
+    // Asegurar que la imagen entrante ya esté cargada y lista antes de iniciar la transición
+    const tempLoader = new Image();
+    tempLoader.src = nextSrc;
+    const onReady = () => {
+      chosen.nextImg.src = nextSrc;
 
-    // 1. Destello de brillo óptico suave (450ms)
-    chosen.activeImg.classList.add('brightness-pulse');
+      // 1. Destello óptico suave (450ms) sobre la imagen activa
+      chosen.activeImg.classList.add('brightness-pulse');
 
-    setTimeout(() => {
-      chosen.activeImg.classList.remove('brightness-pulse');
-      chosen.activeImg.classList.add('fade-out');
-      chosen.nextImg.classList.add('fade-in');
-
-      // 2. Transición cruzada suave (700ms)
       setTimeout(() => {
-        // La imagen entrante pasa a ser la activa
-        chosen.activeImg.src = nextSrc;
-        chosen.activeImg.classList.remove('fade-out');
-        chosen.nextImg.classList.remove('fade-in');
-        chosen.nextImg.style.opacity = '0';
+        chosen.activeImg.classList.remove('brightness-pulse');
+        // 2. Cross-fade suave: nextImg aparece al 100% por encima de activeImg
+        chosen.nextImg.classList.add('fade-in');
+        chosen.activeImg.classList.add('fade-out');
 
+        setTimeout(async () => {
+          // 3. Con nextImg cubriendo la vista por completo (z-index 3),
+          // actualizamos activeImg en silencio
+          chosen.activeImg.style.transition = 'none';
+          chosen.activeImg.src = nextSrc;
+          chosen.activeImg.classList.remove('fade-out');
+
+          if ('decode' in chosen.activeImg) {
+            try { await chosen.activeImg.decode(); } catch (e) {}
+          }
+
+          // Forzar reflujo para fijar la imagen en el render tree
+          void chosen.activeImg.offsetWidth;
+          chosen.activeImg.style.transition = '';
+
+          // 4. Ahora que activeImg es 100% visible con la nueva foto,
+          // reseteamos nextImg en silencio sin que se note ningún salto
+          chosen.nextImg.style.transition = 'none';
+          chosen.nextImg.classList.remove('fade-in');
+          void chosen.nextImg.offsetWidth;
+          chosen.nextImg.style.transition = '';
+
+          isGlobalAnimating = false;
+
+          // 5. Catálogo en reposo absoluto durante 3 segundos antes del siguiente cambio
+          setTimeout(runGlobalOrchestrator, 3000);
+        }, 800);
+      }, 450);
+    };
+
+    if (tempLoader.complete) {
+      onReady();
+    } else {
+      tempLoader.onload = onReady;
+      tempLoader.onerror = () => {
         isGlobalAnimating = false;
-
-        // 3. Catálogo estático antes del siguiente cambio
-        setTimeout(runGlobalOrchestrator, 3000);
-      }, 700);
-    }, 450);
+        setTimeout(runGlobalOrchestrator, 1000);
+      };
+    }
   }
 
   // Arrancar el orquestador central tras 2 segundos iniciales de reposo total

@@ -608,13 +608,22 @@ const initialCatalog = catalogData;
     cart.forEach(item => {
       item.uniqueId = item.uniqueId || (Date.now() + Math.random()).toString();
       if (item.customizable) {
-        if (item.id === 'cake-redondo') {
-          item.size = item.size || '20';
-          if (item.doubleHeight === undefined) item.doubleHeight = false;
-        } else if (item.id === 'cake-bandeja') {
-          item.size = item.size || 'media';
-        } else if (item.id === 'minicake') {
-          if (item.doubleHeight === undefined) item.doubleHeight = false;
+        // Garantizar que item.options tenga las opciones base del catálogo si no viniesen definidas
+        if (!item.options || Object.keys(item.options).length === 0) {
+          item.options = {};
+          if (activeCatalog && activeCatalog.product_options) {
+            const prodOpts = activeCatalog.product_options.filter(po => po.product_id === item.id && po.is_enabled);
+            prodOpts.forEach(po => {
+              if (po.is_base && !item.options[po.option_id]) {
+                item.options[po.option_id] = po.option_value_id;
+              }
+            });
+            prodOpts.forEach(po => {
+              if (!item.options[po.option_id]) {
+                item.options[po.option_id] = po.option_value_id;
+              }
+            });
+          }
         }
       }
     });
