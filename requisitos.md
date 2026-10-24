@@ -76,6 +76,8 @@ En este archivo se lleva el control del estado de las características planifica
 - [x] Precios Únicos y Cerrados en Doble Masa: Eliminación de precios aditivos (+diff CUP) para mostrar estrictamente el precio final total del producto configurado (ej: Cake 22cm Doble Masa $6500 CUP).
 - [x] Erradicación de Emojis Genéricos por SVGs Inline: Reemplazo completo de emojis por iconos vectoriales SVG limpios y consistentes en checkout y badges.
 - [x] Máximo Contraste en Botón de Pedido: Botón `#confirm-whatsapp-checkout-btn` optimizado con verde esmeralda y tipografía de alto contraste legible bajo norma WCAG AA.
+- [x] Eliminación del chip redundante de WhatsApp en el Paso 3 de la sección "¿Cómo es el flujo de encargo?" para preservar la simetría visual de las tarjetas.
+- [x] Configuración del servidor MCP de Playwright (`@playwright/mcp`) canalizado vía `n8n-app` con capacidades de visión (`--caps vision`) e inspección visual automatizada.
 - [x] Restauración del botón "Comprar Ahora" al volver atrás mediante evento `pageshow`.
 - [x] Fix: Precarga de imágenes y erradicación del flash final en la animación del carrusel con cross-fade continuo y una sola card a la vez.
 - [x] Suite de pruebas automatizadas con verificación del flujo de checkout y carrusel (`tests/certify-flow.mjs`).
