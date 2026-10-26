@@ -44,13 +44,15 @@ const pillars = [
       <div class="hero-logo-wrap">
         <img src="/logo-correcto.png" alt="Dulcería El Líder Logo" class="hero-logo" />
       </div>
-      <span class="hero-badge">✨ Dulcería Fina Artesanal</span>
-      <h1 class="hero-title">El Arte de la Dulcería Fina</h1>
-      <p class="hero-subtitle">Cakes exclusivos y dulces artesanales elaborados por encargo para hacer de tu fiesta una ocasión única.</p>
+      <span class="hero-badge">Cakes y Dulces por Encargo</span>
+      <h1 class="hero-title">La Mejor Calidad al Mejor Precio</h1>
+      <p class="hero-subtitle">
+        Variedad en cakes por encargo y buffet para que tu cumpleaños o fiesta tenga exactamente lo que buscas, a <a href="#catalogo" id="hero-quick-star-cake" class="hero-highlight-link" title="Encargar nuestro cake más popular de 22 cm">un solo clic</a> de distancia.
+      </p>
       
       <!-- Flecha de scroll indicador con animación suave -->
-      <a href="#catalogo" id="hero-scroll-btn" class="hero-scroll-indicator" aria-label="Explorar la carta">
-        <span class="scroll-label">Ver catálogo</span>
+      <a href="#catalogo" id="hero-scroll-btn" class="hero-scroll-indicator" aria-label="Explorar la carta de precios">
+        <span class="scroll-label">Ver carta de precios</span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="scroll-arrow">
           <polyline points="6 9 12 15 18 9"></polyline>
         </svg>
@@ -361,6 +363,20 @@ const pillars = [
     line-height: 1.6;
     max-width: 540px;
     opacity: 0.95;
+  }
+
+  .hero-highlight-link {
+    color: var(--accent-light);
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+    transition: color var(--transition-fast), text-shadow var(--transition-fast);
+  }
+
+  .hero-highlight-link:hover {
+    color: #FFFFFF;
+    text-shadow: 0 0 8px rgba(255, 140, 66, 0.6);
   }
 
   /* Flecha interactiva de scroll */
@@ -1654,6 +1670,19 @@ const pillars = [
     const target = document.getElementById('catalogo');
     if (target) {
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+
+  // Enlace interactivo en el Hero para encargo rápido del Cake de 22 cm
+  const heroQuickStarCake = document.getElementById('hero-quick-star-cake');
+  heroQuickStarCake?.addEventListener('click', (e) => {
+    e.preventDefault();
+    const cake22Btn = document.querySelector('.buy-now-btn[data-id="cake-22"]');
+    if (cake22Btn) {
+      cake22Btn.click();
+    } else {
+      const target = document.getElementById('catalogo');
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   });
 

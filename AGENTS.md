@@ -15,6 +15,8 @@ Este proyecto se ejecuta en el VPS (`carmay-dev`). La información de servicios,
 ## Mandatory Workflow
 - **`requisitos.md`**: Always update `requisitos.md` in the repo root when working on features or bugfixes. Mark finished items with `[x]` and pending items with `[ ]`.
 
+- **DESPLIEGUE A PRODUCCIÓN OBLIGATORIO (INVIOLABLE)**: Todo cambio visible (código, estilos, contenido) DEBE terminar desplegado en Vercel producción. Un `npm run build` local NO es entrega. Secuencia obligatoria al cerrar cualquier tarea: `npm run build` -> `npx vercel --prod --token <token> --yes` -> commit + `git push origin main` -> verificación en vivo con Playwright MCP (HTML + captura) sobre `https://dulceria-el-lider.vercel.app`. Prohibido decir "listo" sin haber verificado el cambio en producción.
+
 ## Essential Commands
 - `npm run dev` - Start local development server (`localhost:4321`)
 - `npm run build` - Build production site into `./dist/`
