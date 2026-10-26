@@ -2,7 +2,7 @@ import { JSDOM } from 'jsdom';
 import fs from 'fs';
 import path from 'path';
 
-console.log('🧪 Iniciando prueba E2E completa: Click Comprar Ahora en Landing -> Carga y renderizado en Pedido...');
+console.log('🧪 Iniciando prueba E2E completa: Click Encargar Ahora en Landing -> Carga y renderizado en Pedido...');
 
 // 1. Cargar dist/index.html
 const indexHtml = fs.readFileSync(path.resolve('dist/index.html'), 'utf8');
@@ -16,11 +16,11 @@ const scriptIndexMatch = indexHtml.match(/<script>([\s\S]*?)<\/script>/);
 winIndex.IntersectionObserver = class { observe() {} unobserve() {} disconnect() {} };
 winIndex.eval(scriptIndexMatch[1]);
 
-// 2. Disparar CLICK en Comprar Ahora del "Cake de 22 cm"
+// 2. Disparar CLICK en Encargar Ahora del "Cake de 22 cm"
 const targetCard = winIndex.document.querySelector('.cake-card[data-id="cake-22"]');
 const buyNowBtn = targetCard.querySelector('.buy-now-btn');
 
-console.log('🖱️ Disparando click en "Comprar Ahora" de Cake de 22 cm en la Landing...');
+console.log('🖱️ Disparando click en "Encargar Ahora" de Cake de 22 cm en la Landing...');
 buyNowBtn.dispatchEvent(new winIndex.MouseEvent('click', { bubbles: true, cancelable: true }));
 
 const savedCartJson = winIndex.localStorage.getItem('el_lider_cart');
