@@ -82,6 +82,7 @@ En este archivo se lleva el control del estado de las características planifica
 - [x] Sección Decoraciones Pulida: eliminado badge "Alta Pastelería", bajada directa sin poeticismo, y pilares simplificados a "Infantiles y Temáticos", "Diseños Clásicos", "Bodas y Quince Años".
 - [x] Sección Flujo de Encargo Pulida: badge "Así Funciona", título "¿Cómo encargar tu cake?", pasos con textos directos sin lenguaje técnico ("flujo", "ticket", "formulario").
 - [x] Footer Pulido: eliminado emoji 🎂, quitada la palabra "finos" y "artesanal", badge "Online" removido, label directo "Pedidos por WhatsApp".
+- [x] Drawer del Carrito Unificado: título "Tu Encargo", estado vacío "Tu encargo está vacío", botón de checkout directo "Continúa y Personaliza tu Encargo →", botón volver "← Volver a la carta".
 - [x] Eliminación del chip redundante de WhatsApp en el Paso 3 de la sección "¿Cómo es el flujo de encargo?" para preservar la simetría visual de las tarjetas.
 - [x] Configuración del servidor MCP de Playwright (`@playwright/mcp`) canalizado vía `n8n-app` con capacidades de visión (`--caps vision`) e inspección visual automatizada.
 - [x] Restauración del botón "Comprar Ahora" al volver atrás mediante evento `pageshow`.
