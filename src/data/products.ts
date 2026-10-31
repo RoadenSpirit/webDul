@@ -75,11 +75,11 @@ export const PRODUCTS: Product[] = [
     type: 'cakes',
     base_price: 18000,
     description: 'Cake redondo de 36 cm.',
-    image: '/images/products/cakes/redondo-1.webp',
+    image: '/images/products/cakes/cake-25-1.webp',
     images: [
-      '/images/products/cakes/redondo-1.webp',
-      '/images/products/cakes/redondo-2.webp',
-      '/images/products/cakes/redondo-3.webp'
+      '/images/products/cakes/cake-25-1.webp',
+      '/images/products/cakes/cake-25-2.webp',
+      '/images/products/cakes/cake-25-3.webp'
     ]
   },
 
