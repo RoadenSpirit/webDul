@@ -90,11 +90,11 @@ export const PRODUCTS: Product[] = [
     type: 'cakes',
     base_price: 6700,
     description: 'Media bandeja rectangular.',
-    image: '/images/products/cakes/bandeja-1.webp',
+    image: '/images/products/cakes/cake-bandeja-1.webp',
     images: [
-      '/images/products/cakes/bandeja-1.webp',
-      '/images/products/cakes/bandeja-2.webp',
-      '/images/products/cakes/bandeja-3.webp'
+      '/images/products/cakes/cake-bandeja-1.webp',
+      '/images/products/cakes/cake-bandeja-2.webp',
+      '/images/products/cakes/cake-bandeja-3.webp'
     ]
   },
   {
