@@ -496,12 +496,26 @@ const pillars = [
   }
 
   /* ============================================================
-     CAKES GRID DIRECTO (4 Categorías limpias)
+     CAKES GRID DIRECTO (max 4 columnas, tarjetas grandes)
      ============================================================ */
   .cakes-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 0.75rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .cakes-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.7rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .cakes-grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.9rem;
+    }
   }
 
   .cake-card {
@@ -517,7 +531,7 @@ const pillars = [
   .cake-image-wrap {
     position: relative;
     width: 100%;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 1 / 1;
     overflow: hidden;
     background: #F4E9E0;
   }
@@ -738,12 +752,26 @@ const pillars = [
   }
 
   /* ============================================================
-     BUFFET GRID
+     BUFFET GRID (max 4 columnas, tarjetas grandes)
      ============================================================ */
   .buffet-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-    gap: 0.75rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .buffet-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.7rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .buffet-grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.9rem;
+    }
   }
 
   .buffet-card {
