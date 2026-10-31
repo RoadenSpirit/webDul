@@ -81,6 +81,7 @@ En este archivo se lleva el control del estado de las características planifica
 - [x] Sección Buffet Pulida: Badge "Ofertas de Buffet", título "Buffet y Bocaditos por Encargo", bajada directa con productos reales de la mesa de fiesta, y botón estandarizado "Encargar Ahora".
 - [x] Sección Decoraciones Pulida: eliminado badge "Alta Pastelería", bajada directa sin poeticismo, y pilares simplificados a "Infantiles y Temáticos", "Diseños Clásicos", "Bodas y Quince Años".
 - [x] Sección Flujo de Encargo Pulida: badge "Así Funciona", título "¿Cómo encargar tu cake?", pasos con textos directos sin lenguaje técnico ("flujo", "ticket", "formulario").
+- [x] Footer Pulido: eliminado emoji 🎂, quitada la palabra "finos" y "artesanal", badge "Online" removido, label directo "Pedidos por WhatsApp".
 - [x] Eliminación del chip redundante de WhatsApp en el Paso 3 de la sección "¿Cómo es el flujo de encargo?" para preservar la simetría visual de las tarjetas.
 - [x] Configuración del servidor MCP de Playwright (`@playwright/mcp`) canalizado vía `n8n-app` con capacidades de visión (`--caps vision`) e inspección visual automatizada.
 - [x] Restauración del botón "Comprar Ahora" al volver atrás mediante evento `pageshow`.
