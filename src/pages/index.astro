@@ -908,14 +908,21 @@ const pillars = [
 
   .pillars-showcase-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1rem;
     margin-top: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .pillars-showcase-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
   }
 
   .pillar-card {
     position: relative;
-    height: 520px;
+    height: 320px;
     border-radius: var(--border-radius-xl);
     overflow: hidden;
     box-shadow: 0 10px 30px rgba(42, 10, 20, 0.12);
@@ -924,6 +931,12 @@ const pillars = [
     flex-direction: column;
     justify-content: flex-end;
     background: #200810;
+  }
+
+  @media (min-width: 768px) {
+    .pillar-card {
+      height: 520px;
+    }
   }
 
   .pillar-image-container {
