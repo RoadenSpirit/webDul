@@ -16,39 +16,30 @@ export const PRODUCTS: Product[] = [
     type: 'cakes',
     base_price: 2500,
     description: 'MiniCake de 15 cm de diámetro.',
-    image: '/images/products/cakes/redondo-1.webp',
+    image: '/images/products/cakes/mini-1.webp',
     images: [
-      '/images/products/cakes/redondo-1.webp',
-      '/images/products/cakes/redondo-2.webp',
-      '/images/products/cakes/redondo-3.webp'
+      '/images/products/cakes/mini-1.webp',
+      '/images/products/cakes/mini-2.webp',
+      '/images/products/cakes/mini-3.webp',
+      '/images/products/cakes/mini-4.webp',
+      '/images/products/cakes/mini-5.webp'
     ]
   },
-  
+
   // 2. Cakes Redondos
-  {
-    id: 'cake-20',
-    name: 'Cake de 20 cm',
-    type: 'cakes',
-    base_price: 3900,
-    description: 'Cake redondo de 20 cm.',
-    image: '/images/products/cakes/redondo-4.webp',
-    images: [
-      '/images/products/cakes/redondo-4.webp',
-      '/images/products/cakes/redondo-5.webp',
-      '/images/products/cakes/redondo-6.webp'
-    ]
-  },
   {
     id: 'cake-22',
     name: 'Cake de 22 cm',
     type: 'cakes',
     base_price: 3800,
     description: 'Cake redondo de 22 cm.',
-    image: '/images/products/cakes/redondo-7.webp',
+    image: '/images/products/cakes/cake-22-1.webp',
     images: [
-      '/images/products/cakes/redondo-7.webp',
-      '/images/products/cakes/redondo-8.webp',
-      '/images/products/cakes/redondo-9.webp'
+      '/images/products/cakes/cake-22-1.webp',
+      '/images/products/cakes/cake-22-2.webp',
+      '/images/products/cakes/cake-22-3.webp',
+      '/images/products/cakes/cake-22-4.webp',
+      '/images/products/cakes/cake-22-5.webp'
     ]
   },
   {
@@ -57,11 +48,12 @@ export const PRODUCTS: Product[] = [
     type: 'cakes',
     base_price: 6500,
     description: 'Cake redondo de 25 cm.',
-    image: '/images/products/cakes/redondo-10.webp',
+    image: '/images/products/cakes/cake-25-1.webp',
     images: [
-      '/images/products/cakes/redondo-10.webp',
-      '/images/products/cakes/redondo-11.webp',
-      '/images/products/cakes/redondo-12.webp'
+      '/images/products/cakes/cake-25-1.webp',
+      '/images/products/cakes/cake-25-2.webp',
+      '/images/products/cakes/cake-25-3.webp',
+      '/images/products/cakes/cake-25-4.webp'
     ]
   },
   {
@@ -70,11 +62,11 @@ export const PRODUCTS: Product[] = [
     type: 'cakes',
     base_price: 14000,
     description: 'Cake redondo de 30 cm.',
-    image: '/images/products/cakes/redondo-13.webp',
+    image: '/images/products/cakes/cake-30-1.webp',
     images: [
-      '/images/products/cakes/redondo-13.webp',
-      '/images/products/cakes/redondo-14.webp',
-      '/images/products/cakes/redondo-1.webp'
+      '/images/products/cakes/cake-30-1.webp',
+      '/images/products/cakes/cake-30-2.webp',
+      '/images/products/cakes/cake-30-3.webp'
     ]
   },
   {
@@ -83,11 +75,11 @@ export const PRODUCTS: Product[] = [
     type: 'cakes',
     base_price: 18000,
     description: 'Cake redondo de 36 cm.',
-    image: '/images/products/cakes/redondo-6.webp',
+    image: '/images/products/cakes/redondo-1.webp',
     images: [
-      '/images/products/cakes/redondo-6.webp',
-      '/images/products/cakes/redondo-7.webp',
-      '/images/products/cakes/redondo-8.webp'
+      '/images/products/cakes/redondo-1.webp',
+      '/images/products/cakes/redondo-2.webp',
+      '/images/products/cakes/redondo-3.webp'
     ]
   },
 
@@ -111,13 +103,13 @@ export const PRODUCTS: Product[] = [
     type: 'cakes',
     base_price: 13500,
     description: 'Bandeja completa rectangular.',
-    image: '/images/products/cakes/bandeja-4.webp',
+    image: '/images/products/cakes/cake-bandeja-1.webp',
     images: [
-      '/images/products/cakes/bandeja-4.webp',
-      '/images/products/cakes/bandeja-5.webp',
-      '/images/products/cakes/bandeja-6.webp',
-      '/images/products/cakes/bandeja-7.webp',
-      '/images/products/cakes/bandeja-8.webp'
+      '/images/products/cakes/cake-bandeja-1.webp',
+      '/images/products/cakes/cake-bandeja-2.webp',
+      '/images/products/cakes/cake-bandeja-3.webp',
+      '/images/products/cakes/cake-bandeja-4.webp',
+      '/images/products/cakes/cake-bandeja-5.webp'
     ]
   },
 
@@ -128,12 +120,12 @@ export const PRODUCTS: Product[] = [
     type: 'cakes',
     base_price: 17000,
     description: 'Cake de 2 pisos montado en bandeja.',
-    image: '/images/products/cakes/dos-pisos-1.webp',
+    image: '/images/products/cakes/dos-pisos-bandeja-1.webp',
     images: [
-      '/images/products/cakes/dos-pisos-1.webp',
-      '/images/products/cakes/dos-pisos-2.webp',
-      '/images/products/cakes/dos-pisos-3.webp',
-      '/images/products/cakes/dos-pisos-4.webp'
+      '/images/products/cakes/dos-pisos-bandeja-1.webp',
+      '/images/products/cakes/dos-pisos-bandeja-2.webp',
+      '/images/products/cakes/dos-pisos-bandeja-3.webp',
+      '/images/products/cakes/dos-pisos-bandeja-4.webp'
     ]
   },
   {
@@ -142,16 +134,16 @@ export const PRODUCTS: Product[] = [
     type: 'cakes',
     base_price: 18000,
     description: 'Cake de 2 pisos circular (18000 - 20000).',
-    image: '/images/products/cakes/dos-pisos-5.webp',
+    image: '/images/products/cakes/dos-pisos-redondo-1.webp',
     images: [
-      '/images/products/cakes/dos-pisos-5.webp',
-      '/images/products/cakes/dos-pisos-6.webp',
-      '/images/products/cakes/dos-pisos-7.webp',
-      '/images/products/cakes/dos-pisos-8.webp',
-      '/images/products/cakes/dos-pisos-9.webp'
+      '/images/products/cakes/dos-pisos-redondo-1.webp',
+      '/images/products/cakes/dos-pisos-redondo-2.webp',
+      '/images/products/cakes/dos-pisos-redondo-3.webp',
+      '/images/products/cakes/dos-pisos-redondo-4.webp',
+      '/images/products/cakes/dos-pisos-redondo-5.webp'
     ]
   },
-  
+
   // Buffet & Postres
   {
     id: 'marquesitas-30',
