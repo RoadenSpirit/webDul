@@ -1391,8 +1391,8 @@ const initialCatalog = catalogData;
     message += `⚠️ _Las temáticas y decoraciones personalizadas se cobran adicional al valor del cake y se concertarán en este chat._\n`;
     message += `📍 Por favor, confírmenme disponibilidad para agendar. ¡Gracias!`;
 
-    // 1) Notificación automática vía el endpoint blindado de Dulcería
-    setStatus('⏳ Enviando su encargo a la dulcería…');
+    // 1) Notificación automática vía el endpoint blindado de Dulcería (cero fricción: no abre WhatsApp del cliente)
+    setStatus('⏳ Procesando y registrando su encargo…');
     if (confirmWhatsappCheckoutBtn) {
       confirmWhatsappCheckoutBtn.disabled = true;
     }
@@ -1414,7 +1414,6 @@ const initialCatalog = catalogData;
       }))
     };
 
-    let apiSuccess = false;
     try {
       const res = await fetch(ORDER_ENDPOINT, {
         method: 'POST',
@@ -1428,25 +1427,22 @@ const initialCatalog = catalogData;
         throw new Error(errData.error || `Error HTTP ${res.status}`);
       }
       const data = await res.json();
-      apiSuccess = true;
-      setStatus('✅ ¡Encargo enviado con éxito! En breve le contactaremos para agendar su pedido.', true);
+      
+      // Limpiar carrito tras encargo exitoso
+      localStorage.removeItem('el_lider_cart');
+      cart = [];
+      updateTotals();
+
+      setStatus('✅ ¡Encargo registrado con éxito! En breve le contactaremos para agendar su pedido.', true);
+      confirmWhatsappCheckoutBtn.textContent = '✓ Encargo Enviado';
+      confirmWhatsappCheckoutBtn.style.backgroundColor = '#16a34a';
     } catch (err) {
-      console.warn('Fallo en notificación automática:', err);
-      setStatus('⚠️ Se abrirá WhatsApp para coordinar su encargo directamente con Ania.', false);
+      console.error('Error al procesar pedido:', err);
+      setStatus(`❌ Error al registrar su encargo: ${err.message || 'Inténtelo de nuevo.'}`, false);
     } finally {
       if (confirmWhatsappCheckoutBtn) {
         confirmWhatsappCheckoutBtn.disabled = false;
       }
-    }
-
-    // 2) Siempre brindar respaldo por chat directo si falló el socket o para coordinar decoración
-    const encodedMessage = encodeURIComponent(message);
-    const whatsappUrl = `https://wa.me/${CLIENT_SUPPORT_PHONE}?text=${encodedMessage}`;
-    
-    // Si la API no pudo enviar los WhatsApps de forma automática (o si el cliente desea abrir chat),
-    // facilitamos el enlace directo
-    if (!apiSuccess) {
-      window.open(whatsappUrl, '_blank');
     }
   });
 
