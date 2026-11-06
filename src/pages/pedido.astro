@@ -1306,14 +1306,9 @@ const initialCatalog = catalogData;
     renderSummaryItems();
   };
 
-  // ---- MVP: Envío automático vía Baileys (NÚMERO DE PRUEBAS) ----
-  const BAILEYS_URL = 'https://ia.carmayn8n.cloud/api/wa/send';
-  const BAILEYS_API_KEY = 'REDACTED_BAILEYS_KEY';
-  // Número de pruebas del desarrollador
-  const TEST_PHONE = '5350000000';
-  // Número oficial de la dulcería (fallback)
+  // ---- Envío Seguro Dedicado a Baileys (Sin exponer API Key) ----
+  const ORDER_ENDPOINT = 'https://ia.carmayn8n.cloud/api/wa/order/dulceria';
   const CLIENT_SUPPORT_PHONE = '5351394921';
-  const SHOP_CHAT_ID = `${TEST_PHONE}@s.whatsapp.net`;
 
   const normalizePhone = (raw) => {
     let digits = (raw || '').replace(/\D/g, '');
@@ -1357,10 +1352,10 @@ const initialCatalog = catalogData;
       orderStatus.style.color = ok === true ? '#25D366' : ok === false ? '#FF6B6B' : '';
     };
 
-    const phoneNumber = SHOP_PHONE;
     const dateParts = deliveryDate.split('-');
     const formattedDate = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
 
+    // Construir mensaje legible para respaldo directo por WhatsApp
     let message = `🍰 *NUEVO ENCARGO \u2014 DULCERÍA EL LÍDER* 🍰\n\n`;
     message += `👤 *CLIENTE:* ${customerName}\n`;
     message += `📱 *WHATSAPP CLIENTE:* +${customerPhone}\n`;
@@ -1396,35 +1391,63 @@ const initialCatalog = catalogData;
     message += `⚠️ _Las temáticas y decoraciones personalizadas se cobran adicional al valor del cake y se concertarán en este chat._\n`;
     message += `📍 Por favor, confírmenme disponibilidad para agendar. ¡Gracias!`;
 
-    // 1) Notificación automática a la dulcería vía Baileys
+    // 1) Notificación automática vía el endpoint blindado de Dulcería
     setStatus('⏳ Enviando su encargo a la dulcería…');
     if (confirmWhatsappCheckoutBtn) {
       confirmWhatsappCheckoutBtn.disabled = true;
     }
+
+    // Payload tipado y validado contra el backend
+    const payload = {
+      customerName,
+      customerPhone,
+      deliveryDate,
+      deliveryTime,
+      items: cart.map(item => ({
+        id: item.id,
+        quantity: item.quantity,
+        options: item.options || {},
+        doubleHeight: item.doubleHeight || false,
+        ediblePrint: item.ediblePrint || false,
+        note: item.note || '',
+        refPhotoName: item.refPhotoName || ''
+      }))
+    };
+
+    let apiSuccess = false;
     try {
-      const res = await fetch(BAILEYS_URL, {
+      const res = await fetch(ORDER_ENDPOINT, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': BAILEYS_API_KEY
+          'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ chatId: SHOP_CHAT_ID, message })
+        body: JSON.stringify(payload)
       });
-      if (!res.ok) throw new Error(`Baileys respondió ${res.status}`);
-      setStatus('✅ ¡Encargo enviado! La dulcería le confirmará por WhatsApp.', true);
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        throw new Error(errData.error || `Error HTTP ${res.status}`);
+      }
+      const data = await res.json();
+      apiSuccess = true;
+      setStatus('✅ ¡Encargo enviado con éxito! En breve le contactaremos para agendar su pedido.', true);
     } catch (err) {
-      console.error('Baileys send failed:', err);
-      setStatus('⚠️ No se pudo avisar automáticamente. Se abrirá WhatsApp para completar su encargo.', false);
+      console.warn('Fallo en notificación automática:', err);
+      setStatus('⚠️ Se abrirá WhatsApp para coordinar su encargo directamente con Ania.', false);
     } finally {
       if (confirmWhatsappCheckoutBtn) {
         confirmWhatsappCheckoutBtn.disabled = false;
       }
     }
 
-    // 2) Respaldo: abrir el chat de WhatsApp de atención al cliente
+    // 2) Siempre brindar respaldo por chat directo si falló el socket o para coordinar decoración
     const encodedMessage = encodeURIComponent(message);
     const whatsappUrl = `https://wa.me/${CLIENT_SUPPORT_PHONE}?text=${encodedMessage}`;
-    window.open(whatsappUrl, '_blank');
+    
+    // Si la API no pudo enviar los WhatsApps de forma automática (o si el cliente desea abrir chat),
+    // facilitamos el enlace directo
+    if (!apiSuccess) {
+      window.open(whatsappUrl, '_blank');
+    }
   });
 
   // Initialization
