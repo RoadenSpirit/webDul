@@ -2,6 +2,12 @@
 
 En este archivo se lleva el control del estado de las características planificadas, aprobadas e implementadas en el proyecto.
 
+## Características Recientes
+- [x] Corrección crítica de bug en botón de checkout (`#confirm-whatsapp-checkout-btn`): eliminación de variable no definida `SHOP_PHONE` y descarte de API Key expuesta en frontend.
+- [x] Creación de endpoint dedicado y público en Baileys (`/api/wa/order/dulceria`): validación contra catálogo oficial, rate-limiting por IP, recálculo seguro de totales en backend.
+- [x] Doble despacho automático de WhatsApp: notificación estructurada a Ania ("Jefa") con datos de contacto directos (`wa.me`) y mensaje de confirmación al cliente ("En breve le contactaremos para agendar su pedido").
+- [x] Despliegue obligatorio y verificación en vivo en producción (`https://dulceria-el-lider.vercel.app/pedido`).
+
 ## Características Completadas
 - [x] Rediseño del Checkout con Tailwind CSS y selectores premium de fecha/hora.
 - [x] Corrección de colisión del Hero de DaisyUI usando clases nativas de Tailwind CSS.
