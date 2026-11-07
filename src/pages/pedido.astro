@@ -126,6 +126,56 @@ const initialCatalog = catalogData;
     </div>
   </div>
   </div>
+
+  <!-- Modal / Pop-up de Estado del Encargo y Redirección -->
+  <div id="order-modal-overlay" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4 transition-opacity duration-300">
+    <div id="order-modal-card" class="bg-[var(--bg-card)] border-2 border-[var(--border-color)] rounded-2xl max-w-md w-full p-6 text-center shadow-2xl relative transform transition-all scale-95 opacity-0">
+      <!-- Estado: Cargando / Procesando -->
+      <div id="modal-loading-state" class="flex flex-col items-center justify-center py-6 space-y-4">
+        <div class="relative w-16 h-16 flex items-center justify-center">
+          <div class="w-16 h-16 rounded-full border-4 border-[var(--border-color)] border-t-[var(--accent-color)] animate-spin"></div>
+          <span class="absolute text-2xl">🍰</span>
+        </div>
+        <h3 class="text-xl font-black text-white">Registrando su Encargo</h3>
+        <p class="text-sm text-[var(--neutral-cream)] max-w-xs leading-relaxed">
+          Estamos procesando los detalles y notificando a la dulcería vía WhatsApp…
+        </p>
+      </div>
+
+      <!-- Estado: Éxito -->
+      <div id="modal-success-state" class="hidden flex-col items-center justify-center py-4 space-y-4">
+        <div class="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center text-3xl shadow-lg">
+          ✓
+        </div>
+        <h3 class="text-2xl font-black text-white">¡Encargo Recibido!</h3>
+        <p class="text-sm text-[var(--neutral-cream)] leading-relaxed px-2">
+          Su encargo ha sido registrado con éxito. En breve nos comunicaremos con usted por WhatsApp para coordinar los detalles.
+        </p>
+        <div class="w-full bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl p-3 text-xs text-[var(--text-secondary)] flex items-center justify-center gap-2">
+          <span>Redirigiendo al inicio en</span>
+          <span id="modal-countdown" class="font-black text-base text-[var(--accent-light)]">4</span>
+          <span>segundos…</span>
+        </div>
+        <a href="/" class="inline-block mt-2 text-xs font-bold text-[var(--accent-light)] hover:underline">
+          Volver a la tienda ahora →
+        </a>
+      </div>
+
+      <!-- Estado: Error -->
+      <div id="modal-error-state" class="hidden flex-col items-center justify-center py-4 space-y-4">
+        <div class="w-16 h-16 rounded-full bg-rose-500/20 text-rose-400 border border-rose-500/40 flex items-center justify-center text-3xl shadow-lg">
+          ✕
+        </div>
+        <h3 class="text-xl font-black text-white">Hubo un Inconveniente</h3>
+        <p id="modal-error-message" class="text-sm text-rose-300 leading-relaxed px-2">
+          No se pudo completar el encargo en este momento.
+        </p>
+        <button type="button" id="modal-close-btn" class="w-full py-3 bg-[var(--bg-secondary)] hover:bg-[var(--border-color)] text-white font-bold text-sm rounded-xl transition-colors border border-[var(--border-color)]">
+          Cerrar y Revisar
+        </button>
+      </div>
+    </div>
+  </div>
 </Layout>
 
 <style>
@@ -838,6 +888,12 @@ const initialCatalog = catalogData;
     }
   } catch (e) {}
 
+  // Formateador de precios en miles (ej: 1.000.000)
+  const formatMiles = (val) => {
+    const num = Math.round(Number(val) || 0);
+    return num.toLocaleString('es-ES');
+  };
+
   const calculateItemUnitPrice = (item) => {
     let unit = item.price || 0;
 
@@ -901,29 +957,111 @@ const initialCatalog = catalogData;
   const renderSummaryItems = () => {
     if (!summaryItemsList) return;
     sortCart();
+    
+    if (cart.length === 0) {
+      summaryItemsList.innerHTML = `
+        <div class="text-center py-6 px-3 bg-[var(--bg-primary)] border border-dashed border-[var(--border-color)] rounded-xl">
+          <p class="text-sm text-[var(--text-secondary)]">No hay productos en su encargo.</p>
+          <a href="/#catalogo" class="inline-block mt-2 text-xs font-bold text-[var(--accent-light)] hover:underline">Ir al Catálogo →</a>
+        </div>
+      `;
+      return;
+    }
+
     let html = '';
     
     cart.forEach((item, index) => {
       const metaInfo = getProductIcon(item);
       const customizedUnitPrice = calculateItemUnitPrice(item);
       const fullTitle = getItemFullTitle(item);
+      const subtotal = customizedUnitPrice * item.quantity;
 
       html += `
-        <div class="flex flex-col gap-2 bg-[var(--bg-primary)] border border-[var(--border-color)] p-4 rounded-xl shadow-sm text-center">
-          <div class="flex items-center justify-center gap-2">
-            <span class="inline-flex items-center justify-center w-7 h-7 rounded-full font-bold shadow-sm" style="background-color: ${metaInfo.color};" title="${metaInfo.label}">${metaInfo.svg}</span>
-            <span class="text-xs uppercase tracking-wider font-extrabold text-[var(--accent-light)]">${metaInfo.label}</span>
+        <div class="flex flex-col gap-2.5 bg-[var(--bg-primary)] border border-[var(--border-color)] p-3.5 sm:p-4 rounded-xl shadow-sm relative group">
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <span class="inline-flex items-center justify-center w-6 h-6 rounded-full font-bold shadow-sm" style="background-color: ${metaInfo.color};" title="${metaInfo.label}">${metaInfo.svg}</span>
+              <span class="text-[11px] uppercase tracking-wider font-extrabold text-[var(--accent-light)]">${metaInfo.label}</span>
+            </div>
+            <!-- Botón Eliminar Producto Completo -->
+            <button 
+              type="button" 
+              class="summary-remove-btn text-zinc-400 hover:text-rose-400 p-1 rounded-md hover:bg-rose-500/10 transition-colors" 
+              data-index="${index}" 
+              title="Eliminar este producto del encargo"
+            >
+              <svg class="w-4 h-4 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+            </button>
           </div>
-          <h4 class="text-lg sm:text-xl font-black text-white leading-snug px-2">${fullTitle}</h4>
-          <div class="flex items-center justify-center gap-3 text-sm font-semibold text-[var(--neutral-cream)] pt-2 border-t border-[var(--border-color)]/40 mt-1">
-            <span>Cantidad: <strong class="text-white text-base">${item.quantity}</strong></span>
-            <span>•</span>
-            <span class="text-[var(--accent-light)] font-black text-lg">$${customizedUnitPrice * item.quantity} CUP</span>
+          
+          <h4 class="text-base sm:text-lg font-black text-white leading-snug">${fullTitle}</h4>
+          
+          <!-- Controles de Cantidad y Subtotal -->
+          <div class="flex items-center justify-between pt-2.5 border-t border-[var(--border-color)]/50 mt-1">
+            <div class="inline-flex items-center bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-lg p-0.5">
+              <button 
+                type="button" 
+                class="summary-qty-minus w-7 h-7 flex items-center justify-center text-white hover:bg-[var(--border-color)] rounded-md font-bold transition-colors select-none" 
+                data-index="${index}" 
+                title="Disminuir cantidad"
+              >−</button>
+              <span class="w-9 text-center text-sm font-black text-white select-none">${item.quantity}</span>
+              <button 
+                type="button" 
+                class="summary-qty-plus w-7 h-7 flex items-center justify-center text-white hover:bg-[var(--border-color)] rounded-md font-bold transition-colors select-none" 
+                data-index="${index}" 
+                title="Aumentar cantidad"
+              >+</button>
+            </div>
+            <div class="text-right">
+              <span class="text-xs text-[var(--text-secondary)] block">Subtotal</span>
+              <span class="text-[var(--accent-light)] font-black text-base sm:text-lg">$${formatMiles(subtotal)} CUP</span>
+            </div>
           </div>
         </div>
       `;
     });
     summaryItemsList.innerHTML = html;
+
+    // Vincular eventos de los botones de cantidad y eliminación
+    summaryItemsList.querySelectorAll('.summary-qty-plus').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const idx = parseInt(e.currentTarget.getAttribute('data-index') || '0', 10);
+        if (cart[idx]) {
+          cart[idx].quantity = (cart[idx].quantity || 1) + 1;
+          updateTotals();
+        }
+      });
+    });
+
+    summaryItemsList.querySelectorAll('.summary-qty-minus').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const idx = parseInt(e.currentTarget.getAttribute('data-index') || '0', 10);
+        if (cart[idx]) {
+          if (cart[idx].quantity > 1) {
+            cart[idx].quantity -= 1;
+          } else {
+            // Si baja de 1, confirmar eliminación
+            cart.splice(idx, 1);
+            renderCakesCustomizers();
+          }
+          updateTotals();
+        }
+      });
+    });
+
+    summaryItemsList.querySelectorAll('.summary-remove-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const idx = parseInt(e.currentTarget.getAttribute('data-index') || '0', 10);
+        if (cart[idx]) {
+          cart.splice(idx, 1);
+          renderCakesCustomizers();
+          updateTotals();
+        }
+      });
+    });
   };
 
   const renderCakesCustomizers = () => {
@@ -1300,7 +1438,7 @@ const initialCatalog = catalogData;
       grandTotal += unit * item.quantity;
     });
 
-    if (summaryTotal) summaryTotal.textContent = `$${grandTotal} CUP`;
+    if (summaryTotal) summaryTotal.textContent = `$${formatMiles(grandTotal)} CUP`;
 
     saveCartToStorage();
     renderSummaryItems();
@@ -1316,6 +1454,65 @@ const initialCatalog = catalogData;
     if (digits.length === 8) return '53' + digits;
     return digits;
   };
+
+  // Referencias del Modal de Estado
+  const orderModalOverlay = document.getElementById('order-modal-overlay');
+  const orderModalCard = document.getElementById('order-modal-card');
+  const modalLoadingState = document.getElementById('modal-loading-state');
+  const modalSuccessState = document.getElementById('modal-success-state');
+  const modalErrorState = document.getElementById('modal-error-state');
+  const modalErrorMessage = document.getElementById('modal-error-message');
+  const modalCountdown = document.getElementById('modal-countdown');
+  const modalCloseBtn = document.getElementById('modal-close-btn');
+
+  const openOrderModal = (state = 'loading') => {
+    if (!orderModalOverlay || !orderModalCard) return;
+    orderModalOverlay.classList.remove('hidden');
+    orderModalOverlay.classList.add('flex');
+    setTimeout(() => {
+      orderModalCard.classList.remove('scale-95', 'opacity-0');
+      orderModalCard.classList.add('scale-100', 'opacity-100');
+    }, 10);
+    setOrderModalState(state);
+  };
+
+  const setOrderModalState = (state, errMsg = '') => {
+    if (modalLoadingState) modalLoadingState.classList.add('hidden');
+    if (modalSuccessState) modalSuccessState.classList.add('hidden');
+    if (modalErrorState) modalErrorState.classList.add('hidden');
+
+    if (state === 'loading') {
+      if (modalLoadingState) {
+        modalLoadingState.classList.remove('hidden');
+        modalLoadingState.classList.add('flex');
+      }
+    } else if (state === 'success') {
+      if (modalSuccessState) {
+        modalSuccessState.classList.remove('hidden');
+        modalSuccessState.classList.add('flex');
+      }
+    } else if (state === 'error') {
+      if (modalErrorState) {
+        modalErrorState.classList.remove('hidden');
+        modalErrorState.classList.add('flex');
+      }
+      if (modalErrorMessage) {
+        modalErrorMessage.textContent = errMsg || 'No se pudo completar el encargo en este momento.';
+      }
+    }
+  };
+
+  const closeOrderModal = () => {
+    if (!orderModalOverlay || !orderModalCard) return;
+    orderModalCard.classList.remove('scale-100', 'opacity-100');
+    orderModalCard.classList.add('scale-95', 'opacity-0');
+    setTimeout(() => {
+      orderModalOverlay.classList.add('hidden');
+      orderModalOverlay.classList.remove('flex');
+    }, 200);
+  };
+
+  modalCloseBtn?.addEventListener('click', closeOrderModal);
 
   // WhatsApp checkout final message composition
   confirmWhatsappCheckoutBtn?.addEventListener('click', async () => {
@@ -1391,11 +1588,12 @@ const initialCatalog = catalogData;
     message += `⚠️ _Las temáticas y decoraciones personalizadas se cobran adicional al valor del cake y se concertarán en este chat._\n`;
     message += `📍 Por favor, confírmenme disponibilidad para agendar. ¡Gracias!`;
 
-    // 1) Notificación automática vía el endpoint blindado de Dulcería (cero fricción: no abre WhatsApp del cliente)
+    // 1) Abrir Modal y Notificación automática vía el endpoint blindado de Dulcería
     setStatus('⏳ Procesando y registrando su encargo…');
     if (confirmWhatsappCheckoutBtn) {
       confirmWhatsappCheckoutBtn.disabled = true;
     }
+    openOrderModal('loading');
 
     // Payload tipado y validado contra el backend
     const payload = {
@@ -1439,9 +1637,26 @@ const initialCatalog = catalogData;
       setStatus('✅ ¡Encargo registrado con éxito! En breve le contactaremos para agendar su pedido.', true);
       confirmWhatsappCheckoutBtn.textContent = '✓ Encargo Enviado';
       confirmWhatsappCheckoutBtn.style.backgroundColor = '#16a34a';
+
+      // Mostrar estado de éxito en el Modal y arrancar cronómetro de 4s
+      setOrderModalState('success');
+      let countdown = 4;
+      if (modalCountdown) modalCountdown.textContent = countdown.toString();
+
+      const timer = setInterval(() => {
+        countdown--;
+        if (modalCountdown) modalCountdown.textContent = countdown.toString();
+        if (countdown <= 0) {
+          clearInterval(timer);
+          window.location.href = '/';
+        }
+      }, 1000);
+
     } catch (err) {
       console.error('Error al procesar pedido:', err);
-      setStatus(`❌ Error al registrar su encargo: ${err.message || 'Inténtelo de nuevo.'}`, false);
+      const msg = err.message || 'Inténtelo de nuevo más tarde.';
+      setStatus(`❌ Error al registrar su encargo: ${msg}`, false);
+      setOrderModalState('error', msg);
     } finally {
       if (confirmWhatsappCheckoutBtn) {
         confirmWhatsappCheckoutBtn.disabled = false;

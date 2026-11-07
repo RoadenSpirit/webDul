@@ -6,6 +6,13 @@ En este archivo se lleva el control del estado de las características planifica
 - [x] Corrección crítica de bug en botón de checkout (`#confirm-whatsapp-checkout-btn`): eliminación de variable no definida `SHOP_PHONE` y descarte de API Key expuesta en frontend.
 - [x] Creación de endpoint dedicado y público en Baileys (`/api/wa/order/dulceria`): validación contra catálogo oficial, rate-limiting por IP, recálculo seguro de totales en backend.
 - [x] Doble despacho automático de WhatsApp: notificación estructurada a Ania ("Jefa") con datos de contacto directos (`wa.me`) y mensaje de confirmación al cliente ("En breve le contactaremos para agendar su pedido").
+- [x] Manejo de imágenes pesadas e impresión comestible: ampliación del body-parser a 50MB (eliminando el HTTP 413) y soporte dual de adjuntos (referencia de decoración + diseño comestible) despachados como fotos nativas al WhatsApp de Ania.
+- [x] Mejora de Usabilidad en `/pedido`:
+  - Controles individuales de cantidad (+ / −) en cada ítem del resumen del encargo.
+  - Botón papelera para eliminar por completo un producto del encargo.
+  - Formateo de precios en miles (`1.000.000` / `$1.500 CUP`) en subtotales y total general.
+  - Modal Pop-up interactivo durante el despacho con loader visual animado.
+  - Notificación de éxito en el modal y cronómetro regresivo de 4 segundos que redirige al inicio (`/`).
 - [x] Despliegue obligatorio y verificación en vivo en producción (`https://dulceria-el-lider.vercel.app/pedido`).
 
 ## Características Completadas
