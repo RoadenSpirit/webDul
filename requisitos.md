@@ -20,8 +20,8 @@ En este archivo se lleva el control del estado de las características planifica
   - Eliminación de la etiqueta redundante superior "Cake por Encargo" para una estética limpia.
   - Reorganización ergonómica: primero el Subtotal a la izquierda, y a la derecha el selector numérico de cantidad junto al botón de eliminación (papelera).
 - [x] Simplificación de placeholder de temática en personalizador de cakes: `"Ej: Rosa, temática de princesas..."`.
-- [x] Actualización del titular del Hero a **"Los Mejores Cakes de Camagüey"** (con diéresis estricta en la Ü) y diseño 2D limpio con degradado de glaseado pastelero en la palabra clave "Cakes".
-- [x] Despliegue obligatorio y verificación en vivo en producción (`https://dulceria-el-lider.vercel.app`).
+- [x] Actualización del titular del Hero a **"Los Mejores Cakes de Camagüey"** (con diéresis estricta en la Ü) — revertido a texto simple limpio tras auditoría real que mostró SVG invisible.
+- [ ] Despliegue obligatorio a producción pendiente — se requiere token de Vercel para ejecutar `vercel --prod`.
 
 ## Características Completadas
 - [x] Rediseño del Checkout con Tailwind CSS y selectores premium de fecha/hora.
