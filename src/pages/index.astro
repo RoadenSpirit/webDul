@@ -46,72 +46,7 @@ const pillars = [
       </div>
       <span class="hero-badge">Cakes y Dulces por Encargo</span>
       <h1 class="hero-title" aria-label="Los Mejores Cakes de Camagüey">
-        <svg viewBox="0 0 800 220" xmlns="http://www.w3.org/2000/svg" class="w-full h-auto max-w-[750px]" role="img" aria-label="Los Mejores Cakes de Camagüey">
-          <defs>
-            <!-- Gradiente de glaseado base: crema a fucsia -->
-            <linearGradient id="frosting-grad" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#FFFFFF" />
-              <stop offset="35%" stop-color="#FFF6EB" />
-              <stop offset="65%" stop-color="#FFA26B" />
-              <stop offset="100%" stop-color="#E8196C" />
-            </linearGradient>
-            <!-- Gradiente de brillo especular superior -->
-            <linearGradient id="specular-grad" x1="0%" y1="0%" x2="0%" y2="60%">
-              <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.98" />
-              <stop offset="60%" stop-color="#FFFFFF" stop-opacity="0.3" />
-              <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0" />
-            </linearGradient>
-            <!-- Filtro de sombra profunda multicapa -->
-            <filter id="deep-shadow" x="-30%" y="-30%" width="160%" height="160%">
-              <feDropShadow dx="0" dy="4" stdDeviation="2" flood-color="#8B0C3E" flood-opacity="0.9" />
-              <feDropShadow dx="0" dy="10" stdDeviation="6" flood-color="#5C0A2A" flood-opacity="0.7" />
-              <feDropShadow dx="0" dy="18" stdDeviation="12" flood-color="#000000" flood-opacity="0.5" />
-            </filter>
-            <!-- Filtro de iluminación 3D para volumen de glaseado -->
-            <filter id="frosting-volume" x="-25%" y="-25%" width="150%" height="150%">
-              <feGaussianBlur in="SourceAlpha" stdDeviation="4" result="blur" />
-              <feSpecularLighting in="blur" surfaceScale="7" specularConstant="1.6" specularExponent="22" lighting-color="#FFFFFF" result="specular">
-                <fePointLight x="200" y="-80" z="300" />
-              </feSpecularLighting>
-              <feComposite in="specular" in2="SourceAlpha" operator="in" result="specularMask" />
-              <feDiffuseLighting in="blur" surfaceScale="5" diffuseConstant="1.1" lighting-color="#FFF5EE" result="diffuse">
-                <fePointLight x="200" y="-50" z="250" />
-              </feDiffuseLighting>
-              <feComposite in="SourceGraphic" in2="diffuse" operator="arithmetic" k1="0.6" k2="0.9" k3="0.3" k4="0" result="litBase" />
-              <feBlend in="specularMask" in2="litBase" mode="screen" />
-            </filter>
-            <!-- Máscara para el brillo superior (primer 40% del texto) -->
-            <clipPath id="top-half">
-              <rect x="0" y="0" width="800" height="100" />
-            </clipPath>
-          </defs>
-          
-          <!-- Línea 1: Los Mejores con filtro 3D -->
-          <g filter="url(#frosting-volume)">
-            <text x="400" y="85" text-anchor="middle" font-family="'Fredoka', 'Plus Jakarta Sans', sans-serif" font-size="56" font-weight="700" fill="url(#frosting-grad)" letter-spacing="-1">
-              Los Mejores
-            </text>
-          </g>
-          <!-- Capa de brillo especular en la parte superior -->
-          <g clip-path="url(#top-half)">
-            <text x="400" y="85" text-anchor="middle" font-family="'Fredoka', 'Plus Jakarta Sans', sans-serif" font-size="56" font-weight="700" fill="url(#specular-grad)" letter-spacing="-1">
-              Los Mejores
-            </text>
-          </g>
-          
-          <!-- Línea 2: Cakes de Camagüey con filtro 3D -->
-          <g filter="url(#frosting-volume)">
-            <text x="400" y="165" text-anchor="middle" font-family="'Fredoka', 'Plus Jakarta Sans', sans-serif" font-size="64" font-weight="700" fill="url(#frosting-grad)" letter-spacing="-1">
-              Cakes de Camagüey
-            </text>
-          </g>
-          <!-- Capa de brillo especular en la parte superior -->
-          <g clip-path="url(#top-half)">
-            <text x="400" y="165" text-anchor="middle" font-family="'Fredoka', 'Plus Jakarta Sans', sans-serif" font-size="64" font-weight="700" fill="url(#specular-grad)" letter-spacing="-1">
-              Cakes de Camagüey
-            </text>
-          </g>
-        </svg>
+        Los Mejores<br /><span>Cakes de Camagüey</span>
       </h1>
       <p class="hero-subtitle">
         Variedad en cakes por encargo y buffet para que tu cumpleaños o fiesta tenga exactamente lo que buscas, a <a href="#catalogo" id="hero-quick-star-cake" class="hero-highlight-link" title="Encargar nuestro cake más popular de 22 cm">un solo clic</a> de distancia.
@@ -413,89 +348,22 @@ const pillars = [
     text-transform: uppercase;
   }
 
-  /* Titular del Hero fluido, unificado y tipográficamente majestuoso */
+  /* Titular del Hero limpio y legible */
   .hero-title {
     font-family: var(--font-display);
-    font-size: clamp(2.4rem, 6.2vw, 4.4rem);
-    font-weight: 700;
-    line-height: 1.15;
-    letter-spacing: -0.02em;
-    text-wrap: balance;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.15rem;
-    margin: 0.4rem 0 0.85rem;
-  }
-
-  .drip-accent-phrase {
-    display: inline-flex;
-    align-items: baseline;
-    justify-content: center;
-    gap: 0.35em;
-    flex-wrap: wrap;
-  }
-
-  .drip-word {
-    color: #FFFFFF;
-    text-shadow: 0 4px 18px rgba(42, 10, 20, 0.9), 0 2px 4px rgba(0, 0, 0, 0.4);
-    letter-spacing: -0.01em;
-  }
-
-  .drip-location {
-    color: #FFF8F0;
-    text-shadow: 0 4px 18px rgba(42, 10, 20, 0.9), 0 2px 4px rgba(0, 0, 0, 0.4);
-  }
-
-  /* La palabra "Cakes" destacada con auténtico glaseado tipográfico bicapa: crema superior + sirope acaramelado inferior */
-  .drip-cake-word {
-    position: relative;
-    display: inline-block;
-    vertical-align: baseline;
-    line-height: 1;
+    font-size: clamp(2.6rem, 7vw, 5rem);
     font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+    text-align: center;
+    color: #FFFFFF;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5), 0 4px 20px rgba(0, 0, 0, 0.3);
+    margin: 0.5rem 0 1rem;
   }
 
-  /* Capa base del texto: degradado cálido de bizcocho y sirope dorado/naranja */
-  .cake-text-base {
-    position: relative;
-    display: inline-block;
-    background: linear-gradient(
-      180deg,
-      #FFFFFF 0%,
-      #FFF6EB 28%,
-      #FFA26B 60%,
-      #FF6B35 82%,
-      #E8196C 100%
-    );
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 2px 0px rgba(61, 26, 36, 0.6))
-            drop-shadow(0 6px 14px rgba(0, 0, 0, 0.75));
-  }
-
-  /* Capa superior de glaseado blanco espeso derramado (onda festoneada sobre las letras) */
-  .drip-cake-word::after {
-    content: attr(data-text);
-    position: absolute;
-    left: 0;
-    top: 0;
-    z-index: 2;
-    background: linear-gradient(180deg, #FFFFFF 0%, #FFFDF7 65%, #FFE9D6 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    pointer-events: none;
-    /* Recorte ondulado festoneado: cubre la parte superior y deja caer ondas suaves sobre los caracteres */
-    -webkit-mask-image: radial-gradient(circle at 14% 38%, black 30%, transparent 34%),
-                        radial-gradient(circle at 38% 46%, black 28%, transparent 32%),
-                        radial-gradient(circle at 62% 38%, black 29%, transparent 33%),
-                        radial-gradient(circle at 86% 44%, black 28%, transparent 32%),
-                        linear-gradient(to bottom, black 32%, transparent 33%);
-    mask-image: radial-gradient(circle at 14% 38%, black 30%, transparent 34%),
-                radial-gradient(circle at 38% 46%, black 28%, transparent 32%),
-                radial-gradient(circle at 62% 38%, black 29%, transparent 33%),
-                radial-gradient(circle at 86% 44%, black 28%, transparent 32%),
-                linear-gradient(to bottom, black 32%, transparent 33%);
+  .hero-title span {
+    font-size: 1.15em;
   }
 
   .hero-subtitle {
