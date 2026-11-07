@@ -15,6 +15,10 @@ En este archivo se lleva el control del estado de las características planifica
   - Notificación de éxito en el modal y cronómetro regresivo de 4 segundos que redirige al inicio (`/`).
 - [x] Corrección visual de nombres de productos truncados: sustitución de `white-space: nowrap` por `line-clamp: 2` multilínea y `align-items: flex-start` en tarjetas de catálogo y drawer del carrito, garantizando lectura completa de tamaños como "Cake Redondo 22 cm" vs "Cake Redondo 30 cm".
 - [x] Resumen del Encargo Orgánico (sin scroll interno forzado) y Miniatura de Foto 1 del producto incorporada en cada tarjeta de resumen en `/pedido`.
+- [x] Ajuste fino de layout en `/pedido`:
+  - En vistas de escritorio (pantallas grandes), redistribución de anchos de 12 columnas: columna de resumen/ticket ampliada a 5 columnas (~42% de ancho, un +9-10% más) y formulario ajustado a 7 columnas (~58%).
+  - Eliminación de la etiqueta redundante superior "Cake por Encargo" para una estética limpia.
+  - Reorganización ergonómica: primero el Subtotal a la izquierda, y a la derecha el selector numérico de cantidad junto al botón de eliminación (papelera).
 - [x] Despliegue obligatorio y verificación en vivo en producción (`https://dulceria-el-lider.vercel.app/pedido`).
 
 ## Características Completadas
