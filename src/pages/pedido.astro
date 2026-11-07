@@ -93,8 +93,8 @@ const initialCatalog = catalogData;
             Resumen del Encargo
           </h3>
           
-          <div id="summary-items-list" class="space-y-4 max-h-[350px] overflow-y-auto pr-1">
-            <!-- Inyectado dinámicamente por JS -->
+          <div id="summary-items-list" class="space-y-4">
+            <!-- Inyectado dinámicamente por JS sin límite de altura ni scroll interno -->
           </div>
 
           <div class="border-t border-[var(--border-color)] pt-4 space-y-2 text-sm text-[var(--text-secondary)]">
@@ -976,6 +976,15 @@ const initialCatalog = catalogData;
       const fullTitle = getItemFullTitle(item);
       const subtotal = customizedUnitPrice * item.quantity;
 
+      // Obtener imagen del producto (prioridad: item.image o la imagen del catálogo)
+      let itemImg = item.image || '';
+      if (!itemImg && activeCatalog && activeCatalog.products) {
+        const prod = activeCatalog.products.find(p => p.id === item.id);
+        if (prod) {
+          itemImg = prod.image || (prod.images && prod.images[0]) || '';
+        }
+      }
+
       html += `
         <div class="flex flex-col gap-2.5 bg-[var(--bg-primary)] border border-[var(--border-color)] p-3.5 sm:p-4 rounded-xl shadow-sm relative group">
           <div class="flex items-center justify-between gap-2">
@@ -996,7 +1005,19 @@ const initialCatalog = catalogData;
             </button>
           </div>
           
-          <h4 class="text-base sm:text-lg font-black text-white leading-snug">${fullTitle}</h4>
+          <!-- Bloque Central: Miniatura de la Imagen 1 + Título -->
+          <div class="flex items-center gap-3">
+            ${itemImg ? `
+              <div class="w-14 h-14 sm:w-16 sm:h-16 flex-shrink-0 rounded-lg overflow-hidden border border-[var(--border-color)] bg-[var(--bg-secondary)] shadow-inner">
+                <img src="${itemImg}" alt="${item.name || fullTitle}" class="w-full h-full object-cover" loading="lazy" />
+              </div>
+            ` : `
+              <div class="w-14 h-14 sm:w-16 sm:h-16 flex-shrink-0 rounded-lg flex items-center justify-center border border-[var(--border-color)] bg-[var(--bg-secondary)] text-2xl">
+                🎂
+              </div>
+            `}
+            <h4 class="text-sm sm:text-base font-black text-white leading-snug flex-1">${fullTitle}</h4>
+          </div>
           
           <!-- Controles de Cantidad y Subtotal -->
           <div class="flex items-center justify-between pt-2.5 border-t border-[var(--border-color)]/50 mt-1">
