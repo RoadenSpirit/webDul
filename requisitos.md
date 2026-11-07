@@ -19,7 +19,9 @@ En este archivo se lleva el control del estado de las características planifica
   - En vistas de escritorio (pantallas grandes), redistribución de anchos de 12 columnas: columna de resumen/ticket ampliada a 5 columnas (~42% de ancho, un +9-10% más) y formulario ajustado a 7 columnas (~58%).
   - Eliminación de la etiqueta redundante superior "Cake por Encargo" para una estética limpia.
   - Reorganización ergonómica: primero el Subtotal a la izquierda, y a la derecha el selector numérico de cantidad junto al botón de eliminación (papelera).
-- [x] Despliegue obligatorio y verificación en vivo en producción (`https://dulceria-el-lider.vercel.app/pedido`).
+- [x] Simplificación de placeholder de temática en personalizador de cakes: `"Ej: Rosa, temática de princesas..."`.
+- [x] Efecto "Glaseado Dulce & Brillante" (`.glaze-text`) en el título del Hero: gradiente animado en paleta crema-naranja-fucsia, reflejo superior brillante tipo sirope y sombras profundas multicapa con estética de repostería de alta gama.
+- [x] Despliegue obligatorio y verificación en vivo en producción (`https://dulceria-el-lider.vercel.app`).
 
 ## Características Completadas
 - [x] Rediseño del Checkout con Tailwind CSS y selectores premium de fecha/hora.
