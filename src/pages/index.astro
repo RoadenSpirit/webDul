@@ -45,14 +45,73 @@ const pillars = [
         <img src="/logo-correcto.png" alt="Dulcería El Líder Logo" class="hero-logo" />
       </div>
       <span class="hero-badge">Cakes y Dulces por Encargo</span>
-      <h1 class="hero-title">
-        <span class="drip-word">Los Mejores</span>
-        <span class="drip-accent-phrase">
-          <span class="drip-cake-word" data-text="Cakes">
-            <span class="cake-text-base">Cakes</span>
-          </span>
-          <span class="drip-location">de Camagüey</span>
-        </span>
+      <h1 class="hero-title" aria-label="Los Mejores Cakes de Camagüey">
+        <svg viewBox="0 0 800 220" xmlns="http://www.w3.org/2000/svg" class="w-full h-auto max-w-[750px]" role="img" aria-label="Los Mejores Cakes de Camagüey">
+          <defs>
+            <!-- Gradiente de glaseado base: crema a fucsia -->
+            <linearGradient id="frosting-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#FFFFFF" />
+              <stop offset="35%" stop-color="#FFF6EB" />
+              <stop offset="65%" stop-color="#FFA26B" />
+              <stop offset="100%" stop-color="#E8196C" />
+            </linearGradient>
+            <!-- Gradiente de brillo especular superior -->
+            <linearGradient id="specular-grad" x1="0%" y1="0%" x2="0%" y2="60%">
+              <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.98" />
+              <stop offset="60%" stop-color="#FFFFFF" stop-opacity="0.3" />
+              <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0" />
+            </linearGradient>
+            <!-- Filtro de sombra profunda multicapa -->
+            <filter id="deep-shadow" x="-30%" y="-30%" width="160%" height="160%">
+              <feDropShadow dx="0" dy="4" stdDeviation="2" flood-color="#8B0C3E" flood-opacity="0.9" />
+              <feDropShadow dx="0" dy="10" stdDeviation="6" flood-color="#5C0A2A" flood-opacity="0.7" />
+              <feDropShadow dx="0" dy="18" stdDeviation="12" flood-color="#000000" flood-opacity="0.5" />
+            </filter>
+            <!-- Filtro de iluminación 3D para volumen de glaseado -->
+            <filter id="frosting-volume" x="-25%" y="-25%" width="150%" height="150%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="4" result="blur" />
+              <feSpecularLighting in="blur" surfaceScale="7" specularConstant="1.6" specularExponent="22" lighting-color="#FFFFFF" result="specular">
+                <fePointLight x="200" y="-80" z="300" />
+              </feSpecularLighting>
+              <feComposite in="specular" in2="SourceAlpha" operator="in" result="specularMask" />
+              <feDiffuseLighting in="blur" surfaceScale="5" diffuseConstant="1.1" lighting-color="#FFF5EE" result="diffuse">
+                <fePointLight x="200" y="-50" z="250" />
+              </feDiffuseLighting>
+              <feComposite in="SourceGraphic" in2="diffuse" operator="arithmetic" k1="0.6" k2="0.9" k3="0.3" k4="0" result="litBase" />
+              <feBlend in="specularMask" in2="litBase" mode="screen" />
+            </filter>
+            <!-- Máscara para el brillo superior (primer 40% del texto) -->
+            <clipPath id="top-half">
+              <rect x="0" y="0" width="800" height="100" />
+            </clipPath>
+          </defs>
+          
+          <!-- Línea 1: Los Mejores con filtro 3D -->
+          <g filter="url(#frosting-volume)">
+            <text x="400" y="85" text-anchor="middle" font-family="'Fredoka', 'Plus Jakarta Sans', sans-serif" font-size="56" font-weight="700" fill="url(#frosting-grad)" letter-spacing="-1">
+              Los Mejores
+            </text>
+          </g>
+          <!-- Capa de brillo especular en la parte superior -->
+          <g clip-path="url(#top-half)">
+            <text x="400" y="85" text-anchor="middle" font-family="'Fredoka', 'Plus Jakarta Sans', sans-serif" font-size="56" font-weight="700" fill="url(#specular-grad)" letter-spacing="-1">
+              Los Mejores
+            </text>
+          </g>
+          
+          <!-- Línea 2: Cakes de Camagüey con filtro 3D -->
+          <g filter="url(#frosting-volume)">
+            <text x="400" y="165" text-anchor="middle" font-family="'Fredoka', 'Plus Jakarta Sans', sans-serif" font-size="64" font-weight="700" fill="url(#frosting-grad)" letter-spacing="-1">
+              Cakes de Camagüey
+            </text>
+          </g>
+          <!-- Capa de brillo especular en la parte superior -->
+          <g clip-path="url(#top-half)">
+            <text x="400" y="165" text-anchor="middle" font-family="'Fredoka', 'Plus Jakarta Sans', sans-serif" font-size="64" font-weight="700" fill="url(#specular-grad)" letter-spacing="-1">
+              Cakes de Camagüey
+            </text>
+          </g>
+        </svg>
       </h1>
       <p class="hero-subtitle">
         Variedad en cakes por encargo y buffet para que tu cumpleaños o fiesta tenga exactamente lo que buscas, a <a href="#catalogo" id="hero-quick-star-cake" class="hero-highlight-link" title="Encargar nuestro cake más popular de 22 cm">un solo clic</a> de distancia.
