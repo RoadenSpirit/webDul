@@ -305,33 +305,22 @@ const initialCatalog = await getFullCatalogFromDb();
   const npCancelBtn = document.getElementById('np-cancel-btn');
   const newProdForm = document.getElementById('new-product-form');
 
-  // Versioning
-  const CATALOG_VERSION = 'v8_sqlite_source_of_truth';
+  // Catálogo en memoria administrativa (origen inicial: SQLite)
+  let catalog = JSON.parse(JSON.stringify(initialCatalog));
 
-  const loadCatalog = () => {
+  const loadCatalog = async () => {
     try {
-      const savedVersion = localStorage.getItem('el_lider_catalog_version');
-      if (savedVersion !== CATALOG_VERSION) {
-        localStorage.removeItem('el_lider_admin_catalog');
-        localStorage.removeItem('el_lider_catalog_version');
+      // Consultar la versión más fresca directamente a la VPS
+      const res = await fetch('https://ia.carmayn8n.cloud/api/dulceria/admin/catalog');
+      if (res.ok) {
+        const fresh = await res.json();
+        if (fresh && fresh.products && fresh.products.length > 0) {
+          catalog = fresh;
+        }
       }
-      const saved = localStorage.getItem('el_lider_admin_catalog');
-      if (saved && savedVersion === CATALOG_VERSION) {
-        catalog = JSON.parse(saved);
-      } else {
-        catalog = JSON.parse(JSON.stringify(initialCatalog));
-        localStorage.setItem('el_lider_admin_catalog', JSON.stringify(catalog));
-        localStorage.setItem('el_lider_catalog_version', CATALOG_VERSION);
-      }
-    } catch {
-      catalog = JSON.parse(JSON.stringify(initialCatalog));
+    } catch (e) {
+      console.warn('Usando catálogo inicial cargado en build-time:', e);
     }
-  };
-
-  const persistLocal = () => {
-    localStorage.setItem('el_lider_admin_catalog', JSON.stringify(catalog));
-    localStorage.setItem('el_lider_catalog_version', CATALOG_VERSION);
-    markAsChanged();
   };
 
   const markAsChanged = () => {
@@ -340,6 +329,11 @@ const initialCatalog = await getFullCatalogFromDb();
       saveChangesBtn.classList.remove('hidden');
       saveChangesBtn.classList.add('inline-flex');
     }
+  };
+
+  const persistLocal = () => {
+    // Registra que hay cambios pendientes en memoria y activa el botón de guardar en VPS
+    markAsChanged();
   };
 
    const clearChanged = () => {
@@ -470,10 +464,10 @@ const initialCatalog = await getFullCatalogFromDb();
     }
   };
 
-  const showDashboard = () => {
+  const showDashboard = async () => {
     loginScreen?.classList.add('hidden');
     dashboard?.classList.remove('hidden');
-    loadCatalog();
+    await loadCatalog();
     renderProductsTable();
   };
 
@@ -481,9 +475,9 @@ const initialCatalog = await getFullCatalogFromDb();
     const ok = await askConfirm('¿Restaurar todos los productos, opciones y precios oficiales iniciales?');
     if (ok) {
       catalog = JSON.parse(JSON.stringify(initialCatalog));
-      persistLocal();
+      markAsChanged();
       renderProductsTable();
-      showToast('✓ Precios oficiales restaurados', 'success');
+      showToast('✓ Precios oficiales listos para guardar en la VPS', 'info');
     }
   });
 
@@ -492,26 +486,34 @@ const initialCatalog = await getFullCatalogFromDb();
     saveChangesBtn.disabled = true;
     saveChangesBtn.innerHTML = `
       <svg class="animate-spin h-5 w-5 text-white" viewBox="0 0 24 24" fill="none"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg>
-      <span>Guardando en Servidor...</span>
+      <span>Guardando en Servidor VPS...</span>
     `;
 
     try {
-      const res = await fetch('http://localhost:3004/save-catalog', {
+      const res = await fetch('https://ia.carmayn8n.cloud/api/dulceria/admin/save-catalog', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'x-admin-key': 'alvaroesmihijofavorito'
+        },
         body: JSON.stringify(catalog)
       });
+
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        throw new Error(errData.error || `Error HTTP ${res.status}`);
+      }
+
       const data = await res.json();
       if (data.ok) {
         clearChanged();
-        showToast('💾 ¡Cambios guardados con éxito en la base de datos de la VPS!', 'success');
+        showToast('💾 ¡Cambios guardados con éxito en SQLite! Sincronizando con producción...', 'success');
       } else {
-        throw new Error(data.error || 'Fallo al guardar');
+        throw new Error(data.error || 'Fallo al guardar en la VPS');
       }
     } catch (e) {
-      console.warn('Sync server offline, guardado en almacenamiento local activo:', e);
-      clearChanged();
-      showToast('💾 Cambios guardados con éxito en almacenamiento local.', 'info');
+      console.error('Error al guardar en el servidor:', e);
+      showToast(`❌ Error al guardar en la VPS: ${e.message}`, 'error');
     } finally {
       saveChangesBtn.disabled = false;
       saveChangesBtn.innerHTML = `
