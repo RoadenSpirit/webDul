@@ -1,6 +1,7 @@
 import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
+import crypto from 'node:crypto';
 import initSqlJs from 'sql.js';
 import { exec } from 'node:child_process';
 
@@ -9,8 +10,44 @@ const DB_PATH = path.resolve('/home/carmay-dev/proyectos/webDul/data/database.sq
 const CATALOG_PATH = path.resolve('/home/carmay-dev/proyectos/webDul/data/catalog.json');
 const PROJECT_DIR = path.resolve('/home/carmay-dev/proyectos/webDul');
 
-// Clave secreta administrativa para autorizar modificaciones
-const ADMIN_API_KEY = process.env.DULCERIA_ADMIN_KEY || 'alvaroesmihijofavorito';
+// Credenciales protegidas exclusivas del entorno de la VPS (jamás expuestas al cliente)
+const ADMIN_USER = process.env.DULCERIA_ADMIN_USER || 'riveron';
+const ADMIN_PASS = process.env.DULCERIA_ADMIN_PASS || 'alvaroesmihijofavorito';
+
+// Secreto interno para firma criptográfica HMAC de tokens de sesión
+const JWT_SECRET = process.env.DULCERIA_SESSION_SECRET || crypto.randomBytes(32).toString('hex');
+const TOKEN_TTL_HOURS = 12;
+
+function createSessionToken(username) {
+  const expiresAt = Date.now() + (TOKEN_TTL_HOURS * 60 * 60 * 1000);
+  const payload = JSON.stringify({ user: username, exp: expiresAt });
+  const payloadB64 = Buffer.from(payload).toString('base64url');
+  const signature = crypto.createHmac('sha256', JWT_SECRET).update(payloadB64).digest('base64url');
+  return `${payloadB64}.${signature}`;
+}
+
+function verifySessionToken(token) {
+  if (!token || typeof token !== 'string') return null;
+  const parts = token.split('.');
+  if (parts.length !== 2) return null;
+  const [payloadB64, signature] = parts;
+  const expectedSig = crypto.createHmac('sha256', JWT_SECRET).update(payloadB64).digest('base64url');
+
+  const sigBuf = Buffer.from(signature);
+  const expBuf = Buffer.from(expectedSig);
+  if (sigBuf.length !== expBuf.length || !crypto.timingSafeEqual(sigBuf, expBuf)) {
+    return null;
+  }
+  try {
+    const payload = JSON.parse(Buffer.from(payloadB64, 'base64url').toString('utf-8'));
+    if (!payload.exp || Date.now() > payload.exp) {
+      return null; // Token expirado
+    }
+    return payload;
+  } catch {
+    return null;
+  }
+}
 
 let SQL;
 async function getDb() {
@@ -40,7 +77,7 @@ const server = http.createServer(async (req, res) => {
   // CORS Headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, x-admin-key, Authorization');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, x-admin-key');
 
   if (req.method === 'OPTIONS') {
     res.writeHead(204);
@@ -50,7 +87,38 @@ const server = http.createServer(async (req, res) => {
 
   const url = req.url?.split('?')[0] || '';
 
-  // 1. GET /api/admin/catalog o /catalog
+  // 1. POST /login: Autenticación segura y emisión de Token temporal
+  if (req.method === 'POST' && (url === '/login' || url === '/api/admin/login' || url === '/api/dulceria/admin/login')) {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', () => {
+      try {
+        const { username, password } = JSON.parse(body || '{}');
+        const userTrim = (username || '').trim();
+        const passTrim = (password || '').trim();
+
+        if (userTrim === ADMIN_USER && passTrim === ADMIN_PASS) {
+          const token = createSessionToken(userTrim);
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({
+            ok: true,
+            token,
+            expiresIn: `${TOKEN_TTL_HOURS} horas`,
+            message: 'Autenticación exitosa'
+          }));
+        } else {
+          res.writeHead(401, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ ok: false, error: 'Usuario o contraseña incorrectos' }));
+        }
+      } catch (e) {
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ ok: false, error: 'Solicitud malformada' }));
+      }
+    });
+    return;
+  }
+
+  // 2. GET /catalog: Obtener catálogo actual directo de SQLite
   if (req.method === 'GET' && (url === '/catalog' || url === '/api/admin/catalog' || url === '/api/dulceria/admin/catalog')) {
     try {
       const db = await getDb();
@@ -134,14 +202,15 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  // 2. POST /api/admin/save-catalog o /save-catalog
+  // 3. POST /save-catalog: Guardar modificaciones con validación de Token firmado
   if (req.method === 'POST' && (url === '/save-catalog' || url === '/api/admin/save-catalog' || url === '/api/dulceria/admin/save-catalog')) {
-    const authHeader = req.headers['x-admin-key'] || req.headers['authorization'];
-    const token = authHeader ? String(authHeader).replace(/^Bearer\s+/i, '') : '';
+    const authHeader = req.headers['authorization'] || req.headers['x-admin-key'];
+    const token = authHeader ? String(authHeader).replace(/^Bearer\s+/i, '').trim() : '';
 
-    if (token !== ADMIN_API_KEY) {
+    const session = verifySessionToken(token);
+    if (!session) {
       res.writeHead(401, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ ok: false, error: 'Credenciales administrativas no autorizadas' }));
+      res.end(JSON.stringify({ ok: false, error: 'Sesión no autorizada o expirada. Por favor vuelva a iniciar sesión.' }));
       return;
     }
 

@@ -436,30 +436,62 @@ const initialCatalog = await getFullCatalogFromDb();
      });
    };
 
-   // Auth Handler
-  loginForm?.addEventListener('submit', (e) => {
+   // Auth Handler vía API Segura (Sin credenciales en el cliente)
+  loginForm?.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const user = (document.getElementById('admin-user')).value.trim();
-    const pass = (document.getElementById('admin-pass')).value.trim();
+    const userEl = document.getElementById('admin-user');
+    const passEl = document.getElementById('admin-pass');
+    const submitBtn = loginForm.querySelector('button[type="submit"]');
 
-    if (user === 'riveron' && pass === 'alvaroesmihijofavorito') {
-      sessionStorage.setItem('admin_token', 'riveron_valid');
-      showDashboard();
-    } else {
+    const user = userEl ? userEl.value.trim() : '';
+    const pass = passEl ? passEl.value.trim() : '';
+
+    if (loginError) loginError.classList.add('hidden');
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Verificando...';
+    }
+
+    try {
+      const res = await fetch('https://ia.carmayn8n.cloud/api/dulceria/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: user, password: pass })
+      });
+
+      const data = await res.json().catch(() => ({}));
+
+      if (res.ok && data.ok && data.token) {
+        // Guardar el token temporal únicamente en la sesión activa del navegador
+        sessionStorage.setItem('dulceria_admin_session_token', data.token);
+        if (passEl) passEl.value = '';
+        await showDashboard();
+      } else {
+        if (loginError) {
+          loginError.textContent = data.error || 'Credenciales inválidas';
+          loginError.classList.remove('hidden');
+        }
+      }
+    } catch (err) {
       if (loginError) {
-        loginError.textContent = 'Usuario o contraseña incorrectos';
+        loginError.textContent = 'Error de conexión con el servidor VPS';
         loginError.classList.remove('hidden');
+      }
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Ingresar al Panel';
       }
     }
   });
 
   logoutBtn?.addEventListener('click', () => {
-    sessionStorage.removeItem('admin_token');
+    sessionStorage.removeItem('dulceria_admin_session_token');
     window.location.reload();
   });
 
   const checkAuth = () => {
-    if (sessionStorage.getItem('admin_token')) {
+    if (sessionStorage.getItem('dulceria_admin_session_token')) {
       showDashboard();
     }
   };
@@ -489,18 +521,30 @@ const initialCatalog = await getFullCatalogFromDb();
       <span>Guardando en Servidor VPS...</span>
     `;
 
+    const token = sessionStorage.getItem('dulceria_admin_session_token');
+    if (!token) {
+      showToast('⚠️ No hay sesión activa. Inicie sesión nuevamente.', 'error');
+      sessionStorage.removeItem('dulceria_admin_session_token');
+      window.location.reload();
+      return;
+    }
+
     try {
       const res = await fetch('https://ia.carmayn8n.cloud/api/dulceria/admin/save-catalog', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
-          'x-admin-key': 'alvaroesmihijofavorito'
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(catalog)
       });
 
       if (!res.ok) {
         const errData = await res.json().catch(() => ({}));
+        if (res.status === 401) {
+          sessionStorage.removeItem('dulceria_admin_session_token');
+          throw new Error('Sesión expirada. Por favor vuelva a iniciar sesión.');
+        }
         throw new Error(errData.error || `Error HTTP ${res.status}`);
       }
 
