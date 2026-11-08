@@ -144,39 +144,26 @@ export const PRODUCTS: Product[] = [
 
   // 5. Cakes de 3 y 4 Pisos (Nuevas ofertas maestras)
   {
-    id: 'cake-3p-36-25-15',
-    name: 'Cake de 3 pisos (36, 25, 15)',
+    id: 'cake-3pisos',
+    name: 'Cake de 3 pisos',
     type: 'cakes',
     base_price: 36000,
-    description: 'Gran cake de 3 pisos con panetelas de 36 cm, 25 cm y 15 cm ($36000).',
-    image: '/images/products/cakes/dos-pisos-redondo-2.webp',
+    description: 'Impresionante cake de 3 pisos para bodas, quinceañeras y eventos especiales. Panetelas escalonadas con dimensiones a elegir (Desde $36000).',
+    image: '/cake-3-pisos-1.webp',
     images: [
-      '/images/products/cakes/dos-pisos-redondo-2.webp',
-      '/images/products/cakes/dos-pisos-redondo-3.webp'
+      '/cake-3-pisos-1.webp',
+      '/cake-3-pisos-2.webp'
     ]
   },
   {
-    id: 'cake-3p-36-30-25',
-    name: 'Cake de 3 pisos (36, 30, 25)',
-    type: 'cakes',
-    base_price: 42000,
-    description: 'Majestuoso cake de 3 pisos con panetelas de 36 cm, 30 cm y 25 cm ($42000).',
-    image: '/images/products/cakes/dos-pisos-redondo-4.webp',
-    images: [
-      '/images/products/cakes/dos-pisos-redondo-4.webp',
-      '/images/products/cakes/dos-pisos-redondo-5.webp'
-    ]
-  },
-  {
-    id: 'cake-4p-30-25-22-15',
-    name: 'Cake de 4 pisos (30, 25, 22, 15)',
+    id: 'cake-4pisos',
+    name: 'Cake de 4 pisos',
     type: 'cakes',
     base_price: 43000,
-    description: 'Impresionante torre de 4 pisos con panetelas de 30 cm, 25 cm, 22 cm y 15 cm ($43000).',
-    image: '/images/products/cakes/dos-pisos-redondo-1.webp',
+    description: 'Majestuoso cake de 4 pisos compuesto por 4 panetelas escalonadas de 30 cm, 25 cm, 22 cm y 15 cm de diámetro ($43000).',
+    image: '/cake-4-pisos.webp',
     images: [
-      '/images/products/cakes/dos-pisos-redondo-1.webp',
-      '/images/products/cakes/dos-pisos-redondo-3.webp'
+      '/cake-4-pisos.webp'
     ]
   },
 

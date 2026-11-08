@@ -49,6 +49,10 @@ En este archivo se lleva el control del estado de las características planifica
   - Nuevos precios oficiales: Impresión comestible a $1100, Minidonas a $60, Cupcake a $160/$170, Cangrejitos/Empanadillas/Croqueticas a $45, Pan con pasta a $60, Bolitas de queso a $55 y ajustes en masas/pisos.
   - Sincronización en `products.ts`, `data/catalog.json`, base de datos SQLite y backend de Baileys (`dulceria-order.ts`).
   - Hero: Logo ampliado un +20% para que el nombre de la dulcería se lea con total claridad, con balance vertical en 100dvh.
+- [x] Unificación y optimización de Cake de 3 pisos y 4 pisos:
+  - Descarga y conversión con Sharp a WebP de fotos reales desde Google Drive: `cake-3-pisos-1.webp`, `cake-3-pisos-2.webp` y `cake-4-pisos.webp`.
+  - Unificación de 'Cake de 3 pisos' en un solo producto con selector de dimensiones de panetelas (36, 25, 15 cm a $36.000 vs 36, 30, 25 cm a $42.000) con texto explicativo.
+  - Sincronización en `products.ts`, `data/catalog.json`, base de datos SQLite y microservicio Baileys.
 - [x] Despliegue obligatorio y verificación en vivo en producción (`https://dulceria-el-lider.vercel.app`).
 
 ## Características Completadas

@@ -127,40 +127,27 @@
       "description": "Cake de 2 pisos circular."
     },
     {
-      "id": "cake-3p-36-25-15",
-      "name": "Cake de 3 pisos (36, 25, 15)",
+      "id": "cake-3pisos",
+      "name": "Cake de 3 pisos",
       "type": "cakes",
       "base_price": 36000,
-      "image": "/images/products/cakes/dos-pisos-redondo-2.webp",
+      "image": "/cake-3-pisos-1.webp",
       "images": [
-        "/images/products/cakes/dos-pisos-redondo-2.webp",
-        "/images/products/cakes/dos-pisos-redondo-3.webp"
+        "/cake-3-pisos-1.webp",
+        "/cake-3-pisos-2.webp"
       ],
-      "description": "Gran cake de 3 pisos con panetelas de 36 cm, 25 cm y 15 cm."
+      "description": "Impresionante cake de 3 pisos con panetelas escalonadas a elegir (Desde $36000)."
     },
     {
-      "id": "cake-3p-36-30-25",
-      "name": "Cake de 3 pisos (36, 30, 25)",
-      "type": "cakes",
-      "base_price": 42000,
-      "image": "/images/products/cakes/dos-pisos-redondo-4.webp",
-      "images": [
-        "/images/products/cakes/dos-pisos-redondo-4.webp",
-        "/images/products/cakes/dos-pisos-redondo-5.webp"
-      ],
-      "description": "Majestuoso cake de 3 pisos con panetelas de 36 cm, 30 cm y 25 cm."
-    },
-    {
-      "id": "cake-4p-30-25-22-15",
-      "name": "Cake de 4 pisos (30, 25, 22, 15)",
+      "id": "cake-4pisos",
+      "name": "Cake de 4 pisos",
       "type": "cakes",
       "base_price": 43000,
-      "image": "/images/products/cakes/dos-pisos-redondo-1.webp",
+      "image": "/cake-4-pisos.webp",
       "images": [
-        "/images/products/cakes/dos-pisos-redondo-1.webp",
-        "/images/products/cakes/dos-pisos-redondo-3.webp"
+        "/cake-4-pisos.webp"
       ],
-      "description": "Torre monumental de 4 pisos con panetelas de 30 cm, 25 cm, 22 cm y 15 cm."
+      "description": "Majestuoso cake de 4 pisos compuesto por 4 panetelas de 30 cm, 25 cm, 22 cm y 15 cm ($43000)."
     },
     {
       "id": "marquesitas-30",
@@ -315,6 +302,9 @@
 
     { "product_id": "cake-2pisos-redondo", "option_id": "panetela", "option_value_id": "panetela-30-15", "option_name": "Medidas de Panetela", "option_value_name": "Panetela 30 / 15", "direct_price": 19000, "is_enabled": true, "is_base": true },
     { "product_id": "cake-2pisos-redondo", "option_id": "panetela", "option_value_id": "panetela-25-18", "option_name": "Medidas de Panetela", "option_value_name": "Panetela 25 / 18", "direct_price": 20000, "is_enabled": true, "is_base": false },
+
+    { "product_id": "cake-3pisos", "option_id": "panetela", "option_value_id": "panetela-36-25-15", "option_name": "Dimensiones de Panetelas", "option_value_name": "3 Panetelas: 36 cm, 25 cm y 15 cm ($36.000)", "direct_price": 36000, "is_enabled": true, "is_base": true },
+    { "product_id": "cake-3pisos", "option_id": "panetela", "option_value_id": "panetela-36-30-25", "option_name": "Dimensiones de Panetelas", "option_value_name": "3 Panetelas: 36 cm, 30 cm y 25 cm ($42.000)", "direct_price": 42000, "is_enabled": true, "is_base": false },
 
     { "product_id": "marquesitas-30", "option_id": "masa", "option_value_id": "masa-harina", "option_name": "Tipo de Masa", "option_value_name": "Harina", "direct_price": 6000, "is_enabled": true, "is_base": true },
     { "product_id": "marquesitas-30", "option_id": "masa", "option_value_id": "masa-capuchino", "option_name": "Tipo de Masa", "option_value_name": "Capuchino", "direct_price": 11000, "is_enabled": true, "is_base": false },
