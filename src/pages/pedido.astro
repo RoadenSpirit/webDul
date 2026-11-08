@@ -634,16 +634,26 @@ const initialCatalog = catalogData;
     padding-right: 2.75rem;
   }
 
-  /* Custom styling for file upload area overlap */
+  /* Custom styling for file upload area overlap: invisible pero interactuable al 100% */
   .decorations-ref-upload-input,
   .customizer-upload-input {
     position: absolute;
-    top: 0;
-    left: 0;
+    inset: 0;
     width: 100%;
     height: 100%;
-    opacity: 0;
+    opacity: 0 !important;
     cursor: pointer;
+    font-size: 0;
+    overflow: hidden;
+    z-index: 5;
+  }
+
+  /* Evitar que cualquier texto desborde su contenedor en móviles estrechos */
+  .upload-box-wrapper {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
   }
 
   @media (max-width: 991px) {
@@ -1243,8 +1253,8 @@ const initialCatalog = catalogData;
               </svg>
               Foto de Referencia para Decoración (Opcional):
             </label>
-            <div class="relative w-full border-2 border-dashed border-[var(--accent-color)] rounded-xl p-4 text-center cursor-pointer bg-[var(--bg-primary)] hover:bg-[var(--accent-color)]/5 transition-colors">
-              <span class="text-xs font-semibold text-[var(--text-primary)]" id="ref-photo-label-${globalIdx}">
+            <div class="relative w-full border-2 border-dashed border-[var(--accent-color)] rounded-xl p-3 text-center cursor-pointer bg-[var(--bg-primary)] hover:bg-[var(--accent-color)]/5 transition-colors overflow-hidden">
+              <span class="block text-xs font-semibold text-[var(--text-primary)] truncate max-w-full px-1" id="ref-photo-label-${globalIdx}">
                 ${item.refPhotoName ? `✓ ${item.refPhotoName}` : 'Haga clic para subir imagen de referencia'}
               </span>
               <input type="file" class="decorations-ref-upload-input" data-index="${globalIdx}" accept="image/*" />
@@ -1270,8 +1280,8 @@ const initialCatalog = catalogData;
             </label>
             
             <div class="print-upload-wrapper" id="print-upload-wrapper-${globalIdx}" style="display: ${item.ediblePrint ? 'block' : 'none'};">
-              <div class="relative w-full border-2 border-dashed border-[var(--accent-color)] rounded-xl p-4 text-center cursor-pointer bg-[var(--bg-primary)] hover:bg-[var(--accent-color)]/5 transition-colors">
-                <span class="text-xs font-semibold text-[var(--text-primary)]" id="upload-label-${globalIdx}">
+              <div class="relative w-full border-2 border-dashed border-[var(--accent-color)] rounded-xl p-3 text-center cursor-pointer bg-[var(--bg-primary)] hover:bg-[var(--accent-color)]/5 transition-colors overflow-hidden">
+                <span class="block text-xs font-semibold text-[var(--text-primary)] truncate max-w-full px-1" id="upload-label-${globalIdx}">
                   ${item.fileName ? `✓ ${item.fileName}` : 'Haga clic para subir la imagen para impresión'}
                 </span>
                 <input type="file" class="customizer-upload-input" data-index="${globalIdx}" accept="image/*" />

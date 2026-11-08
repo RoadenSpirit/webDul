@@ -794,18 +794,25 @@ const pillars = [
     transform: translateY(-1px);
   }
 
+  /* Botón de compra en tarjetas Buffet: flexible, sin forzar saltos de línea y auto-ajustable */
   .btn-buy-now-buffet {
     background: var(--gradient-brand);
     color: #FFFFFF;
     border: 1.5px solid rgba(255, 255, 255, 0.2);
     flex: 1;
     min-width: 0;
-    height: 34px;
-    padding: 0 0.6rem;
+    min-height: 36px;
+    padding: 0.2rem 0.4rem;
     border-radius: var(--border-radius-sm);
     font-weight: 800;
-    font-size: 0.82rem;
+    font-size: clamp(0.7rem, 2.2vw, 0.82rem);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
     cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3);
     transition: transform var(--transition-fast), box-shadow var(--transition-fast);
   }

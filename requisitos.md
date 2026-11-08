@@ -32,6 +32,9 @@ En este archivo se lleva el control del estado de las características planifica
   - Decoración Infantil: `/decoracion-infantil-tematico.webp` con temática de personajes.
   - Decoración Clásica: `/decoracion-diseno-clasico.webp` con merengue tradicional y rosetones.
   - Medio Cake de Bandeja: sustitución completa de imágenes erróneas por la única foto oficial fija `/cake-media-bandeja-artesanal.webp` sin carrusel en `products.ts`, `data/catalog.json` y `data/database.sqlite`.
+- [x] Optimización responsive y corrección de desbordamientos en pantallas ultra-estrechas (320px - 414px):
+  - Botón "Encargar Ahora" en tarjetas de Buffet (`.btn-buy-now-buffet`): font-size adaptable con `clamp(0.7rem, 2.2vw, 0.82rem)`, `white-space: nowrap` y elipsis para evitar roturas o desbordamientos del recuadro.
+  - Selector de archivo en `/pedido` (fotos de referencia e impresión comestible): ocultamiento estricto del texto nativo del navegador ("Sin archivo seleccionado") mediante `font-size: 0`, `opacity: 0`, `inset: 0` y contenedor con `overflow: hidden` y `truncate`.
 - [x] Despliegue obligatorio y verificación en vivo en producción (`https://dulceria-el-lider.vercel.app`).
 
 ## Características Completadas
