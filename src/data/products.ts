@@ -128,7 +128,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'cake-2pisos-redondo',
-    name: 'Cake de 2 pisos redondo',
+    name: 'Cake de 2 pisos',
     type: 'cakes',
     base_price: 19000,
     description: 'Cake de 2 pisos circular. Panetela 30/15: $19000 | Panetela 25/18: $20000.',
