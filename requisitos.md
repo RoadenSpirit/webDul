@@ -22,9 +22,12 @@ En este archivo se lleva el control del estado de las características planifica
 - [x] Simplificación de placeholder de temática en personalizador de cakes: `"Ej: Rosa, temática de princesas..."`.
 - [x] Rediseño del Hero con enfoque Candy:
   - Logo ampliado (`clamp(130px, 18vh, 180px)`) con animación suave de palpitación y brillo (`gentlePulse`).
-  - Titular estilizado con tipografía curva cursiva (`Pacifico`) y degradado multicolor Candy vibrante (crema vainilla → melocotón → fucsia intenso) con sombreado de profundidad y tamaño aumentado (`clamp(2.3rem, 6.2vw, 4.4rem)`).
+  - Titular estilizado con tipografía curva cursiva (`Pacifico`), degradado Candy vibrante y estricto límite de 2 líneas con auto-escalado fluido que reduce tamaño para impedir saltos a 3 líneas incluso en pantallas angostas.
   - Eliminación de todo corte tipográfico (clipping de descendentes como la "g" y la "y") mediante padding contextual y overflow visible.
   - Distribución armónica vertical con `justify-content: space-between` aprovechando todo el viewport (`100dvh`) sin provocar scroll.
+- [x] Mejora en interacciones del carrito:
+  - El botón "← Seguir comprando" cierra limpiamente el drawer sin forzar saltos de scroll indeseados.
+  - Al pulsar los botones de añadir al carrito (+1), ya no se abre el drawer de golpe; en su lugar, se anima el botón flotante con un pulso elástico (`cart-bump`) y el badge salta visualmente (`badge-pop`) para confirmar la acción de forma sutil.
 - [x] Despliegue obligatorio y verificación en vivo en producción (`https://dulceria-el-lider.vercel.app`).
 
 ## Características Completadas

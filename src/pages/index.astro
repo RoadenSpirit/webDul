@@ -365,26 +365,30 @@ const pillars = [
     border: 2px solid #FFFFFF;
   }
 
-  /* Titular del Hero: Tamaño aumentado con Pacifico, sin corte de descendentes ni laterales */
+  /* Titular del Hero: Estrictamente 2 líneas con Pacifico, auto-escalado fluido que reduce tamaño para impedir un 3er salto */
   .hero-title {
     font-family: 'Pacifico', 'Fredoka', cursive, sans-serif;
-    font-size: clamp(2.3rem, 6.2vw, 4.4rem);
+    /* font-size dinámico calibrado por cqi y vw para que 18 caracteres por línea entren siempre intactos */
+    font-size: clamp(1.65rem, min(5.4vw, 7.8cqi), 3.9rem);
     font-weight: 400;
     line-height: 1.35;
-    letter-spacing: 0.02em;
-    text-wrap: balance;
+    letter-spacing: 0.015em;
     text-align: center;
     margin: 0;
-    padding: 0.2rem 0.6rem;
+    padding: 0.2rem 0.4rem;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.35rem;
+    gap: 0.25rem;
     overflow: visible;
+    width: 100%;
+    container-type: inline-size;
   }
 
   .hero-line {
-    display: inline-block;
+    display: block;
+    white-space: nowrap;
+    word-break: keep-all;
     padding: 0.1em 0.35em 0.25em;
     overflow: visible;
     background: linear-gradient(
@@ -403,11 +407,11 @@ const pillars = [
   }
 
   .hero-line-top {
-    font-size: 0.86em;
+    font-size: 0.88em;
   }
 
   .hero-line-bottom {
-    font-size: 1.05em;
+    font-size: 1.02em;
   }
 
   .hero-subtitle {
@@ -1221,8 +1225,26 @@ const pillars = [
     box-shadow: 0 10px 28px rgba(232, 25, 108, 0.65);
   }
 
+  /* Animación de pulso vibrante cuando se añade un ítem */
+  .floating-cart.cart-bump {
+    animation: cartBounce 0.65s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  @keyframes cartBounce {
+    0% { transform: scale(1); }
+    30% { transform: scale(1.28); box-shadow: 0 12px 36px rgba(255, 19, 118, 0.8), 0 0 24px rgba(255, 107, 53, 0.7); }
+    60% { transform: scale(0.94); }
+    80% { transform: scale(1.08); }
+    100% { transform: scale(1); }
+  }
+
   .cart-icon {
     font-size: 1.6rem;
+    transition: transform 0.2s ease;
+  }
+
+  .floating-cart.cart-bump .cart-icon {
+    transform: rotate(-12deg) scale(1.15);
   }
 
   .cart-count {
@@ -1240,6 +1262,17 @@ const pillars = [
     align-items: center;
     justify-content: center;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+  }
+
+  .cart-count.badge-pop {
+    animation: badgePop 0.5s ease-out;
+  }
+
+  @keyframes badgePop {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.55); background: #FF1376; color: #FFFFFF; }
+    100% { transform: scale(1); }
   }
 
   .cart-drawer {
@@ -1630,13 +1663,9 @@ const pillars = [
     document.body.style.overflow = '';
   };
 
-  // Cerrar drawer y seguir comprando
+  // Cerrar drawer y seguir comprando sin forzar saltos de scroll molestos
   const continueShopping = () => {
     closeCart();
-    const catalogo = document.getElementById('catalogo');
-    if (catalogo && typeof catalogo.scrollIntoView === 'function') {
-      catalogo.scrollIntoView({ behavior: 'smooth' });
-    }
   };
 
   floatingCartBtn?.addEventListener('click', openCart);
@@ -1937,7 +1966,25 @@ const pillars = [
       }
 
       saveCart();
-      openCart();
+
+      // En lugar de abrir el drawer de golpe, disparamos la animación en el carrito flotante
+      if (floatingCartBtn) {
+        floatingCartBtn.classList.remove('cart-bump');
+        void floatingCartBtn.offsetWidth; // Forzar reflow para reiniciar animación
+        floatingCartBtn.classList.add('cart-bump');
+      }
+      if (floatingCartCount) {
+        floatingCartCount.classList.remove('badge-pop');
+        void floatingCartCount.offsetWidth;
+        floatingCartCount.classList.add('badge-pop');
+      }
+
+      // Animación en el propio botón pulsado para feedback táctil instantáneo
+      const originalBg = btn.style.background;
+      btn.style.transform = 'scale(0.88)';
+      setTimeout(() => {
+        btn.style.transform = '';
+      }, 180);
     });
   });
 
