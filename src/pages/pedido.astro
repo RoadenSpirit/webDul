@@ -1,8 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import catalogData from '../../data/catalog.json';
+import { getFullCatalogFromDb } from '../lib/catalog-db';
 
-const initialCatalog = catalogData;
+const initialCatalog = await getFullCatalogFromDb();
 ---
 
 <Layout title="Completar Encargo">
@@ -887,25 +887,8 @@ const initialCatalog = catalogData;
     }
   };
 
-  // Cargar catálogo dinámico con opciones asignadas desde localStorage o initial
-  const CATALOG_VERSION = 'v7_sin_redondo_definitivo';
-
-  // Si el cliente tiene una versión vieja en localStorage que contenía "redondo", purgarla
-  try {
-    const currentVer = localStorage.getItem('el_lider_catalog_version');
-    if (currentVer && currentVer !== CATALOG_VERSION) {
-      localStorage.removeItem('el_lider_admin_catalog');
-      localStorage.removeItem('el_lider_catalog_version');
-    }
-  } catch (e) {}
-  let activeCatalog = initialCatalog;
-  try {
-    const savedVer = localStorage.getItem('el_lider_catalog_version');
-    const saved = localStorage.getItem('el_lider_admin_catalog');
-    if (saved && savedVer === CATALOG_VERSION) {
-      activeCatalog = JSON.parse(saved);
-    }
-  } catch (e) {}
+  // Catálogo oficial derivado de SQLite en build time
+  const activeCatalog = initialCatalog;
 
   // Formateador de precios en miles (ej: 1.000.000)
   const formatMiles = (val) => {
@@ -925,7 +908,7 @@ const initialCatalog = catalogData;
         );
         if (matchesAll) {
           unit = combo.direct_price;
-          if (item.ediblePrint) unit += (activeCatalog?.ediblePrintPrice || 900);
+          if (item.ediblePrint) unit += (activeCatalog?.ediblePrintPrice || 1100);
           return unit;
         }
       }
@@ -967,7 +950,7 @@ const initialCatalog = catalogData;
     }
 
     if (item.ediblePrint) {
-      unit += (activeCatalog?.ediblePrintPrice || 900);
+      unit += (activeCatalog?.ediblePrintPrice || 1100);
     }
 
     return unit;

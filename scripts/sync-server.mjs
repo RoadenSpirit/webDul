@@ -40,36 +40,48 @@ const server = http.createServer((req, res) => {
     req.on('end', () => {
       try {
         const data = JSON.parse(body);
-        fs.writeFileSync(CATALOG_PATH, JSON.stringify(data, null, 2), 'utf-8');
 
-        // Actualizar SQLite si está disponible
+        // Actualizar SQLite como fuente de verdad
         try {
           const db = sqlite3(DB_PATH);
-          const updatePrice = db.prepare('UPDATE products SET base_price = ? WHERE id = ?');
-          const upsertVariation = db.prepare(`
-            INSERT INTO product_variations (product_id, attribute_id, option_id, direct_price, is_enabled)
-            VALUES (?, ?, ?, ?, 1)
-            ON CONFLICT(product_id, option_id) DO UPDATE SET direct_price = excluded.direct_price, is_enabled = 1
+          const updateProduct = db.prepare(`
+            UPDATE products 
+            SET name = ?, base_price = ?, description = ? 
+            WHERE id = ?
           `);
 
-          if (data.products) {
-            for (const p of data.products) {
-              updatePrice.run(p.base_price, p.id);
-            }
-          }
+          const updateProductOption = db.prepare(`
+            UPDATE product_options 
+            SET direct_price = ?, is_enabled = ?
+            WHERE product_id = ? AND option_id = ? AND option_value_id = ?
+          `);
 
-          if (data.variations) {
-            for (const v of data.variations) {
-              upsertVariation.run(v.product_id, v.attribute_id, v.option_id, v.direct_price);
+          db.transaction(() => {
+            if (data.products && Array.isArray(data.products)) {
+              for (const p of data.products) {
+                updateProduct.run(p.name, p.base_price, p.description || '', p.id);
+              }
             }
-          }
+
+            if (data.product_options && Array.isArray(data.product_options)) {
+              for (const po of data.product_options) {
+                updateProductOption.run(po.direct_price, po.is_enabled ? 1 : 0, po.product_id, po.option_id, po.option_value_id);
+              }
+            }
+          })();
+
           db.close();
         } catch (dbErr) {
-          console.warn('Advertencia SQLite:', dbErr.message);
+          console.warn('Advertencia SQLite en sync-server:', dbErr.message);
         }
 
+        // Respaldo secundario en catalog.json para inspección humana
+        try {
+          fs.writeFileSync(CATALOG_PATH, JSON.stringify(data, null, 2), 'utf-8');
+        } catch {}
+
         res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ ok: true, message: 'Catálogo guardado en VPS' }));
+        res.end(JSON.stringify({ ok: true, message: 'Base de datos SQLite actualizada en VPS' }));
       } catch (err) {
         res.writeHead(400, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ ok: false, error: err.message }));
@@ -82,6 +94,6 @@ const server = http.createServer((req, res) => {
   res.end(JSON.stringify({ error: 'Ruta no encontrada' }));
 });
 
-server.listen(PORT, '0.0.0.0', () => {
-  console.log(`VPS Catalog Sync Server escuchando en http://localhost:${PORT}`);
+server.listen(PORT, '127.0.0.1', () => {
+  console.log(`📡 Sync Server activo en http://127.0.0.1:${PORT}`);
 });

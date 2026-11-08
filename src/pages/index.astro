@@ -1,10 +1,11 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { PRODUCTS } from '../data/products';
-import initialCatalog from '../../data/catalog.json';
+import { getFullCatalogFromDb } from '../lib/catalog-db';
 
-const cakes = PRODUCTS.filter(p => p.type === 'cakes');
-const buffetItems = PRODUCTS.filter(p => p.type === 'buffet');
+const catalog = await getFullCatalogFromDb();
+const cakes = catalog.products.filter(p => p.category === 'cakes');
+const buffetItems = catalog.products.filter(p => p.category === 'buffet');
+const initialCatalog = catalog;
 
 // Los 3 Pilares Maestros de Decoraciones
 const pillars = [
@@ -1825,26 +1826,9 @@ const pillars = [
     }
   });
 
-  // Helper para obtener las opciones por defecto de un producto según el catálogo
-  const CATALOG_VERSION = 'v7_sin_redondo_definitivo';
-
-  // Si el cliente tiene una versión vieja en localStorage que contenía "redondo", purgarla
-  try {
-    const currentVer = localStorage.getItem('el_lider_catalog_version');
-    if (currentVer && currentVer !== CATALOG_VERSION) {
-      localStorage.removeItem('el_lider_admin_catalog');
-      localStorage.removeItem('el_lider_catalog_version');
-    }
-  } catch (e) {}
-
+  // Helper para obtener las opciones por defecto de un producto según el catálogo de la BD
   const getDefaultOptionsForProduct = (productId) => {
-    let activeCat = initialCatalog;
-    try {
-      const savedVer = localStorage.getItem('el_lider_catalog_version');
-      const saved = localStorage.getItem('el_lider_admin_catalog');
-      if (saved && savedVer === CATALOG_VERSION) activeCat = JSON.parse(saved);
-    } catch (e) {}
-
+    const activeCat = initialCatalog;
     const options = {};
     if (activeCat && activeCat.product_options) {
       const prodOpts = activeCat.product_options.filter((po) => po.product_id === productId && po.is_enabled);
@@ -1909,43 +1893,6 @@ const pillars = [
       });
     }
   });
-
-  // Sincronizar catálogo dinámico si el administrador guardó cambios en /admin
-  try {
-    // Regla de sanitización defensiva inmediata: quitar "redondo" de toda la página siempre
-    document.querySelectorAll('.cake-name, .buffet-name, [data-name]').forEach(el => {
-      if (el.textContent && el.textContent.toLowerCase().includes('redondo')) {
-        el.textContent = el.textContent.replace(/\s+redondo/gi, '').replace(/redondo\s+/gi, '').trim();
-      }
-      const dataName = el.getAttribute('data-name');
-      if (dataName && dataName.toLowerCase().includes('redondo')) {
-        el.setAttribute('data-name', dataName.replace(/\s+redondo/gi, '').replace(/redondo\s+/gi, '').trim());
-      }
-    });
-
-    const savedVer = localStorage.getItem('el_lider_catalog_version');
-    const saved = localStorage.getItem('el_lider_admin_catalog');
-    if (saved && savedVer === CATALOG_VERSION) {
-      const cat = JSON.parse(saved);
-      if (cat.products && Array.isArray(cat.products)) {
-        cat.products.forEach((p) => {
-          // Limpiar 'redondo' defensivamente ante cualquier residuo
-          const cleanName = (p.name || '').replace(/\s+redondo/gi, '').replace(/redondo\s+/gi, '').trim();
-          // Actualizar cards de cakes y buffet con nombre y precio base
-          document.querySelectorAll(`[data-id="${p.id}"]`).forEach(card => {
-            const nameEl = card.querySelector('.cake-name, .buffet-name');
-            if (nameEl) nameEl.textContent = cleanName;
-            const priceEl = card.querySelector('.price-amount, .buffet-price');
-            if (priceEl) priceEl.innerHTML = `$${p.base_price} <small class="currency">CUP</small>`;
-            card.querySelectorAll('.add-to-cart-btn, .buy-now-btn').forEach(b => {
-              b.setAttribute('data-name', cleanName);
-              b.setAttribute('data-price', p.base_price.toString());
-            });
-          });
-        });
-      }
-    }
-  } catch (e) {}
 
   addToCartButtons.forEach(btn => {
     btn.addEventListener('click', () => {

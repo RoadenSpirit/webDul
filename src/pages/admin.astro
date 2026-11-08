@@ -1,8 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import catalogData from '../../data/catalog.json';
+import { getFullCatalogFromDb } from '../lib/catalog-db';
 
-const initialCatalog = catalogData;
+const initialCatalog = await getFullCatalogFromDb();
 ---
 
 <Layout title="Panel Administrativo — Dulcería El Líder" hideFooter={true}>
@@ -306,7 +306,7 @@ const initialCatalog = catalogData;
   const newProdForm = document.getElementById('new-product-form');
 
   // Versioning
-  const CATALOG_VERSION = 'v7_sin_redondo_definitivo';
+  const CATALOG_VERSION = 'v8_sqlite_source_of_truth';
 
   const loadCatalog = () => {
     try {
