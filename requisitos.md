@@ -43,6 +43,12 @@ En este archivo se lleva el control del estado de las características planifica
   - Hero: Eliminación total de cortes en las puntas y descendentes de las letras mediante padding ampliado (`padding: 0.15em 0.55em 0.28em; line-height: 1.38`), reducción del tamaño del titular en un 10% y aumento del logo en un 10% (`clamp(116px, 15.5vh, 165px)`).
   - Catálogo: Título actualizado a **"Elige tu cake ideal"** y eliminación completa del párrafo explicativo inferior redundante.
   - Buffet: Desagrupación del ítem combinado en 3 productos individuales con tarjeta, precio ($40 CUP) y foto propia: **Cangrejitos**, **Empanadillas** y **Croqueticas** en `products.ts`, `data/catalog.json` y `data/database.sqlite`.
+- [x] Actualización oficial de Carta y Catálogo:
+  - Eliminación de la palabra "redondo" en los nombres de cakes simples (ej: "Cake de 25 cm").
+  - Incorporación de 3 nuevos pasteles de gran formato: **Cake de 3 pisos (36, 25, 15) a $36.000**, **Cake de 3 pisos (36, 30, 25) a $42.000** y **Cake de 4 pisos (30, 25, 22, 15) a $43.000**.
+  - Nuevos precios oficiales: Impresión comestible a $1100, Minidonas a $60, Cupcake a $160/$170, Cangrejitos/Empanadillas/Croqueticas a $45, Pan con pasta a $60, Bolitas de queso a $55 y ajustes en masas/pisos.
+  - Sincronización en `products.ts`, `data/catalog.json`, base de datos SQLite y backend de Baileys (`dulceria-order.ts`).
+  - Hero: Logo ampliado un +20% para que el nombre de la dulcería se lea con total claridad, con balance vertical en 100dvh.
 - [x] Despliegue obligatorio y verificación en vivo en producción (`https://dulceria-el-lider.vercel.app`).
 
 ## Características Completadas
