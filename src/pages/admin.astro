@@ -306,7 +306,7 @@ const initialCatalog = await getFullCatalogFromDb();
   const newProdForm = document.getElementById('new-product-form');
 
   // Catálogo en memoria administrativa (origen inicial: SQLite)
-  let catalog = JSON.parse(JSON.stringify(initialCatalog));
+  catalog = JSON.parse(JSON.stringify(initialCatalog));
 
   const loadCatalog = async () => {
     try {
