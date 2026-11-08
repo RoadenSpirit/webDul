@@ -35,6 +35,10 @@ En este archivo se lleva el control del estado de las características planifica
 - [x] Optimización responsive y corrección de desbordamientos en pantallas ultra-estrechas (320px - 414px):
   - Botón "Encargar Ahora" en tarjetas de Buffet (`.btn-buy-now-buffet`): font-size adaptable con `clamp(0.7rem, 2.2vw, 0.82rem)`, `white-space: nowrap` y elipsis para evitar roturas o desbordamientos del recuadro.
   - Selector de archivo en `/pedido` (fotos de referencia e impresión comestible): ocultamiento estricto del texto nativo del navegador ("Sin archivo seleccionado") mediante `font-size: 0`, `opacity: 0`, `inset: 0` y contenedor con `overflow: hidden` y `truncate`.
+- [x] Jerarquía visual y escala tipográfica dominante en el Hero:
+  - Titular principal (`Los Mejores Cakes de Camagüey`): aumentado a `clamp(2.2rem, 7.5vw, 4.5rem)` (~35.2px en móvil), colocándolo un **+89.6% por encima del subtítulo** (superando con holgura el mínimo de 20%).
+  - Subtítulo explicativo: incrementado de tamaño a `clamp(1.05rem, 2.2vh, 1.25rem)` con peso `font-weight: 500` y sombra sutil para máxima legibilidad e impacto inmediato sin sensación de párrafo plano.
+  - Ajuste de contención del logo a `clamp(105px, 14vh, 150px)` para equilibrar la composición vertical en 100dvh sin provocar scroll.
 - [x] Despliegue obligatorio y verificación en vivo en producción (`https://dulceria-el-lider.vercel.app`).
 
 ## Características Completadas
