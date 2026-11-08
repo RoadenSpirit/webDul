@@ -177,15 +177,36 @@ export const PRODUCTS: Product[] = [
     ]
   },
   {
-    id: 'cangrejitos-empanadillas-croquetitas',
-    name: 'Cangrejitos, empanadillas, croqueticas',
+    id: 'cangrejitos',
+    name: 'Cangrejitos',
     type: 'buffet',
     base_price: 40,
-    description: 'Cangrejitos, empanadillas o croqueticas (unidad).',
+    description: 'Cangrejitos hojaldrados (unidad).',
     image: '/images/products/buffet/cangrejitos-1.webp',
     images: [
-      '/images/products/buffet/cangrejitos-1.webp',
+      '/images/products/buffet/cangrejitos-1.webp'
+    ]
+  },
+  {
+    id: 'empanadillas',
+    name: 'Empanadillas',
+    type: 'buffet',
+    base_price: 40,
+    description: 'Empanadillas horneadas (unidad).',
+    image: '/images/products/buffet/empanadillas-1.webp',
+    images: [
       '/images/products/buffet/empanadillas-1.webp'
+    ]
+  },
+  {
+    id: 'croqueticas',
+    name: 'Croqueticas',
+    type: 'buffet',
+    base_price: 40,
+    description: 'Croqueticas artesanales para buffet (unidad).',
+    image: '/images/products/buffet/cangrejitos-1.webp',
+    images: [
+      '/images/products/buffet/cangrejitos-1.webp'
     ]
   },
   {

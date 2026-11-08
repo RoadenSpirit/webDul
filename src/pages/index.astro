@@ -67,9 +67,8 @@ const pillars = [
     <div class="section-inner">
       <div class="section-header">
         <span class="section-badge">Nuestra Carta</span>
-        <h2 class="section-title">Cakes por Encargo</h2>
+        <h2 class="section-title">Elige tu cake ideal</h2>
         <div class="section-divider"></div>
-        <p class="section-desc">Desde $2500 CUP. Escoge el tamaño que necesitas y personaliza los detalles a tu gusto en el siguiente paso.</p>
       </div>
 
       <div class="cakes-grid">
@@ -327,10 +326,11 @@ const pillars = [
   }
 
   .hero-logo-wrap {
-    width: clamp(105px, 14vh, 150px);
-    height: clamp(105px, 14vh, 150px);
+    /* Tamaño aumentado 10%: de clamp(105px, 14vh, 150px) a clamp(116px, 15.5vh, 165px) */
+    width: clamp(116px, 15.5vh, 165px);
+    height: clamp(116px, 15.5vh, 165px);
     border-radius: 50%;
-    padding: 5px;
+    padding: 6px;
     background: linear-gradient(135deg, #FF1376, #FF6B35, #FFAA33);
     box-shadow: 0 10px 36px rgba(255, 19, 118, 0.5), 0 0 20px rgba(255, 107, 53, 0.4);
     flex-shrink: 0;
@@ -365,21 +365,20 @@ const pillars = [
     border: 2px solid #FFFFFF;
   }
 
-  /* Titular del Hero: Jerarquía dominante, mucho más grande que el texto explicativo (+80-100% de escala) */
+  /* Titular del Hero: Reducido un 10% (de 2.2-4.5rem a 2.0-4.05rem), con holgura total para evitar cortes en las puntas */
   .hero-title {
     font-family: 'Pacifico', 'Fredoka', cursive, sans-serif;
-    /* En móvil arranca en 2.35rem (38px) y escala con fluidez hasta 4.6rem (74px) */
-    font-size: clamp(2.2rem, 7.5vw, 4.5rem);
+    font-size: clamp(2.0rem, 6.8vw, 4.05rem);
     font-weight: 400;
-    line-height: 1.22;
-    letter-spacing: 0.015em;
+    line-height: 1.38;
+    letter-spacing: 0.02em;
     text-align: center;
     margin: 0;
-    padding: 0.15rem 0.3rem;
+    padding: 0.35rem 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: clamp(0.15rem, 0.8vh, 0.35rem);
+    gap: clamp(0.2rem, 1vh, 0.45rem);
     overflow: visible;
     width: 100%;
   }
@@ -388,7 +387,8 @@ const pillars = [
     display: block;
     white-space: nowrap;
     word-break: keep-all;
-    padding: 0.08em 0.3em 0.18em;
+    /* Padding lateral y vertical amplio para que las colas de las letras cursivas nunca se corten */
+    padding: 0.15em 0.55em 0.28em;
     overflow: visible;
     background: linear-gradient(
       135deg,

@@ -159,16 +159,37 @@
       "description": "Cupcake artesanal decorado (vainilla 160 / chocolate 165)."
     },
     {
-      "id": "cangrejitos-empanadillas-croquetitas",
-      "name": "Cangrejitos, empanadillas, croqueticas",
+      "id": "cangrejitos",
+      "name": "Cangrejitos",
       "type": "buffet",
       "base_price": 40,
       "image": "/images/products/buffet/cangrejitos-1.webp",
       "images": [
-        "/images/products/buffet/cangrejitos-1.webp",
+        "/images/products/buffet/cangrejitos-1.webp"
+      ],
+      "description": "Cangrejitos hojaldrados (unidad)."
+    },
+    {
+      "id": "empanadillas",
+      "name": "Empanadillas",
+      "type": "buffet",
+      "base_price": 40,
+      "image": "/images/products/buffet/empanadillas-1.webp",
+      "images": [
         "/images/products/buffet/empanadillas-1.webp"
       ],
-      "description": "Cangrejitos, empanadillas o croqueticas (unidad)."
+      "description": "Empanadillas horneadas (unidad)."
+    },
+    {
+      "id": "croqueticas",
+      "name": "Croqueticas",
+      "type": "buffet",
+      "base_price": 40,
+      "image": "/images/products/buffet/cangrejitos-1.webp",
+      "images": [
+        "/images/products/buffet/cangrejitos-1.webp"
+      ],
+      "description": "Croqueticas artesanales para buffet (unidad)."
     },
     {
       "id": "pan-con-pasta",

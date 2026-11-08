@@ -39,6 +39,10 @@ En este archivo se lleva el control del estado de las características planifica
   - Titular principal (`Los Mejores Cakes de Camagüey`): aumentado a `clamp(2.2rem, 7.5vw, 4.5rem)` (~35.2px en móvil), colocándolo un **+89.6% por encima del subtítulo** (superando con holgura el mínimo de 20%).
   - Subtítulo explicativo: incrementado de tamaño a `clamp(1.05rem, 2.2vh, 1.25rem)` con peso `font-weight: 500` y sombra sutil para máxima legibilidad e impacto inmediato sin sensación de párrafo plano.
   - Ajuste de contención del logo a `clamp(105px, 14vh, 150px)` para equilibrar la composición vertical en 100dvh sin provocar scroll.
+- [x] Refinamiento de diseño y catálogo:
+  - Hero: Eliminación total de cortes en las puntas y descendentes de las letras mediante padding ampliado (`padding: 0.15em 0.55em 0.28em; line-height: 1.38`), reducción del tamaño del titular en un 10% y aumento del logo en un 10% (`clamp(116px, 15.5vh, 165px)`).
+  - Catálogo: Título actualizado a **"Elige tu cake ideal"** y eliminación completa del párrafo explicativo inferior redundante.
+  - Buffet: Desagrupación del ítem combinado en 3 productos individuales con tarjeta, precio ($40 CUP) y foto propia: **Cangrejitos**, **Empanadillas** y **Croqueticas** en `products.ts`, `data/catalog.json` y `data/database.sqlite`.
 - [x] Despliegue obligatorio y verificación en vivo en producción (`https://dulceria-el-lider.vercel.app`).
 
 ## Características Completadas
