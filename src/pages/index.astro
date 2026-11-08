@@ -1912,20 +1912,33 @@ const pillars = [
 
   // Sincronizar catálogo dinámico si el administrador guardó cambios en /admin
   try {
+    // Regla de sanitización defensiva inmediata: quitar "redondo" de toda la página siempre
+    document.querySelectorAll('.cake-name, .buffet-name, [data-name]').forEach(el => {
+      if (el.textContent && el.textContent.toLowerCase().includes('redondo')) {
+        el.textContent = el.textContent.replace(/\s+redondo/gi, '').replace(/redondo\s+/gi, '').trim();
+      }
+      const dataName = el.getAttribute('data-name');
+      if (dataName && dataName.toLowerCase().includes('redondo')) {
+        el.setAttribute('data-name', dataName.replace(/\s+redondo/gi, '').replace(/redondo\s+/gi, '').trim());
+      }
+    });
+
     const savedVer = localStorage.getItem('el_lider_catalog_version');
     const saved = localStorage.getItem('el_lider_admin_catalog');
     if (saved && savedVer === CATALOG_VERSION) {
       const cat = JSON.parse(saved);
       if (cat.products && Array.isArray(cat.products)) {
         cat.products.forEach((p) => {
+          // Limpiar 'redondo' defensivamente ante cualquier residuo
+          const cleanName = (p.name || '').replace(/\s+redondo/gi, '').replace(/redondo\s+/gi, '').trim();
           // Actualizar cards de cakes y buffet con nombre y precio base
           document.querySelectorAll(`[data-id="${p.id}"]`).forEach(card => {
             const nameEl = card.querySelector('.cake-name, .buffet-name');
-            if (nameEl) nameEl.textContent = p.name;
+            if (nameEl) nameEl.textContent = cleanName;
             const priceEl = card.querySelector('.price-amount, .buffet-price');
             if (priceEl) priceEl.innerHTML = `$${p.base_price} <small class="currency">CUP</small>`;
             card.querySelectorAll('.add-to-cart-btn, .buy-now-btn').forEach(b => {
-              b.setAttribute('data-name', p.name);
+              b.setAttribute('data-name', cleanName);
               b.setAttribute('data-price', p.base_price.toString());
             });
           });

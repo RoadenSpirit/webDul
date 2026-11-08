@@ -1702,6 +1702,12 @@ const initialCatalog = catalogData;
 
   // Initialization
   loadCart();
+  // Sanitizar nombres en el carrito
+  cart.forEach(item => {
+    if (item.name && item.name.toLowerCase().includes('redondo')) {
+      item.name = item.name.replace(/\s+redondo/gi, '').replace(/redondo\s+/gi, '').trim();
+    }
+  });
   renderSummaryItems();
   renderCakesCustomizers();
   updateTotals();
