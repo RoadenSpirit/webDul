@@ -306,11 +306,15 @@ const initialCatalog = catalogData;
   const newProdForm = document.getElementById('new-product-form');
 
   // Versioning
-  const CATALOG_VERSION = 'v4_masa_harina_sin_subtitulos';
+  const CATALOG_VERSION = 'v7_sin_redondo_definitivo';
 
   const loadCatalog = () => {
     try {
       const savedVersion = localStorage.getItem('el_lider_catalog_version');
+      if (savedVersion !== CATALOG_VERSION) {
+        localStorage.removeItem('el_lider_admin_catalog');
+        localStorage.removeItem('el_lider_catalog_version');
+      }
       const saved = localStorage.getItem('el_lider_admin_catalog');
       if (saved && savedVersion === CATALOG_VERSION) {
         catalog = JSON.parse(saved);

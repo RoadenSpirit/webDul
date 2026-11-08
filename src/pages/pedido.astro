@@ -888,7 +888,16 @@ const initialCatalog = catalogData;
   };
 
   // Cargar catálogo dinámico con opciones asignadas desde localStorage o initial
-  const CATALOG_VERSION = 'v6_sin_redondo_total';
+  const CATALOG_VERSION = 'v7_sin_redondo_definitivo';
+
+  // Si el cliente tiene una versión vieja en localStorage que contenía "redondo", purgarla
+  try {
+    const currentVer = localStorage.getItem('el_lider_catalog_version');
+    if (currentVer && currentVer !== CATALOG_VERSION) {
+      localStorage.removeItem('el_lider_admin_catalog');
+      localStorage.removeItem('el_lider_catalog_version');
+    }
+  } catch (e) {}
   let activeCatalog = initialCatalog;
   try {
     const savedVer = localStorage.getItem('el_lider_catalog_version');

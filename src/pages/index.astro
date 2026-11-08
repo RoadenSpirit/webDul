@@ -1826,7 +1826,16 @@ const pillars = [
   });
 
   // Helper para obtener las opciones por defecto de un producto según el catálogo
-  const CATALOG_VERSION = 'v4_masa_harina_sin_subtitulos';
+  const CATALOG_VERSION = 'v7_sin_redondo_definitivo';
+
+  // Si el cliente tiene una versión vieja en localStorage que contenía "redondo", purgarla
+  try {
+    const currentVer = localStorage.getItem('el_lider_catalog_version');
+    if (currentVer && currentVer !== CATALOG_VERSION) {
+      localStorage.removeItem('el_lider_admin_catalog');
+      localStorage.removeItem('el_lider_catalog_version');
+    }
+  } catch (e) {}
 
   const getDefaultOptionsForProduct = (productId) => {
     let activeCat = initialCatalog;
