@@ -21,9 +21,10 @@ En este archivo se lleva el control del estado de las características planifica
   - Reorganización ergonómica: primero el Subtotal a la izquierda, y a la derecha el selector numérico de cantidad junto al botón de eliminación (papelera).
 - [x] Simplificación de placeholder de temática en personalizador de cakes: `"Ej: Rosa, temática de princesas..."`.
 - [x] Rediseño del Hero con enfoque Candy:
-  - Logo ampliado (`clamp(140px, 20vh, 190px)`) con animación suave de palpitación y brillo (`gentlePulse`).
-  - Titular estilizado con tipografía curva cursiva (`Pacifico`) y degradado multicolor Candy vibrante (crema vainilla → melocotón → fucsia intenso) con sombreado de profundidad.
-  - Eliminación del badge redundante y garantía estricta de que todo el contenido cabe en el viewport (`100dvh`).
+  - Logo ampliado (`clamp(130px, 18vh, 180px)`) con animación suave de palpitación y brillo (`gentlePulse`).
+  - Titular estilizado con tipografía curva cursiva (`Pacifico`) y degradado multicolor Candy vibrante (crema vainilla → melocotón → fucsia intenso) con sombreado de profundidad y tamaño aumentado (`clamp(2.3rem, 6.2vw, 4.4rem)`).
+  - Eliminación de todo corte tipográfico (clipping de descendentes como la "g" y la "y") mediante padding contextual y overflow visible.
+  - Distribución armónica vertical con `justify-content: space-between` aprovechando todo el viewport (`100dvh`) sin provocar scroll.
 - [x] Despliegue obligatorio y verificación en vivo en producción (`https://dulceria-el-lider.vercel.app`).
 
 ## Características Completadas
