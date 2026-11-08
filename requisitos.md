@@ -28,6 +28,10 @@ En este archivo se lleva el control del estado de las características planifica
 - [x] Mejora en interacciones del carrito:
   - El botón "← Seguir comprando" cierra limpiamente el drawer sin forzar saltos de scroll indeseados.
   - Al pulsar los botones de añadir al carrito (+1), ya no se abre el drawer de golpe; en su lugar, se anima el botón flotante con un pulso elástico (`cart-bump`) y el badge salta visualmente (`badge-pop`) para confirmar la acción de forma sutil.
+- [x] Actualización y optimización de imágenes oficiales:
+  - Decoración Infantil: `/decoracion-infantil-tematico.webp` con temática de personajes.
+  - Decoración Clásica: `/decoracion-diseno-clasico.webp` con merengue tradicional y rosetones.
+  - Medio Cake de Bandeja: sustitución completa de imágenes erróneas por la única foto oficial fija `/cake-media-bandeja-artesanal.webp` sin carrusel en `products.ts`, `data/catalog.json` y `data/database.sqlite`.
 - [x] Despliegue obligatorio y verificación en vivo en producción (`https://dulceria-el-lider.vercel.app`).
 
 ## Características Completadas
