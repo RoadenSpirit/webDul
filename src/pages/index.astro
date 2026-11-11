@@ -76,8 +76,17 @@ const pillars = [
         {cakes.map(product => (
           <article class="cake-card" data-id={product.id}>
             <div class="cake-image-wrap carousel-container" data-images={JSON.stringify(product.images || [product.image])}>
-              <img src={product.image} alt={product.name} class="cake-image carousel-img active-img" loading="lazy" />
-              <img src={product.image} alt="" class="cake-image carousel-img next-img" aria-hidden="true" />
+              {product.image ? (
+                <>
+                  <img src={product.image} alt={product.name} class="cake-image carousel-img active-img" loading="lazy" />
+                  <img src={product.image} alt="" class="cake-image carousel-img next-img" aria-hidden="true" />
+                </>
+              ) : (
+                <div class="w-full h-full flex flex-col items-center justify-center bg-[var(--bg-secondary)] text-[var(--text-light)] p-4 text-center select-none">
+                  <span class="text-3xl mb-1">🎂</span>
+                  <span class="text-[11px] font-semibold text-[var(--accent-light)]">Foto próximamente</span>
+                </div>
+              )}
             </div>
             <div class="cake-content">
               <div class="cake-head">
@@ -134,8 +143,17 @@ const pillars = [
         {buffetItems.map(product => (
           <article class="buffet-card">
             <div class="buffet-image-wrap carousel-container" data-images={JSON.stringify(product.images || [product.image])}>
-              <img src={product.image} alt={product.name} class="buffet-image carousel-img active-img" loading="lazy" />
-              <img src={product.image} alt="" class="buffet-image carousel-img next-img" aria-hidden="true" />
+              {product.image ? (
+                <>
+                  <img src={product.image} alt={product.name} class="buffet-image carousel-img active-img" loading="lazy" />
+                  <img src={product.image} alt="" class="buffet-image carousel-img next-img" aria-hidden="true" />
+                </>
+              ) : (
+                <div class="w-full h-full flex flex-col items-center justify-center bg-[var(--bg-secondary)] text-[var(--text-light)] p-4 text-center select-none">
+                  <span class="text-3xl mb-1">🥐</span>
+                  <span class="text-[11px] font-semibold text-[var(--accent-light)]">Foto próximamente</span>
+                </div>
+              )}
             </div>
             <div class="buffet-content">
               <div class="buffet-head">
