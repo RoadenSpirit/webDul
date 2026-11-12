@@ -53,6 +53,8 @@ En este archivo se lleva el control del estado de las características planifica
   - Descarga y conversión con Sharp a WebP de fotos reales desde Google Drive: `cake-3-pisos-1.webp`, `cake-3-pisos-2.webp` y `cake-4-pisos.webp`.
   - Unificación de 'Cake de 3 pisos' en un solo producto con selector de dimensiones de panetelas (36, 25, 15 cm a $36.000 vs 36, 30, 25 cm a $42.000) con texto explicativo.
   - Sincronización en `products.ts`, `data/catalog.json`, base de datos SQLite y microservicio Baileys.
+- [x] Actualización de Slogan Principal en el Hero:
+  - Nuevo titular en 2 líneas: **"Tu Cake Soñado,\nHecho Realidad"**, con tipografía cursiva *Pacifico*, efecto candy glaseado y ajuste vertical en 100dvh.
 - [x] Despliegue obligatorio y verificación en vivo en producción (`https://dulceria-el-lider.vercel.app`).
 
 ## Características Completadas
