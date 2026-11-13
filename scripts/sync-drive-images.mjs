@@ -34,6 +34,19 @@ const DRIVE_FOLDERS = [
   { name: 'cake 4P', id: '1GZfN04sP1D7k06xnrZI-7M1jZQYLxBa4', productId: 'cake-4pisos', prefix: 'cake-4-pisos' }
 ];
 
+// Mapeo de archivos individuales de Google Drive (carpeta "buffets") a productos de buffet
+// Cada archivo se descarga por su fileId y se guarda como WebP en public/images/products/buffet/
+const BUFFET_DRIVE_FILES = [
+  { name: 'Marquesitas', fileId: '1KymQ8HegcSL3AAdm3UrcapeJzPDTSeVD', productId: 'marquesitas-30', filename: 'marquesitas-1.webp' },
+  { name: 'Minidonas', fileId: '13JXaKVBJCROg1A-EXgT7zmD-nbCPdYM6', productId: 'minidonas-cobertura', filename: 'donitas-1.webp' },
+  { name: 'Cupcakes', fileId: '1z_7HdmYBVMzw5s-5O-X-ScZ3MrkxLSsG', productId: 'cupcake', filename: 'cupcakes-1.webp' },
+  { name: 'Cangrejitos', fileId: '1R18orzA7HbDTbRZ96GNhGHII74YqLn0b', productId: 'cangrejitos', filename: 'cangrejitos-1.webp' },
+  { name: 'Empanadillas', fileId: '1-4S5OUR3Mc_QLqJbNWuffPIiVrnKIEYC', productId: 'empanadillas', filename: 'empanadillas-1.webp' },
+  { name: 'Croqueticas', fileId: '1336JBEC4z5zIWe_jaV-VLkUYDb0PZcOD', productId: 'croqueticas', filename: 'croquetas-1.webp' },
+  { name: 'Pan con pasta', fileId: '1orJRLvFeLWuFjRNS4sErvmX1ySy5u6EW', productId: 'pan-con-pasta', filename: 'panes-1.webp' },
+  { name: 'Bolitas de queso', fileId: '1IOyBN5T_SV6aN4CAqH_vE1Rg2IV6HFt9', productId: 'bolitas-queso', filename: 'bolitas-1.webp' }
+];
+
 function downloadDriveFile(fileId, destPath) {
   return new Promise((resolve, reject) => {
     const url = `https://drive.google.com/uc?export=download&id=${fileId}`;
@@ -161,6 +174,40 @@ async function syncDriveImages() {
       }
     } catch (folderErr) {
       console.warn(`⚠️ Error procesando carpeta ${folder.name}:`, folderErr.message);
+    }
+  }
+
+  // Procesar archivos individuales de la carpeta "buffets" en Drive
+  for (const file of BUFFET_DRIVE_FILES) {
+    try {
+      const rawTemp = path.join('/tmp', `drive_raw_${file.fileId}.jpg`);
+      const targetPath = path.join(IMAGES_DIR, file.filename);
+      const webUrl = `/images/products/buffet/${file.filename}`;
+
+      if (!fs.existsSync(targetPath)) {
+        try {
+          console.log(`  ⬇️ Descargando nueva imagen ${file.filename} (${file.fileId})...`);
+          await downloadDriveFile(file.fileId, rawTemp);
+          await sharp(rawTemp)
+            .resize(800, 800, { fit: 'cover' })
+            .webp({ quality: 85 })
+            .toFile(targetPath);
+          fs.unlinkSync(rawTemp);
+          totalUpdated++;
+        } catch (dlErr) {
+          console.warn(`  ⚠️ Fallo al descargar ${file.fileId}:`, dlErr.message);
+        }
+      }
+
+      if (fs.existsSync(targetPath)) {
+        db.run(
+          'UPDATE products SET image = ?, images_json = ? WHERE id = ?;',
+          [webUrl, JSON.stringify([webUrl]), file.productId]
+        );
+        console.log(`✓ ${file.name} -> ${file.productId} (${webUrl})`);
+      }
+    } catch (fileErr) {
+      console.warn(`⚠️ Error procesando ${file.name}:`, fileErr.message);
     }
   }
 

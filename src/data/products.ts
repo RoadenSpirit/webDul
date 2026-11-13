@@ -229,9 +229,9 @@ export const PRODUCTS: Product[] = [
     type: 'buffet',
     base_price: 45,
     description: 'Croqueticas artesanales para buffet (unidad $45).',
-    image: '/images/products/buffet/cangrejitos-1.webp',
+    image: '/images/products/buffet/croquetas-1.webp',
     images: [
-      '/images/products/buffet/cangrejitos-1.webp'
+      '/images/products/buffet/croquetas-1.webp'
     ]
   },
   {
@@ -251,9 +251,9 @@ export const PRODUCTS: Product[] = [
     type: 'buffet',
     base_price: 55,
     description: 'Crujientes bolitas de queso para buffet (unidad $55).',
-    image: '/images/products/buffet/donitas-1.webp',
+    image: '/images/products/buffet/bolitas-1.webp',
     images: [
-      '/images/products/buffet/donitas-1.webp'
+      '/images/products/buffet/bolitas-1.webp'
     ]
   }
 ];
