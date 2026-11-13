@@ -409,9 +409,22 @@ const pillars = [
     /* Padding lateral y vertical amplio para que las colas de las letras cursivas nunca se corten */
     padding: 0.12em 0.5em 0.22em;
     overflow: visible;
-    /* Color sólido legible universal (sin gradientes ni fill transparent) */
+    /* Gradiente sobre forma de texto (background-clip: text), con fallback sólido cream por compatibilidad móvil */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background: linear-gradient(
+      135deg,
+      #FFF6EB 0%,
+      #FFE3C2 15%,
+      #FFA96C 35%,
+      #FF5E98 62%,
+      #FF1A75 85%,
+      #D4145A 100%
+    );
+    /* Fallback sólido en caso de que el navegador no soporte background-clip:text */
     color: #FFF6EB;
-    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9), 0 0 20px rgba(232, 25, 108, 0.5);
+    filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.8))
+            drop-shadow(0 10px 28px rgba(232, 25, 108, 0.6));
   }
 
   .hero-line-top {
