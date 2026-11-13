@@ -144,6 +144,9 @@ En este archivo se lleva el control del estado de las características planifica
 - [x] Fix: Precarga de imágenes y erradicación del flash final en la animación del carrusel con cross-fade continuo y una sola card a la vez.
 - [x] Suite de pruebas automatizadas con verificación del flujo de checkout y carrusel (`tests/certify-flow.mjs`).
 
+- [x] Hero con efecto degradado Candy (crema→naranja→fucsia) restaurado en título principal, con `background-clip: text` y soporte fallback sólido para máxima compatibilidad móvil. Verificado en producción desktop y mobile.
+- [x] Importación de imágenes de buffet desde Google Drive (`carpeta buffs/17wt2HFOMUl7a4upH4n-j4-rsYLpy0bXx`): 8 productos con WebP originales <80KB cada uno. Corregido bug de imagen compartida: **Croqueticas** ahora usa `/images/products/buffet/croquetas-1.webp` y **Bolitas de queso** usa `/images/products/buffet/bolitas-1.webp` (antes ambas usaban las mismas fotos que Cangrejitos y Donitas respectivamente). Actualizado `scripts/sync-drive-images.mjs` con la nueva sección `BUFFET_DRIVE_FILES`.
+
 ## Características Pendientes
 - [ ] Mover el envío de Baileys a un proxy backend (webhook n8n) si la API key embebida sufre abuso, y rotarla.
 - [ ] Verificar que la estructura del catálogo en el frontend funcione correctamente al agregar opciones nuevas desde `/admin`.
