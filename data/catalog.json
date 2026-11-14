@@ -53,7 +53,7 @@
       "name": "Cake de 25 cm",
       "category": "cakes",
       "type": "cakes",
-      "base_price": 6500,
+      "base_price": 7300,
       "image": "/images/products/cakes/cake-25-1.webp",
       "images": [
         "/images/products/cakes/cake-25-1.webp",
@@ -377,36 +377,6 @@
   "product_options": [
     {
       "product_id": "cake-25",
-      "option_id": "masa",
-      "option_value_id": "masa-harina",
-      "option_name": "Tipo de Masa",
-      "option_value_name": "Harina",
-      "direct_price": 6500,
-      "is_enabled": true,
-      "is_base": true
-    },
-    {
-      "product_id": "cake-25",
-      "option_id": "masa",
-      "option_value_id": "masa-maicena",
-      "option_name": "Tipo de Masa",
-      "option_value_name": "Maicena",
-      "direct_price": 6800,
-      "is_enabled": true,
-      "is_base": false
-    },
-    {
-      "product_id": "cake-25",
-      "option_id": "masa",
-      "option_value_id": "masa-capuchino",
-      "option_name": "Tipo de Masa",
-      "option_value_name": "Capuchino",
-      "direct_price": 12500,
-      "is_enabled": true,
-      "is_base": false
-    },
-    {
-      "product_id": "cake-25",
       "option_id": "altura",
       "option_value_id": "altura-doble",
       "option_name": "Altura Doble",
@@ -662,6 +632,36 @@
       "option_name": "Altura Doble",
       "option_value_name": "Masa Doble",
       "direct_price": 6900,
+      "is_enabled": true,
+      "is_base": false
+    },
+    {
+      "product_id": "cake-25",
+      "option_id": "masa",
+      "option_value_id": "masa-harina",
+      "option_name": "Tipo de Masa",
+      "option_value_name": "Harina",
+      "direct_price": 7300,
+      "is_enabled": true,
+      "is_base": true
+    },
+    {
+      "product_id": "cake-25",
+      "option_id": "masa",
+      "option_value_id": "masa-maicena",
+      "option_name": "Tipo de Masa",
+      "option_value_name": "Maicena",
+      "direct_price": 7700,
+      "is_enabled": true,
+      "is_base": false
+    },
+    {
+      "product_id": "cake-25",
+      "option_id": "masa",
+      "option_value_id": "masa-capuchino",
+      "option_name": "Tipo de Masa",
+      "option_value_name": "Capuchino",
+      "direct_price": 13000,
       "is_enabled": true,
       "is_base": false
     }
