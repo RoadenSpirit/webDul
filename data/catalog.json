@@ -72,7 +72,7 @@
       "name": "Cake de 30 cm",
       "category": "cakes",
       "type": "cakes",
-      "base_price": 14000,
+      "base_price": 15100,
       "image": "/images/products/cakes/cake-30-1.webp",
       "images": [
         "/images/products/cakes/cake-30-1.webp",
@@ -376,26 +376,6 @@
   ],
   "product_options": [
     {
-      "product_id": "cake-30",
-      "option_id": "masa",
-      "option_value_id": "masa-harina",
-      "option_name": "Tipo de Masa",
-      "option_value_name": "Harina",
-      "direct_price": 14000,
-      "is_enabled": true,
-      "is_base": true
-    },
-    {
-      "product_id": "cake-30",
-      "option_id": "altura",
-      "option_value_id": "altura-doble",
-      "option_name": "Altura Doble",
-      "option_value_name": "Masa Doble",
-      "direct_price": 22000,
-      "is_enabled": true,
-      "is_base": false
-    },
-    {
       "product_id": "cake-36",
       "option_id": "masa",
       "option_value_id": "masa-harina",
@@ -662,6 +642,46 @@
       "option_name": "Altura Doble",
       "option_value_name": "Masa Doble",
       "direct_price": 12000,
+      "is_enabled": true,
+      "is_base": false
+    },
+    {
+      "product_id": "cake-30",
+      "option_id": "masa",
+      "option_value_id": "masa-harina",
+      "option_name": "Tipo de Masa",
+      "option_value_name": "Harina",
+      "direct_price": 15100,
+      "is_enabled": true,
+      "is_base": true
+    },
+    {
+      "product_id": "cake-30",
+      "option_id": "masa",
+      "option_value_id": "masa-maicena",
+      "option_name": "Tipo de Masa",
+      "option_value_name": "Maicena",
+      "direct_price": 16000,
+      "is_enabled": true,
+      "is_base": false
+    },
+    {
+      "product_id": "cake-30",
+      "option_id": "masa",
+      "option_value_id": "masa-capuchino",
+      "option_name": "Tipo de Masa",
+      "option_value_name": "Capuchino",
+      "direct_price": 20000,
+      "is_enabled": true,
+      "is_base": false
+    },
+    {
+      "product_id": "cake-30",
+      "option_id": "altura",
+      "option_value_id": "altura-doble",
+      "option_name": "Altura Doble",
+      "option_value_name": "Masa Doble",
+      "direct_price": 24300,
       "is_enabled": true,
       "is_base": false
     }
